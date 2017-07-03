@@ -1,25 +1,60 @@
+// @flow
+
 import React from 'react'
 import { AsyncStorage } from 'react-native'
 import { applyMiddleware, createStore, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
 import { persistStore, autoRehydrate } from 'redux-persist'
 import { Provider } from 'react-redux'
+import { StackNavigator } from 'react-navigation'
 
 import reducers from './reducers'
-import App from './containers/App'
+import Home from './containers/Home'
+import StoryDetail from './containers/StoryDetail'
+import EpisodeDetail from './containers/EpisodeDetail'
 
-const _createStore = applyMiddleware(thunk)(createStore)
-const store = autoRehydrate()(_createStore)(reducers)
-persistStore(store, { storage: AsyncStorage }, () => {
-  console.log('rehydration complete')
+
+function setupStore(onComplete: () => void) {
+  const _createStore = applyMiddleware(thunk)(createStore)
+  const store = autoRehydrate()(_createStore)(reducers)
+  persistStore(store, { storage: AsyncStorage }, onComplete);
+
+  return store
+}
+
+const App = StackNavigator({
+  Home: { screen: Home },
+  StoryDetail: { screen: StoryDetail },
+  EpisodeDetail: { screen: EpisodeDetail },
 });
 
-const Root = () => {
-  return (
-    <Provider store={store}>
-      <App />
-    </Provider>
-  )
+class Root extends React.Component {
+  state: {
+    isLoading: boolean;
+    store: any;
+  }
+
+  constructor() {
+    super()
+    this.state = {
+      isLoading: true,
+      store: setupStore(() => {
+        this.setState({ isLoading: false })
+        console.log('rehydration complete')
+      }),
+    }
+  }
+
+  render() {
+    if (this.state.isLoading) {
+      return null
+    }
+    return (
+      <Provider store={this.state.store}>
+        <App />
+      </Provider>
+    )
+  }
 }
 
 export default Root
