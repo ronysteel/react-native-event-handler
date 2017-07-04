@@ -22,8 +22,6 @@ const StoryDetail = ({ story, episodes, onPressEpisode }: Props) => {
 
   return (
     <View style={ styles.container }>
-      <Text>{ story.title }</Text>
-
       <List style={ styles.container }>
         <FlatList
           data={ episodes }

@@ -11,9 +11,9 @@ import type { Episode, Episodes } from '../reducers/episodes'
 
 const getStory = (props) => props.navigation.state.params.story
 class StoryDetail extends React.Component {
-  static navigationOptions = {
-    title: 'Detail'
-  }
+  static navigationOptions = ({ navigation }) => ({
+    title: `${navigation.state.params.story.title}`
+  })
 
   componentDidMount() {
     const story = getStory(this.props)
