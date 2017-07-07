@@ -7,6 +7,9 @@ const convertEnum = ary =>
     return memo
   }, {})
 
+type TextCharactor = {
+  name: string;
+}
 const textTypes = [
   'UNKNOWN',
   'NORMAL',
@@ -17,6 +20,7 @@ type TextType = $Keys<typeof textTypeNumber>;
 type Text = {
   body: string;
   type: TextType;
+  charactor: ?TextCharactor;
 }
 
 const scriptTypes = [
