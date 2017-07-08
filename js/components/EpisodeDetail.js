@@ -1,14 +1,17 @@
 // @flow
 import React, { Component } from 'react'
 import {
+  Animated,
   ScrollView,
   FlatList,
   StyleSheet,
   Text,
   View,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native'
 import { List, ListItem } from 'react-native-elements'
+
+import FadeinView from './FadeinView'
 
 import type { Episode } from '../reducers/episodes'
 import type { Scripts } from '../reducers/scripts'
@@ -44,18 +47,22 @@ const renderCharactorName = text => {
   return null
 }
 
-const renderItem = ({ item }) => {
+const renderItem = (lastItemId, { item }) => {
   if (item.dummy) {
     return <View style={{ height: 500 }} />
   }
 
   if (item.type === 'TEXT') {
-    return (
+    const textComponent = (
       <View style={ styles.row }>
         { renderCharactorName(item.text) }
         <Text style={ styles.text }>{ item.text.body }</Text>
       </View>
     )
+    if (item.id === lastItemId) {
+      return <FadeinView>{ textComponent }</FadeinView>
+    }
+    return textComponent
   }
 
   return null
@@ -68,17 +75,19 @@ const EpisodeDetail = ({ episode, scripts, onTapScreen }: Props) => {
     )
   }
 
+  const values = Object.values(scripts)
   const items: any = [
-    ...Object.values(scripts),
+    ...values,
     { dummy: true }
   ]
+  const lastItemId = values.length == 0 ? 0 : items[values.length - 1].id
 
   return (
     <View style={ styles.container }>
       <FlatList
         data={ items }
-        renderItem={ renderItem }
-        keyExtractor={item => `${item.id}`}
+        renderItem={ renderItem.bind(null, lastItemId) }
+        keyExtractor={ item => `${item.id}` }
         renderScrollComponent={ scrollView }
       />
     </View>
