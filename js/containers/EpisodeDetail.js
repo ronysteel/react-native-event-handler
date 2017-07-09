@@ -5,9 +5,10 @@ import { connect } from 'react-redux'
 
 import Detail from '../components/EpisodeDetail'
 import { loadEpisode, updateReadState } from '../actions/story'
+import { getAllScript } from '../reducers/scripts'
 
 import type { Episode } from '../reducers/episodes'
-import type { Scripts } from '../reducers/scripts'
+import type { Script, Scripts, IndexedScripts } from '../reducers/scripts'
 import type { ReadState } from '../reducers/readStates'
 
 const getEpisode = (props) => props.navigation.state.params.episode
@@ -18,8 +19,9 @@ class EpisodeDetail extends React.Component {
 
   componentDidMount() {
     const episode = getEpisode(this.props)
-    this.props.loadEpisode(episode.id)
-    this.props.resetReadIndex(episode.id)
+    this.props.loadEpisode(episode.id).then(() => {
+      this.props.resetReadIndex(episode.id)
+    })
   }
 
   render() {
@@ -27,36 +29,39 @@ class EpisodeDetail extends React.Component {
     return <Detail
       episode={ episode }
       scripts={ scripts }
-      onTapScreen={ onTapScreen.bind(this, episode.id, episode.scriptIds.length) }
+      readState={ readState }
+      onTapScreen={ onTapScreen.bind(this, episode.id) }
     />
   }
 }
 
-const getScripts = (episode: Episode, scripts: Scripts, readState: ReadState) => {
-  return episode.scriptIds.reduce((memo, id) => {
-    if (scripts[id].scriptOrder <= readState.readIndex) {
-      memo.push(scripts[id])
+const getScripts = (scripts: IndexedScripts, readState: ReadState): IndexedScripts => {
+  return Object.keys(scripts).reduce((memo, k) => {
+    if (k <= readState.readIndex) {
+      memo[k] = scripts[k]
     }
     return memo
-  }, [])
+  }, {})
 }
 
 const select = (store, props) => {
   const _episode = getEpisode(props)
   const episode: Episode = store.episodes[_episode.id]
   const readState: ReadState = store.readStates[_episode.id]
+  const allScript: Scripts = getAllScript(store.episodes[_episode.id], store.scripts)
   return {
     episode,
     readState,
-    scripts: getScripts(store.episodes[_episode.id], store.scripts, readState),
+    allScript,
+    scripts: getScripts(allScript, readState),
   }
 }
 
 const actions = (dispatch, props) => {
   return {
     loadEpisode: (episodeId: number) => dispatch(loadEpisode(episodeId)),
-    onTapScreen: (episodeId: number, scriptLength: number) =>
-      dispatch(updateReadState(episodeId, scriptLength)),
+    onTapScreen: (episodeId: number) =>
+      dispatch(updateReadState(episodeId)),
     resetReadIndex: (episodeId: number) => dispatch(updateReadState(episodeId, 0)),
   }
 }
