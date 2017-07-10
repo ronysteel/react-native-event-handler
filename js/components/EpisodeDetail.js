@@ -27,11 +27,14 @@ type Props = {
 class CustomScrollView extends React.Component {
   render() {
     return (
-      <ScrollView style={ styles.containers }>
+       <ScrollView style={ styles.containers }>
         <TouchableOpacity
           focusedOpacity={1}
           activeOpacity={1}
-          onPress={ this.props.onTapScreen }
+          onPress={ () => {
+            this.props.onTapScreen()
+            this.scrollView.scrollToEnd()
+          }}
           style={{
             backgroundColor: 'transparent',
           }}>
