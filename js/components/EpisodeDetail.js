@@ -25,7 +25,9 @@ type Props = {
   onTapScreen: Function;
 }
 
-const windowHeight = Dimensions.get('window').height - 64 // 64: Header
+const headerHeight = 64
+const windowHeight = Dimensions.get('window').height - headerHeight
+const tapAreaHeight = 250
 
 class CustomScrollView extends React.Component {
   render() {
@@ -35,7 +37,6 @@ class CustomScrollView extends React.Component {
           focusedOpacity={1}
           activeOpacity={1}
           onPress={() => {
-            this.scrollView.scrollToEnd()
             this.props.onTapScreen()
           }}
           style={{
@@ -55,7 +56,7 @@ const renderCharactorName = text => {
   return null
 }
 
-const renderItem = (lastItemId, setHeight, { item }) => {
+const renderItem = (lastItemId, { item }) => {
   const isLatestItem = item.id === lastItemId
 
   if (item.type === 'TEXT') {
@@ -68,7 +69,7 @@ const renderItem = (lastItemId, setHeight, { item }) => {
     if (isLatestItem) {
       return (
         <FadeinView>
-          <View onLayout={e => setHeight(e.nativeEvent.layout.height)}>
+          <View>
             { textComponent }
           </View>
         </FadeinView>
@@ -94,31 +95,45 @@ class EpisodeDetail extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      height: windowHeight
+      resumed: false,
+      height: windowHeight,
+      contentHeight: 0,
+      completed: false,
     }
-  }
-
-  componentDidMount() {
-    this.state.height = windowHeight
   }
 
   renderFooter() {
     return <View style={{ height: this.state.height }} />
   }
 
-  setHeight(h) {
-    let height = this.state.height - h
-    if (height < 300) height = 300
-    this.setState({ height: height })
+  scrollToEnd() {
+    // FIXME
+    this.list._listRef._scrollRef.scrollView.scrollToEnd()
+  }
+
+  setContentHeight(contentHeight) {
+    const h = windowHeight - (contentHeight - this.state.height)
+    if (h <= tapAreaHeight) {
+      this.state.height = tapAreaHeight
+    } else {
+      this.state.height = h
+    }
+
+    this.setState({ height: this.state.height })
+    setTimeout(() => this.scrollToEnd(), 0)
+  }
+
+  onLayout(event) {
+    this.setContentHeight(event.nativeEvent.layout.height)
   }
 
   render() {
+    const { episode, scripts, readState, onTapScreen } = this.props
     const scrollView = props => {
       return (
         <CustomScrollView {...props} onTapScreen={ onTapScreen } />
       )
     }
-    const { episode, scripts, readState, onTapScreen } = this.props
     const values = Object.values(scripts)
     const lastItemId = values.length == 0 ? 0 : values[values.length - 1].id
     const bgImageUrl = getBackgroundImage(scripts, readState)
@@ -127,12 +142,13 @@ class EpisodeDetail extends React.Component {
       <View style={[ styles.container, styles.containerBackground ]}>
         <BackgroundImage imageUrl={ bgImageUrl }>
           <FlatList
-            ref={ref => this.list = ref}
+            ref={r => this.list = r}
             data={ values }
-            renderItem={ renderItem.bind(null, lastItemId, this.setHeight.bind(this)) }
+            renderItem={ renderItem.bind(null, lastItemId) }
             keyExtractor={ item => `${item.id}` }
             renderScrollComponent={ scrollView }
             ListFooterComponent={ this.renderFooter.bind(this) }
+            onLayout={ this.onLayout.bind(this) }
           />
         </BackgroundImage>
       </View>
