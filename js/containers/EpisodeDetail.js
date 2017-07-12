@@ -20,7 +20,7 @@ class EpisodeDetail extends React.Component {
   componentDidMount() {
     const episode = getEpisode(this.props)
     this.props.loadEpisode(episode.id).then(() => {
-      this.props.resetReadIndex(episode.id)
+      // this.props.resetReadIndex(episode.id)
     })
   }
 
