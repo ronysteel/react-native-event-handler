@@ -9,10 +9,10 @@ import { Provider } from 'react-redux'
 import { StackNavigator } from 'react-navigation'
 
 import reducers from './reducers'
+import firebase from './firebase'
 import Home from './containers/Home'
 import StoryDetail from './containers/StoryDetail'
 import EpisodeDetail from './containers/EpisodeDetail'
-
 
 function setupStore(onComplete: () => void) {
   const _createStore = applyMiddleware(thunk)(createStore)
@@ -43,6 +43,14 @@ class Root extends React.Component {
         console.log('rehydration complete')
       }),
     }
+
+    firebase.auth().signInAnonymously()
+      .then(user => {
+        console.log('Anonymous user successfully logged in', user)
+      })
+      .catch(err => {
+        console.log('Anonymous user signin error', err);
+      });
   }
 
   render() {
