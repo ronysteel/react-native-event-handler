@@ -9,10 +9,10 @@ import { Provider } from 'react-redux'
 import { StackNavigator } from 'react-navigation'
 
 import reducers from './reducers'
-import firebase from './firebase'
 import Home from './containers/Home'
 import StoryDetail from './containers/StoryDetail'
 import EpisodeDetail from './containers/EpisodeDetail'
+import { signInAnonymously } from './actions/user'
 
 function setupStore(onComplete: () => void) {
   const _createStore = applyMiddleware(thunk)(createStore)
@@ -38,19 +38,13 @@ class Root extends React.Component {
     super()
     this.state = {
       isLoading: true,
-      store: setupStore(() => {
-        this.setState({ isLoading: false })
-        console.log('rehydration complete')
-      }),
+      store: undefined,
     }
 
-    firebase.auth().signInAnonymously()
-      .then(user => {
-        console.log('Anonymous user successfully logged in', user)
-      })
-      .catch(err => {
-        console.log('Anonymous user signin error', err);
-      });
+    this.state.store = setupStore((err, state) => {
+      this.setState({ isLoading: false })
+    })
+    this.state.store.dispatch(signInAnonymously())
   }
 
   render() {
