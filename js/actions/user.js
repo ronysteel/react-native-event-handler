@@ -12,9 +12,18 @@ const successSignInAnonymously = user => {
 
 export function signInAnonymously(): ThunkAction {
   return dispatch => {
+    let userObj = {}
+
     return firebase.auth().signInAnonymously()
       .then(user => {
-        dispatch(successSignInAnonymously(user))
+        userObj.uid = user.uid
+        return user.getIdToken().then(token => {
+          userObj.idToken = token
+          return user
+        })
+      })
+      .then(user => {
+        dispatch(successSignInAnonymously(userObj))
       })
       // TODO: catchしないでerror handlingしたい
   }

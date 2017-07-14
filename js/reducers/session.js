@@ -12,7 +12,8 @@ function session(state: Session = initialStates, action: Action): Session {
     case 'SIGN_IN_ANONYMOUSLY_SUCCESS':
       const { user } = action
       return {
-        uid: user.uid
+        uid: user.uid,
+        idToken: user.idToken,
       }
 
     default:
