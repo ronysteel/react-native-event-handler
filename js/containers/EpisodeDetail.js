@@ -37,7 +37,7 @@ class EpisodeDetail extends React.Component {
 
 const getScripts = (scripts: IndexedScripts, readState: ReadState): IndexedScripts => {
   return Object.keys(scripts).reduce((memo, k) => {
-    if (k <= readState.readIndex) {
+    if (readState && k <= readState.readIndex) {
       memo[k] = scripts[k]
     }
     return memo

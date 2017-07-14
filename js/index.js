@@ -12,7 +12,7 @@ import reducers from './reducers'
 import Home from './containers/Home'
 import StoryDetail from './containers/StoryDetail'
 import EpisodeDetail from './containers/EpisodeDetail'
-
+import { signInAnonymously } from './actions/user'
 
 function setupStore(onComplete: () => void) {
   const _createStore = applyMiddleware(thunk)(createStore)
@@ -38,11 +38,13 @@ class Root extends React.Component {
     super()
     this.state = {
       isLoading: true,
-      store: setupStore(() => {
-        this.setState({ isLoading: false })
-        console.log('rehydration complete')
-      }),
+      store: undefined,
     }
+
+    this.state.store = setupStore((err, state) => {
+      this.setState({ isLoading: false })
+    })
+    this.state.store.dispatch(signInAnonymously())
   }
 
   render() {

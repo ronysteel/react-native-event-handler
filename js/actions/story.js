@@ -4,6 +4,13 @@ import type { Action, ThunkAction } from './types'
 import { getAllScript } from '../reducers/scripts'
 
 const host: string = 'http://localhost:8080'
+const getRequestOptions = ({ session }) => {
+  return {
+    headers: {
+      Authorization: `BEARER ${session.idToken}`,
+    }
+  }
+}
 
 const successLoadStories = json => {
   return {
@@ -13,12 +20,13 @@ const successLoadStories = json => {
 }
 
 export function loadStories(): ThunkAction {
-  return dispatch => {
-    return fetch(`${host}/v1/stories`)
+  return (dispatch, getState) => {
+    return fetch(`${host}/v1/stories`, getRequestOptions(getState()))
       .then(res => res.json())
       .then(json => {
         if (json.meta.statusCode != 200) {
           // TODO
+          return
         }
         dispatch(successLoadStories(json))
       })
@@ -36,12 +44,13 @@ const successLoadStory = (storyId: number, json) => {
 }
 
 export function loadStory(storyId: number): ThunkAction {
-  return dispatch => {
-    return fetch(`${host}/v1/stories/${storyId}/episodes`)
+  return (dispatch, getState) => {
+    return fetch(`${host}/v1/stories/${storyId}/episodes`, getRequestOptions(getState()))
       .then(res => res.json())
       .then(json => {
         if (json.meta.statusCode != 200) {
           // TODO
+          return
         }
         dispatch(successLoadStory(storyId, json))
       })
@@ -59,12 +68,13 @@ const successLoadEpisode = (episodeId: number, json) => {
 }
 
 export function loadEpisode(episodeId: number): ThunkAction {
-  return dispatch => {
-    return fetch(`${host}/v1/episodes/${episodeId}/scripts`)
+  return (dispatch, getState) => {
+    return fetch(`${host}/v1/episodes/${episodeId}/scripts`, getRequestOptions(getState()))
       .then(res => res.json())
       .then(json => {
         if (json.meta.statusCode != 200) {
           // TODO
+          return
         }
         dispatch(successLoadEpisode(episodeId, json))
       })
