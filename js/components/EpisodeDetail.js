@@ -82,6 +82,9 @@ const renderItem = (lastItemId, { item }) => {
 }
 
 const getBackgroundImage = (scripts, readState) => {
+  if (!readState) {
+    return null
+  }
   if (readState.backgroundImageIndex == 0) {
     return null
   }
