@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { connect } from 'react-redux'
 
 import Detail from '../components/EpisodeDetail'
-import { loadEpisode, updateReadState } from '../actions/story'
+import { loadEpisode, updateReadState, pageView } from '../actions/story'
 import { getAllScript } from '../reducers/scripts'
 
 import type { Episode } from '../reducers/episodes'
@@ -20,6 +20,7 @@ class EpisodeDetail extends React.Component {
   componentDidMount() {
     const episode = getEpisode(this.props)
     this.props.loadEpisode(episode.id).then(() => {
+      this.props.pageView(episode)
       // this.props.resetReadIndex(episode.id)
     })
   }
@@ -63,6 +64,7 @@ const actions = (dispatch, props) => {
     onTapScreen: (episodeId: number) =>
       dispatch(updateReadState(episodeId)),
     resetReadIndex: (episodeId: number) => dispatch(updateReadState(episodeId, 0)),
+    pageView: (episode: Episode) => dispatch(pageView(episode)),
   }
 }
 

@@ -2,12 +2,15 @@
 
 import type { Action, ThunkAction } from './types'
 import { getAllScript } from '../reducers/scripts'
+import type { Scripts } from '../reducers/scripts'
+import type { Episodes, Episode } from '../reducers/episodes'
+import firebase from '../firebase'
 
 const host: string = 'http://localhost:8080'
 const getRequestOptions = ({ session }) => {
   return {
     headers: {
-      Authorization: `BEARER ${session.idToken}`,
+      'Authorization': `BEARER ${session.idToken}`,
     }
   }
 }
@@ -81,17 +84,43 @@ export function loadEpisode(episodeId: number): ThunkAction {
   }
 }
 
+const successUpdateReadState = (
+  episodes: Episodes,
+  episodeId: number,
+  scripts: Scripts,
+  readIndex: ?number,
+): Action => {
+  return {
+    type: 'UPDATE_READ_STATE',
+    episodeId,
+    scripts: getAllScript(episodes[episodeId], scripts),
+    readIndex,
+  }
+}
+
 export function updateReadState(
   episodeId: number,
   readIndex: ?number,
 ): ThunkAction {
   return (dispatch, getState) => {
     const { episodes, scripts } = getState()
-    return dispatch({
-      type: 'UPDATE_READ_STATE',
-      episodeId,
-      scripts: getAllScript(episodes[episodeId], scripts),
-      readIndex,
-    })
+    return dispatch(successUpdateReadState(episodes, episodeId, scripts, readIndex))
+  }
+}
+
+const successPageView = () => ({
+  type: 'UPDATE_PAGE_VIEW'
+})
+
+export function pageView(episode: Episode): ThunkAction {
+  return (dispatch, getState) => {
+    const { session } = getState()
+
+    return firebase.database()
+      .ref(`/novels/${episode.storyId}/episodes/${episode.id}/views/${session.uid}`)
+      .set(true)
+      .then(() => {
+        dispatch(successPageView())
+      })
   }
 }

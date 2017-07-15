@@ -15,5 +15,7 @@ target 'chatnovel' do
   pod 'Firebase/Auth'
   pod 'Firebase/Messaging'
   pod 'Firebase/DynamicLinks'
+  pod 'Firebase/Database'
+  pod 'Firebase/RemoteConfig'
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
 end

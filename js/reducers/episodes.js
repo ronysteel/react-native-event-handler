@@ -5,6 +5,8 @@ export type Episode = {
   id: number;
   title: string;
   description: string;
+  episodeOrder: number;
+  storyId: number;
   scriptIds: Array<number>;
 }
 
