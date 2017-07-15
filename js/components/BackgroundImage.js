@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import {
-  Image,
+  ImageBackground,
   View,
   StyleSheet,
 } from 'react-native'
@@ -12,19 +12,18 @@ const BackgroundImage = ({ imageUrl, children }) => {
   }
 
   return (
-    <Image
+    <ImageBackground
       source={{ uri: imageUrl }}
       style={ styles.bg }
     >
       { children }
-    </Image>
+    </ImageBackground>
   )
 }
 
 const styles: StyleSheet = StyleSheet.create({
   bg: {
     flex: 1,
-    resizeMode: 'cover',
   },
 })
 
