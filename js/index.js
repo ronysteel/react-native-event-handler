@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { AsyncStorage } from 'react-native'
+import { View, StatusBar, AsyncStorage } from 'react-native'
 import { applyMiddleware, createStore, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
 import { persistStore, autoRehydrate } from 'redux-persist'
@@ -36,6 +36,7 @@ class Root extends React.Component {
 
   constructor() {
     super()
+    StatusBar.setBarStyle('light-content')
     this.state = {
       isLoading: true,
       store: undefined,
