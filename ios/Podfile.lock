@@ -1,4 +1,7 @@
 PODS:
+  - Crashlytics (3.8.5):
+    - Fabric (~> 1.6.3)
+  - Fabric (1.6.12)
   - Firebase/Auth (4.0.4):
     - Firebase/Core
     - FirebaseAuth (= 4.0.0)
@@ -80,6 +83,8 @@ PODS:
   - Yoga (0.46.1.React)
 
 DEPENDENCIES:
+  - Crashlytics
+  - Fabric
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
@@ -103,6 +108,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  Crashlytics: dfbae35ef22ca189240d230ad501feea4ee85d2d
+  Fabric: f050464eac45a2ce5a8e6e6a07e977c0df32fe28
   Firebase: 1492bf04e1b73a7353b4fb2cf5a20bac9692f341
   FirebaseAnalytics: ad41720e3e67fc63fbe3d2948d3e26932a8de311
   FirebaseAuth: ebb6abcbabae00fc47446d690c19ce68d8484fde
@@ -121,6 +128,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 6d98d83e944d15014d8071dd9819beb094c61133
   Yoga: 9148a870ff3adaba107edb8ef48ab189c9d9a3d1
 
-PODFILE CHECKSUM: 86786a7695a121c9f933796c1c2e9f977e5ea7ee
+PODFILE CHECKSUM: d9ede2c0244c92a7f783c372abe3d8b62feeda3f
 
 COCOAPODS: 1.2.1
