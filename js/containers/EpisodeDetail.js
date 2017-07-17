@@ -26,7 +26,7 @@ class EpisodeDetail extends React.Component {
 
   componentDidMount() {
     const { novelId, episodeId } = this.props
-    this.props.loadEpisode(episodeId).then(() => {
+    this.props.loadEpisode(novelId, episodeId).then(() => {
       this.setState({ isLoading: false })
       this.props.pageView(novelId, episodeId)
       this.props.resetReadIndex(episodeId)
@@ -77,7 +77,8 @@ const select = (store, props) => {
 
 const actions = (dispatch, props) => {
   return {
-    loadEpisode: (episodeId: number) => dispatch(loadEpisode(episodeId)),
+    loadEpisode: (novelId: number, episodeId: number) =>
+      dispatch(loadEpisode(novelId, episodeId)),
     onTapScreen: (episodeId: number) =>
       dispatch(updateReadState(episodeId)),
     resetReadIndex: (episodeId: number) => dispatch(updateReadState(episodeId, 0)),
