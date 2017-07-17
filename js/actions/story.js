@@ -112,12 +112,12 @@ const successPageView = () => ({
   type: 'UPDATE_PAGE_VIEW'
 })
 
-export function pageView(episode: Episode): ThunkAction {
+export function pageView(novelId: number, episodeId: number): ThunkAction {
   return (dispatch, getState) => {
     const { session } = getState()
 
     return firebase.database()
-      .ref(`/novels/${episode.storyId}/episodes/${episode.id}/views/${session.uid}`)
+      .ref(`/novels/${novelId}/episodes/${episodeId}/views/${session.uid}`)
       .set(true)
       .then(() => {
         dispatch(successPageView())

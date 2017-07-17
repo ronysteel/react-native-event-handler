@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { AsyncStorage } from 'react-native'
+import { View, StatusBar, AsyncStorage, Linking } from 'react-native'
 import { applyMiddleware, createStore, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
 import { persistStore, autoRehydrate } from 'redux-persist'
@@ -25,7 +25,7 @@ function setupStore(onComplete: () => void) {
 const App = StackNavigator({
   Home: { screen: Home },
   StoryDetail: { screen: StoryDetail },
-  EpisodeDetail: { screen: EpisodeDetail },
+  EpisodeDetail: { screen: EpisodeDetail, path: 'novels/:novelId/episodes/:episodeId' },
 });
 
 class Root extends React.Component {
@@ -36,6 +36,7 @@ class Root extends React.Component {
 
   constructor() {
     super()
+    StatusBar.setBarStyle('light-content')
     this.state = {
       isLoading: true,
       store: undefined,
@@ -53,7 +54,7 @@ class Root extends React.Component {
     }
     return (
       <Provider store={this.state.store}>
-        <App />
+        <App uriPrefix={ 'chatnovel://' } />
       </Provider>
     )
   }
