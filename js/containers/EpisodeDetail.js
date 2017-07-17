@@ -12,6 +12,14 @@ import type { Script, Scripts, IndexedScripts } from '../reducers/scripts'
 import type { ReadState } from '../reducers/readStates'
 
 class EpisodeDetail extends React.Component {
+  constructor() {
+    super()
+
+    this.state = {
+      isLoading: true,
+    }
+  }
+
   static navigationOptions = {
     title: 'Detail',
   }
@@ -19,13 +27,18 @@ class EpisodeDetail extends React.Component {
   componentDidMount() {
     const { novelId, episodeId } = this.props
     this.props.loadEpisode(episodeId).then(() => {
+      this.setState({ isLoading: false })
       this.props.pageView(novelId, episodeId)
-      // this.props.resetReadIndex(episode.id)
+      this.props.resetReadIndex(episodeId)
     })
   }
 
   render() {
     const { episode, scripts, readState, onTapScreen } = this.props
+
+    if (this.state.isLoading) {
+      return null
+    }
     return <Detail
       episode={ episode }
       scripts={ scripts }

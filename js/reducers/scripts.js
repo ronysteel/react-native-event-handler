@@ -83,6 +83,9 @@ export default function scripts(state: Scripts = initialStates, action: Action):
 }
 
 export const getAllScript = (episode: Episode, scripts: Scripts): IndexedScripts => {
+  if (!episode) {
+    return {}
+  }
   return episode.scriptIds.reduce((memo, id) => {
     const s = scripts[id]
     memo[s.scriptOrder] = s

@@ -39,7 +39,7 @@ function episodes(state: Episodes = initialStates, action: Action): Episodes {
         return []
       })(action.episode)
 
-      const episode = state[episodeId]
+      const episode = state[episodeId] || { id: episodeId }
       episode.scriptIds = scriptIds
       return Object.assign({}, state, { [episodeId]: episode })
 
