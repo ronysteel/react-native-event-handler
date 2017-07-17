@@ -2,6 +2,7 @@
 # platform :ios, '9.0'
 
 target 'chatnovel' do
+  # use_frameworks!
   platform :ios, '10.0'
 
   pod "Yoga", :path => "../node_modules/react-native/ReactCommon/yoga"
@@ -18,4 +19,7 @@ target 'chatnovel' do
   pod 'Firebase/Database'
   pod 'Firebase/RemoteConfig'
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+
+  pod 'Fabric'
+  pod 'Crashlytics'
 end
