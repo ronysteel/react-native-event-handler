@@ -65,21 +65,17 @@ const successLoadEpisode = (episodeId: number, json) => {
     type: 'LOAD_EPISODE_SUCCESS',
     episode: {
       id: episodeId,
-      scripts: json.response,
+      scripts: json,
     },
   }
 }
 
-export function loadEpisode(episodeId: number): ThunkAction {
+export function loadEpisode(novelId: number, episodeId: number): ThunkAction {
   return (dispatch, getState) => {
-    return fetch(`${host}/v1/episodes/${episodeId}/scripts`, getRequestOptions(getState()))
-      .then(res => res.json())
-      .then(json => {
-        if (json.meta.statusCode != 200) {
-          // TODO
-          return
-        }
-        dispatch(successLoadEpisode(episodeId, json))
+    return firebase.database()
+      .ref(`/novels/${novelId}/episodes/${episodeId}/scripts`)
+      .once('value').then((snapshot) => {
+        dispatch(successLoadEpisode(episodeId, snapshot.val()))
       })
   }
 }
