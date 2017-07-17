@@ -2,9 +2,11 @@
 import React from 'react'
 import {
   View,
-  Text,
   Image,
+  Text,
+  TouchableOpacity,
   Dimensions,
+  Linking,
   StyleSheet,
 } from 'react-native'
 
@@ -13,19 +15,29 @@ import colors from './colors'
 const windowWidth = Dimensions.get('window').width;
 
 const GridItem = ({ item, index }) => {
+  const onPress = () => {
+    Linking.openURL(item.episode_uri)
+  }
   return (
-    <View style={{
-      width: (windowWidth / 2),
-      paddingLeft: index % 2 ? 5 : 15,
-      paddingRight: index % 2 ? 15 : 5,
-      marginBottom: 30,
-    }}>
-      <Image style={ styles.image } source={{ uri: item.thumbnail_url }} />
-      <View>
-        <Text style={ styles.title }>{ item.title }</Text>
-        <Text style={ styles.description }>{ item.description }</Text>
+
+    <TouchableOpacity
+      focusedOpacity={1}
+      activeOpacity={1}
+      onPress={ onPress }
+    >
+      <View style={{
+        width: (windowWidth / 2),
+        paddingLeft: index % 2 ? 5 : 15,
+        paddingRight: index % 2 ? 15 : 5,
+        marginBottom: 30,
+      }}>
+        <Image style={ styles.image } source={{ uri: item.thumbnail_url }} />
+        <View>
+          <Text style={ styles.title }>{ item.title }</Text>
+          <Text style={ styles.description }>{ item.description }</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 

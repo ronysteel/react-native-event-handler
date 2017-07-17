@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Linking } from 'react-native'
 import { connect } from 'react-redux'
 
 import Stories from '../components/Stories'
@@ -61,20 +61,11 @@ class Home extends React.Component {
     this.props.dispatch(loadStories())
   }
 
-  onPressStory(navigation: any, story: Story) {
-    navigation.navigate('StoryDetail', {
-      story,
-    })
-  }
-
   render() {
     const { stories, navigation } = this.props
     return (
       <View style={styles.container}>
-        <Stories
-          sections={ sections }
-          onPressStory={ this.onPressStory.bind(null, navigation) }
-        />
+        <Stories sections={ sections } />
       </View>
     )
   }

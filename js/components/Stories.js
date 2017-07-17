@@ -18,7 +18,6 @@ import colors from './colors'
 
 type Props = {
   stories: StoriesStore;
-  onPressStory: Function;
 }
 
 const renderGridWrapper = ({ item }) => {
@@ -32,9 +31,7 @@ const renderGridWrapper = ({ item }) => {
   )
 }
 
-const Stories = ({ sections, onPressStory }: Props) => {
-        // onPress={ onPressStory.bind(null, item) }
-
+const Stories = ({ sections }: Props) => {
   const s = sections.map((v, i) => {
     v.data = v.novels
     if (v.type == 'pickup') {

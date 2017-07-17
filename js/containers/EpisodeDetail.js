@@ -11,16 +11,15 @@ import type { Episode } from '../reducers/episodes'
 import type { Script, Scripts, IndexedScripts } from '../reducers/scripts'
 import type { ReadState } from '../reducers/readStates'
 
-const getEpisode = (props) => props.navigation.state.params.episode
 class EpisodeDetail extends React.Component {
   static navigationOptions = {
     title: 'Detail',
   }
 
   componentDidMount() {
-    const episode = getEpisode(this.props)
-    this.props.loadEpisode(episode.id).then(() => {
-      this.props.pageView(episode)
+    const { novelId, episodeId } = this.props
+    this.props.loadEpisode(episodeId).then(() => {
+      this.props.pageView(novelId, episodeId)
       // this.props.resetReadIndex(episode.id)
     })
   }
@@ -45,12 +44,17 @@ const getScripts = (scripts: IndexedScripts, readState: ReadState): IndexedScrip
   }, {})
 }
 
+const getParams = (props) => props.navigation.state.params
+
 const select = (store, props) => {
-  const _episode = getEpisode(props)
-  const episode: Episode = store.episodes[_episode.id]
-  const readState: ReadState = store.readStates[_episode.id]
-  const allScript: Scripts = getAllScript(store.episodes[_episode.id], store.scripts)
+  const { episodeId, novelId} = getParams(props)
+
+  const episode: Episode = store.episodes[episodeId]
+  const readState: ReadState = store.readStates[episodeId]
+  const allScript: Scripts = getAllScript(store.episodes[episodeId], store.scripts)
   return {
+    novelId,
+    episodeId,
     episode,
     readState,
     allScript,
@@ -64,7 +68,7 @@ const actions = (dispatch, props) => {
     onTapScreen: (episodeId: number) =>
       dispatch(updateReadState(episodeId)),
     resetReadIndex: (episodeId: number) => dispatch(updateReadState(episodeId, 0)),
-    pageView: (episode: Episode) => dispatch(pageView(episode)),
+    pageView: (novelId: number, episodeId: number) => dispatch(pageView(novelId, episodeId)),
   }
 }
 

@@ -1,18 +1,34 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Image, Text, View } from 'react-native'
+import {
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  Linking,
+  StyleSheet,
+} from 'react-native'
 
 import colors from './colors'
 
 const ListItem = ({ item }) => {
+  const onPress = () => {
+    Linking.openURL(item.episode_uri)
+  }
   return (
-    <View style={ styles.container }>
-      <Image style={ styles.image } source={{ uri: item.thumbnail_url }} />
-      <View style={ styles.textWrapper }>
-        <Text style={ styles.title }>{ item.title }</Text>
-        <Text style={ styles.description }>{ item.description }</Text>
+    <TouchableOpacity
+      focusedOpacity={1}
+      activeOpacity={1}
+      onPress={ onPress }
+    >
+      <View style={ styles.container }>
+        <Image style={ styles.image } source={{ uri: item.thumbnail_url }} />
+        <View style={ styles.textWrapper }>
+          <Text style={ styles.title }>{ item.title }</Text>
+          <Text style={ styles.description }>{ item.description }</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
