@@ -25,7 +25,7 @@ const ListItem = ({ item }) => {
         <Image style={ styles.image } source={{ uri: item.thumbnail_url }} />
         <View style={ styles.textWrapper }>
           <Text style={ styles.title }>{ item.title }</Text>
-          <Text style={ styles.description }>{ item.description }</Text>
+          <Text style={ styles.description } numberOfLines={ 2 } ellipsizeMode={ 'tail' }>{ item.description }</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   image: {
     resizeMode: 'cover',
     width: 100,
-    height: 130,
+    height: 100,
   },
   textWrapper: {
     flex: 1,
@@ -52,17 +52,16 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.title,
-    fontSize: 18,
-    fontWeight: 'bold',
-    lineHeight: 22,
-    paddingLeft: 15,
+    fontSize: 15,
+    lineHeight: 18,
+    paddingLeft: 20,
     marginBottom: 10,
   },
   description: {
     color: colors.description,
-    fontSize: 12,
-    lineHeight: 17,
-    paddingLeft: 15,
+    fontSize: 11,
+    lineHeight: 16,
+    paddingLeft: 20,
   }
 })
 

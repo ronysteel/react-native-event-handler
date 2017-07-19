@@ -1,6 +1,6 @@
 export default {
   backgroundColor: '#1a1a1a',
-  title: '#ddd',
-  description: '#ccc',
-  sectionTitle: '#ddd',
+  title: '#fff',
+  description: '#e0e0e0',
+  sectionTitle: '#fff',
 }
