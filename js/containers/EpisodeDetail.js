@@ -60,7 +60,7 @@ const getScripts = (scripts: IndexedScripts, readState: ReadState): IndexedScrip
 const getParams = (props) => props.navigation.state.params
 
 const select = (store, props) => {
-  const { episodeId, novelId} = getParams(props)
+  const { episodeId, novelId } = getParams(props)
 
   const episode: Episode = store.episodes[episodeId]
   const readState: ReadState = store.readStates[episodeId]

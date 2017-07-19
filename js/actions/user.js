@@ -37,7 +37,7 @@ export function signInAnonymously(): ThunkAction {
             return
           }
 
-          userObj.paid = Number(json..paid_account_expires_date) > (new Date().getTime())
+          userObj.paid = Number(json.paid_account_expires_date) > (new Date().getTime())
         })
       })
       .then(() => {

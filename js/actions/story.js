@@ -85,12 +85,14 @@ const successUpdateReadState = (
   episodeId: number,
   scripts: Scripts,
   readIndex: ?number,
+  paid: boolean,
 ): Action => {
   return {
     type: 'UPDATE_READ_STATE',
     episodeId,
     scripts: getAllScript(episodes[episodeId], scripts),
     readIndex,
+    paid,
   }
 }
 
@@ -99,8 +101,8 @@ export function updateReadState(
   readIndex: ?number,
 ): ThunkAction {
   return (dispatch, getState) => {
-    const { episodes, scripts } = getState()
-    return dispatch(successUpdateReadState(episodes, episodeId, scripts, readIndex))
+    const { episodes, scripts, session } = getState()
+    return dispatch(successUpdateReadState(episodes, episodeId, scripts, readIndex, session.paid))
   }
 }
 
