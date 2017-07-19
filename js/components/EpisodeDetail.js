@@ -15,6 +15,7 @@ import { List, ListItem } from 'react-native-elements'
 
 import FadeinView from './FadeinView'
 import BackgroundImage from './BackgroundImage'
+import Promotion from './Promotion'
 
 import type { Episode } from '../reducers/episodes'
 import type { Scripts } from '../reducers/scripts'
@@ -131,7 +132,7 @@ class EpisodeDetail extends React.Component {
   }
 
   render() {
-    const { episode, scripts, readState, onTapScreen } = this.props
+    const { episode, scripts, readState, paid, onTapScreen, onTapPurchase } = this.props
     const scrollView = props => {
       return (
         <CustomScrollView {...props} onTapScreen={ onTapScreen } />
@@ -153,6 +154,7 @@ class EpisodeDetail extends React.Component {
             ListFooterComponent={ this.renderFooter.bind(this) }
             onLayout={ this.onLayout.bind(this) }
           />
+          <Promotion paid={ paid } readState={ readState } onTapPurchase={ onTapPurchase } />
         </BackgroundImage>
       </View>
     )

@@ -21,6 +21,7 @@
     "react-native": "0.46.1",
     "react-native-elements": "^0.13.0",
     "react-native-firebase": "^2.0.3",
+    "react-native-in-app-utils": "^5.5.0",
     "react-native-vector-icons": "^4.1.1",
     "react-navigation": "^1.0.0-beta.11",
     "react-redux": "^5.0.5",

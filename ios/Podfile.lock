@@ -69,6 +69,8 @@ PODS:
   - Protobuf (3.3.0)
   - React (0.46.1):
     - React/Core (= 0.46.1)
+  - react-native-in-app-utils (5.5.0):
+    - React
   - React/BatchedBridge (0.46.1):
     - React/Core
     - React/cxxreact_legacy
@@ -91,6 +93,7 @@ DEPENDENCIES:
   - Firebase/DynamicLinks
   - Firebase/Messaging
   - Firebase/RemoteConfig
+  - react-native-in-app-utils (from `../node_modules/react-native-in-app-utils`)
   - React/BatchedBridge (from `../node_modules/react-native`)
   - React/Core (from `../node_modules/react-native`)
   - RNFirebase (from `../node_modules/react-native-firebase`)
@@ -100,6 +103,8 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   React:
     :path: "../node_modules/react-native"
+  react-native-in-app-utils:
+    :path: "../node_modules/react-native-in-app-utils"
   RNFirebase:
     :path: "../node_modules/react-native-firebase"
   RNVectorIcons:
@@ -124,10 +129,11 @@ SPEC CHECKSUMS:
   nanopb: 22bc080fa3955e2116b6ff3ee6c2cb3c15ab97cb
   Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
   React: 0c6f45ca8c39fe48ed4e3a5583861a8e1bc0959e
+  react-native-in-app-utils: 2ef766bea71e31c0bf4a6800f7bb20a8706c579d
   RNFirebase: 22e723806850dd17643cebcf4d9ccdc738e9a157
   RNVectorIcons: 6d98d83e944d15014d8071dd9819beb094c61133
   Yoga: 9148a870ff3adaba107edb8ef48ab189c9d9a3d1
 
-PODFILE CHECKSUM: d9ede2c0244c92a7f783c372abe3d8b62feeda3f
+PODFILE CHECKSUM: 70163ae716116af89cba6ecaf242f8d93f5bde35
 
 COCOAPODS: 1.2.1
