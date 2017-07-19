@@ -7,6 +7,8 @@ export type Action =
   | { type: 'UPDATE_READ_STATE', episodeId: number, scripts: any, readIndex: ?number }
   | { type: 'UPDATE_PAGE_VIEW' }
   | { type: 'SIGN_IN_ANONYMOUSLY_SUCCESS', user: any }
+  | { type: 'PURCHASE_SUCCESS' }
+  | { type: 'PURCHASE_FAILED' }
   ;
 
 export type Dispatch = (action: Action | ThunkAction | PromiseAction | Array<Action>) => any

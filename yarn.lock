@@ -3089,6 +3089,10 @@ react-native-firebase@^2.0.3:
     bows "^1.6.0"
     prop-types "^15.5.10"
 
+react-native-in-app-utils@^5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-in-app-utils/-/react-native-in-app-utils-5.5.0.tgz#4575414da8311103a1f33fbaf3f0a0a605eba4d9"
+
 react-native-side-menu@^0.20.1:
   version "0.20.3"
   resolved "https://registry.yarnpkg.com/react-native-side-menu/-/react-native-side-menu-0.20.3.tgz#5dffe3e237018360ed081433d505ea454cba9ca4"
