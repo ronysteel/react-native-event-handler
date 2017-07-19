@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 
 import Detail from '../components/EpisodeDetail'
 import { loadEpisode, updateReadState, pageView } from '../actions/story'
+import { purchase } from '../actions/user'
 import { getAllScript } from '../reducers/scripts'
 
 import type { Episode } from '../reducers/episodes'
@@ -34,7 +35,7 @@ class EpisodeDetail extends React.Component {
   }
 
   render() {
-    const { episode, scripts, readState, onTapScreen } = this.props
+    const { episode, scripts, readState, onTapScreen, onTapPurchase } = this.props
 
     if (this.state.isLoading) {
       return null
@@ -44,6 +45,7 @@ class EpisodeDetail extends React.Component {
       scripts={ scripts }
       readState={ readState }
       onTapScreen={ onTapScreen.bind(this, episode.id) }
+      onTapPurchase={ onTapPurchase.bind(this) }
     />
   }
 }
@@ -81,6 +83,7 @@ const actions = (dispatch, props) => {
       dispatch(loadEpisode(novelId, episodeId)),
     onTapScreen: (episodeId: number) =>
       dispatch(updateReadState(episodeId)),
+    onTapPurchase: () => dispatch(purchase()),
     resetReadIndex: (episodeId: number) => dispatch(updateReadState(episodeId, 0)),
     pageView: (novelId: number, episodeId: number) => dispatch(pageView(novelId, episodeId)),
   }

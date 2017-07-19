@@ -6,7 +6,7 @@ export type ReadState = {
   episodeId: number;
   readIndex: number;
   backgroundImageIndex: number;
-  displayPaidPromotion: boolean;
+  displayPromotion: boolean;
 }
 
 export type ReadStates = {

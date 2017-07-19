@@ -5,6 +5,10 @@ import { getAllScript } from '../reducers/scripts'
 import firebase from '../firebase'
 const { InAppUtils } = NativeModules
 
+const requestSignInAnonymously = () => {
+  return { type: 'SIGN_IN_ANONYMOUSLY_REQUEST' }
+}
+
 const successSignInAnonymously = user => {
   return {
     type: 'SIGN_IN_ANONYMOUSLY_SUCCESS',
@@ -15,6 +19,8 @@ const successSignInAnonymously = user => {
 export function signInAnonymously(): ThunkAction {
   return dispatch => {
     let userObj = {}
+
+    dispatch(requestSignInAnonymously())
 
     return firebase.auth().signInAnonymously()
       .then(user => {
@@ -30,8 +36,9 @@ export function signInAnonymously(): ThunkAction {
             'Authorization': `Bearer ${userObj.idToken}`,
           }
         })
-        .then(r => r.json().response)
-        .then(json => {
+        .then(r => r.json())
+        .then(r => {
+          const json = r.response
           if (!json.paid_account_expires_date) {
             userObj.paid = false
             return

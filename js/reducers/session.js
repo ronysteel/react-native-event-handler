@@ -15,6 +15,10 @@ const initialStates: Session = {
 
 function session(state: Session = initialStates, action: Action): Session {
   switch (action.type) {
+    case 'SIGN_IN_ANONYMOUSLY_REQUEST': {
+      return Object.assign({}, initialStates)
+    }
+
     case 'SIGN_IN_ANONYMOUSLY_SUCCESS': {
       const { user } = action
       return {
