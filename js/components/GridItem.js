@@ -60,6 +60,23 @@ const styles = StyleSheet.create({
     color: colors.description,
     fontSize: 11,
     lineHeight: 16,
+  },
+  tagWrapper: {
+    flexDirection:'row',
+    marginLeft: 20,
+  },
+  tag: {
+    flexWrap: 'wrap',
+    borderWidth: 1,
+    borderRadius: 2,
+    borderColor: '#565656',
+    paddingVertical: 5,
+    paddingHorizontal: 5,
+  },
+  tagText: {
+    color: '#6e6e6e',
+    fontSize: 9,
+    lineHeight: 9,
   }
 })
 
