@@ -8,7 +8,10 @@ import {
   TouchableOpacity,
 } from 'react-native'
 
-const Promotion = ({ readState, onTapPurchase }) => {
+const Promotion = ({ paid, readState, onTapPurchase }) => {
+  if (paid) {
+    return null
+  }
   if (!readState.displayPromotion) {
     return null
   }

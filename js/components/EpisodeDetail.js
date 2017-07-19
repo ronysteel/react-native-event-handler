@@ -132,7 +132,7 @@ class EpisodeDetail extends React.Component {
   }
 
   render() {
-    const { episode, scripts, readState, onTapScreen, onTapPurchase } = this.props
+    const { episode, scripts, readState, paid, onTapScreen, onTapPurchase } = this.props
     const scrollView = props => {
       return (
         <CustomScrollView {...props} onTapScreen={ onTapScreen } />
@@ -154,7 +154,7 @@ class EpisodeDetail extends React.Component {
             ListFooterComponent={ this.renderFooter.bind(this) }
             onLayout={ this.onLayout.bind(this) }
           />
-          <Promotion readState={ readState } onTapPurchase={ onTapPurchase } />
+          <Promotion paid={ paid } readState={ readState } onTapPurchase={ onTapPurchase } />
         </BackgroundImage>
       </View>
     )

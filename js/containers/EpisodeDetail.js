@@ -35,7 +35,7 @@ class EpisodeDetail extends React.Component {
   }
 
   render() {
-    const { episode, scripts, readState, onTapScreen, onTapPurchase } = this.props
+    const { episode, scripts, readState, paid, onTapScreen, onTapPurchase } = this.props
 
     if (this.state.isLoading) {
       return null
@@ -44,6 +44,7 @@ class EpisodeDetail extends React.Component {
       episode={ episode }
       scripts={ scripts }
       readState={ readState }
+      paid={ paid }
       onTapScreen={ onTapScreen.bind(this, episode.id) }
       onTapPurchase={ onTapPurchase.bind(this) }
     />
@@ -74,6 +75,7 @@ const select = (store, props) => {
     readState,
     allScript,
     scripts: getScripts(allScript, readState),
+    paid: store.session.paid,
   }
 }
 
