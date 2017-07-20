@@ -23,6 +23,14 @@ class EpisodeDetail extends React.Component {
 
   static navigationOptions = {
     title: 'Detail',
+    headerStyle: {
+      backgroundColor: '#1a1a1a',
+    },
+    headerTitleStyle: {
+      color: '#fff',
+      fontSize: 18,
+      fontWeight: 'bold',
+    }
   }
 
   componentDidMount() {

@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   tag: {
     flexWrap: 'wrap',
-    borderWidth: 1,
+    borderWidth: 0.5,
     borderRadius: 2,
     borderColor: '#565656',
     paddingVertical: 5,
