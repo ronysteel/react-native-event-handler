@@ -50,7 +50,12 @@ const Stories = ({ sections }: Props) => {
       <SectionList
         renderSectionHeader={({ section })=> {
           if (!section.title) return null
-          return <Text style={ styles.sectionTitle }>{ section.title }</Text>
+          return (
+            <View>
+              <View style={ styles.sectionSeparator } />
+              <Text style={ styles.sectionTitle }>{ section.title }</Text>
+            </View>
+          )
         }}
         renderItem={ () => null }
         stickySectionHeadersEnabled={ false }
@@ -67,9 +72,14 @@ const styles = StyleSheet.create({
   sectionTitle: {
     paddingLeft: 15,
     color: colors.sectionTitle,
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 20,
+  },
+  sectionSeparator: {
+    borderTopWidth: 0.5,
+    borderColor: '#3a3a3a',
+    marginBottom: 30,
   },
   item: {
     padding: 10,

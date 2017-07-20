@@ -25,7 +25,16 @@ const ListItem = ({ item }) => {
         <Image style={ styles.image } source={{ uri: item.thumbnail_url }} />
         <View style={ styles.textWrapper }>
           <Text style={ styles.title }>{ item.title }</Text>
-          <Text style={ styles.description }>{ item.description }</Text>
+          <View style={ styles.tagWrapper }>
+            <View style={ styles.tag }>
+              <Text style={ styles.tagText }>{ item.tags[0] }</Text>
+            </View>
+          </View>
+          <Text
+            numberOfLines={ 2 }
+            ellipsizeMode={ 'tail' }
+            style={ styles.description }
+          >{ item.description }</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -44,7 +53,7 @@ const styles = StyleSheet.create({
   image: {
     resizeMode: 'cover',
     width: 100,
-    height: 130,
+    height: 100,
   },
   textWrapper: {
     flex: 1,
@@ -52,17 +61,34 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.title,
-    fontSize: 18,
-    fontWeight: 'bold',
-    lineHeight: 22,
-    paddingLeft: 15,
+    fontSize: 15,
+    lineHeight: 18,
+    marginLeft: 20,
     marginBottom: 10,
   },
   description: {
     color: colors.description,
-    fontSize: 12,
-    lineHeight: 17,
-    paddingLeft: 15,
+    fontSize: 11,
+    lineHeight: 16,
+    marginLeft: 20,
+    marginTop: 7,
+  },
+  tagWrapper: {
+    flexDirection:'row',
+    marginLeft: 20,
+  },
+  tag: {
+    flexWrap: 'wrap',
+    borderWidth: 0.5,
+    borderRadius: 2,
+    borderColor: '#565656',
+    paddingVertical: 5,
+    paddingHorizontal: 5,
+  },
+  tagText: {
+    color: '#6e6e6e',
+    fontSize: 9,
+    lineHeight: 9,
   }
 })
 

@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   Linking,
+  Dimensions,
   StyleSheet,
 } from 'react-native'
 
@@ -33,19 +34,18 @@ const PickupItem = ({ item }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: 30,
+    marginBottom: 25,
   },
   image: {
     flex: 1,
     resizeMode: 'cover',
-    height: 200,
+    height: Dimensions.get('window').width * (9 / 16),
     marginBottom: 20,
   },
   title: {
     color: colors.title,
-    fontSize: 18,
-    fontWeight: 'bold',
-    lineHeight: 22,
+    fontSize: 20,
+    lineHeight: 23,
     paddingLeft: 15,
     paddingRight: 15,
     marginBottom: 10,
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   description: {
     color: colors.description,
     fontSize: 12,
-    lineHeight: 17,
+    lineHeight: 20,
     paddingLeft: 15,
     paddingRight: 15,
   }
