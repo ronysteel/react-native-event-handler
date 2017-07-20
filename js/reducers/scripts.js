@@ -13,6 +13,8 @@ type TextCharactor = {
 const textTypes = [
   'UNKNOWN',
   'NORMAL',
+  'CHAT_LEFT',
+  'CHAT_RIGHT',
 ]
 const textTypeNumber = convertEnum(textTypes)
 type TextType = $Keys<typeof textTypeNumber>;
@@ -59,7 +61,7 @@ const initialStates: Scripts = {}
 
 export default function scripts(state: Scripts = initialStates, action: Action): Scripts {
   switch (action.type) {
-    case 'LOAD_EPISODE_SUCCESS':
+    case 'LOAD_EPISODE_SUCCESS': {
       if (!action.episode.scripts) {
         return state
       }
@@ -75,7 +77,9 @@ export default function scripts(state: Scripts = initialStates, action: Action):
         memo[s.id] = s
         return memo
       }, {})
+
       return Object.assign({}, state, scripts)
+    }
 
     default:
       return state
