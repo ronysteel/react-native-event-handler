@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet } from 'react-native'
 
 import FadeinView from '../FadeinView'
 import ChatBubbleTail from './ChatBubbleTail'
@@ -28,12 +28,18 @@ const renderNormalCharactorName = text => {
 //
 
 const renderChatLeft = text => (
-  <View style={ styles.chatLeft.row }>
-    <View style={ styles.chatLeft.chatBubbleTail }>
-      <ChatBubbleTail color={ '#f0f0f0' } direction={ 'LEFT' } />
+  <View style={ styles.chatLeft.container }>
+    { text.charactor.avatarUrl
+      ? <Image source={{ uri: text.charactor.avatarUrl }} style={ styles.chatLeft.avatarImage }/>
+      : null
+    }
+    <View style={ styles.chatLeft.row }>
+      <View style={ styles.chatLeft.chatBubbleTail }>
+        <ChatBubbleTail color={ '#f0f0f0' } direction={ 'LEFT' } />
+      </View>
+      { renderChatLeftCharactorName(text) }
+      <Text style={ styles.chatLeft.text }>{ text.body }</Text>
     </View>
-    { renderChatLeftCharactorName(text) }
-    <Text style={ styles.chatLeft.text }>{ text.body }</Text>
   </View>
 )
 
@@ -105,9 +111,15 @@ const styles = {
     },
   }),
   chatLeft: StyleSheet.create({
+    container: {
+      flex: 1,
+      flexDirection: 'row',
+      marginHorizontal: 15,
+      marginTop: 20,
+    },
     row: {
       maxWidth: 224,
-      margin: 20,
+      marginLeft: 5,
       marginBottom: 0,
       borderRadius: 17,
       backgroundColor: '#f0f0f0',
@@ -122,6 +134,12 @@ const styles = {
       color: '#737373',
       fontSize: 11,
       marginBottom: 6,
+    },
+    avatarImage: {
+      width: 34,
+      height: 34,
+      marginRight: 10,
+      borderRadius: 34 / 2,
     },
     chatBubbleTail: {
       position: 'absolute',
@@ -143,11 +161,6 @@ const styles = {
     text: {
       fontSize: 16,
       lineHeight: 16 + 6,
-    },
-    charactor: {
-      color: '#737373',
-      fontSize: 11,
-      marginBottom: 6,
     },
     chatBubbleTail: {
       position: 'absolute',
