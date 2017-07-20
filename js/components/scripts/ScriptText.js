@@ -63,20 +63,25 @@ const renderChatRight = text => (
   </View>
 )
 
-const ScriptText = ({ item, isLatestItem }) => {
-  const textComponent = (() => {
-    switch (item.text.type) {
-      case 'NORMAL': {
-        return renderNormalText(item.text)
-      }
-      case 'CHAT_LEFT': {
-        return renderChatLeft(item.text)
-      }
-      case 'CHAT_RIGHT': {
-        return renderChatRight(item.text)
-      }
+const getTextComponent = (text) => {
+  switch (text.type) {
+    case 'NORMAL': {
+      return renderNormalText(text)
     }
-  })()
+    case 'CHAT_LEFT': {
+      return renderChatLeft(text)
+    }
+    case 'CHAT_RIGHT': {
+      return renderChatRight(text)
+    }
+    default: {
+      return null
+    }
+  }
+}
+
+const ScriptText = ({ text, isLatestItem }) => {
+  const textComponent = getTextComponent(text)
 
   if (isLatestItem) {
     return (

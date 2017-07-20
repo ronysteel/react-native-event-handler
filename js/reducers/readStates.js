@@ -16,7 +16,8 @@ export type ReadStates = {
 const initialStates: ReadStates = {}
 
 function isSkippable(script: Script): boolean {
-  if (script.type != 'TEXT') {
+  if (script.type != 'TEXT' &&
+      script.type != 'DESCRIPTION') {
     return true
   }
   return false

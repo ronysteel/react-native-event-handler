@@ -15,6 +15,7 @@ import {
 import BackgroundImage from './BackgroundImage'
 import Promotion from './Promotion'
 import ScriptText from './scripts/ScriptText'
+import ScriptDescription from './scripts/ScriptDescription'
 
 import type { Episode } from '../reducers/episodes'
 import type { Scripts } from '../reducers/scripts'
@@ -52,8 +53,13 @@ class CustomScrollView extends React.Component {
 const renderItem = (lastItemId, { item }) => {
   const isLatestItem = item.id === lastItemId
 
-  if (item.type === 'TEXT') {
-    return <ScriptText item={ item } isLatestItem={ isLatestItem } />
+  switch (item.type) {
+    case 'TEXT': {
+      return <ScriptText text={ item.text } isLatestItem={ isLatestItem } />
+    }
+    case 'DESCRIPTION': {
+      return <ScriptDescription description={ item.description } isLatestItem={ isLatestItem } />
+    }
   }
 
   return null

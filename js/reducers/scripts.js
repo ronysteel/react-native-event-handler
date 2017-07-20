@@ -29,10 +29,23 @@ type BackgroundImage = {
   imageUrl: string;
 }
 
+const descriptionTypes = [
+  'UNKNOWN',
+  'NORMAL',
+  'CHAT',
+]
+const descriptionTypeNumber = convertEnum(descriptionTypes)
+type DescriptionType = $Keys<typeof descriptionTypeNumber>;
+type Description = {
+  type: DescriptionType;
+  body: string;
+}
+
 const scriptTypes = [
   'UNKNOWN',
   'TEXT',
   'BACKGROUND_IMAGE',
+  'DESCRIPTION',
 ]
 const scriptTypeNumber = convertEnum(scriptTypes)
 type ScriptType = $Keys<typeof scriptTypeNumber>;
@@ -44,6 +57,7 @@ export type Script = {
 
   text: ?Text;
   backgroundImage: ?BackgroundImage;
+  description: ?Description;
 }
 
 export type Scripts = {
@@ -70,8 +84,15 @@ export default function scripts(state: Scripts = initialStates, action: Action):
         const s = v.script
         s.type = scriptTypes[s.type]
 
-        if (s.type === 'TEXT') {
-          s.text.type = textTypes[s.text.type]
+        switch (s.type) {
+          case 'TEXT': {
+            s.text.type = textTypes[s.text.type]
+            break
+          }
+          case 'DESCRIPTION': {
+            s.description.type = descriptionTypes[s.description.type]
+            break
+          }
         }
 
         memo[s.id] = s
