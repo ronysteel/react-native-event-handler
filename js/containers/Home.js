@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, Linking } from 'react-native'
 import { connect } from 'react-redux'
 
 import Stories from '../components/Stories'
+import HeaderTitle from '../components/HeaderTitle'
 import { loadStories } from '../actions/story'
 
 import type { Story } from '../reducers/stories'
@@ -46,7 +47,8 @@ const sections = [
 
 class Home extends React.Component {
   static navigationOptions = {
-    title: 'CHAT NOVEL',
+    // title: 'CHAT NOVEL',
+    headerTitle: <HeaderTitle />,
     headerStyle: {
       backgroundColor: '#1a1a1a',
     },
