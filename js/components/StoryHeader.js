@@ -38,7 +38,7 @@ class StoryHeader extends React.PureComponent {
           colors={['rgba(0, 0, 0, .3)', 'transparent']}
           style={ styles.linearGradient }
         >
-          <TouchableOpacity onPress={ this.navigateBack }>
+          <TouchableOpacity style={ styles.backButtonWrapper } onPress={ this.navigateBack }>
             <View style={ styles.backButton }>
               <ArrowIcon />
             </View>
@@ -61,6 +61,10 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 15,
     paddingRight: 15,
+  },
+  backButtonWrapper: {
+    width: 32,
+    height: 32 + (15 * 2),
   },
   backButton: {
     borderRadius: 32 / 2,
