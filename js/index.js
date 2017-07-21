@@ -26,6 +26,8 @@ const App = StackNavigator({
   Home: { screen: Home },
   StoryDetail: { screen: StoryDetail },
   EpisodeDetail: { screen: EpisodeDetail, path: 'novels/:novelId/episodes/:episodeId' },
+}, {
+  headerMode: 'screen',
 });
 
 class Root extends React.Component {

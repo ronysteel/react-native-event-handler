@@ -30,10 +30,41 @@ const headerHeight = 64
 const windowHeight = Dimensions.get('window').height - headerHeight
 const tapAreaHeight = 250
 
-class CustomScrollView extends React.Component {
+class CustomScrollView extends React.PureComponent {
+  state = {
+    scrollAnim: new Animated.Value(0),
+  }
+
+  componentDidMount() {
+    this.state.scrollAnim.addListener(this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    this.state.scrollAnim.removeListener(this.handleScroll);
+  }
+
+  handleScroll = ({ value }) => {
+    this.previousScrollvalue = this.currentScrollValue;
+    this.currentScrollValue = value;
+
+    const delta = this.currentScrollValue - this.previousScrollvalue
+    if (delta < -20) {
+      this.props.setHeaderVisible(true)
+    } else if (this.currentScrollValue >= 0 && delta > 15) {
+      this.props.setHeaderVisible(false)
+    }
+  }
+
   render() {
     return (
-      <ScrollView style={ styles.containers } ref={ref => this.scrollView = ref}>
+      <ScrollView
+        scrollEventThrottle={ 16 }
+        onScroll={ Animated.event(
+          [ { nativeEvent: { contentOffset: { y: this.state.scrollAnim } } } ],
+        ) }
+        style={ styles.containers }
+        ref={ref => this.scrollView = ref}
+      >
         <TouchableOpacity
           focusedOpacity={1}
           activeOpacity={1}
@@ -115,10 +146,13 @@ class EpisodeDetail extends React.Component {
   }
 
   render() {
-    const { episode, scripts, readState, paid, onTapScreen, onTapPurchase } = this.props
+    const { episode, scripts, readState, paid, setHeaderVisible, onTapScreen, onTapPurchase } = this.props
     const scrollView = props => {
       return (
-        <CustomScrollView {...props} onTapScreen={ onTapScreen } />
+        <CustomScrollView {...props}
+          onTapScreen={ onTapScreen }
+          setHeaderVisible={ setHeaderVisible }
+        />
       )
     }
     const values = Object.values(scripts)

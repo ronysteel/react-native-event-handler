@@ -1,12 +1,13 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, StatusBar } from 'react-native'
 import { connect } from 'react-redux'
 
 import Detail from '../components/EpisodeDetail'
 import { loadEpisode, updateReadState, pageView } from '../actions/story'
 import { purchase } from '../actions/user'
 import { getAllScript } from '../reducers/scripts'
+import StoryHeader from '../components/StoryHeader'
 
 import type { Episode } from '../reducers/episodes'
 import type { Script, Scripts, IndexedScripts } from '../reducers/scripts'
@@ -16,43 +17,43 @@ class EpisodeDetail extends React.Component {
   constructor() {
     super()
 
+    StatusBar.setHidden(true)
     this.state = {
       isLoading: true,
     }
   }
 
-  static navigationOptions = {
-    title: 'Detail',
-    headerStyle: {
-      backgroundColor: '#1a1a1a',
+  static navigationOptions = ({ navigation }) => ({
+    // title: 'Detail',
+    header: (props) => {
+      if (!navigation.state.params.visible) {
+        return null
+      }
+      return <StoryHeader {...props} />
     },
-    headerTitleStyle: {
-      color: '#fff',
-      fontSize: 18,
-      fontWeight: 'bold',
-    }
-  }
+  })
 
   componentDidMount() {
     const { novelId, episodeId } = this.props
     this.props.loadEpisode(novelId, episodeId).then(() => {
-      this.setState({ isLoading: false })
       this.props.pageView(novelId, episodeId)
       this.props.resetReadIndex(episodeId)
+      this.setState({ isLoading: false })
     })
   }
 
   render() {
-    const { episode, scripts, readState, paid, onTapScreen, onTapPurchase } = this.props
+    const { episode, scripts, readState, paid, setHeaderVisible, onTapScreen, onTapPurchase } = this.props
 
     if (this.state.isLoading) {
-      return null
+      return <View style={{ flex: 1, backgroundColor: '#1a1a1a' }}></View>
     }
     return <Detail
       episode={ episode }
       scripts={ scripts }
       readState={ readState }
       paid={ paid }
+      setHeaderVisible={ setHeaderVisible }
       onTapScreen={ onTapScreen.bind(this, episode.id) }
       onTapPurchase={ onTapPurchase.bind(this) }
     />
@@ -94,6 +95,9 @@ const actions = (dispatch, props) => {
     onTapScreen: (episodeId: number) =>
       dispatch(updateReadState(episodeId)),
     onTapPurchase: () => dispatch(purchase()),
+    setHeaderVisible: (visible: boolean) => {
+      props.navigation.setParams({ visible })
+    },
     resetReadIndex: (episodeId: number) => dispatch(updateReadState(episodeId, 0)),
     pageView: (novelId: number, episodeId: number) => dispatch(pageView(novelId, episodeId)),
   }

@@ -1,4 +1,6 @@
 PODS:
+  - BVLinearGradient (2.1.0):
+    - React
   - Crashlytics (3.8.5):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.12)
@@ -87,6 +89,7 @@ PODS:
   - Yoga (0.46.1.React)
 
 DEPENDENCIES:
+  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - Crashlytics
   - Fabric
   - Firebase/Auth
@@ -104,6 +107,8 @@ DEPENDENCIES:
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 EXTERNAL SOURCES:
+  BVLinearGradient:
+    :path: "../node_modules/react-native-linear-gradient"
   React:
     :path: "../node_modules/react-native"
   react-native-in-app-utils:
@@ -118,6 +123,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  BVLinearGradient: 0ac0c153d5562d46cc4c8ad8b2dc4e8b0598f5b4
   Crashlytics: dfbae35ef22ca189240d230ad501feea4ee85d2d
   Fabric: f050464eac45a2ce5a8e6e6a07e977c0df32fe28
   Firebase: 1492bf04e1b73a7353b4fb2cf5a20bac9692f341
@@ -140,6 +146,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 6d98d83e944d15014d8071dd9819beb094c61133
   Yoga: 9148a870ff3adaba107edb8ef48ab189c9d9a3d1
 
-PODFILE CHECKSUM: 3d59e7e210e82ec103833d5a4368db212a6e4d90
+PODFILE CHECKSUM: cbc820928229be247e9ac95824591abbef5a56a8
 
 COCOAPODS: 1.2.1
