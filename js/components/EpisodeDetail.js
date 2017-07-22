@@ -14,6 +14,7 @@ import {
 
 import BackgroundImage from './BackgroundImage'
 import Promotion from './Promotion'
+import Share from './Share'
 import ScriptText from './scripts/ScriptText'
 import ScriptDescription from './scripts/ScriptDescription'
 
@@ -125,8 +126,7 @@ class EpisodeDetail extends React.Component {
   }
 
   scrollToEnd() {
-    // FIXME
-    this.list._listRef._scrollRef.scrollView.scrollToEnd()
+    this.storyWrapper.scrollToEnd()
   }
 
   setContentHeight(contentHeight) {
@@ -160,8 +160,9 @@ class EpisodeDetail extends React.Component {
     const bgImageUrl = getBackgroundImage(scripts, readState)
 
     return (
-      <View style={[ styles.container, styles.containerBackground ]}>
-        <BackgroundImage imageUrl={ bgImageUrl }>
+      <View style={ styles.container }>
+        <BackgroundImage imageUrl={ bgImageUrl } />
+        <ScrollView ref={r => this.storyWrapper = r}>
           <FlatList
             ref={r => this.list = r}
             data={ values }
@@ -172,7 +173,8 @@ class EpisodeDetail extends React.Component {
             onLayout={ this.onLayout.bind(this) }
           />
           <Promotion paid={ paid } readState={ readState } onTapPurchase={ onTapPurchase } />
-        </BackgroundImage>
+          <Share readState={ readState } />
+        </ScrollView>
       </View>
     )
   }
