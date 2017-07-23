@@ -82,6 +82,8 @@ PODS:
     - React/jschelpers_legacy
   - React/jschelpers_legacy (0.46.1)
   - RNFirebase (2.0.3)
+  - RNShare (1.0.20):
+    - React
   - RNSVG (5.3.0):
     - React
   - RNVectorIcons (4.2.0):
@@ -102,6 +104,7 @@ DEPENDENCIES:
   - React/BatchedBridge (from `../node_modules/react-native`)
   - React/Core (from `../node_modules/react-native`)
   - RNFirebase (from `../node_modules/react-native-firebase`)
+  - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -115,6 +118,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-in-app-utils"
   RNFirebase:
     :path: "../node_modules/react-native-firebase"
+  RNShare:
+    :path: "../node_modules/react-native-share"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
@@ -142,10 +147,11 @@ SPEC CHECKSUMS:
   React: 0c6f45ca8c39fe48ed4e3a5583861a8e1bc0959e
   react-native-in-app-utils: 2ef766bea71e31c0bf4a6800f7bb20a8706c579d
   RNFirebase: 22e723806850dd17643cebcf4d9ccdc738e9a157
+  RNShare: f58d823417bcdf71859c9afd7bb0cbcbb2b98e90
   RNSVG: 7548d93456b77f92a73cb77bca5b4b9ef85c90bf
   RNVectorIcons: 6d98d83e944d15014d8071dd9819beb094c61133
   Yoga: 9148a870ff3adaba107edb8ef48ab189c9d9a3d1
 
-PODFILE CHECKSUM: cbc820928229be247e9ac95824591abbef5a56a8
+PODFILE CHECKSUM: 598654e8e9dc0fa57a5db10ae11a280c3485e32b
 
 COCOAPODS: 1.2.1
