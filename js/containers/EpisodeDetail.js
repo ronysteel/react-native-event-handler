@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, StatusBar } from 'react-native'
 import { connect } from 'react-redux'
 
 import Detail from '../components/EpisodeDetail'
-import { loadEpisode, updateReadState, pageView } from '../actions/story'
+import { loadEpisode, loadShareLinks, updateReadState, pageView } from '../actions/story'
 import { purchase } from '../actions/user'
 import { getAllScript } from '../reducers/scripts'
 import StoryHeader from '../components/StoryHeader'
@@ -40,10 +40,14 @@ class EpisodeDetail extends React.Component {
       this.props.resetReadIndex(episodeId)
       this.setState({ isLoading: false })
     })
+    this.props.loadShareLinks(episodeId)
   }
 
   render() {
-    const { episode, scripts, readState, paid, setHeaderVisible, onTapScreen, onTapPurchase } = this.props
+    const {
+      episode, scripts, readState, paid, shareLinks,
+      setHeaderVisible, onTapScreen, onTapPurchase,
+    } = this.props
 
     if (this.state.isLoading) {
       return <View style={{ flex: 1, backgroundColor: '#1a1a1a' }}></View>
@@ -54,6 +58,7 @@ class EpisodeDetail extends React.Component {
       readState={ readState }
       paid={ paid }
       setHeaderVisible={ setHeaderVisible }
+      shareLinks={ shareLinks }
       onTapScreen={ onTapScreen.bind(this, episode.id) }
       onTapPurchase={ onTapPurchase.bind(this) }
     />
@@ -85,6 +90,7 @@ const select = (store, props) => {
     allScript,
     scripts: getScripts(allScript, readState),
     paid: store.session.paid,
+    shareLinks: store.shareLinks[episodeId],
   }
 }
 
@@ -92,6 +98,8 @@ const actions = (dispatch, props) => {
   return {
     loadEpisode: (novelId: number, episodeId: number) =>
       dispatch(loadEpisode(novelId, episodeId)),
+    loadShareLinks: (episodeId: number) =>
+      dispatch(loadShareLinks(episodeId)),
     onTapScreen: (episodeId: number) =>
       dispatch(updateReadState(episodeId)),
     onTapPurchase: () => dispatch(purchase()),

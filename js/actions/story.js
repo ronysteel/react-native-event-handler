@@ -19,9 +19,27 @@ const successLoadEpisode = (episodeId: number, json) => {
 export function loadEpisode(novelId: number, episodeId: number): ThunkAction {
   return (dispatch, getState) => {
     return firebase.database()
-      .ref(`/scripts/${episodeId}/scripts`)
+      .ref(`/scripts/${episodeId}`)
       .once('value').then((snapshot) => {
         dispatch(successLoadEpisode(episodeId, snapshot.val()))
+      })
+  }
+}
+
+const successLoadShareLinks = (episodeId: number, json) => {
+  return {
+    type: 'LOAD_SHARE_LINKS_SUCCESS',
+    episodeId: episodeId,
+    links: json,
+  }
+}
+
+export function loadShareLinks(episodeId: number): ThunkAction {
+  return (dispatch, getState) => {
+    return firebase.database()
+      .ref(`/share_links/${episodeId}`)
+      .once('value').then((snapshot) => {
+        dispatch(successLoadShareLinks(episodeId, snapshot.val()))
       })
   }
 }

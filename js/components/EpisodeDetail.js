@@ -146,7 +146,11 @@ class EpisodeDetail extends React.Component {
   }
 
   render() {
-    const { episode, scripts, readState, paid, setHeaderVisible, onTapScreen, onTapPurchase } = this.props
+    const {
+      episode, scripts, readState, paid, shareLinks,
+      setHeaderVisible, onTapScreen, onTapPurchase,
+    } = this.props
+
     const scrollView = props => {
       return (
         <CustomScrollView {...props}
@@ -158,6 +162,10 @@ class EpisodeDetail extends React.Component {
     const values = Object.values(scripts)
     const lastItemId = values.length == 0 ? 0 : values[values.length - 1].id
     const bgImageUrl = getBackgroundImage(scripts, readState)
+    const shareOptions = {
+      title: 'React Native',
+      url: shareLinks.default,
+    }
 
     return (
       <View style={ styles.container }>
@@ -172,8 +180,16 @@ class EpisodeDetail extends React.Component {
             ListFooterComponent={ this.renderFooter.bind(this) }
             onLayout={ this.onLayout.bind(this) }
           />
-          <Promotion paid={ paid } readState={ readState } onTapPurchase={ onTapPurchase } />
-          <Share readState={ readState } />
+          <Promotion
+            paid={ paid }
+            readState={ readState }
+            onTapPurchase={ onTapPurchase }
+          />
+          <Share
+            readState={ readState }
+            title={ "怖かった…？ \n怖かったらこのノベルをシェアしよう…" }
+            shareOptions={ shareOptions }
+          />
         </ScrollView>
       </View>
     )
