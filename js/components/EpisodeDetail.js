@@ -114,8 +114,12 @@ class EpisodeDetail extends React.Component {
     }
   }
 
-  renderFooter() {
-    return <View style={{ height: this.state.height }} />
+  renderFooter(readState) {
+    let height = this.state.height
+    if (readState.reachEndOfContent) {
+      height = 30
+    }
+    return <View style={{ height }} />
   }
 
   scrollToEnd() {
@@ -176,7 +180,7 @@ class EpisodeDetail extends React.Component {
             renderItem={ renderItem.bind(null, lastItemId) }
             keyExtractor={ item => `${item.id}` }
             renderScrollComponent={ scrollView }
-            ListFooterComponent={ this.renderFooter.bind(this) }
+            ListFooterComponent={ this.renderFooter.bind(this, readState) }
             onLayout={ this.onLayout.bind(this) }
           />
           <Promotion
