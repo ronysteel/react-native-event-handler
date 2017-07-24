@@ -19,7 +19,7 @@ function novels(state: Novels = initialStates, action: Action): Novels {
     case 'LOAD_NOVEL_METADATA_SUCCESS': {
       const { novelId, metadata } = action
       const s = {
-        novelId: novelId,
+        novelId: parseInt(novelId),
         title: metadata.title,
         categoryId: metadata.categoryId,
       }

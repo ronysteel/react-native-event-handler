@@ -147,7 +147,7 @@ class EpisodeDetail extends React.Component {
 
   render() {
     const {
-      episode, scripts, readState, paid, shareLinks,
+      novel, episode, scripts, readState, paid, shareLinks, recommends,
       setHeaderVisible, onTapScreen, onTapPurchase,
     } = this.props
 
@@ -186,9 +186,11 @@ class EpisodeDetail extends React.Component {
             onTapPurchase={ onTapPurchase }
           />
           <Share
+            novel={ novel }
             readState={ readState }
-            title={ "怖かった…？ \n怖かったらこのノベルをシェアしよう…" }
+            shareText={ "怖かった…？ \n怖かったらこのノベルをシェアしよう…" }
             shareOptions={ shareOptions }
+            recommends={ recommends }
           />
         </ScrollView>
       </View>

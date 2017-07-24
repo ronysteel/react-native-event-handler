@@ -6,10 +6,11 @@ import TwitterIcon from './icons/TwitterIcon'
 import FacebookIcon from './icons/FacebookIcon'
 import LineIcon from './icons/LineIcon'
 import LinkIcon from './icons/LinkIcon'
+import Recommends from './Recommends'
 
 const { height } = Dimensions.get('window')
 
-const Share = ({ title, readState, shareOptions }) => {
+const Share = ({ novel, shareText, readState, shareOptions, recommends }) => {
   if (!readState.reachEndOfContent) {
     return null
   }
@@ -18,7 +19,7 @@ const Share = ({ title, readState, shareOptions }) => {
       <View style={ styles.backDrop }/>
       <View>
         <Text style={ styles.text }>
-          { title }
+          { shareText }
         </Text>
         <View style={ styles.iconsWrapper }>
           <TwitterIcon options={ shareOptions } style={ styles.icon } />
@@ -27,6 +28,7 @@ const Share = ({ title, readState, shareOptions }) => {
           <LinkIcon options={ shareOptions } />
         </View>
         <View style={ styles.recommends }>
+          <Recommends novel={ novel } recommends={ recommends } />
         </View>
       </View>
     </View>

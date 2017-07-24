@@ -14,7 +14,7 @@ import colors from './colors'
 
 const PickupItem = ({ item }) => {
   const onPress = () => {
-    Linking.openURL(item.episode_uri)
+    Linking.openURL(item.episodeUri)
   }
   return (
     <TouchableOpacity
@@ -23,7 +23,7 @@ const PickupItem = ({ item }) => {
       onPress={ onPress }
     >
       <View style={ styles.container }>
-        <Image style={ styles.image } source={{ uri: item.thumbnail_url }} />
+        <Image style={ styles.image } source={{ uri: item.thumbnailUrl }} />
         <Text style={ styles.title }>{ item.title }</Text>
         <Text style={ styles.description }>{ item.description }</Text>
       </View>

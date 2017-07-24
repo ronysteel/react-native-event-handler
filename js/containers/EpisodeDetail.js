@@ -56,7 +56,7 @@ class EpisodeDetail extends React.Component {
 
   render() {
     const {
-      episode, scripts, readState, paid, shareLinks,
+      novel, episode, scripts, readState, paid, shareLinks, recommends,
       setHeaderVisible, onTapScreen, onTapPurchase,
     } = this.props
 
@@ -64,12 +64,14 @@ class EpisodeDetail extends React.Component {
       return <View style={{ flex: 1, backgroundColor: '#1a1a1a' }}></View>
     }
     return <Detail
+      novel={ novel }
       episode={ episode }
       scripts={ scripts }
       readState={ readState }
       paid={ paid }
       setHeaderVisible={ setHeaderVisible }
       shareLinks={ shareLinks }
+      recommends={ recommends }
       onTapScreen={ onTapScreen.bind(this, episode.id) }
       onTapPurchase={ onTapPurchase.bind(this) }
     />
@@ -90,6 +92,7 @@ const getParams = (props) => props.navigation.state.params
 const select = (store, props) => {
   const { episodeId, novelId } = getParams(props)
 
+  const novel = store.novels[novelId]
   const episode: Episode = store.episodes[episodeId]
   const readState: ReadState = store.readStates[episodeId]
   const allScript: Scripts = getAllScript(store.episodes[episodeId], store.scripts)
@@ -99,9 +102,11 @@ const select = (store, props) => {
     episode,
     readState,
     allScript,
+    novel,
     scripts: getScripts(allScript, readState),
     paid: store.session.paid,
     shareLinks: store.shareLinks[episodeId],
+    recommends: store.recommends[novel.categoryId],
   }
 }
 
