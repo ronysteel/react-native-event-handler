@@ -1,10 +1,8 @@
 // @flow
 import React from 'react'
-import { View, Text, TouchableOpacity, Platform, StatusBar, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, Platform, StyleSheet } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
-import Svg, {
-  Path,
-} from 'react-native-svg'
+import Svg, { G, Path } from 'react-native-svg'
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0
@@ -23,15 +21,30 @@ const ArrowIcon = () => (
   </View>
 )
 
+const EpisodeListIcon = () => (
+  <View style={ styles.episodeListIcon }>
+    <Svg width="16" height="13" viewBox="0 0 16 13">
+      <G fill="#000">
+        <Path
+          d="M3.648 4.288l1.41.513-2.932 8.055-1.41-.513zM6.423 0h1.5v12.857h-1.5zM9.994 3.57h1.5v9.287h-1.5zM13.566 1.43h1.5v11.428h-1.5z"
+        />
+      </G>
+    </Svg>
+  </View>
+)
+
 class StoryHeader extends React.PureComponent {
   static HEIGHT = APPBAR_HEIGHT + STATUSBAR_HEIGHT
 
   navigateBack = () => {
     this.props.navigation.goBack(null)
-    StatusBar.setHidden(false)
   }
 
   render() {
+    const { visible, openModal } = this.props
+    if (!visible) {
+      return null
+    }
     return (
       <View style={ styles.container }>
         <LinearGradient
@@ -41,6 +54,11 @@ class StoryHeader extends React.PureComponent {
           <TouchableOpacity style={ styles.backButtonWrapper } onPress={ this.navigateBack }>
             <View style={ styles.backButton }>
               <ArrowIcon />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={ styles.episodeListButtonWrapper } onPress={ openModal }>
+            <View style={ styles.backButton }>
+              <EpisodeListIcon />
             </View>
           </TouchableOpacity>
         </LinearGradient>
@@ -59,19 +77,28 @@ const styles = StyleSheet.create({
   },
   linearGradient: {
     flex: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
+    flexDirection: 'row',
   },
   backButtonWrapper: {
-    width: 32,
+    flex: 1,
+    width: 32 + (15 * 2),
     height: 32 + (15 * 2),
+    padding: 15,
+  },
+  episodeListButtonWrapper: {
+    flex: 1,
+    alignSelf: 'flex-end',
+    alignItems: 'flex-end',
+    width: 32 + (15 * 2),
+    height: 32 + (15 * 2),
+    padding: 15,
   },
   backButton: {
     borderRadius: 32 / 2,
     width: 32,
     height: 32,
+    padding: 15,
     backgroundColor: '#fff',
-    marginTop: 16,
     justifyContent: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -82,6 +109,10 @@ const styles = StyleSheet.create({
     shadowOpacity: .45,
   },
   arrowIcon: {
+    marginLeft: -1,
+    alignSelf: 'center',
+  },
+  episodeListIcon: {
     marginLeft: -1,
     alignSelf: 'center',
   },

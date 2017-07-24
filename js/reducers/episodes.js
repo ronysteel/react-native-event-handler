@@ -37,8 +37,8 @@ function episodes(state: Episodes = initialStates, action: Action): Episodes {
         memo[v.episode_id] = Object.assign({}, state[v.episode_id] || {}, {
           id: v.episode_id,
           title: v.title,
-          episodeUri: v.episodeUri,
-          episodeOrder: v.episodeOrder,
+          episodeUri: v.episode_uri,
+          episodeOrder: v.episode_order,
         })
         return memo
       }, {})

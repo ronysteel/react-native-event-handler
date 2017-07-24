@@ -1,12 +1,11 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Text, View, StatusBar } from 'react-native'
+import { Modal, StyleSheet, Text, View, StatusBar } from 'react-native'
 import { connect } from 'react-redux'
 
 import Detail from '../components/EpisodeDetail'
 import {
   loadEpisode,
-  loadEpisodeList,
   loadNovelMetadata,
   loadRecommends,
   loadShareLinks,
@@ -16,6 +15,7 @@ import {
 import { purchase } from '../actions/user'
 import { getAllScript } from '../reducers/scripts'
 import StoryHeader from '../components/StoryHeader'
+import EpisodeList from './EpisodeList'
 
 import type { Episode } from '../reducers/episodes'
 import type { Script, Scripts, IndexedScripts } from '../reducers/scripts'
@@ -28,20 +28,18 @@ class EpisodeDetail extends React.Component {
     StatusBar.setHidden(true)
     this.state = {
       isLoading: true,
+      modalVisible: false,
+      headerVisible: false,
     }
   }
 
   static navigationOptions = ({ navigation }) => ({
-    header: (props) => {
-      if (!navigation.state.params.visible) {
-        return null
-      }
-      return <StoryHeader {...props} />
-    },
+    header: null,
   })
 
   componentDidMount() {
-    const { novelId, episodeId } = this.props
+    const { novelId, episodeId, navigation } = this.props
+    navigation.setParams({ openModal: this.openModal })
     this.props.loadEpisode(novelId, episodeId).then(() => {
       this.props.pageView(novelId, episodeId)
       this.props.resetReadIndex(episodeId)
@@ -52,30 +50,64 @@ class EpisodeDetail extends React.Component {
       this.props.loadRecommends(categoryId)
     })
     this.props.loadShareLinks(episodeId)
-    this.props.loadEpisodeList(novelId)
+  }
+
+  showHeader = () => {
+    this.setState({ headerVisible: true })
+  }
+
+  hideHeader = () => {
+    this.setState({ headerVisible: false })
+  }
+
+  openModal = () => {
+    StatusBar.setHidden(false, true)
+    this.setState({ modalVisible: true })
+  }
+
+  closeModal = () => {
+    StatusBar.setHidden(true)
+    this.setState({ modalVisible: false })
   }
 
   render() {
     const {
       novel, episode, scripts, readState, paid, shareLinks, recommends,
-      setHeaderVisible, onTapScreen, onTapPurchase,
+      navigation, setHeaderVisible, onTapScreen, onTapPurchase,
     } = this.props
 
     if (this.state.isLoading) {
       return <View style={{ flex: 1, backgroundColor: '#1a1a1a' }}></View>
     }
-    return <Detail
-      novel={ novel }
-      episode={ episode }
-      scripts={ scripts }
-      readState={ readState }
-      paid={ paid }
-      setHeaderVisible={ setHeaderVisible }
-      shareLinks={ shareLinks }
-      recommends={ recommends }
-      onTapScreen={ onTapScreen.bind(this, episode.id) }
-      onTapPurchase={ onTapPurchase.bind(this) }
-    />
+    return (
+      <View style={{ flex: 1 }}>
+        <EpisodeList
+          novelId={ novel.novelId }
+          modalVisible={ this.state.modalVisible }
+          closeModal={ this.closeModal }
+        />
+        <Detail
+          novel={ novel }
+          episode={ episode }
+          scripts={ scripts }
+          readState={ readState }
+          paid={ paid }
+          setHeaderVisible={ setHeaderVisible }
+          shareLinks={ shareLinks }
+          recommends={ recommends }
+          openModal={ this.openModal }
+          showHeader={ this.showHeader }
+          hideHeader={ this.hideHeader }
+          onTapScreen={ onTapScreen.bind(this, episode.id) }
+          onTapPurchase={ onTapPurchase.bind(this) }
+        />
+        <StoryHeader
+          visible={ this.state.headerVisible }
+          navigation={ navigation }
+          openModal={ this.openModal }
+        />
+      </View>
+    )
   }
 }
 
@@ -121,8 +153,6 @@ const actions = (dispatch, props) => {
       dispatch(loadRecommends(categoryId)),
     loadShareLinks: (episodeId: number) =>
       dispatch(loadShareLinks(episodeId)),
-    loadEpisodeList: (novelId: number) =>
-      dispatch(loadEpisodeList(novelId)),
     onTapScreen: (episodeId: number) =>
       dispatch(updateReadState(episodeId)),
     onTapPurchase: () => dispatch(purchase()),

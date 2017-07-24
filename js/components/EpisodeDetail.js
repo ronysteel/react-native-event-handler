@@ -108,9 +108,9 @@ class EpisodeDetail extends React.Component {
 
     const delta = this.currentScrollValue - this.previousScrollvalue
     if (delta < -20) {
-      this.props.setHeaderVisible(true)
+      this.props.showHeader()
     } else if (this.currentScrollValue >= 0 && delta > 15) {
-      this.props.setHeaderVisible(false)
+      this.props.hideHeader()
     }
   }
 
@@ -145,14 +145,13 @@ class EpisodeDetail extends React.Component {
   render() {
     const {
       novel, episode, scripts, readState, paid, shareLinks, recommends,
-      setHeaderVisible, onTapScreen, onTapPurchase,
+      onTapScreen, onTapPurchase,
     } = this.props
 
     const scrollView = props => {
       return (
         <CustomScrollView {...props}
           onTapScreen={ onTapScreen }
-          setHeaderVisible={ setHeaderVisible }
         />
       )
     }
