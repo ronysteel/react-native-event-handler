@@ -80,6 +80,24 @@ export function loadNovelMetadata(novelId: number): ThunkAction {
   }
 }
 
+const successLoadEpisodeList = (novelId: number, json) => {
+  return {
+    type: 'LOAD_EPISODE_LIST_SUCCESS',
+    novelId: novelId,
+    episodes: json,
+  }
+}
+
+export function loadEpisodeList(novelId: number): ThunkAction {
+  return (dispatch, getState) => {
+    return firebase.database()
+      .ref(`/episodes/${novelId}`)
+      .once('value').then((snapshot) => (
+        dispatch(successLoadEpisodeList(novelId, snapshot.val()))
+      ))
+  }
+}
+
 const successUpdateReadState = (
   episodes: Episodes,
   episodeId: number,

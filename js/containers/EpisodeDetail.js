@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import Detail from '../components/EpisodeDetail'
 import {
   loadEpisode,
+  loadEpisodeList,
   loadNovelMetadata,
   loadRecommends,
   loadShareLinks,
@@ -31,7 +32,6 @@ class EpisodeDetail extends React.Component {
   }
 
   static navigationOptions = ({ navigation }) => ({
-    // title: 'Detail',
     header: (props) => {
       if (!navigation.state.params.visible) {
         return null
@@ -52,6 +52,7 @@ class EpisodeDetail extends React.Component {
       this.props.loadRecommends(categoryId)
     })
     this.props.loadShareLinks(episodeId)
+    this.props.loadEpisodeList(novelId)
   }
 
   render() {
@@ -120,6 +121,8 @@ const actions = (dispatch, props) => {
       dispatch(loadRecommends(categoryId)),
     loadShareLinks: (episodeId: number) =>
       dispatch(loadShareLinks(episodeId)),
+    loadEpisodeList: (novelId: number) =>
+      dispatch(loadEpisodeList(novelId)),
     onTapScreen: (episodeId: number) =>
       dispatch(updateReadState(episodeId)),
     onTapPurchase: () => dispatch(purchase()),
