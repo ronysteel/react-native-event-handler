@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 
 import Stories from '../components/Stories'
 import HeaderTitle from '../components/HeaderTitle'
-import { loadStories } from '../actions/story'
 
 import type { Story } from '../reducers/stories'
 
@@ -60,7 +59,6 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(loadStories())
   }
 
   render() {

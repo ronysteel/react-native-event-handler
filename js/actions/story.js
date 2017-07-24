@@ -6,60 +6,6 @@ import type { Scripts } from '../reducers/scripts'
 import type { Episodes, Episode } from '../reducers/episodes'
 import firebase from '../firebase'
 
-const host: string = 'http://localhost:8080'
-const getRequestOptions = ({ session }) => {
-  return {
-    headers: {
-      'Authorization': `BEARER ${session.idToken}`,
-    }
-  }
-}
-
-const successLoadStories = json => {
-  return {
-    type: 'LOAD_STORIES_SUCCESS',
-    stories: json.response,
-  }
-}
-
-export function loadStories(): ThunkAction {
-  return (dispatch, getState) => {
-    return fetch(`${host}/v1/stories`, getRequestOptions(getState()))
-      .then(res => res.json())
-      .then(json => {
-        if (json.meta.statusCode != 200) {
-          // TODO
-          return
-        }
-        dispatch(successLoadStories(json))
-      })
-  }
-}
-
-const successLoadStory = (storyId: number, json) => {
-  return {
-    type: 'LOAD_STORY_SUCCESS',
-    story: {
-      id: storyId,
-      episodes: json.response
-    },
-  }
-}
-
-export function loadStory(storyId: number): ThunkAction {
-  return (dispatch, getState) => {
-    return fetch(`${host}/v1/stories/${storyId}/episodes`, getRequestOptions(getState()))
-      .then(res => res.json())
-      .then(json => {
-        if (json.meta.statusCode != 200) {
-          // TODO
-          return
-        }
-        dispatch(successLoadStory(storyId, json))
-      })
-  }
-}
-
 const successLoadEpisode = (episodeId: number, json) => {
   return {
     type: 'LOAD_EPISODE_SUCCESS',
@@ -73,7 +19,7 @@ const successLoadEpisode = (episodeId: number, json) => {
 export function loadEpisode(novelId: number, episodeId: number): ThunkAction {
   return (dispatch, getState) => {
     return firebase.database()
-      .ref(`/novels/${novelId}/episodes/${episodeId}/scripts`)
+      .ref(`/scripts/${episodeId}/scripts`)
       .once('value').then((snapshot) => {
         dispatch(successLoadEpisode(episodeId, snapshot.val()))
       })
