@@ -9,7 +9,7 @@ import LinkIcon from './icons/LinkIcon'
 
 const { height } = Dimensions.get('window')
 
-const Share = ({ readState }) => {
+const Share = ({ title, readState, shareOptions }) => {
   if (!readState.reachEndOfContent) {
     return null
   }
@@ -18,13 +18,13 @@ const Share = ({ readState }) => {
       <View style={ styles.backDrop }/>
       <View>
         <Text style={ styles.text }>
-          { "怖かった…？ \n怖かったらこのノベルをシェアしよう…" }
+          { title }
         </Text>
         <View style={ styles.iconsWrapper }>
-          <TwitterIcon style={ styles.icon } />
-          <FacebookIcon style={ styles.icon } />
-          <LineIcon style={ styles.icon } />
-          <LinkIcon />
+          <TwitterIcon options={ shareOptions } style={ styles.icon } />
+          <FacebookIcon options={ shareOptions } style={ styles.icon } />
+          <LineIcon options={ shareOptions } style={ styles.icon } />
+          <LinkIcon options={ shareOptions } />
         </View>
         <View style={ styles.recommends }>
         </View>
