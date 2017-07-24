@@ -4,7 +4,14 @@ import { StyleSheet, Text, View, StatusBar } from 'react-native'
 import { connect } from 'react-redux'
 
 import Detail from '../components/EpisodeDetail'
-import { loadEpisode, loadShareLinks, updateReadState, pageView } from '../actions/story'
+import {
+  loadEpisode,
+  loadNovelMetadata,
+  loadRecommends,
+  loadShareLinks,
+  updateReadState,
+  pageView,
+} from '../actions/story'
 import { purchase } from '../actions/user'
 import { getAllScript } from '../reducers/scripts'
 import StoryHeader from '../components/StoryHeader'
@@ -39,6 +46,10 @@ class EpisodeDetail extends React.Component {
       this.props.pageView(novelId, episodeId)
       this.props.resetReadIndex(episodeId)
       this.setState({ isLoading: false })
+    })
+    this.props.loadNovelMetadata(novelId).then(action => {
+      const { categoryId } = action.metadata
+      this.props.loadRecommends(categoryId)
     })
     this.props.loadShareLinks(episodeId)
   }
@@ -98,6 +109,10 @@ const actions = (dispatch, props) => {
   return {
     loadEpisode: (novelId: number, episodeId: number) =>
       dispatch(loadEpisode(novelId, episodeId)),
+    loadNovelMetadata: (novelId: number) =>
+      dispatch(loadNovelMetadata(novelId)),
+    loadRecommends: (categoryId: number) =>
+      dispatch(loadRecommends(categoryId)),
     loadShareLinks: (episodeId: number) =>
       dispatch(loadShareLinks(episodeId)),
     onTapScreen: (episodeId: number) =>

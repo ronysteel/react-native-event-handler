@@ -44,6 +44,42 @@ export function loadShareLinks(episodeId: number): ThunkAction {
   }
 }
 
+const successLoadRecommends = (categoryId: number, json) => {
+  return {
+    type: 'LOAD_RECOMMENDS_SUCCESS',
+    categoryId: categoryId,
+    recommends: json,
+  }
+}
+
+export function loadRecommends(categoryId: number): ThunkAction {
+  return (dispatch, getState) => {
+    return firebase.database()
+      .ref(`/recommends/${categoryId}`)
+      .once('value').then((snapshot) => (
+        dispatch(successLoadRecommends(categoryId, snapshot.val()))
+      ))
+  }
+}
+
+const successLoadNovelMetadata = (novelId: number, json) => {
+  return {
+    type: 'LOAD_NOVEL_METADATA_SUCCESS',
+    novelId: novelId,
+    metadata: json,
+  }
+}
+
+export function loadNovelMetadata(novelId: number): ThunkAction {
+  return (dispatch, getState) => {
+    return firebase.database()
+      .ref(`/novels/${novelId}/metadata`)
+      .once('value').then((snapshot) => (
+        dispatch(successLoadNovelMetadata(novelId, snapshot.val()))
+      ))
+  }
+}
+
 const successUpdateReadState = (
   episodes: Episodes,
   episodeId: number,
