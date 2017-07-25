@@ -39,16 +39,20 @@ class EpisodeDetail extends React.Component {
   componentDidMount() {
     const { novelId, episodeId, navigation } = this.props
     navigation.setParams({ openModal: this.openModal })
-    this.props.loadEpisode(novelId, episodeId).then(() => {
-      this.props.pageView(novelId, episodeId)
-      this.props.resetReadIndex(episodeId)
+
+    Promise.all([
+      this.props.loadEpisode(novelId, episodeId).then(() => {
+        this.props.pageView(novelId, episodeId)
+        this.props.resetReadIndex(episodeId)
+      }),
+      this.props.loadNovelMetadata(novelId).then(action => {
+        const { categoryId } = action.metadata
+        this.props.loadRecommends(categoryId)
+      }),
+      this.props.loadShareLinks(episodeId),
+    ]).then(() => {
       this.setState({ isLoading: false })
     })
-    this.props.loadNovelMetadata(novelId).then(action => {
-      const { categoryId } = action.metadata
-      this.props.loadRecommends(categoryId)
-    })
-    this.props.loadShareLinks(episodeId)
   }
 
   showHeader = () => {

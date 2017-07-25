@@ -17,8 +17,8 @@ class EpisodeList extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { novelId, novel } = this.props
-    this.props.loadEpisodeList(novelId).then(() => {
+    const { novel } = this.props
+    this.props.loadEpisodeList(novel.novelId).then(() => {
       this.setState({ isLoading: false })
     })
   }
@@ -49,7 +49,7 @@ const getAllEpisode = (novel, episodes) => {
     return []
   }
 
-  novel.episodeIds.reduce((memo, id) => {
+  return novel.episodeIds.reduce((memo, id) => {
     memo.push(episodes[id])
     return memo
   }, [])

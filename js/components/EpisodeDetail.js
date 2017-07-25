@@ -142,6 +142,16 @@ class EpisodeDetail extends React.Component {
     this.setContentHeight(event.nativeEvent.layout.height)
   }
 
+  getShareOptions = (novel, shareLinks) => {
+    if (!novel || !shareLinks) {
+      return { title: '', url: '' }
+    }
+    return {
+      title: novel.title,
+      url: shareLinks.default,
+    }
+  }
+
   render() {
     const {
       novel, episode, scripts, readState, paid, shareLinks, recommends,
@@ -158,10 +168,7 @@ class EpisodeDetail extends React.Component {
     const values = Object.values(scripts)
     const lastItemId = values.length == 0 ? 0 : values[values.length - 1].id
     const bgImageUrl = getBackgroundImage(scripts, readState)
-    const shareOptions = {
-      title: 'React Native',
-      url: shareLinks.default,
-    }
+    const shareOptions = this.getShareOptions(novel, shareLinks)
 
     return (
       <View style={ styles.container }>
