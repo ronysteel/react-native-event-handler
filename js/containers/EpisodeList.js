@@ -1,7 +1,8 @@
 // @flow
 import React from 'react'
-import { View, Text, Modal, StyleSheet, StatusBar } from 'react-native'
+import { View, Text, StyleSheet, StatusBar } from 'react-native'
 import { connect } from 'react-redux'
+import Modal from 'react-native-modalbox';
 
 import { loadEpisodeList } from '../actions/story'
 import EpisodeListComponent from '../components/EpisodeList'
@@ -26,13 +27,17 @@ class EpisodeList extends React.PureComponent {
     const { modalVisible, closeModal, novel, episodes } = this.props
     return (
       <Modal
-        animationType={ 'slide' }
-        transparent={ true }
-        visible={ modalVisible }
+        swipeToClose={ true }
+        onClosed={ closeModal }
+        isOpen={ modalVisible }
       >
         { this.state.isLoading
           ? null
-          : <EpisodeListComponent novel={ novel } episodes={ episodes } closeModal={ closeModal } />
+          : <EpisodeListComponent
+              novel={ novel }
+              episodes={ episodes }
+              closeModal={ closeModal }
+            />
         }
       </Modal>
     )

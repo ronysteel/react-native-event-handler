@@ -81,11 +81,6 @@ class EpisodeDetail extends React.Component {
     }
     return (
       <View style={{ flex: 1 }}>
-        <EpisodeList
-          novelId={ novel.novelId }
-          modalVisible={ this.state.modalVisible }
-          closeModal={ this.closeModal }
-        />
         <Detail
           novel={ novel }
           episode={ episode }
@@ -105,6 +100,11 @@ class EpisodeDetail extends React.Component {
           visible={ this.state.headerVisible }
           navigation={ navigation }
           openModal={ this.openModal }
+        />
+        <EpisodeList
+          novelId={ novel.novelId }
+          modalVisible={ this.state.modalVisible }
+          closeModal={ this.closeModal }
         />
       </View>
     )
