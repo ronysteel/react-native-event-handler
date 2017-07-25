@@ -13,7 +13,7 @@ import colors from './colors'
 
 const ListItem = ({ item }) => {
   const onPress = () => {
-    Linking.openURL(item.episode_uri)
+    Linking.openURL(item.episodeUri)
   }
   return (
     <TouchableOpacity
@@ -22,7 +22,7 @@ const ListItem = ({ item }) => {
       onPress={ onPress }
     >
       <View style={ styles.container }>
-        <Image style={ styles.image } source={{ uri: item.thumbnail_url }} />
+        <Image style={ styles.image } source={{ uri: item.thumbnailUrl }} />
         <View style={ styles.textWrapper }>
           <Text style={ styles.title }>{ item.title }</Text>
           <View style={ styles.tagWrapper }>

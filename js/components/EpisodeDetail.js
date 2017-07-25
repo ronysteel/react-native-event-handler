@@ -11,11 +11,12 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native'
-import { List, ListItem } from 'react-native-elements'
 
-import FadeinView from './FadeinView'
 import BackgroundImage from './BackgroundImage'
 import Promotion from './Promotion'
+import Share from './Share'
+import ScriptText from './scripts/ScriptText'
+import ScriptDescription from './scripts/ScriptDescription'
 
 import type { Episode } from '../reducers/episodes'
 import type { Scripts } from '../reducers/scripts'
@@ -30,10 +31,13 @@ const headerHeight = 64
 const windowHeight = Dimensions.get('window').height - headerHeight
 const tapAreaHeight = 250
 
-class CustomScrollView extends React.Component {
+class CustomScrollView extends React.PureComponent {
   render() {
     return (
-      <ScrollView style={ styles.containers } ref={ref => this.scrollView = ref}>
+      <ScrollView
+        style={ styles.containers }
+        ref={ref => this.scrollView = ref}
+      >
         <TouchableOpacity
           focusedOpacity={1}
           activeOpacity={1}
@@ -50,33 +54,16 @@ class CustomScrollView extends React.Component {
   }
 }
 
-const renderCharactorName = text => {
-  if (text.charactor) {
-    return <Text style={ styles.charactor }>{ text.charactor.name }</Text>
-  }
-  return null
-}
-
 const renderItem = (lastItemId, { item }) => {
   const isLatestItem = item.id === lastItemId
 
-  if (item.type === 'TEXT') {
-    const textComponent = (
-      <View style={ styles.row }>
-        { renderCharactorName(item.text) }
-        <Text style={ styles.text }>{ item.text.body }</Text>
-      </View>
-    )
-    if (isLatestItem) {
-      return (
-        <FadeinView>
-          <View>
-            { textComponent }
-          </View>
-        </FadeinView>
-      )
+  switch (item.type) {
+    case 'TEXT': {
+      return <ScriptText text={ item.text } isLatestItem={ isLatestItem } />
     }
-    return textComponent
+    case 'DESCRIPTION': {
+      return <ScriptDescription description={ item.description } isLatestItem={ isLatestItem } />
+    }
   }
 
   return null
@@ -103,16 +90,40 @@ class EpisodeDetail extends React.Component {
       height: windowHeight,
       contentHeight: 0,
       completed: false,
+      scrollAnim: new Animated.Value(0),
     }
   }
 
-  renderFooter() {
-    return <View style={{ height: this.state.height }} />
+  componentDidMount() {
+    this.state.scrollAnim.addListener(this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    this.state.scrollAnim.removeListener(this.handleScroll);
+  }
+
+  handleScroll = ({ value }) => {
+    this.previousScrollvalue = this.currentScrollValue;
+    this.currentScrollValue = value;
+
+    const delta = this.currentScrollValue - this.previousScrollvalue
+    if (delta < -20) {
+      this.props.showHeader()
+    } else if (this.currentScrollValue >= 0 && delta > 15) {
+      this.props.hideHeader()
+    }
+  }
+
+  renderFooter(readState) {
+    let height = this.state.height
+    if (readState.reachEndOfContent) {
+      height = 30
+    }
+    return <View style={{ height }} />
   }
 
   scrollToEnd() {
-    // FIXME
-    this.list._listRef._scrollRef.scrollView.scrollToEnd()
+    this.storyWrapper.scrollToEnd()
   }
 
   setContentHeight(contentHeight) {
@@ -132,30 +143,58 @@ class EpisodeDetail extends React.Component {
   }
 
   render() {
-    const { episode, scripts, readState, paid, onTapScreen, onTapPurchase } = this.props
+    const {
+      novel, episode, scripts, readState, paid, shareLinks, recommends,
+      onTapScreen, onTapPurchase,
+    } = this.props
+
     const scrollView = props => {
       return (
-        <CustomScrollView {...props} onTapScreen={ onTapScreen } />
+        <CustomScrollView {...props}
+          onTapScreen={ onTapScreen }
+        />
       )
     }
     const values = Object.values(scripts)
     const lastItemId = values.length == 0 ? 0 : values[values.length - 1].id
     const bgImageUrl = getBackgroundImage(scripts, readState)
+    const shareOptions = {
+      title: 'React Native',
+      url: shareLinks.default,
+    }
 
     return (
-      <View style={[ styles.container, styles.containerBackground ]}>
-        <BackgroundImage imageUrl={ bgImageUrl }>
+      <View style={ styles.container }>
+        <BackgroundImage imageUrl={ bgImageUrl } />
+        <ScrollView
+          scrollEventThrottle={ 16 }
+          onScroll={ Animated.event(
+            [ { nativeEvent: { contentOffset: { y: this.state.scrollAnim } } } ],
+          ) }
+          ref={r => this.storyWrapper = r}
+        >
           <FlatList
             ref={r => this.list = r}
             data={ values }
             renderItem={ renderItem.bind(null, lastItemId) }
             keyExtractor={ item => `${item.id}` }
             renderScrollComponent={ scrollView }
-            ListFooterComponent={ this.renderFooter.bind(this) }
+            ListFooterComponent={ this.renderFooter.bind(this, readState) }
             onLayout={ this.onLayout.bind(this) }
           />
-          <Promotion paid={ paid } readState={ readState } onTapPurchase={ onTapPurchase } />
-        </BackgroundImage>
+          <Promotion
+            paid={ paid }
+            readState={ readState }
+            onTapPurchase={ onTapPurchase }
+          />
+          <Share
+            novel={ novel }
+            readState={ readState }
+            shareText={ "怖かった…？ \n怖かったらこのノベルをシェアしよう…" }
+            shareOptions={ shareOptions }
+            recommends={ recommends }
+          />
+        </ScrollView>
       </View>
     )
   }
@@ -168,23 +207,6 @@ const styles: StyleSheet = StyleSheet.create({
   containerBackground: {
     backgroundColor: '#1a1a1a',
   },
-  row: {
-    margin: 10,
-    marginBottom: 0,
-    borderWidth: 0.5,
-    borderColor: '#ddd',
-    borderRadius: 2,
-    backgroundColor: '#fff',
-    padding: 10,
-  },
-  text: {
-    fontSize: 16,
-    lineHeight: 16 + 4,
-  },
-  charactor: {
-    fontSize: 12,
-    marginBottom: 5,
-  }
 })
 
 export default EpisodeDetail

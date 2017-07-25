@@ -16,10 +16,9 @@ const windowWidth = Dimensions.get('window').width;
 
 const GridItem = ({ item, index }) => {
   const onPress = () => {
-    Linking.openURL(item.episode_uri)
+    Linking.openURL(item.episodeUri)
   }
   return (
-
     <TouchableOpacity
       focusedOpacity={1}
       activeOpacity={1}
@@ -31,7 +30,7 @@ const GridItem = ({ item, index }) => {
         paddingRight: index % 2 ? 15 : (15 / 2),
         marginBottom: 30,
       }}>
-        <Image style={ styles.image } source={{ uri: item.thumbnail_url }} />
+        <Image style={ styles.image } source={{ uri: item.thumbnailUrl }} />
         <View>
           <Text style={ styles.title }>{ item.title }</Text>
           <Text style={ styles.description } numberOfLines={ 2 } ellipsizeMode={ 'tail' }>{ item.description }</Text>

@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 
 import Stories from '../components/Stories'
 import HeaderTitle from '../components/HeaderTitle'
-import { loadStories } from '../actions/story'
 
 import type { Story } from '../reducers/stories'
 
@@ -14,8 +13,8 @@ const novel = {
   title: 'WALKING DEAD',
   tags: ['ホラー'],
   description: '次々と人間がゾンビへ姿を変えるなか、生存者たちは人類最後の希望にすがり、ともに旅を続ける。だがその先には終わりなき戦いが待ち受けていた。',
-  thumbnail_url: 'https://s3-ap-northeast-1.amazonaws.com/obake.me/dummy-images/walking-dead.jpg',
-  episode_uri: 'chatnovel://novels/1/episodes/4'
+  thumbnailUrl: 'https://s3-ap-northeast-1.amazonaws.com/obake.me/dummy-images/walking-dead.jpg',
+  episodeUri: 'chatnovel://novels/1/episodes/10'
 }
 const sections = [
   {
@@ -60,7 +59,6 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(loadStories())
   }
 
   render() {

@@ -10,7 +10,6 @@ import { StackNavigator } from 'react-navigation'
 
 import reducers from './reducers'
 import Home from './containers/Home'
-import StoryDetail from './containers/StoryDetail'
 import EpisodeDetail from './containers/EpisodeDetail'
 import { signInAnonymously } from './actions/user'
 
@@ -24,8 +23,9 @@ function setupStore(onComplete: () => void) {
 
 const App = StackNavigator({
   Home: { screen: Home },
-  StoryDetail: { screen: StoryDetail },
   EpisodeDetail: { screen: EpisodeDetail, path: 'novels/:novelId/episodes/:episodeId' },
+}, {
+  headerMode: 'screen',
 });
 
 class Root extends React.Component {

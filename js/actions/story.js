@@ -6,60 +6,6 @@ import type { Scripts } from '../reducers/scripts'
 import type { Episodes, Episode } from '../reducers/episodes'
 import firebase from '../firebase'
 
-const host: string = 'http://localhost:8080'
-const getRequestOptions = ({ session }) => {
-  return {
-    headers: {
-      'Authorization': `BEARER ${session.idToken}`,
-    }
-  }
-}
-
-const successLoadStories = json => {
-  return {
-    type: 'LOAD_STORIES_SUCCESS',
-    stories: json.response,
-  }
-}
-
-export function loadStories(): ThunkAction {
-  return (dispatch, getState) => {
-    return fetch(`${host}/v1/stories`, getRequestOptions(getState()))
-      .then(res => res.json())
-      .then(json => {
-        if (json.meta.statusCode != 200) {
-          // TODO
-          return
-        }
-        dispatch(successLoadStories(json))
-      })
-  }
-}
-
-const successLoadStory = (storyId: number, json) => {
-  return {
-    type: 'LOAD_STORY_SUCCESS',
-    story: {
-      id: storyId,
-      episodes: json.response
-    },
-  }
-}
-
-export function loadStory(storyId: number): ThunkAction {
-  return (dispatch, getState) => {
-    return fetch(`${host}/v1/stories/${storyId}/episodes`, getRequestOptions(getState()))
-      .then(res => res.json())
-      .then(json => {
-        if (json.meta.statusCode != 200) {
-          // TODO
-          return
-        }
-        dispatch(successLoadStory(storyId, json))
-      })
-  }
-}
-
 const successLoadEpisode = (episodeId: number, json) => {
   return {
     type: 'LOAD_EPISODE_SUCCESS',
@@ -73,10 +19,82 @@ const successLoadEpisode = (episodeId: number, json) => {
 export function loadEpisode(novelId: number, episodeId: number): ThunkAction {
   return (dispatch, getState) => {
     return firebase.database()
-      .ref(`/novels/${novelId}/episodes/${episodeId}/scripts`)
+      .ref(`/scripts/${episodeId}`)
       .once('value').then((snapshot) => {
         dispatch(successLoadEpisode(episodeId, snapshot.val()))
       })
+  }
+}
+
+const successLoadShareLinks = (episodeId: number, json) => {
+  return {
+    type: 'LOAD_SHARE_LINKS_SUCCESS',
+    episodeId: episodeId,
+    links: json,
+  }
+}
+
+export function loadShareLinks(episodeId: number): ThunkAction {
+  return (dispatch, getState) => {
+    return firebase.database()
+      .ref(`/share_links/${episodeId}`)
+      .once('value').then((snapshot) => {
+        dispatch(successLoadShareLinks(episodeId, snapshot.val()))
+      })
+  }
+}
+
+const successLoadRecommends = (categoryId: number, json) => {
+  return {
+    type: 'LOAD_RECOMMENDS_SUCCESS',
+    categoryId: categoryId,
+    recommends: json,
+  }
+}
+
+export function loadRecommends(categoryId: number): ThunkAction {
+  return (dispatch, getState) => {
+    return firebase.database()
+      .ref(`/recommends/${categoryId}`)
+      .once('value').then((snapshot) => (
+        dispatch(successLoadRecommends(categoryId, snapshot.val()))
+      ))
+  }
+}
+
+const successLoadNovelMetadata = (novelId: number, json) => {
+  return {
+    type: 'LOAD_NOVEL_METADATA_SUCCESS',
+    novelId: novelId,
+    metadata: json,
+  }
+}
+
+export function loadNovelMetadata(novelId: number): ThunkAction {
+  return (dispatch, getState) => {
+    return firebase.database()
+      .ref(`/novels/${novelId}/metadata`)
+      .once('value').then((snapshot) => (
+        dispatch(successLoadNovelMetadata(novelId, snapshot.val()))
+      ))
+  }
+}
+
+const successLoadEpisodeList = (novelId: number, json) => {
+  return {
+    type: 'LOAD_EPISODE_LIST_SUCCESS',
+    novelId: novelId,
+    episodes: json,
+  }
+}
+
+export function loadEpisodeList(novelId: number): ThunkAction {
+  return (dispatch, getState) => {
+    return firebase.database()
+      .ref(`/episodes/${novelId}`)
+      .once('value').then((snapshot) => (
+        dispatch(successLoadEpisodeList(novelId, snapshot.val()))
+      ))
   }
 }
 

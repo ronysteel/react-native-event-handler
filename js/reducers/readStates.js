@@ -7,6 +7,7 @@ export type ReadState = {
   readIndex: number;
   backgroundImageIndex: number;
   displayPromotion: boolean;
+  reachEndOfContent: boolean;
 }
 
 export type ReadStates = {
@@ -16,13 +17,14 @@ export type ReadStates = {
 const initialStates: ReadStates = {}
 
 function isSkippable(script: Script): boolean {
-  if (script.type != 'TEXT') {
+  if (script.type != 'TEXT' &&
+      script.type != 'DESCRIPTION') {
     return true
   }
   return false
 }
 
-const maxReadNum = 10
+const maxReadNum = 100
 
 function isRead(readIndex: number, paid: boolean) {
   if (paid) {
@@ -45,11 +47,13 @@ function readStates(state: ReadStates = initialStates, action: Action): ReadStat
         readIndex: 0,
         backgroundImageIndex: 0,
         displayPromotion: false,
+        reachEndOfContent: false,
       }
-      const s = state[episodeId] || init
+      const s = Object.assign({}, init, state[episodeId] || {})
 
       if (readIndex != undefined) {
         s.readIndex = readIndex
+        s.reachEndOfContent = false
       }
 
       s.displayPromotion = !isRead(s.readIndex, paid)
@@ -62,8 +66,10 @@ function readStates(state: ReadStates = initialStates, action: Action): ReadStat
           }
         } while (scripts[s.readIndex] && isSkippable(scripts[s.readIndex]))
 
-        if (scripts.length <= s.readIndex) {
-          s.readIndex = scripts.length
+        const len = Object.keys(scripts).length
+        if (len <= s.readIndex) {
+          s.readIndex = len
+          s.reachEndOfContent = true
         }
       }
 

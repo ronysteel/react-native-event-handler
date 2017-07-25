@@ -6,7 +6,7 @@ export type Episode = {
   title: string;
   description: string;
   episodeOrder: number;
-  storyId: number;
+  novelId: number;
   scriptIds: Array<number>;
 }
 
@@ -18,19 +18,7 @@ const initialStates: Episodes = {}
 
 function episodes(state: Episodes = initialStates, action: Action): Episodes {
   switch (action.type) {
-    case 'LOAD_STORY_SUCCESS':
-      if (!action.story.episodes) {
-        return state
-      }
-
-      const episodes = action.story.episodes.reduce((memo, v) => {
-        memo[v.episode.id] = v.episode
-        memo[v.episode.id].scriptIds = []
-        return memo
-      }, {})
-      return Object.assign({}, state, episodes)
-
-    case 'LOAD_EPISODE_SUCCESS':
+    case 'LOAD_EPISODE_SUCCESS': {
       const episodeId = action.episode.id
       const scriptIds = (episode => {
         if (episode.scripts) {
@@ -42,6 +30,20 @@ function episodes(state: Episodes = initialStates, action: Action): Episodes {
       const episode = state[episodeId] || { id: episodeId }
       episode.scriptIds = scriptIds
       return Object.assign({}, state, { [episodeId]: episode })
+    }
+    case 'LOAD_EPISODE_LIST_SUCCESS': {
+      const { novelId, episodes } = action
+      const es = episodes.reduce((memo, v) => {
+        memo[v.episode_id] = Object.assign({}, state[v.episode_id] || {}, {
+          id: v.episode_id,
+          title: v.title,
+          episodeUri: v.episode_uri,
+          episodeOrder: v.episode_order,
+        })
+        return memo
+      }, {})
+      return Object.assign({}, state, es)
+    }
 
     default:
       return state
