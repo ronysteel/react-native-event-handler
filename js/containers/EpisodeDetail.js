@@ -139,7 +139,7 @@ const select = (store, props) => {
     scripts: getScripts(allScript, readState),
     paid: store.session.paid,
     shareLinks: store.shareLinks[episodeId],
-    recommends: store.recommends[novel.categoryId],
+    recommends: novel && novel.categoryId && store.recommends[novel.categoryId],
   }
 }
 

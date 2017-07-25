@@ -44,12 +44,16 @@ class EpisodeList extends React.PureComponent {
   }
 }
 
-const getAllEpisode = (novel, episodes) => (
+const getAllEpisode = (novel, episodes) => {
+  if (!novel || !novel.episodeIds) {
+    return []
+  }
+
   novel.episodeIds.reduce((memo, id) => {
     memo.push(episodes[id])
     return memo
   }, [])
-)
+}
 
 const select = (store, props) => {
   const { novelId } = props
