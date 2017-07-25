@@ -25,7 +25,6 @@ class EpisodeDetail extends React.Component {
   constructor() {
     super()
 
-    StatusBar.setHidden(true)
     this.state = {
       isLoading: true,
       modalVisible: false,

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View, Text, StyleSheet, StatusBar } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import Modal from 'react-native-modalbox';
 
