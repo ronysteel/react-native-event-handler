@@ -81,7 +81,6 @@ export function loadNovelMetadata(novelId: number): ThunkAction {
 }
 
 const successLoadEpisodeList = (novelId: number, json) => {
-  console.log(novelId, json)
   return {
     type: 'LOAD_EPISODE_LIST_SUCCESS',
     novelId: novelId,
