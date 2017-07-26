@@ -38,24 +38,17 @@ class CustomScrollView extends React.PureComponent {
         style={ styles.containers }
         ref={ref => this.scrollView = ref}
       >
-        <TouchableOpacity
-          focusedOpacity={1}
-          activeOpacity={1}
-          onPress={() => {
-            this.props.onTapScreen()
-          }}
-          style={{
-            backgroundColor: 'transparent',
-          }}>
-          <View {...this.props} style={ styles.containers } />
-        </TouchableOpacity>
+        <View {...this.props} style={ styles.containers } />
       </ScrollView>
     )
   }
 }
 
-const renderItem = (lastItemId, { item }) => {
-  const isLatestItem = item.id === lastItemId
+const renderItem = (lastItemId, readState, { item, index }) => {
+  const isLatestItem = index === (readState.readIndex - 1)
+  if (index >= readState.readIndex) {
+    return null
+  }
 
   switch (item.type) {
     case 'TEXT': {
@@ -128,13 +121,14 @@ class EpisodeDetail extends React.Component {
 
   setContentHeight(contentHeight) {
     const h = windowHeight - (contentHeight - this.state.height)
+    let height = 0
     if (h <= tapAreaHeight) {
-      this.state.height = tapAreaHeight
+      height = tapAreaHeight
     } else {
-      this.state.height = h
+      height = h
     }
 
-    this.setState({ height: this.state.height })
+    this.setState({ height })
     setTimeout(() => this.scrollToEnd(), 0)
   }
 
@@ -154,21 +148,20 @@ class EpisodeDetail extends React.Component {
 
   render() {
     const {
-      novel, episode, scripts, readState, paid, shareLinks, recommends,
+      novel, episode, scripts, scriptValues, readState, paid, shareLinks, recommends,
       onTapScreen, onTapPurchase,
     } = this.props
 
     const scrollView = props => {
       return (
-        <CustomScrollView {...props}
-          onTapScreen={ onTapScreen }
-        />
+        <CustomScrollView {...props} />
       )
     }
-    const values = Object.values(scripts)
-    const lastItemId = values.length == 0 ? 0 : values[values.length - 1].id
+
+    const lastItemId = scriptValues.length == 0 ? 0 : scriptValues[scriptValues.length - 1].id
     const bgImageUrl = getBackgroundImage(scripts, readState)
     const shareOptions = this.getShareOptions(novel, shareLinks)
+
 
     return (
       <View style={ styles.container }>
@@ -180,15 +173,21 @@ class EpisodeDetail extends React.Component {
           ) }
           ref={r => this.storyWrapper = r}
         >
-          <FlatList
-            ref={r => this.list = r}
-            data={ values }
-            renderItem={ renderItem.bind(null, lastItemId) }
-            keyExtractor={ item => `${item.id}` }
-            renderScrollComponent={ scrollView }
-            ListFooterComponent={ this.renderFooter.bind(this, readState) }
-            onLayout={ this.onLayout.bind(this) }
-          />
+          <TouchableOpacity
+            focusedOpacity={ 1 }
+            activeOpacity={ 1 }
+            onPress={ onTapScreen }
+            style={{ backgroundColor: 'transparent', }}
+          >
+            <FlatList
+              ref={r => this.list = r}
+              data={ scriptValues }
+              renderItem={ renderItem.bind(null, lastItemId, readState) }
+              keyExtractor={ item => `${item.id}` }
+              ListFooterComponent={ this.renderFooter.bind(this, readState) }
+              onLayout={ this.onLayout.bind(this) }
+            />
+          </TouchableOpacity>
           <Promotion
             paid={ paid }
             readState={ readState }

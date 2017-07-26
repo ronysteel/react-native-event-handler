@@ -2,8 +2,6 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet } from 'react-native'
 
-import FadeinView from '../FadeinView'
-
 const renderNormal = (description) => (
   <View style={ styles.normal.container }>
     <View style={ styles.normal.row }>
@@ -35,16 +33,7 @@ const getComponent = (description) => {
 }
 
 const ScriptDescription = ({ description, isLatestItem }) => {
-  const component = getComponent(description)
-
-  if (isLatestItem) {
-    return (
-      <FadeinView>
-        <View>{ component }</View>
-      </FadeinView>
-    )
-  }
-  return component
+  return getComponent(description)
 }
 
 const styles = {

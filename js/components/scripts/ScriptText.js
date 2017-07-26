@@ -2,7 +2,6 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet } from 'react-native'
 
-import FadeinView from '../FadeinView'
 import ChatBubbleTail from './ChatBubbleTail'
 
 //
@@ -81,18 +80,7 @@ const getTextComponent = (text) => {
 }
 
 const ScriptText = ({ text, isLatestItem }) => {
-  const textComponent = getTextComponent(text)
-
-  if (isLatestItem) {
-    return (
-      <FadeinView>
-        <View>
-          { textComponent }
-        </View>
-      </FadeinView>
-    )
-  }
-  return textComponent
+  return getTextComponent(text)
 }
 
 const styles = {

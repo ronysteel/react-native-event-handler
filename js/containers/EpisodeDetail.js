@@ -82,12 +82,14 @@ class EpisodeDetail extends React.Component {
     if (this.state.isLoading) {
       return <View style={{ flex: 1, backgroundColor: '#1a1a1a' }}></View>
     }
+
     return (
       <View style={{ flex: 1 }}>
         <Detail
           novel={ novel }
           episode={ episode }
           scripts={ scripts }
+          scriptValues={ Object.values(scripts) }
           readState={ readState }
           paid={ paid }
           setHeaderVisible={ setHeaderVisible }
@@ -139,7 +141,7 @@ const select = (store, props) => {
     readState,
     allScript,
     novel,
-    scripts: getScripts(allScript, readState),
+    scripts: allScript,
     paid: store.session.paid,
     shareLinks: store.shareLinks[episodeId],
     recommends: novel && novel.categoryId && store.recommends[novel.categoryId],
