@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View, Text, StyleSheet, StatusBar } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import Modal from 'react-native-modalbox';
 
@@ -17,8 +17,8 @@ class EpisodeList extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { novelId, novel } = this.props
-    this.props.loadEpisodeList(novelId).then(() => {
+    const { novel } = this.props
+    this.props.loadEpisodeList(novel.novelId).then(() => {
       this.setState({ isLoading: false })
     })
   }
@@ -44,12 +44,16 @@ class EpisodeList extends React.PureComponent {
   }
 }
 
-const getAllEpisode = (novel, episodes) => (
-  novel.episodeIds.reduce((memo, id) => {
+const getAllEpisode = (novel, episodes) => {
+  if (!novel || !novel.episodeIds) {
+    return []
+  }
+
+  return novel.episodeIds.reduce((memo, id) => {
     memo.push(episodes[id])
     return memo
   }, [])
-)
+}
 
 const select = (store, props) => {
   const { novelId } = props

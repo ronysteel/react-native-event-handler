@@ -14,7 +14,7 @@ const novel = {
   tags: ['ホラー'],
   description: '次々と人間がゾンビへ姿を変えるなか、生存者たちは人類最後の希望にすがり、ともに旅を続ける。だがその先には終わりなき戦いが待ち受けていた。',
   thumbnailUrl: 'https://s3-ap-northeast-1.amazonaws.com/obake.me/dummy-images/walking-dead.jpg',
-  episodeUri: 'chatnovel://novels/1/episodes/10'
+  episodeUri: 'chatnovel://novels/1/episodes/16'
 }
 const sections = [
   {

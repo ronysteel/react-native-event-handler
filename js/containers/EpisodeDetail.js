@@ -25,7 +25,6 @@ class EpisodeDetail extends React.Component {
   constructor() {
     super()
 
-    StatusBar.setHidden(true)
     this.state = {
       isLoading: true,
       modalVisible: false,
@@ -40,16 +39,20 @@ class EpisodeDetail extends React.Component {
   componentDidMount() {
     const { novelId, episodeId, navigation } = this.props
     navigation.setParams({ openModal: this.openModal })
-    this.props.loadEpisode(novelId, episodeId).then(() => {
-      this.props.pageView(novelId, episodeId)
-      this.props.resetReadIndex(episodeId)
+
+    Promise.all([
+      this.props.loadEpisode(novelId, episodeId).then(() => {
+        this.props.pageView(novelId, episodeId)
+        this.props.resetReadIndex(episodeId)
+      }),
+      this.props.loadNovelMetadata(novelId).then(action => {
+        const { categoryId } = action.metadata
+        this.props.loadRecommends(categoryId)
+      }),
+      this.props.loadShareLinks(episodeId),
+    ]).then(() => {
       this.setState({ isLoading: false })
     })
-    this.props.loadNovelMetadata(novelId).then(action => {
-      const { categoryId } = action.metadata
-      this.props.loadRecommends(categoryId)
-    })
-    this.props.loadShareLinks(episodeId)
   }
 
   showHeader = () => {
@@ -79,12 +82,14 @@ class EpisodeDetail extends React.Component {
     if (this.state.isLoading) {
       return <View style={{ flex: 1, backgroundColor: '#1a1a1a' }}></View>
     }
+
     return (
       <View style={{ flex: 1 }}>
         <Detail
           novel={ novel }
           episode={ episode }
           scripts={ scripts }
+          scriptValues={ Object.values(scripts) }
           readState={ readState }
           paid={ paid }
           setHeaderVisible={ setHeaderVisible }
@@ -136,10 +141,10 @@ const select = (store, props) => {
     readState,
     allScript,
     novel,
-    scripts: getScripts(allScript, readState),
+    scripts: allScript,
     paid: store.session.paid,
     shareLinks: store.shareLinks[episodeId],
-    recommends: store.recommends[novel.categoryId],
+    recommends: novel && novel.categoryId && store.recommends[novel.categoryId],
   }
 }
 

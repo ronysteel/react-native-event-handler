@@ -21,6 +21,39 @@ function setupStore(onComplete: () => void) {
   return store
 }
 
+
+// gets the current screen from navigation state
+const getCurrentRouteName = (navigationState) => {
+  if (!navigationState) {
+    return null
+  }
+
+  const route = navigationState.routes[navigationState.index]
+  // dive into nested navigators
+  if (route.routes) {
+    return getCurrentRouteName(route)
+  }
+  return route.routeName
+}
+
+const onNavigationStateChange = (prevState, currentState) => {
+  const currentScreen = getCurrentRouteName(currentState)
+  const prevScreen = getCurrentRouteName(prevState)
+
+  if (prevScreen !== currentScreen) {
+    switch (currentScreen) {
+      case 'Home': {
+        StatusBar.setBarStyle('light-content')
+        StatusBar.setHidden(false)
+        break;
+      }
+      case 'EpisodeDetail': {
+        StatusBar.setHidden(true)
+      }
+    }
+  }
+}
+
 const App = StackNavigator({
   Home: { screen: Home },
   EpisodeDetail: { screen: EpisodeDetail, path: 'novels/:novelId/episodes/:episodeId' },
@@ -36,7 +69,7 @@ class Root extends React.Component {
 
   constructor() {
     super()
-    StatusBar.setBarStyle('light-content')
+
     this.state = {
       isLoading: true,
       store: undefined,
@@ -54,7 +87,10 @@ class Root extends React.Component {
     }
     return (
       <Provider store={this.state.store}>
-        <App uriPrefix={ 'chatnovel://' } />
+        <App
+          uriPrefix={ 'chatnovel://' }
+          onNavigationStateChange={ onNavigationStateChange }
+        />
       </Provider>
     )
   }

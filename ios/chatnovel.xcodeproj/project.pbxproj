@@ -39,8 +39,8 @@
 		2DCD954D1E0B4F2C00145EB5 /* chatnovelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* chatnovelTests.m */; };
 		4A2A39335B094107A47BC379 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ED2D9D819324B91BD548CE3 /* Ionicons.ttf */; };
 		528FCFE1E4234CA0A84C577D /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76CF1D608CE5455B8C9C52E7 /* SimpleLineIcons.ttf */; };
-		567476891F174E0E0095359C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 567476881F174E0E0095359C /* GoogleService-Info.plist */; };
 		569273FA1F247433004E0E0A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 569273F91F247433004E0E0A /* StoreKit.framework */; };
+		5692761D1F285462004E0E0A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5692761C1F285462004E0E0A /* GoogleService-Info.plist */; };
 		5D0EABD737074D9BAC504667 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4EFB862908F545E4BD5B7F80 /* EvilIcons.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -348,10 +348,10 @@
 		3D82C820B21A4691BC47F839 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		4EFB862908F545E4BD5B7F80 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		5151C8726DA7F954A67CDCFA /* libPods-chatnovel.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-chatnovel.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		567476881F174E0E0095359C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		569273F81F247428004E0E0A /* chatnovel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = chatnovel.entitlements; path = chatnovel/chatnovel.entitlements; sourceTree = "<group>"; };
 		569273F91F247433004E0E0A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		569274531F24A609004E0E0A /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		5692761C1F285462004E0E0A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "chatnovel/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		57B05DE227A945AE9509B079 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		5ED2D9D819324B91BD548CE3 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -504,7 +504,7 @@
 			isa = PBXGroup;
 			children = (
 				569273F81F247428004E0E0A /* chatnovel.entitlements */,
-				567476881F174E0E0095359C /* GoogleService-Info.plist */,
+				5692761C1F285462004E0E0A /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -783,7 +783,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = QT37Y9DRSR;
+						DevelopmentTeam = 5ZFQE66DKU;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 1;
@@ -1161,7 +1161,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				567476891F174E0E0095359C /* GoogleService-Info.plist in Resources */,
+				5692761D1F285462004E0E0A /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				BE71FA8903CD4CD7B1C78096 /* Entypo.ttf in Resources */,
@@ -1433,7 +1433,7 @@
 				CODE_SIGN_ENTITLEMENTS = chatnovel/chatnovel.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = QT37Y9DRSR;
+				DEVELOPMENT_TEAM = 5ZFQE66DKU;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
@@ -1444,13 +1444,14 @@
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 				);
 				INFOPLIST_FILE = chatnovel/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.skahack.chatnovel;
+				PRODUCT_BUNDLE_IDENTIFIER = co.newn.chatnovel;
 				PRODUCT_NAME = chatnovel;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1463,7 +1464,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = chatnovel/chatnovel.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QT37Y9DRSR;
+				DEVELOPMENT_TEAM = 5ZFQE66DKU;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
@@ -1474,13 +1475,14 @@
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 				);
 				INFOPLIST_FILE = chatnovel/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.skahack.chatnovel;
+				PRODUCT_BUNDLE_IDENTIFIER = co.newn.chatnovel;
 				PRODUCT_NAME = chatnovel;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

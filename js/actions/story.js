@@ -92,9 +92,12 @@ export function loadEpisodeList(novelId: number): ThunkAction {
   return (dispatch, getState) => {
     return firebase.database()
       .ref(`/episodes/${novelId}`)
-      .once('value').then((snapshot) => (
-        dispatch(successLoadEpisodeList(novelId, snapshot.val()))
-      ))
+      .once('value').then((snapshot) => {
+        if (!snapshot.val()) {
+          return Promise.reject()
+        }
+        return dispatch(successLoadEpisodeList(novelId, snapshot.val()))
+      })
   }
 }
 
