@@ -101,3 +101,30 @@ export function purchase(): ThunkAction {
     })
   }
 }
+
+const loadUserEnergyRequest = (userId: number) => ({
+  type: 'LOAD_USER_ENERGY_SUCCESS',
+  userId: userId,
+})
+
+const loadUserEnergySuccess = (userId: number, json) => ({
+  type: 'LOAD_USER_ENERGY_SUCCESS',
+  userId: userId,
+  userEnergy: json,
+})
+
+export function loadUserEnergy(userId: number): ThunkAction {
+  return (dispatch, getState) => {
+    loadUserEnergyRequest(userId)
+
+    return firebase.database()
+      .ref(`/user_energies/${userId}`)
+      .once('value').then((snapshot) => {
+        const v = snapshot.val()
+        if (!v) {
+          return Promise.reject()
+        }
+        return dispatch(successLoadUserEnergySuccess(userId, v))
+      })
+  }
+}

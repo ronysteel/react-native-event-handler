@@ -9,6 +9,7 @@ import readStates from './readStates'
 import shareLinks from './shareLinks'
 import recommends from './recommends'
 import session from './session'
+import energy from './energy'
 
 export default combineReducers({
   novels,
@@ -18,4 +19,5 @@ export default combineReducers({
   shareLinks,
   recommends,
   session,
+  energy,
 })

@@ -123,7 +123,8 @@ export function updateReadState(
 ): ThunkAction {
   return (dispatch, getState) => {
     const { episodes, scripts, session } = getState()
-    return dispatch(successUpdateReadState(episodes, episodeId, scripts, readIndex, session.paid))
+    return dispatch(successUpdateReadState(
+      episodes, episodeId, scripts, readIndex, session.paid))
   }
 }
 

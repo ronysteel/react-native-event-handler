@@ -12,7 +12,7 @@ import {
   updateReadState,
   pageView,
 } from '../actions/story'
-import { purchase } from '../actions/user'
+import { purchase, loadUserEnergy } from '../actions/user'
 import { getAllScript } from '../reducers/scripts'
 import StoryHeader from '../components/StoryHeader'
 import EpisodeList from './EpisodeList'
@@ -37,7 +37,7 @@ class EpisodeDetail extends React.Component {
   })
 
   componentDidMount() {
-    const { novelId, episodeId, navigation } = this.props
+    const { novelId, episodeId, navigation, uid } = this.props
     navigation.setParams({ openModal: this.openModal })
 
     Promise.all([
@@ -50,6 +50,7 @@ class EpisodeDetail extends React.Component {
         this.props.loadRecommends(categoryId)
       }),
       this.props.loadShareLinks(episodeId),
+      this.props.loadUserEnergy(uid),
     ]).then(() => {
       this.setState({ isLoading: false })
     })
@@ -135,6 +136,7 @@ const select = (store, props) => {
   const readState: ReadState = store.readStates[episodeId]
   const allScript: Scripts = getAllScript(store.episodes[episodeId], store.scripts)
   return {
+    uid: store.session.uid,
     novelId,
     episodeId,
     episode,
@@ -158,6 +160,8 @@ const actions = (dispatch, props) => {
       dispatch(loadRecommends(categoryId)),
     loadShareLinks: (episodeId: number) =>
       dispatch(loadShareLinks(episodeId)),
+    loadUserEnergy: (userId: number) =>
+      dispatch(loadUserEnergy(userId)),
     onTapScreen: (episodeId: number) =>
       dispatch(updateReadState(episodeId)),
     onTapPurchase: () => dispatch(purchase()),
