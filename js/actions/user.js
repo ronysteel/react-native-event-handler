@@ -124,7 +124,20 @@ export function loadUserEnergy(userId: number): ThunkAction {
         if (!v) {
           return Promise.reject()
         }
-        return dispatch(successLoadUserEnergySuccess(userId, v))
+        return dispatch(loadUserEnergySuccess(userId, v))
       })
+  }
+}
+
+export function decreaseUserEnergy(userId: number, amount: ?number): ThunkAction {
+  return (dispatch, getState) => {
+    return (new Promise(resolve => resolve()))
+      .then(() => (
+        dispatch({
+          type: 'DECREASE_USER_ENERGY_SUCCESS',
+          userId,
+          amount,
+        })
+      ))
   }
 }

@@ -12,7 +12,11 @@ import {
   updateReadState,
   pageView,
 } from '../actions/story'
-import { purchase, loadUserEnergy } from '../actions/user'
+import {
+  purchase,
+  loadUserEnergy,
+  decreaseUserEnergy,
+} from '../actions/user'
 import { getAllScript } from '../reducers/scripts'
 import StoryHeader from '../components/StoryHeader'
 import EpisodeList from './EpisodeList'
@@ -77,7 +81,7 @@ class EpisodeDetail extends React.Component {
   render() {
     const {
       novel, episode, scripts, readState, paid, shareLinks, recommends,
-      navigation, setHeaderVisible, onTapScreen, onTapPurchase,
+      uid, navigation, setHeaderVisible, onTapScreen, onTapPurchase,
     } = this.props
 
     if (this.state.isLoading) {
@@ -99,7 +103,7 @@ class EpisodeDetail extends React.Component {
           openModal={ this.openModal }
           showHeader={ this.showHeader }
           hideHeader={ this.hideHeader }
-          onTapScreen={ onTapScreen.bind(this, episode.id) }
+          onTapScreen={ onTapScreen.bind(this, uid, episode.id) }
           onTapPurchase={ onTapPurchase.bind(this) }
         />
         <StoryHeader
@@ -162,8 +166,11 @@ const actions = (dispatch, props) => {
       dispatch(loadShareLinks(episodeId)),
     loadUserEnergy: (userId: number) =>
       dispatch(loadUserEnergy(userId)),
-    onTapScreen: (episodeId: number) =>
-      dispatch(updateReadState(episodeId)),
+    onTapScreen: (userId: number, episodeId: number) => {
+      return dispatch(decreaseUserEnergy(userId)).then(() => (
+        dispatch(updateReadState(episodeId))
+      ))
+    },
     onTapPurchase: () => dispatch(purchase()),
     setHeaderVisible: (visible: boolean) => {
       props.navigation.setParams({ visible })
