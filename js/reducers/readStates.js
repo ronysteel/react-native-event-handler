@@ -67,7 +67,7 @@ function readStates(state: ReadStates = initialStates, action: Action): ReadStat
         } while (scripts[s.readIndex] && isSkippable(scripts[s.readIndex]))
 
         const len = Object.keys(scripts).length
-        if (len <= s.readIndex) {
+        if (len < s.readIndex) {
           s.readIndex = len
           s.reachEndOfContent = true
         }
