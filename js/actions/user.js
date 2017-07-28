@@ -102,38 +102,6 @@ export function purchase(): ThunkAction {
   }
 }
 
-const loadUserEnergyRequest = (userId: number) => ({
-  type: 'LOAD_USER_ENERGY_SUCCESS',
-  userId: userId,
-})
-
-const loadUserEnergySuccess = (userId: number, json) => ({
-  type: 'LOAD_USER_ENERGY_SUCCESS',
-  userId: userId,
-  userEnergy: json,
-})
-
-export function loadUserEnergy(userId: number): ThunkAction {
-  return (dispatch, getState) => {
-    const { energy } = getState()
-    loadUserEnergyRequest(userId)
-
-    if (energy.latestSyncedAt) {
-      return (new Promise(resolve => resolve()))
-    }
-
-    return firebase.database()
-      .ref(`/user_energies/${userId}`)
-      .once('value').then((snapshot) => {
-        const v = snapshot.val()
-        if (!v) {
-          return Promise.reject()
-        }
-        return dispatch(loadUserEnergySuccess(userId, v))
-      })
-  }
-}
-
 export function decreaseUserEnergy(userId: number, amount: ?number): ThunkAction {
   return (dispatch, getState) => {
     return (new Promise(resolve => resolve()))
@@ -147,28 +115,53 @@ export function decreaseUserEnergy(userId: number, amount: ?number): ThunkAction
   }
 }
 
-export function syncUserEnergy(userId: number): ThunkAction {
-  return (dispatch, getState) => {
-    const { energy } = getState()
+const API_HOST = `https://us-central1-test-5913c.cloudfunctions.net/api`
+const fetchUserEnergy = ({ idToken }) => (
+  fetch(`${API_HOST}/user_energy`, {
+    headers: { 'Authorization': `Bearer ${idToken}` }
+  })
+  .then(r => r.json())
+  .then(r => r.response)
+)
 
-    if (energy.energy === energy.latestSyncedEnergy) {
+export function syncUserEnergy(userId: number, force: boolean = false): ThunkAction {
+  return (dispatch, getState) => {
+    const { session, energy } = getState()
+
+    if (!force && energy.energy === energy.latestSyncedEnergy) {
+      return (new Promise(resolve => resolve()))
+    }
+
+    if (!force && energy.energy > 0) {
       return (new Promise(resolve => resolve()))
     }
 
     const ref = firebase.database().ref(`/user_energies/${userId}`)
-    return ref
-      .update({
-        energy: energy.energy,
-        latest_synced_at: firebase.database.ServerValue.TIMESTAMP,
+    return fetchUserEnergy(session)
+      .then(v => {
+        if (!v) {
+          return Promise.reject()
+        }
+
+        if (!energy.latestSyncedAt || v.updated_at > v.latest_synced_at) {
+          return v
+        }
       })
-      .then(() => ref.once('value'))
-      .then(snapshot => {
-        const v = snapshot.val()
-        return dispatch({
-          type: 'SYNC_USER_ENERGY_SUCCESS',
-          energy: v.energy,
-          latestSyncedAt: v.latest_synced_at,
-        })
+      .then(loadedEnergy => {
+        const ext = loadedEnergy ? {} : { energy: energy.energy }
+        const base = {
+          latest_synced_at: firebase.database.ServerValue.TIMESTAMP,
+          updated_at: firebase.database.ServerValue.TIMESTAMP,
+        }
+        ref.update(Object.assign({}, base, ext))
+          .then(() => fetchUserEnergy(session))
+          .then(v => (
+            dispatch({
+              type: 'SYNC_USER_ENERGY_SUCCESS',
+              energy: v.energy,
+              latestSyncedAt: v.latest_synced_at,
+            })
+          ))
       })
   }
 }

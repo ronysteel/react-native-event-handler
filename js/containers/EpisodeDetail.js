@@ -14,7 +14,6 @@ import {
 } from '../actions/story'
 import {
   purchase,
-  loadUserEnergy,
   decreaseUserEnergy,
   syncUserEnergy,
 } from '../actions/user'
@@ -166,7 +165,7 @@ const actions = (dispatch, props) => {
     loadShareLinks: (episodeId: number) =>
       dispatch(loadShareLinks(episodeId)),
     loadUserEnergy: (userId: number) =>
-      dispatch(loadUserEnergy(userId)),
+      dispatch(syncUserEnergy(userId, true)),
     onTapScreen: (userId: number, episodeId: number) => (
       dispatch(decreaseUserEnergy(userId))
         .then(() => dispatch(updateReadState(episodeId)))
