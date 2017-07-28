@@ -115,7 +115,12 @@ const loadUserEnergySuccess = (userId: number, json) => ({
 
 export function loadUserEnergy(userId: number): ThunkAction {
   return (dispatch, getState) => {
+    const { energy } = getState()
     loadUserEnergyRequest(userId)
+
+    if (energy.latestSyncedAt) {
+      return (new Promise(resolve => resolve()))
+    }
 
     return firebase.database()
       .ref(`/user_energies/${userId}`)
@@ -139,5 +144,31 @@ export function decreaseUserEnergy(userId: number, amount: ?number): ThunkAction
           amount,
         })
       ))
+  }
+}
+
+export function syncUserEnergy(userId: number): ThunkAction {
+  return (dispatch, getState) => {
+    const { energy } = getState()
+
+    if (energy.energy === energy.latestSyncedEnergy) {
+      return (new Promise(resolve => resolve()))
+    }
+
+    const ref = firebase.database().ref(`/user_energies/${userId}`)
+    return ref
+      .update({
+        energy: energy.energy,
+        latest_synced_at: firebase.database.ServerValue.TIMESTAMP,
+      })
+      .then(() => ref.once('value'))
+      .then(snapshot => {
+        const v = snapshot.val()
+        return dispatch({
+          type: 'SYNC_USER_ENERGY_SUCCESS',
+          energy: v.energy,
+          latestSyncedAt: v.latest_synced_at,
+        })
+      })
   }
 }

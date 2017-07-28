@@ -16,6 +16,7 @@ import {
   purchase,
   loadUserEnergy,
   decreaseUserEnergy,
+  syncUserEnergy,
 } from '../actions/user'
 import { getAllScript } from '../reducers/scripts'
 import StoryHeader from '../components/StoryHeader'
@@ -166,11 +167,11 @@ const actions = (dispatch, props) => {
       dispatch(loadShareLinks(episodeId)),
     loadUserEnergy: (userId: number) =>
       dispatch(loadUserEnergy(userId)),
-    onTapScreen: (userId: number, episodeId: number) => {
-      return dispatch(decreaseUserEnergy(userId)).then(() => (
-        dispatch(updateReadState(episodeId))
-      ))
-    },
+    onTapScreen: (userId: number, episodeId: number) => (
+      dispatch(decreaseUserEnergy(userId))
+        .then(() => dispatch(updateReadState(episodeId)))
+        .then(() => dispatch(syncUserEnergy(userId)))
+    ),
     onTapPurchase: () => dispatch(purchase()),
     setHeaderVisible: (visible: boolean) => {
       props.navigation.setParams({ visible })

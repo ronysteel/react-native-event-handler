@@ -8,6 +8,7 @@ export type Energy = {
 const initialStates: Energy = {
   energy: 0,
   latestSyncedEnergy: 0,
+  latestSyncedAt: undefined,
 }
 
 function energy(state: Energy = initialStates, action: Action): Energy {
@@ -20,6 +21,14 @@ function energy(state: Energy = initialStates, action: Action): Energy {
       return Object.assign({}, state, {
         energy: action.userEnergy.energy,
         latestSyncedEnergy: action.userEnergy.energy,
+      })
+    }
+
+    case 'SYNC_USER_ENERGY_SUCCESS': {
+      return Object.assign({}, state, {
+        energy: action.energy,
+        latestSyncedEnergy: action.energy,
+        latestSyncedAt: action.latestSyncedAt,
       })
     }
 
