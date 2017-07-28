@@ -16,9 +16,13 @@ import {
   decreaseUserEnergy,
   syncUserEnergy,
 } from '../actions/user'
+import {
+  openPromotionModal,
+} from '../actions/storyPage'
 import { getAllScript } from '../reducers/scripts'
 import StoryHeader from '../components/StoryHeader'
 import EpisodeList from './EpisodeList'
+import PromotionContainer from './PromotionContainer'
 
 import type { Episode } from '../reducers/episodes'
 import type { Script, Scripts, IndexedScripts } from '../reducers/scripts'
@@ -68,11 +72,13 @@ class EpisodeDetail extends React.Component {
   }
 
   openModal = () => {
+    StatusBar.setBarStyle('light-content')
     StatusBar.setHidden(false, true)
     this.setState({ modalVisible: true })
   }
 
   closeModal = () => {
+    StatusBar.setBarStyle('light-content')
     StatusBar.setHidden(true)
     this.setState({ modalVisible: false })
   }
@@ -167,6 +173,7 @@ const actions = (dispatch, props) => {
       dispatch(decreaseUserEnergy(userId))
         .then(() => dispatch(updateReadState(episodeId)))
         .then(() => dispatch(syncUserEnergy(userId)))
+        .then(() => dispatch(openPromotionModal(episodeId)))
     ),
     setHeaderVisible: (visible: boolean) => {
       props.navigation.setParams({ visible })

@@ -10,6 +10,7 @@ import shareLinks from './shareLinks'
 import recommends from './recommends'
 import session from './session'
 import energy from './energy'
+import storyPageStates from './storyPageStates'
 
 export default combineReducers({
   novels,
@@ -20,4 +21,8 @@ export default combineReducers({
   recommends,
   session,
   energy,
+
+  pages: combineReducers({
+    storyPageStates,
+  }),
 })

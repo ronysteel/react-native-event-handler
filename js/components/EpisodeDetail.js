@@ -13,7 +13,6 @@ import {
 } from 'react-native'
 
 import BackgroundImage from './BackgroundImage'
-import PromotionContainer from '../containers/PromotionContainer'
 import Share from './Share'
 import ScriptText from './scripts/ScriptText'
 import ScriptDescription from './scripts/ScriptDescription'
@@ -188,7 +187,6 @@ class EpisodeDetail extends React.Component {
               onLayout={ this.onLayout.bind(this) }
             />
           </TouchableOpacity>
-          <PromotionContainer episodeId={ episode.id } />
           <Share
             novel={ novel }
             readState={ readState }
