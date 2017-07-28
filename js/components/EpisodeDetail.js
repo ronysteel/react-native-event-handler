@@ -13,7 +13,7 @@ import {
 } from 'react-native'
 
 import BackgroundImage from './BackgroundImage'
-import Promotion from './Promotion'
+import PromotionContainer from '../containers/PromotionContainer'
 import Share from './Share'
 import ScriptText from './scripts/ScriptText'
 import ScriptDescription from './scripts/ScriptDescription'
@@ -148,7 +148,7 @@ class EpisodeDetail extends React.Component {
 
   render() {
     const {
-      novel, episode, scripts, scriptValues, readState, paid, shareLinks, recommends,
+      novel, episode, scripts, scriptValues, readState, shareLinks, recommends,
       onTapScreen, onTapPurchase,
     } = this.props
 
@@ -177,7 +177,7 @@ class EpisodeDetail extends React.Component {
             focusedOpacity={ 1 }
             activeOpacity={ 1 }
             onPress={ onTapScreen }
-            style={{ backgroundColor: 'transparent', }}
+            style={{ backgroundColor: 'transparent' }}
           >
             <FlatList
               ref={r => this.list = r}
@@ -188,11 +188,7 @@ class EpisodeDetail extends React.Component {
               onLayout={ this.onLayout.bind(this) }
             />
           </TouchableOpacity>
-          <Promotion
-            paid={ paid }
-            readState={ readState }
-            onTapPurchase={ onTapPurchase }
-          />
+          <PromotionContainer episodeId={ episode.id } />
           <Share
             novel={ novel }
             readState={ readState }

@@ -13,7 +13,6 @@ import {
   pageView,
 } from '../actions/story'
 import {
-  purchase,
   decreaseUserEnergy,
   syncUserEnergy,
 } from '../actions/user'
@@ -80,8 +79,8 @@ class EpisodeDetail extends React.Component {
 
   render() {
     const {
-      novel, episode, scripts, readState, paid, shareLinks, recommends,
-      uid, navigation, setHeaderVisible, onTapScreen, onTapPurchase,
+      novel, episode, scripts, readState, shareLinks, recommends,
+      uid, navigation, setHeaderVisible, onTapScreen,
     } = this.props
 
     if (this.state.isLoading) {
@@ -96,7 +95,6 @@ class EpisodeDetail extends React.Component {
           scripts={ scripts }
           scriptValues={ Object.values(scripts) }
           readState={ readState }
-          paid={ paid }
           setHeaderVisible={ setHeaderVisible }
           shareLinks={ shareLinks }
           recommends={ recommends }
@@ -104,13 +102,13 @@ class EpisodeDetail extends React.Component {
           showHeader={ this.showHeader }
           hideHeader={ this.hideHeader }
           onTapScreen={ onTapScreen.bind(this, uid, episode.id) }
-          onTapPurchase={ onTapPurchase.bind(this) }
         />
         <StoryHeader
           visible={ this.state.headerVisible }
           navigation={ navigation }
           openModal={ this.openModal }
         />
+        <PromotionContainer episodeId={ episode.id } />
         <EpisodeList
           novelId={ novel.novelId }
           modalVisible={ this.state.modalVisible }
@@ -148,7 +146,6 @@ const select = (store, props) => {
     allScript,
     novel,
     scripts: allScript,
-    paid: store.session.paid,
     shareLinks: store.shareLinks[episodeId],
     recommends: novel && novel.categoryId && store.recommends[novel.categoryId],
   }
@@ -171,7 +168,6 @@ const actions = (dispatch, props) => {
         .then(() => dispatch(updateReadState(episodeId)))
         .then(() => dispatch(syncUserEnergy(userId)))
     ),
-    onTapPurchase: () => dispatch(purchase()),
     setHeaderVisible: (visible: boolean) => {
       props.navigation.setParams({ visible })
     },
