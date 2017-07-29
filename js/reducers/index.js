@@ -10,6 +10,7 @@ import shareLinks from './shareLinks'
 import recommends from './recommends'
 import session from './session'
 import energy from './energy'
+import purchasingProducts from './purchasingProducts'
 import storyPageStates from './storyPageStates'
 
 export default combineReducers({
@@ -21,6 +22,7 @@ export default combineReducers({
   recommends,
   session,
   energy,
+  purchasingProducts,
 
   pages: combineReducers({
     storyPageStates,
