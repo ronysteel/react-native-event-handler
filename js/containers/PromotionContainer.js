@@ -4,24 +4,37 @@ import { View, Text } from 'react-native'
 import { connect } from 'react-redux'
 
 import Modal from 'react-native-modalbox'
-import { purchase } from '../actions/user'
+import {
+  purchase,
+  syncUserEnergy,
+} from '../actions/user'
 import { closePromotionModal } from '../actions/storyPage'
 import Promotion from '../components/Promotion'
 
 class PromotionContainer extends React.Component {
   render() {
-    const { paid, readState, onTapPurchase } = this.props
+    let isOpen = this.props.modalVisible
+
+    if (this.props.paid) {
+      isOpen = false
+    }
+
+    if (!this.props.readState.displayPromotion) {
+      isOpen = false
+    }
 
     return (
       <Modal
         swipeToClose={ true }
         onClosed={ this.props.closeModal }
-        isOpen={ this.props.modalVisible }
+        isOpen={ isOpen }
       >
         <Promotion
-          paid={ paid }
-          readState={ readState }
-          onTapPurchase={ onTapPurchase }
+          products={ this.props.purchasingProducts }
+          onTapPurchase={ this.props.onTapPurchase }
+          nextRechargeDate={ this.props.nextRechargeDate }
+          onEndRecharge={ this.props.onEndRecharge.bind(null, this.props.userId) }
+          closeModal={ this.props.closeModal }
         />
       </Modal>
     )
@@ -31,11 +44,18 @@ class PromotionContainer extends React.Component {
 const select = (store, props) => {
   const { episodeId } = props
   const readState: ReadState = store.readStates[episodeId]
+  const nextRechargeDate = store.energy.nextRechargeDate
   const pageState = store.pages.storyPageStates[episodeId]
+  const purchasingProducts = store.purchasingProducts
+  const modalVisible = pageState && pageState.isOpenPromotion
+
   return {
+    userId: store.session.uid,
     readState,
+    purchasingProducts,
+    nextRechargeDate,
     paid: store.session.paid,
-    modalVisible: pageState && pageState.isOpenPromotion,
+    modalVisible,
   }
 }
 
@@ -44,6 +64,10 @@ const actions = (dispatch, props) => {
   return {
     closeModal: () => dispatch(closePromotionModal(episodeId)),
     onTapPurchase: () => dispatch(purchase()),
+    onEndRecharge: (userId: number) => (
+      dispatch(syncUserEnergy(userId, true))
+        .then(() => dispatch(closePromotionModal(episodeId)))
+    )
   }
 }
 

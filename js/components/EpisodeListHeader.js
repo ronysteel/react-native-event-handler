@@ -1,22 +1,12 @@
 // @flow
 import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native'
-import Svg, { Path } from 'react-native-svg'
+
+import CloseIcon from './CloseIcon'
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0
 const TITLE_OFFSET = Platform.OS === 'ios' ? 70 : 56
-
-const CloseIcon = () => (
-  <Svg width="15" height="15" viewBox="0 0 15 15">
-    <Path
-      d="M1.416 1.96l-.133.13 5.57 5.57-5.638 5.636.132.133L6.984 7.79l5.966 5.966.133-.132L7.117 7.66l5.898-5.898-.133-.133-5.898 5.897L1.416 1.96z"
-      stroke="#FFF"
-      strokeWidth="1.5"
-      fill="none"
-    />
-  </Svg>
-)
 
 const EpisodeListHeader = ({ closeModal }) => {
   return (
@@ -25,7 +15,7 @@ const EpisodeListHeader = ({ closeModal }) => {
         <View style={ styles.left }>
           <TouchableOpacity onPress={ closeModal }>
             <View style={ styles.close }>
-              <CloseIcon />
+              <CloseIcon color={ '#fff' } />
             </View>
           </TouchableOpacity>
         </View>

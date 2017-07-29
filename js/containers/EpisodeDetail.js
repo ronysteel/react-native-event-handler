@@ -171,8 +171,8 @@ const actions = (dispatch, props) => {
       dispatch(syncUserEnergy(userId, true)),
     onTapScreen: (userId: number, episodeId: number) => (
       dispatch(decreaseUserEnergy(userId))
-        .then(() => dispatch(updateReadState(episodeId)))
         .then(() => dispatch(syncUserEnergy(userId)))
+        .then(() => dispatch(updateReadState(episodeId)))
         .then(() => dispatch(openPromotionModal(episodeId)))
     ),
     setHeaderVisible: (visible: boolean) => {

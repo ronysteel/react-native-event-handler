@@ -1,6 +1,7 @@
 // @flow
 import type { Action, ThunkAction } from './types'
 import { NativeModules } from 'react-native'
+import moment from 'moment'
 import { getAllScript } from '../reducers/scripts'
 import firebase from '../firebase'
 const { InAppUtils } = NativeModules
@@ -118,7 +119,10 @@ export function decreaseUserEnergy(userId: number, amount: ?number): ThunkAction
 const API_HOST = `https://us-central1-test-5913c.cloudfunctions.net/api`
 const fetchUserEnergy = ({ idToken }) => (
   fetch(`${API_HOST}/user_energy`, {
-    headers: { 'Authorization': `Bearer ${idToken}` }
+    headers: {
+      'Authorization': `Bearer ${idToken}`,
+      'Cache-Control': 'no-cache',
+    }
   })
   .then(r => r.json())
   .then(r => r.response)
@@ -127,6 +131,10 @@ const fetchUserEnergy = ({ idToken }) => (
 export function syncUserEnergy(userId: number, force: boolean = false): ThunkAction {
   return (dispatch, getState) => {
     const { session, energy } = getState()
+
+    if (energy.nextRechargeDate && (energy.nextRechargeDate - moment().valueOf()) < 0) {
+      force = true
+    }
 
     if (!force && energy.energy === energy.latestSyncedEnergy) {
       return (new Promise(resolve => resolve()))
@@ -153,13 +161,14 @@ export function syncUserEnergy(userId: number, force: boolean = false): ThunkAct
           latest_synced_at: firebase.database.ServerValue.TIMESTAMP,
           updated_at: firebase.database.ServerValue.TIMESTAMP,
         }
-        ref.update(Object.assign({}, base, ext))
+        return ref.update(Object.assign({}, base, ext))
           .then(() => fetchUserEnergy(session))
           .then(v => (
             dispatch({
               type: 'SYNC_USER_ENERGY_SUCCESS',
               energy: v.energy,
               latestSyncedAt: v.latest_synced_at,
+              nextRechargeDate: v.next_recharge_date,
             })
           ))
       })

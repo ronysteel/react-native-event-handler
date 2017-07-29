@@ -3,12 +3,16 @@ import type { Action } from '../actions/types'
 
 export type Energy = {
   energy: number;
+  latestSyncedEnergy: number,
+  latestSyncedAt: ?number,
+  nextRechargeDate: ?number,
 }
 
 const initialStates: Energy = {
   energy: 0,
   latestSyncedEnergy: 0,
   latestSyncedAt: undefined,
+  nextRechargeDate: undefined,
 }
 
 function energy(state: Energy = initialStates, action: Action): Energy {
@@ -18,6 +22,7 @@ function energy(state: Energy = initialStates, action: Action): Energy {
         energy: action.energy,
         latestSyncedEnergy: action.energy,
         latestSyncedAt: action.latestSyncedAt,
+        nextRechargeDate: action.nextRechargeDate,
       })
     }
 
