@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 
 import RechargeCountdown from './RechargeCountdown'
+import UseTicketButton from './UseTicketButton'
 import CloseIcon from './CloseIcon'
 
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0
@@ -23,6 +24,7 @@ const Separator = () => (
   </View>
 )
 
+// TODO
 const PRODUCT_ID_ONE_MONTH = `test.skahack.001`
 
 const PurchaseButtonOneMonth = ({ product, onTapPurchase }) => (
@@ -32,23 +34,6 @@ const PurchaseButtonOneMonth = ({ product, onTapPurchase }) => (
       <Text style={ styles.promotionButtonTitleText }>{ `/ ${product.title}` }</Text>
     </View>
   </TouchableOpacity>
-)
-
-const UseTicketButton = ({ ticketCount, onTapUseTicket }) => (
-  ( ticketCount <= 0 ? null : (
-    <View>
-      <TouchableOpacity onPress={ onTapUseTicket }>
-        <View style={ styles.useTicketButton }>
-          <Text style={ styles.useTicketButtonText }>
-            { 'チケットをつかう' }
-          </Text>
-        </View>
-      </TouchableOpacity>
-      <Text style={ styles.ticketCountText }>
-        { `持っているチケット：${ticketCount}枚` }
-      </Text>
-    </View>
-  ) )
 )
 
 const Promotion = ({
@@ -181,26 +166,6 @@ const styles: StyleSheet = StyleSheet.create({
     fontSize: 14,
     lineHeight: 18,
     marginLeft: 9,
-  },
-
-  useTicketButton: {
-    width: 290,
-    padding: 15,
-    borderRadius: 6,
-    backgroundColor: '#ff395d',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  useTicketButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    lineHeight: 18,
-  },
-  ticketCountText: {
-    color: '#575757',
-    fontSize: 12,
-    marginTop: 10,
-    textAlign: 'center',
   },
 })
 
