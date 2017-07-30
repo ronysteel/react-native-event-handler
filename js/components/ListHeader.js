@@ -8,7 +8,7 @@ const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0
 const TITLE_OFFSET = Platform.OS === 'ios' ? 70 : 56
 
-const EpisodeListHeader = ({ closeModal }) => {
+const ListHeader = ({ title, closeModal }) => {
   return (
     <View style={ styles.container }>
       <View style={ styles.header}>
@@ -20,7 +20,7 @@ const EpisodeListHeader = ({ closeModal }) => {
           </TouchableOpacity>
         </View>
         <View style={ styles.title }>
-          <Text style={ styles.titleText }>{ 'エピソード一覧' }</Text>
+          <Text style={ styles.titleText }>{ title }</Text>
         </View>
       </View>
     </View>
@@ -64,4 +64,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default EpisodeListHeader
+export default ListHeader

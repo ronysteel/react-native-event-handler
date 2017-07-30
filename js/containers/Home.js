@@ -1,12 +1,14 @@
 // @flow
 
 import React from 'react'
-import { StyleSheet, Text, View, Linking } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Linking } from 'react-native'
 import { connect } from 'react-redux'
 
 import { loadTab } from '../actions/app'
 import Stories from '../components/Stories'
 import HeaderTitle from '../components/HeaderTitle'
+import HomeHeaderLeft from '../containers/HomeHeaderLeft'
+import HomeSettingContainer from '../containers/HomeSettingContainer'
 
 import type { Story } from '../reducers/stories'
 
@@ -14,6 +16,7 @@ class Home extends React.Component {
   static navigationOptions = {
     // title: 'CHAT NOVEL',
     headerTitle: <HeaderTitle />,
+    headerLeft: <HomeHeaderLeft />,
     headerStyle: {
       backgroundColor: '#1a1a1a',
     },
@@ -44,6 +47,7 @@ class Home extends React.Component {
     return (
       <View style={ styles.container }>
         <Stories sections={ homeTab.sections } />
+        <HomeSettingContainer />
       </View>
     )
   }
