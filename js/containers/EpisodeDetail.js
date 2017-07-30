@@ -90,7 +90,7 @@ class EpisodeDetail extends React.Component {
     } = this.props
 
     if (this.state.isLoading) {
-      return <View style={{ flex: 1, backgroundColor: '#1a1a1a' }}></View>
+      return <View style={{ flex: 1, backgroundColor: '#212121' }}></View>
     }
 
     return (

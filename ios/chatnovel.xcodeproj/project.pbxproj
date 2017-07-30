@@ -18,7 +18,6 @@
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		13E8F542518F487496B1E3E6 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E155ACE6756B4C47A68CC3F1 /* Zocial.ttf */; };
@@ -41,6 +40,7 @@
 		528FCFE1E4234CA0A84C577D /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76CF1D608CE5455B8C9C52E7 /* SimpleLineIcons.ttf */; };
 		569273FA1F247433004E0E0A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 569273F91F247433004E0E0A /* StoreKit.framework */; };
 		5692761D1F285462004E0E0A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5692761C1F285462004E0E0A /* GoogleService-Info.plist */; };
+		569276CC1F2DE93F004E0E0A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 569276CA1F2DE93F004E0E0A /* LaunchScreen.xib */; };
 		5D0EABD737074D9BAC504667 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4EFB862908F545E4BD5B7F80 /* EvilIcons.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -338,7 +338,6 @@
 		13B07F961A680F5B00A75B9A /* chatnovel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chatnovel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = chatnovel/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = chatnovel/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = chatnovel/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = chatnovel/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = chatnovel/main.m; sourceTree = "<group>"; };
@@ -352,6 +351,7 @@
 		569273F91F247433004E0E0A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		569274531F24A609004E0E0A /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		5692761C1F285462004E0E0A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "chatnovel/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		569276CB1F2DE93F004E0E0A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = chatnovel/Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		57B05DE227A945AE9509B079 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		5ED2D9D819324B91BD548CE3 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -509,8 +509,8 @@
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				569276CA1F2DE93F004E0E0A /* LaunchScreen.xib */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = chatnovel;
@@ -1163,7 +1163,6 @@
 			files = (
 				5692761D1F285462004E0E0A /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				BE71FA8903CD4CD7B1C78096 /* Entypo.ttf in Resources */,
 				5D0EABD737074D9BAC504667 /* EvilIcons.ttf in Resources */,
 				15D5C7C8419E405DB5F72ACB /* FontAwesome.ttf in Resources */,
@@ -1171,6 +1170,7 @@
 				4A2A39335B094107A47BC379 /* Ionicons.ttf in Resources */,
 				D522F6324CCE42ABA890AF78 /* MaterialCommunityIcons.ttf in Resources */,
 				A178A89C511246EE98D34E90 /* MaterialIcons.ttf in Resources */,
+				569276CC1F2DE93F004E0E0A /* LaunchScreen.xib in Resources */,
 				0D5D863A40DE48DB81C1E0DC /* Octicons.ttf in Resources */,
 				528FCFE1E4234CA0A84C577D /* SimpleLineIcons.ttf in Resources */,
 				13E8F542518F487496B1E3E6 /* Zocial.ttf in Resources */,
@@ -1334,13 +1334,12 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
+		569276CA1F2DE93F004E0E0A /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				13B07FB21A68108700A75B9A /* Base */,
+				569276CB1F2DE93F004E0E0A /* Base */,
 			);
 			name = LaunchScreen.xib;
-			path = chatnovel;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
