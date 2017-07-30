@@ -21,9 +21,9 @@ class Playground extends React.PureComponent {
                 currencySymbol: '',
                 description: '',
                 downloadable: false,
-                price: 50,
-                priceString: '¥50',
-                title: '1週間',
+                price: 900,
+                priceString: '¥900',
+                title: '1ヶ月',
               }
             }
           }}

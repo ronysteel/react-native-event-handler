@@ -12,8 +12,16 @@ import {
 import RechargeCountdown from './RechargeCountdown'
 import UseTicketButton from './UseTicketButton'
 import CloseIcon from './CloseIcon'
+import {
+  PurchaseButtonOneMonth,
+  PurchaseButtonOneWeek,
+} from './PurchaseButton'
 
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0
+
+// TODO
+const PRODUCT_ID_ONE_MONTH = `test.skahack.001`
+const PRODUCT_ID_ONE_WEEK = `test.skahack.001`
 
 const Separator = () => (
   <View style={ styles.sectionTitleWrapper }>
@@ -22,18 +30,6 @@ const Separator = () => (
       <Text style={ styles.sectionTitle }>{ 'OR' }</Text>
     </View>
   </View>
-)
-
-// TODO
-const PRODUCT_ID_ONE_MONTH = `test.skahack.001`
-
-const PurchaseButtonOneMonth = ({ product, onTapPurchase }) => (
-  <TouchableOpacity onPress={ onTapPurchase }>
-    <View style={ styles.promotionButton }>
-      <Text style={ styles.promotionButtonText }>{ product.priceString }</Text>
-      <Text style={ styles.promotionButtonTitleText }>{ `/ ${product.title}` }</Text>
-    </View>
-  </TouchableOpacity>
 )
 
 const Promotion = ({
@@ -69,6 +65,10 @@ const Promotion = ({
           { "まずは7日間無料\nすべてのノベルが読み放題！" }
         </Text>
         <View style={ styles.promotionButtons }>
+          <PurchaseButtonOneWeek
+            product={ products.products[PRODUCT_ID_ONE_WEEK] }
+            onTapPurchase={ onTapPurchase }
+          />
           <PurchaseButtonOneMonth
             product={ products.products[PRODUCT_ID_ONE_MONTH] }
             onTapPurchase={ onTapPurchase }
@@ -146,26 +146,6 @@ const styles: StyleSheet = StyleSheet.create({
   },
   promotionButtons: {
     alignSelf: 'center',
-  },
-  promotionButton: {
-    width: 290,
-    padding: 15,
-    borderRadius: 6,
-    backgroundColor: '#ff395d',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 15,
-  },
-  promotionButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    lineHeight: 18,
-  },
-  promotionButtonTitleText: {
-    color: '#fff',
-    fontSize: 14,
-    lineHeight: 18,
-    marginLeft: 9,
   },
 })
 
