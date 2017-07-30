@@ -1,11 +1,12 @@
 // @flow
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, AlertIOS } from 'react-native'
 import { connect } from 'react-redux'
 
 import Modal from 'react-native-modalbox'
 import {
   purchase,
+  restorePurchases,
   syncUserEnergy,
   useTicket,
 } from '../actions/user'
@@ -35,6 +36,7 @@ class PromotionContainer extends React.Component {
           ticketCount={ this.props.ticketCount }
           onTapPurchase={ this.props.onTapPurchase }
           onTapUseTicket={ this.props.onTapUseTicket.bind(null, this.props.userId) }
+          onTapRestore={ this.props.onTapRestore }
           nextRechargeDate={ this.props.nextRechargeDate }
           onEndRecharge={ this.props.onEndRecharge.bind(null, this.props.userId) }
           closeModal={ this.props.closeModal }
@@ -77,7 +79,17 @@ const actions = (dispatch, props) => {
       dispatch(closePromotionModal(episodeId))
         .then(() => dispatch(useTicket()))
         .then(() => dispatch(syncUserEnergy(userId, true)))
-    )
+    ),
+    onTapRestore: () => (
+      dispatch(restorePurchases())
+        .then(() => dispatch(closePromotionModal(episodeId)))
+        .catch(() => {
+          AlertIOS.alert(
+            'ストアエラー',
+            '購入の復元に失敗しました'
+          )
+        })
+    ),
   }
 }
 

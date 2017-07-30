@@ -4,7 +4,10 @@ import { NativeModules } from 'react-native'
 import moment from 'moment'
 import { getAllScript } from '../reducers/scripts'
 import firebase from '../firebase'
+import { loadPurcasingProducts } from './app'
 const { InAppUtils } = NativeModules
+
+const API_HOST = `https://us-central1-test-5913c.cloudfunctions.net/api`
 
 const requestSignInAnonymously = () => {
   return { type: 'SIGN_IN_ANONYMOUSLY_REQUEST' }
@@ -67,39 +70,57 @@ const purchaseFailed = () => {
   }
 }
 
-export function purchase(): ThunkAction {
-  const productIdentifier = 'test.skahack.001'
-  const products = [ productIdentifier ]
+const verifyReceipt = ({ idToken, body }) => (
+  fetch(`${API_HOST}/verify-receipt`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`,
+    }
+  })
+  .then(r => r.json())
+)
 
+export function purchase(productId: string = 'test.skahack.001'): ThunkAction {
   return (dispatch, getState) => {
     const { idToken } = getState().session
 
-    InAppUtils.loadProducts(products, (error, products) => {
-      InAppUtils.purchaseProduct(productIdentifier, (error, res) => {
-        if (res && res.productIdentifier) {
-          console.log('Purchase Successful', res)
-          const r = JSON.stringify({
-            receipt: res.transactionReceipt,
-          })
+    return loadPurcasingProducts
+      .then(() => {
+        InAppUtils.purchaseProduct(productId, (err, res) => {
+          if (res && res.productIdentifier) {
+            console.log('Purchase Successful', res)
+            const r = JSON.stringify({
+              receipt: res.transactionReceipt,
+            })
 
-          fetch('https://us-central1-test-5913c.cloudfunctions.net/api/verify-receipt', {
-            method: 'POST',
-            body: r,
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${idToken}`,
-            }
-          })
-          .then(res => res.json())
-          .then(json => dispatch(purchaseSuccess()))
-          .catch(err => dispatch(purchaseFailed()))
-        } else {
-          console.log('Purchase Failed', res, error)
-          dispatch(purchaseFailed())
+            return verifyReceipt({ idToken, body: r })
+              .then(json => dispatch(purchaseSuccess()))
+              .catch(err => dispatch(purchaseFailed()))
+          } else {
+            console.log('Purchase Failed', res, err)
+            return dispatch(purchaseFailed())
+          }
+        })
+      })
+  }
+}
+
+export function restorePurchases(): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      InAppUtils.restorePurchases((err, res) => {
+        if (err) {
+          return reject({ err })
         }
+        if (res.length === 0) {
+          return reject({ err: "did not found any purchases", res })
+        }
+        return resolve({ res })
       })
     })
+    .then(() => dispatch(purchaseSuccess()))
   }
 }
 
@@ -116,7 +137,6 @@ export function decreaseUserEnergy(userId: number, amount: ?number): ThunkAction
   }
 }
 
-const API_HOST = `https://us-central1-test-5913c.cloudfunctions.net/api`
 const fetchUserEnergy = ({ idToken }) => (
   fetch(`${API_HOST}/user_energy`, {
     headers: {
