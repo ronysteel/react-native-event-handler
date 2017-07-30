@@ -39,6 +39,7 @@ const Promotion = ({
   ticketCount,
   onTapPurchase,
   onTapUseTicket,
+  onTapRestore,
   onEndRecharge,
 }) => {
   return (
@@ -78,6 +79,12 @@ const Promotion = ({
             onTapUseTicket={ onTapUseTicket }
           />
         </View>
+      </View>
+
+      <View style={ styles.restoreWrapper }>
+        <TouchableOpacity onPress={ onTapRestore }>
+          <Text style={ styles.restoreText }>{ 'メンバーのかたはこちら' }</Text>
+        </TouchableOpacity>
       </View>
     </View>
   )
@@ -146,6 +153,23 @@ const styles: StyleSheet = StyleSheet.create({
   },
   promotionButtons: {
     alignSelf: 'center',
+  },
+
+  // restore purchase
+
+  restoreWrapper: {
+    position: 'absolute',
+    bottom: 30,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  restoreText: {
+    color: '#ff1b60',
+    fontSize: 12,
+    textAlign: 'center',
+    padding: 15,
   },
 })
 

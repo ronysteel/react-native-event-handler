@@ -30,6 +30,7 @@ class Playground extends React.PureComponent {
           ticketCount={ 1 }
           onTapPurchase={ () => {} }
           onTapUseTicket={ () => {} }
+          onTapRestore={ () => {} }
           nextRechargeDate={ moment().add(30, 'minutes').valueOf() }
           onEndRecharge={ () => {} }
           closeModal={ () => {} }
