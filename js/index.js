@@ -85,7 +85,7 @@ class Root extends React.Component {
 
   render() {
     if (this.state.isLoading) {
-      return null
+      return <View style={{ flex: 1, backgroundColor: '#212121' }}></View>
     }
     return (
       <Provider store={this.state.store}>
