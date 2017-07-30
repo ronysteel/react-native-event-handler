@@ -11,6 +11,7 @@ import recommends from './recommends'
 import session from './session'
 import energy from './energy'
 import tickets from './tickets'
+import tabs from './tabs'
 import purchasingProducts from './purchasingProducts'
 import storyPageStates from './storyPageStates'
 
@@ -24,6 +25,7 @@ export default combineReducers({
   session,
   energy,
   tickets,
+  tabs,
   purchasingProducts,
 
   pages: combineReducers({

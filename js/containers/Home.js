@@ -4,6 +4,7 @@ import React from 'react'
 import { StyleSheet, Text, View, Linking } from 'react-native'
 import { connect } from 'react-redux'
 
+import { loadTab } from '../actions/app'
 import Stories from '../components/Stories'
 import HeaderTitle from '../components/HeaderTitle'
 
@@ -58,14 +59,26 @@ class Home extends React.Component {
     }
   }
 
+  state = {
+    isLoaded: false
+  }
+
   componentDidMount() {
+    this.props.loadHomeTab()
+      .then(() => {
+        this.setState({ isLoaded: true })
+      })
   }
 
   render() {
-    const { stories, navigation } = this.props
+    const { stories, navigation, homeTab } = this.props
+    if (!this.state.isLoaded) {
+      return null
+    }
+
     return (
       <View style={styles.container}>
-        <Stories sections={ sections } />
+        <Stories sections={ homeTab.sections } />
       </View>
     )
   }
@@ -81,7 +94,14 @@ const styles: StyleSheet = StyleSheet.create({
 const select = (store) => {
   return {
     stories: store.stories,
+    homeTab: store.tabs['home'],
   }
 }
 
-export default connect(select)(Home)
+const actions = (dispatch, props) => {
+  return {
+    loadHomeTab: () => dispatch(loadTab('home'))
+  }
+}
+
+export default connect(select, actions)(Home)
