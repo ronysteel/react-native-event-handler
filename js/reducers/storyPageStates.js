@@ -11,9 +11,16 @@ export type StoryPageStates = {
 
 const initialState: StoryPageState = {
   isOpenPromotion: false,
+  isOpenEpisodeList: false,
 }
 
 const initialStates: StoryPageStates = {}
+
+const update = (state, action, props) => {
+  const { episodeId } = action
+  const s = Object.assign({}, initialState, state[episodeId], props)
+  return Object.assign({}, state, { [episodeId]: s })
+}
 
 function storyPageStates(
   state: StoryPageStates = initialStates,
@@ -21,19 +28,27 @@ function storyPageStates(
 ): StoryPageStates {
   switch (action.type) {
     case 'OPEN_STORY_PAGE_PROMOTION_MODAL_SUCCESS': {
-      const { episodeId } = action
-      const s = Object.assign({}, initialState, state[episodeId], {
+      return update(state, action, {
         isOpenPromotion: true,
       })
-      return Object.assign({}, state, { [episodeId]: s })
     }
 
     case 'CLOSE_STORY_PAGE_PROMOTION_MODAL_SUCCESS': {
-      const { episodeId } = action
-      const s = Object.assign({}, initialState, state[episodeId], {
+      return update(state, action, {
         isOpenPromotion: false,
       })
-      return Object.assign({}, state, { [episodeId]: s })
+    }
+
+    case 'OPEN_STORY_PAGE_EPISODE_LIST_MODAL_SUCCESS': {
+      return update(state, action, {
+        isOpenEpisodeList: true,
+      })
+    }
+
+    case 'CLOSE_STORY_PAGE_EPISODE_LIST_MODAL_SUCCESS': {
+      return update(state, action, {
+        isOpenEpisodeList: false,
+      })
     }
 
     default: {
