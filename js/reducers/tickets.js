@@ -17,6 +17,18 @@ function tickets(state: Tickets = initialStates, action: Action): Tickets {
       })
     }
 
+    case 'USE_TICKET_REQUEST': {
+      return state
+    }
+
+    case 'USE_TICKET_SUCCESS': {
+      return state
+    }
+
+    case 'USE_TICKET_FAILED': {
+      return state
+    }
+
     default: {
       return state
     }

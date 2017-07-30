@@ -7,6 +7,7 @@ import Modal from 'react-native-modalbox'
 import {
   purchase,
   syncUserEnergy,
+  useTicket,
 } from '../actions/user'
 import { closePromotionModal } from '../actions/storyPage'
 import Promotion from '../components/Promotion'
@@ -31,7 +32,9 @@ class PromotionContainer extends React.Component {
       >
         <Promotion
           products={ this.props.purchasingProducts }
+          ticketCount={ this.props.ticketCount }
           onTapPurchase={ this.props.onTapPurchase }
+          onTapUseTicket={ this.props.onTapUseTicket.bind(null, this.props.userId) }
           nextRechargeDate={ this.props.nextRechargeDate }
           onEndRecharge={ this.props.onEndRecharge.bind(null, this.props.userId) }
           closeModal={ this.props.closeModal }
@@ -48,6 +51,7 @@ const select = (store, props) => {
   const pageState = store.pages.storyPageStates[episodeId]
   const purchasingProducts = store.purchasingProducts
   const modalVisible = pageState && pageState.isOpenPromotion
+  const ticketCount = store.tickets.ticketCount
 
   return {
     userId: store.session.uid,
@@ -56,6 +60,7 @@ const select = (store, props) => {
     nextRechargeDate,
     paid: store.session.paid,
     modalVisible,
+    ticketCount,
   }
 }
 
@@ -65,8 +70,13 @@ const actions = (dispatch, props) => {
     closeModal: () => dispatch(closePromotionModal(episodeId)),
     onTapPurchase: () => dispatch(purchase()),
     onEndRecharge: (userId: number) => (
-      dispatch(syncUserEnergy(userId, true))
-        .then(() => dispatch(closePromotionModal(episodeId)))
+      dispatch(closePromotionModal(episodeId))
+        .then(() => dispatch(syncUserEnergy(userId, true)))
+    ),
+    onTapUseTicket: (userId: number) => (
+      dispatch(closePromotionModal(episodeId))
+        .then(() => dispatch(useTicket()))
+        .then(() => dispatch(syncUserEnergy(userId, true)))
     )
   }
 }

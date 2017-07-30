@@ -175,3 +175,40 @@ export function syncUserEnergy(userId: number, force: boolean = false): ThunkAct
       })
   }
 }
+
+const fetchUseTicket = ({ idToken }) => (
+  fetch(`${API_HOST}/tickets/use`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${idToken}`,
+    }
+  })
+  .then(r => {
+    if (!r.ok) {
+      return Promise.reject({ err: 'failed to useTicket request', status: r.status })
+    }
+    return r
+  })
+  .then(r => r.json())
+  .then(r => r.response)
+)
+
+export function useTicket(): ThunkAction {
+  return (dispatch, getState) => {
+    const { session } = getState()
+    const { uid } = session
+    dispatch({ type: 'USE_TICKET_REQUEST' })
+
+    return fetchUseTicket(session)
+      .then(v => (
+        dispatch({
+          type: 'USE_TICKET_SUCCESS',
+        })
+      ))
+      .catch(err => (
+        dispatch({
+          type: 'USE_TICKET_FAILED',
+        })
+      ))
+  }
+}
