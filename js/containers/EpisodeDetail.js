@@ -18,6 +18,7 @@ import {
 } from '../actions/user'
 import {
   openPromotionModal,
+  openEpisodeListModal,
 } from '../actions/storyPage'
 import { getAllScript } from '../reducers/scripts'
 import StoryHeader from '../components/StoryHeader'
@@ -34,7 +35,6 @@ class EpisodeDetail extends React.Component {
 
     this.state = {
       isLoading: true,
-      modalVisible: false,
       headerVisible: false,
     }
   }
@@ -45,7 +45,6 @@ class EpisodeDetail extends React.Component {
 
   componentDidMount() {
     const { novelId, episodeId, navigation, uid } = this.props
-    navigation.setParams({ openModal: this.openModal })
 
     Promise.all([
       this.props.loadEpisode(novelId, episodeId).then(() => {
@@ -71,18 +70,6 @@ class EpisodeDetail extends React.Component {
     this.setState({ headerVisible: false })
   }
 
-  openModal = () => {
-    StatusBar.setBarStyle('light-content')
-    StatusBar.setHidden(false, true)
-    this.setState({ modalVisible: true })
-  }
-
-  closeModal = () => {
-    StatusBar.setBarStyle('light-content')
-    StatusBar.setHidden(true)
-    this.setState({ modalVisible: false })
-  }
-
   render() {
     const {
       novel, episode, scripts, readState, shareLinks, recommends,
@@ -104,7 +91,6 @@ class EpisodeDetail extends React.Component {
           setHeaderVisible={ setHeaderVisible }
           shareLinks={ shareLinks }
           recommends={ recommends }
-          openModal={ this.openModal }
           showHeader={ this.showHeader }
           hideHeader={ this.hideHeader }
           onTapScreen={ onTapScreen.bind(this, uid, episode.id) }
@@ -112,13 +98,12 @@ class EpisodeDetail extends React.Component {
         <StoryHeader
           visible={ this.state.headerVisible }
           navigation={ navigation }
-          openModal={ this.openModal }
+          openModal={ this.props.openEpisodeListModal.bind(null, episode.id) }
         />
         <PromotionContainer episodeId={ episode.id } />
         <EpisodeList
           novelId={ novel.novelId }
-          modalVisible={ this.state.modalVisible }
-          closeModal={ this.closeModal }
+          episodeId={ episode.id }
         />
       </View>
     )
@@ -180,6 +165,7 @@ const actions = (dispatch, props) => {
     },
     resetReadIndex: (episodeId: number) => dispatch(updateReadState(episodeId, 0)),
     pageView: (novelId: number, episodeId: number) => dispatch(pageView(novelId, episodeId)),
+    openEpisodeListModal: (episodeId: number) => dispatch(openEpisodeListModal(episodeId)),
   }
 }
 

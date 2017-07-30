@@ -43,3 +43,35 @@ export function openPromotionModal(episodeId: number): ThunkAction {
       ))
   }
 }
+
+export function closeEpisodeListModal(episodeId: number): ThunkAction {
+  return (dispatch, getState) => {
+    return (new Promise(resolve => resolve()))
+      .then(() => {
+        StatusBar.setBarStyle('light-content')
+        StatusBar.setHidden(true)
+      })
+      .then(() => (
+        dispatch({
+          type: 'CLOSE_STORY_PAGE_EPISODE_LIST_MODAL_SUCCESS',
+          episodeId,
+        })
+      ))
+  }
+}
+
+export function openEpisodeListModal(episodeId: number): ThunkAction {
+  return (dispatch, getState) => {
+    return (new Promise(resolve => resolve()))
+      .then(() => {
+        StatusBar.setBarStyle('light-content')
+        StatusBar.setHidden(false, true)
+      })
+      .then(() => (
+        dispatch({
+          type: 'OPEN_STORY_PAGE_EPISODE_LIST_MODAL_SUCCESS',
+          episodeId,
+        })
+      ))
+  }
+}

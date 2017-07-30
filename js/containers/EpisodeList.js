@@ -6,6 +6,7 @@ import Modal from 'react-native-modalbox'
 
 import { loadEpisodeList } from '../actions/story'
 import EpisodeListComponent from '../components/EpisodeList'
+import { closeEpisodeListModal } from '../actions/storyPage'
 
 class EpisodeList extends React.PureComponent {
   constructor() {
@@ -24,12 +25,12 @@ class EpisodeList extends React.PureComponent {
   }
 
   render() {
-    const { modalVisible, closeModal, novel, episodes } = this.props
+    const { closeModal, novel, episodes } = this.props
     return (
       <Modal
         swipeToClose={ true }
         onClosed={ closeModal }
-        isOpen={ modalVisible }
+        isOpen={ this.props.isOpen }
       >
         { this.state.isLoading
           ? null
@@ -56,18 +57,20 @@ const getAllEpisode = (novel, episodes) => {
 }
 
 const select = (store, props) => {
-  const { novelId } = props
+  const { novelId, episodeId } = props
   const novel = store.novels[novelId]
   return {
     novelId,
     novel,
     episodes: getAllEpisode(novel, store.episodes),
+    isOpen: store.pages.storyPageStates[episodeId].isOpenEpisodeList,
   }
 }
 
 const actions = (dispatch, props) => {
   return {
     loadEpisodeList: (novelId: number) => dispatch(loadEpisodeList(novelId)),
+    closeModal: () => dispatch(closeEpisodeListModal(props.episodeId))
   }
 }
 
