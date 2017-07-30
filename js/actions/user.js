@@ -169,6 +169,7 @@ export function syncUserEnergy(userId: number, force: boolean = false): ThunkAct
               energy: v.energy,
               latestSyncedAt: v.latest_synced_at,
               nextRechargeDate: v.next_recharge_date,
+              ticketCount: v.ticket_count,
             })
           ))
       })
