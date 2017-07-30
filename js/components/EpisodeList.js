@@ -3,7 +3,7 @@ import React from 'react'
 import { View, Text, FlatList, TouchableOpacity, Linking, StyleSheet } from 'react-native'
 import Svg, { Path } from 'react-native-svg'
 
-import Header from './EpisodeListHeader'
+import Header from './ListHeader'
 
 const ChatBubbleIcon = () => (
   <View>
@@ -53,7 +53,10 @@ const renderItem = (novel, closeModal, { item }) => (
 const EpisodeList = ({ novel, episodes, closeModal }) => {
   return (
     <View style={{ flex: 1, backgroundColor: '#212121' }}>
-      <Header closeModal={ closeModal } />
+      <Header
+        title={ 'エピソード一覧' }
+        closeModal={ closeModal }
+      />
       <FlatList
         data={ episodes }
         renderItem={ renderItem.bind(null, novel, closeModal) }

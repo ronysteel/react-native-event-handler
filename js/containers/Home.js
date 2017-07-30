@@ -1,54 +1,22 @@
 // @flow
 
 import React from 'react'
-import { StyleSheet, Text, View, Linking } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Linking } from 'react-native'
 import { connect } from 'react-redux'
 
 import { loadTab } from '../actions/app'
 import Stories from '../components/Stories'
 import HeaderTitle from '../components/HeaderTitle'
+import HomeHeaderLeft from '../containers/HomeHeaderLeft'
+import HomeSettingContainer from '../containers/HomeSettingContainer'
 
 import type { Story } from '../reducers/stories'
-
-const novel = {
-  title: 'WALKING DEAD',
-  tags: ['ホラー'],
-  description: '次々と人間がゾンビへ姿を変えるなか、生存者たちは人類最後の希望にすがり、ともに旅を続ける。だがその先には終わりなき戦いが待ち受けていた。',
-  thumbnailUrl: 'https://s3-ap-northeast-1.amazonaws.com/obake.me/dummy-images/walking-dead.jpg',
-  episodeUri: 'chatnovel://novels/1/episodes/16'
-}
-const sections = [
-  {
-    type: 'pickup',
-    novels: [
-      Object.assign({}, novel, { key: '1' })
-    ]
-  },
-  {
-    type: 'list',
-    title: 'いま人気のノベル',
-    novels: [
-      Object.assign({}, novel, { key: '1' }),
-      Object.assign({}, novel, { key: '2' }),
-      Object.assign({}, novel, { key: '3' }),
-    ]
-  },
-  {
-    type: 'grid',
-    title: 'ホラー',
-    novels: [
-      Object.assign({}, novel, { key: '1' }),
-      Object.assign({}, novel, { key: '2' }),
-      Object.assign({}, novel, { key: '3' }),
-      Object.assign({}, novel, { key: '4' }),
-    ]
-  },
-]
 
 class Home extends React.Component {
   static navigationOptions = {
     // title: 'CHAT NOVEL',
     headerTitle: <HeaderTitle />,
+    headerLeft: <HomeHeaderLeft />,
     headerStyle: {
       backgroundColor: '#1a1a1a',
     },
@@ -79,6 +47,7 @@ class Home extends React.Component {
     return (
       <View style={ styles.container }>
         <Stories sections={ homeTab.sections } />
+        <HomeSettingContainer />
       </View>
     )
   }

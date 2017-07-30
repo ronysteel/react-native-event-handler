@@ -13,6 +13,7 @@ import energy from './energy'
 import tickets from './tickets'
 import tabs from './tabs'
 import purchasingProducts from './purchasingProducts'
+import homePageState from './homePageState'
 import storyPageStates from './storyPageStates'
 
 export default combineReducers({
@@ -29,6 +30,7 @@ export default combineReducers({
   purchasingProducts,
 
   pages: combineReducers({
+    homePageState,
     storyPageStates,
   }),
 })
