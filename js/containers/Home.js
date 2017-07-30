@@ -73,11 +73,11 @@ class Home extends React.Component {
   render() {
     const { stories, navigation, homeTab } = this.props
     if (!this.state.isLoaded) {
-      return null
+      return <View style={ styles.container } />
     }
 
     return (
-      <View style={styles.container}>
+      <View style={ styles.container }>
         <Stories sections={ homeTab.sections } />
       </View>
     )
