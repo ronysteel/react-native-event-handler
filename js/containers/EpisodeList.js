@@ -2,7 +2,7 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
-import Modal from 'react-native-modalbox';
+import Modal from 'react-native-modalbox'
 
 import { loadEpisodeList } from '../actions/story'
 import EpisodeListComponent from '../components/EpisodeList'

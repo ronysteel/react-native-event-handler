@@ -12,10 +12,17 @@ import {
   updateReadState,
   pageView,
 } from '../actions/story'
-import { purchase } from '../actions/user'
+import {
+  decreaseUserEnergy,
+  syncUserEnergy,
+} from '../actions/user'
+import {
+  openPromotionModal,
+} from '../actions/storyPage'
 import { getAllScript } from '../reducers/scripts'
 import StoryHeader from '../components/StoryHeader'
 import EpisodeList from './EpisodeList'
+import PromotionContainer from './PromotionContainer'
 
 import type { Episode } from '../reducers/episodes'
 import type { Script, Scripts, IndexedScripts } from '../reducers/scripts'
@@ -37,7 +44,7 @@ class EpisodeDetail extends React.Component {
   })
 
   componentDidMount() {
-    const { novelId, episodeId, navigation } = this.props
+    const { novelId, episodeId, navigation, uid } = this.props
     navigation.setParams({ openModal: this.openModal })
 
     Promise.all([
@@ -50,6 +57,7 @@ class EpisodeDetail extends React.Component {
         this.props.loadRecommends(categoryId)
       }),
       this.props.loadShareLinks(episodeId),
+      this.props.loadUserEnergy(uid),
     ]).then(() => {
       this.setState({ isLoading: false })
     })
@@ -64,19 +72,21 @@ class EpisodeDetail extends React.Component {
   }
 
   openModal = () => {
+    StatusBar.setBarStyle('light-content')
     StatusBar.setHidden(false, true)
     this.setState({ modalVisible: true })
   }
 
   closeModal = () => {
+    StatusBar.setBarStyle('light-content')
     StatusBar.setHidden(true)
     this.setState({ modalVisible: false })
   }
 
   render() {
     const {
-      novel, episode, scripts, readState, paid, shareLinks, recommends,
-      navigation, setHeaderVisible, onTapScreen, onTapPurchase,
+      novel, episode, scripts, readState, shareLinks, recommends,
+      uid, navigation, setHeaderVisible, onTapScreen,
     } = this.props
 
     if (this.state.isLoading) {
@@ -91,21 +101,20 @@ class EpisodeDetail extends React.Component {
           scripts={ scripts }
           scriptValues={ Object.values(scripts) }
           readState={ readState }
-          paid={ paid }
           setHeaderVisible={ setHeaderVisible }
           shareLinks={ shareLinks }
           recommends={ recommends }
           openModal={ this.openModal }
           showHeader={ this.showHeader }
           hideHeader={ this.hideHeader }
-          onTapScreen={ onTapScreen.bind(this, episode.id) }
-          onTapPurchase={ onTapPurchase.bind(this) }
+          onTapScreen={ onTapScreen.bind(this, uid, episode.id) }
         />
         <StoryHeader
           visible={ this.state.headerVisible }
           navigation={ navigation }
           openModal={ this.openModal }
         />
+        <PromotionContainer episodeId={ episode.id } />
         <EpisodeList
           novelId={ novel.novelId }
           modalVisible={ this.state.modalVisible }
@@ -135,6 +144,7 @@ const select = (store, props) => {
   const readState: ReadState = store.readStates[episodeId]
   const allScript: Scripts = getAllScript(store.episodes[episodeId], store.scripts)
   return {
+    uid: store.session.uid,
     novelId,
     episodeId,
     episode,
@@ -142,7 +152,6 @@ const select = (store, props) => {
     allScript,
     novel,
     scripts: allScript,
-    paid: store.session.paid,
     shareLinks: store.shareLinks[episodeId],
     recommends: novel && novel.categoryId && store.recommends[novel.categoryId],
   }
@@ -158,9 +167,14 @@ const actions = (dispatch, props) => {
       dispatch(loadRecommends(categoryId)),
     loadShareLinks: (episodeId: number) =>
       dispatch(loadShareLinks(episodeId)),
-    onTapScreen: (episodeId: number) =>
-      dispatch(updateReadState(episodeId)),
-    onTapPurchase: () => dispatch(purchase()),
+    loadUserEnergy: (userId: number) =>
+      dispatch(syncUserEnergy(userId, true)),
+    onTapScreen: (userId: number, episodeId: number) => (
+      dispatch(decreaseUserEnergy(userId))
+        .then(() => dispatch(syncUserEnergy(userId)))
+        .then(() => dispatch(updateReadState(episodeId)))
+        .then(() => dispatch(openPromotionModal(episodeId)))
+    ),
     setHeaderVisible: (visible: boolean) => {
       props.navigation.setParams({ visible })
     },

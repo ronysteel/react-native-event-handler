@@ -11,7 +11,9 @@ import { StackNavigator } from 'react-navigation'
 import reducers from './reducers'
 import Home from './containers/Home'
 import EpisodeDetail from './containers/EpisodeDetail'
+
 import { signInAnonymously } from './actions/user'
+import { loadPurcasingProducts } from './actions/app'
 
 function setupStore(onComplete: () => void) {
   const _createStore = applyMiddleware(thunk)(createStore)
@@ -20,7 +22,6 @@ function setupStore(onComplete: () => void) {
 
   return store
 }
-
 
 // gets the current screen from navigation state
 const getCurrentRouteName = (navigationState) => {
@@ -59,7 +60,7 @@ const App = StackNavigator({
   EpisodeDetail: { screen: EpisodeDetail, path: 'novels/:novelId/episodes/:episodeId' },
 }, {
   headerMode: 'screen',
-});
+})
 
 class Root extends React.Component {
   state: {
@@ -79,6 +80,7 @@ class Root extends React.Component {
       this.setState({ isLoading: false })
     })
     this.state.store.dispatch(signInAnonymously())
+    this.state.store.dispatch(loadPurcasingProducts())
   }
 
   render() {

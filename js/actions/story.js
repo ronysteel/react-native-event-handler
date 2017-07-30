@@ -4,6 +4,7 @@ import type { Action, ThunkAction } from './types'
 import { getAllScript } from '../reducers/scripts'
 import type { Scripts } from '../reducers/scripts'
 import type { Episodes, Episode } from '../reducers/episodes'
+import type { Energy } from '../reducers/energy'
 import firebase from '../firebase'
 
 const successLoadEpisode = (episodeId: number, json) => {
@@ -107,6 +108,7 @@ const successUpdateReadState = (
   scripts: Scripts,
   readIndex: ?number,
   paid: boolean,
+  energy: number,
 ): Action => {
   return {
     type: 'UPDATE_READ_STATE',
@@ -114,6 +116,7 @@ const successUpdateReadState = (
     scripts: getAllScript(episodes[episodeId], scripts),
     readIndex,
     paid,
+    energy,
   }
 }
 
@@ -122,8 +125,9 @@ export function updateReadState(
   readIndex: ?number,
 ): ThunkAction {
   return (dispatch, getState) => {
-    const { episodes, scripts, session } = getState()
-    return dispatch(successUpdateReadState(episodes, episodeId, scripts, readIndex, session.paid))
+    const { episodes, scripts, session, energy } = getState()
+    return dispatch(successUpdateReadState(
+      episodes, episodeId, scripts, readIndex, session.paid, energy.energy))
   }
 }
 

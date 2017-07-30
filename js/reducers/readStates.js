@@ -1,6 +1,7 @@
 // @flow
 import type { Action } from '../actions/types'
 import type { Script } from './scripts'
+import type { Energy } from './reducers/energy'
 
 export type ReadState = {
   episodeId: number;
@@ -24,14 +25,18 @@ function isSkippable(script: Script): boolean {
   return false
 }
 
-const maxReadNum = 100
+const maxReadNum = 10
 
-function isRead(readIndex: number, paid: boolean) {
+function isRead(readIndex: number, paid: boolean, energy: number) {
   if (paid) {
     return true
   }
 
   if (readIndex <= maxReadNum) {
+    return true
+  }
+
+  if (energy > 0) {
     return true
   }
 
@@ -41,7 +46,7 @@ function isRead(readIndex: number, paid: boolean) {
 function readStates(state: ReadStates = initialStates, action: Action): ReadStates {
   switch (action.type) {
     case 'UPDATE_READ_STATE': {
-      const { episodeId, scripts, readIndex, paid } = action
+      const { episodeId, scripts, readIndex, paid, energy } = action
       const init = {
         episodeId: episodeId,
         readIndex: 0,
@@ -56,9 +61,9 @@ function readStates(state: ReadStates = initialStates, action: Action): ReadStat
         s.reachEndOfContent = false
       }
 
-      s.displayPromotion = !isRead(s.readIndex, paid)
+      s.displayPromotion = !isRead(s.readIndex, paid, energy)
 
-      if (scripts && isRead(s.readIndex, paid)) {
+      if (scripts && isRead(s.readIndex, paid, energy)) {
         do {
           s.readIndex = s.readIndex + 1
           if (scripts[s.readIndex] && scripts[s.readIndex].type == 'BACKGROUND_IMAGE') {
