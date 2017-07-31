@@ -19,6 +19,8 @@ class Home extends React.Component {
     headerLeft: <HomeHeaderLeft />,
     headerStyle: {
       backgroundColor: '#1a1a1a',
+      borderColor: '#3a3a3a',
+      borderBottomWidth: 0.5,
     },
     headerTitleStyle: {
       color: '#fff',
