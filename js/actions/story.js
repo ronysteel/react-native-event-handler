@@ -6,6 +6,9 @@ import type { Scripts } from '../reducers/scripts'
 import type { Episodes, Episode } from '../reducers/episodes'
 import type { Energy } from '../reducers/energy'
 import firebase from '../firebase'
+import {
+  fetchScripts
+} from '../api'
 
 const successLoadEpisode = (episodeId: number, json) => {
   return {
@@ -19,10 +22,11 @@ const successLoadEpisode = (episodeId: number, json) => {
 
 export function loadEpisode(novelId: number, episodeId: number): ThunkAction {
   return (dispatch, getState) => {
-    return firebase.database()
-      .ref(`/scripts/${episodeId}`)
-      .once('value').then((snapshot) => {
-        dispatch(successLoadEpisode(episodeId, snapshot.val()))
+    const { session } = getState()
+    const { idToken } = session
+    return fetchScripts({ idToken, episodeId })
+      .then(v => {
+        return dispatch(successLoadEpisode(episodeId, v))
       })
   }
 }
