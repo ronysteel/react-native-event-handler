@@ -48,6 +48,8 @@ const styles = {
       backgroundColor: '#f0f0f0',
       paddingHorizontal: 15,
       paddingVertical: 12,
+      borderWidth: 0.5,
+      borderColor: '#d8d8d8',
     },
     text: {
       textAlign: 'center',
