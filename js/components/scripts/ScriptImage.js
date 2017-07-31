@@ -48,52 +48,44 @@ const renderNormal = image => (
 // CHAT_LEFT
 //
 
-const renderChatLeft = text => (
+const renderChatLeft = (image, character) => (
   <View style={ styles.chatLeft.container }>
-    { text.charactor.avatarUrl
-      ? <Image source={{ uri: text.charactor.avatarUrl }} style={ styles.chatLeft.avatarImage }/>
+    { character.avatarUrl
+      ? <Image source={{ uri: character.avatarUrl }} style={ styles.chatLeft.avatarImage }/>
       : null
     }
     <View style={ styles.chatLeft.row }>
-      <View style={ styles.chatLeft.chatBubbleTail }>
-        <ChatBubbleTail color={ '#f0f0f0' } direction={ 'LEFT' } />
-      </View>
-      { renderChatLeftCharactorName(text) }
-      <Text style={ styles.chatLeft.text }>{ text.body }</Text>
+      <Image
+        style={ [styles.chatLeft.image] }
+        source={{ uri: image.imageUrl }}
+      />
     </View>
   </View>
 )
-
-const renderChatLeftCharactorName = text => {
-  if (text.charactor) {
-    return <Text style={ styles.chatLeft.charactor }>{ text.charactor.name }</Text>
-  }
-  return null
-}
 
 //
 // CHAT_RIGHT
 //
 
-const renderChatRight = text => (
+const renderChatRight = image => (
   <View style={ styles.chatRight.row }>
-    <View style={ styles.chatRight.chatBubbleTail }>
-      <ChatBubbleTail color={ '#9de05b' } direction={ 'RIGHT' } />
-    </View>
-    <Text style={ styles.chatRight.text }>{ text.body }</Text>
+    <Image
+      style={ [styles.chatRight.image] }
+      source={{ uri: image.imageUrl }}
+    />
   </View>
 )
 
-const getImageComponent = (image) => {
+const getImageComponent = (image, character) => {
   switch (image.type) {
     case 'NORMAL': {
       return renderNormal(image)
     }
     case 'CHAT_LEFT': {
-      return null
+      return renderChatLeft(image, character)
     }
     case 'CHAT_RIGHT': {
-      return null
+      return renderChatRight(image)
     }
     default: {
       return null
@@ -101,15 +93,19 @@ const getImageComponent = (image) => {
   }
 }
 
-const ScriptImage = ({ image, isLatestItem }) => {
-  return getImageComponent(image)
+const ScriptImage = ({ image, characters, isLatestItem }) => {
+  let character
+  if (image.characterId && characters[image.characterId]) {
+    character = characters[image.characterId]
+  }
+  return getImageComponent(image, character)
 }
 
 const styles = {
   normal: StyleSheet.create({
     row: {
       flex: 1,
-      marginTop: 20,
+      marginTop: 30,
       backgroundColor: 'transparent',
       justifyContent: 'center',
     },
@@ -130,24 +126,15 @@ const styles = {
       marginTop: 20,
     },
     row: {
-      maxWidth: 224,
       marginLeft: 5,
-      marginBottom: 0,
-      borderRadius: 17,
-      backgroundColor: '#f0f0f0',
-      paddingHorizontal: 15,
-      paddingVertical: 12,
-      borderWidth: 0.5,
-      borderColor: '#d8d8d8',
+      borderRadius: 6,
+      backgroundColor: 'transparent',
     },
-    text: {
-      fontSize: 16,
-      lineHeight: 16 + 6,
-    },
-    charactor: {
-      color: '#737373',
-      fontSize: 11,
-      marginBottom: 6,
+    image: {
+      width: 247,
+      height: 247,
+      borderRadius: 6,
+      resizeMode: 'cover',
     },
     avatarImage: {
       width: 34,
@@ -155,31 +142,21 @@ const styles = {
       marginRight: 10,
       borderRadius: 34 / 2,
     },
-    chatBubbleTail: {
-      position: 'absolute',
-      top: 0,
-      left: -4,
-    },
   }),
   chatRight: StyleSheet.create({
     row: {
       alignSelf: 'flex-end',
-      maxWidth: 224,
-      margin: 20,
+      marginTop: 20,
+      marginRight: 15,
       marginBottom: 0,
-      borderRadius: 17,
-      backgroundColor: '#9de05b',
-      paddingHorizontal: 15,
-      paddingVertical: 12,
+      borderRadius: 6,
+      backgroundColor: 'transparent',
     },
-    text: {
-      fontSize: 16,
-      lineHeight: 16 + 6,
-    },
-    chatBubbleTail: {
-      position: 'absolute',
-      top: 0,
-      right: -4,
+    image: {
+      width: 247,
+      height: 247,
+      borderRadius: 6,
+      resizeMode: 'cover',
     },
   }),
 }

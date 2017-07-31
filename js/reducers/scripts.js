@@ -54,7 +54,7 @@ type Image = {
   imageUrl: string;
   imageWidth: number;
   imageHeight: number;
-  charactorId: ?number;
+  characterId: ?number;
 }
 
 const scriptTypes = [

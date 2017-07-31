@@ -74,7 +74,7 @@ class EpisodeDetail extends React.Component {
   render() {
     const {
       novel, episode, scripts, readState, shareLinks, recommends,
-      uid, navigation, setHeaderVisible, onTapScreen,
+      characters, uid, navigation, setHeaderVisible, onTapScreen,
     } = this.props
 
     if (this.state.isLoading) {
@@ -89,6 +89,7 @@ class EpisodeDetail extends React.Component {
           scripts={ scripts }
           scriptValues={ Object.values(scripts) }
           readState={ readState }
+          characters={ characters }
           setHeaderVisible={ setHeaderVisible }
           shareLinks={ shareLinks }
           recommends={ recommends }
@@ -138,6 +139,7 @@ const select = (store, props) => {
     allScript,
     novel,
     scripts: allScript,
+    characters: store.characters[episodeId],
     shareLinks: store.shareLinks[episodeId],
     recommends: novel && novel.categoryId && store.recommends[novel.categoryId],
   }
