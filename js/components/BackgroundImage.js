@@ -8,7 +8,7 @@ import {
 
 const BackgroundImage = ({ imageUrl, children }) => {
   if (!imageUrl) {
-    return null
+    return <View style={ styles.bg } />
   }
 
   return (
@@ -26,6 +26,7 @@ const styles: StyleSheet = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+    backgroundColor: '#fff',
   },
 })
 
