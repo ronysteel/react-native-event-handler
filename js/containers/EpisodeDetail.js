@@ -147,12 +147,8 @@ const actions = (dispatch, props) => {
   return {
     loadEpisode: (novelId: number, episodeId: number) =>
       dispatch(loadEpisode(novelId, episodeId)),
-    loadNovelMetadata: (novelId: number) =>
-      dispatch(loadNovelMetadata(novelId)),
     loadRecommends: (categoryId: number) =>
       dispatch(loadRecommends(categoryId)),
-    loadShareLinks: (episodeId: number) =>
-      dispatch(loadShareLinks(episodeId)),
     loadUserEnergy: (userId: number) =>
       dispatch(syncUserEnergy(userId, true)),
     onTapScreen: (userId: number, episodeId: number) => (

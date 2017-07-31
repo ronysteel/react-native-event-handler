@@ -8,6 +8,7 @@ import type { Energy } from '../reducers/energy'
 import firebase from '../firebase'
 import {
   fetchEpisode,
+  fetchEpisodeList,
 } from '../api'
 
 const successLoadEpisode = (episodeId: number, json) => {
@@ -57,14 +58,10 @@ const successLoadEpisodeList = (novelId: number, json) => {
 
 export function loadEpisodeList(novelId: number): ThunkAction {
   return (dispatch, getState) => {
-    return firebase.database()
-      .ref(`/episodes/${novelId}`)
-      .once('value').then((snapshot) => {
-        if (!snapshot.val()) {
-          return Promise.reject()
-        }
-        return dispatch(successLoadEpisodeList(novelId, snapshot.val()))
-      })
+    const { session } = getState()
+    const { idToken } = session
+    return fetchEpisodeList({ idToken, novelId })
+      .then(v => dispatch(successLoadEpisodeList(novelId, v)))
   }
 }
 
