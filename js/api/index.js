@@ -13,3 +13,16 @@ export const fetchScripts = ({ idToken, episodeId }) => (
   .then(r => r.json())
   .then(r => r.response)
 )
+
+export const fetchEpisode = ({ idToken, novelId, episodeId }) => (
+  fetch(`${API_HOST}/novels/${novelId}/episodes/${episodeId}`, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`,
+      'Cache-Control': 'no-cache',
+    }
+  })
+  .then(r => r.json())
+  .then(r => r.response)
+)
