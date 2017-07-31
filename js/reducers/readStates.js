@@ -19,7 +19,8 @@ const initialStates: ReadStates = {}
 
 function isSkippable(script: Script): boolean {
   if (script.type != 'TEXT' &&
-      script.type != 'DESCRIPTION') {
+      script.type != 'DESCRIPTION' &&
+      script.type != 'IMAGE') {
     return true
   }
   return false

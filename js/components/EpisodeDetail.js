@@ -16,6 +16,7 @@ import BackgroundImage from './BackgroundImage'
 import Share from './Share'
 import ScriptText from './scripts/ScriptText'
 import ScriptDescription from './scripts/ScriptDescription'
+import ScriptImage from './scripts/ScriptImage'
 
 import type { Episode } from '../reducers/episodes'
 import type { Scripts } from '../reducers/scripts'
@@ -55,6 +56,9 @@ const renderItem = (lastItemId, readState, { item, index }) => {
     }
     case 'DESCRIPTION': {
       return <ScriptDescription description={ item.description } isLatestItem={ isLatestItem } />
+    }
+    case 'IMAGE': {
+      return <ScriptImage image={ item.image } isLatestItem={ isLatestItem } />
     }
   }
 
