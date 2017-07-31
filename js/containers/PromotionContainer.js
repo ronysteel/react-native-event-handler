@@ -70,7 +70,7 @@ const actions = (dispatch, props) => {
   const { episodeId } = props
   return {
     closeModal: () => dispatch(closePromotionModal(episodeId)),
-    onTapPurchase: () => dispatch(purchase()),
+    onTapPurchase: (productId: string) => dispatch(purchase(productId)),
     onEndRecharge: (userId: number) => (
       dispatch(closePromotionModal(episodeId))
         .then(() => dispatch(syncUserEnergy(userId, true)))

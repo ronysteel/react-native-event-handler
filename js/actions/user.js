@@ -82,7 +82,7 @@ const verifyReceipt = ({ idToken, body }) => (
   .then(r => r.json())
 )
 
-export function purchase(productId: string = 'test.skahack.001'): ThunkAction {
+export function purchase(productId: string): ThunkAction {
   return (dispatch, getState) => {
     const { idToken } = getState().session
 

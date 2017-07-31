@@ -77,10 +77,14 @@ class Root extends React.Component {
     }
 
     this.state.store = setupStore((err, state) => {
-      this.setState({ isLoading: false })
+      Promise.all([
+        this.state.store.dispatch(signInAnonymously()),
+        this.state.store.dispatch(loadPurcasingProducts()),
+      ])
+        .then(() => {
+          this.setState({ isLoading: false })
+        })
     })
-    this.state.store.dispatch(signInAnonymously())
-    this.state.store.dispatch(loadPurcasingProducts())
   }
 
   render() {

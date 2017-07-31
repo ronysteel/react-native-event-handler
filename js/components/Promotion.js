@@ -19,9 +19,8 @@ import {
 
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0
 
-// TODO
-const PRODUCT_ID_ONE_MONTH = `test.skahack.001`
-const PRODUCT_ID_ONE_WEEK = `test.skahack.001`
+const PRODUCT_ID_ONE_MONTH = `co.newn.chatnovel.onemonth`
+const PRODUCT_ID_ONE_WEEK = `co.newn.chatnovel.oneweek`
 
 const Separator = () => (
   <View style={ styles.sectionTitleWrapper }>
