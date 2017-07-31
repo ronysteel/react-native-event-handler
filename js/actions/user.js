@@ -164,7 +164,6 @@ export function syncUserEnergy(userId: number, force: boolean = false): ThunkAct
       return (new Promise(resolve => resolve()))
     }
 
-    const ref = firebase.database().ref(`/user_energies/${userId}`)
     return fetchUserEnergy(session)
       .then(v => {
         if (!v) {
@@ -181,6 +180,7 @@ export function syncUserEnergy(userId: number, force: boolean = false): ThunkAct
           latest_synced_at: firebase.database.ServerValue.TIMESTAMP,
           updated_at: firebase.database.ServerValue.TIMESTAMP,
         }
+        const ref = firebase.database().ref(`/user_energies/${userId}`)
         return ref.update(Object.assign({}, base, ext))
           .then(() => fetchUserEnergy(session))
           .then(v => (
