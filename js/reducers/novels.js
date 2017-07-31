@@ -17,8 +17,9 @@ const initialStates: Novel = {}
 
 function novels(state: Novels = initialStates, action: Action): Novels {
   switch (action.type) {
-    case 'LOAD_NOVEL_METADATA_SUCCESS': {
-      const { novelId, metadata } = action
+    case 'LOAD_EPISODE_SUCCESS': {
+      const { novel_id, metadata } = action.episode
+      const novelId = novel_id
       const s = Object.assign({}, state[novelId] || {}, {
         novelId: parseInt(novelId),
         title: metadata.title,

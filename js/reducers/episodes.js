@@ -19,7 +19,7 @@ const initialStates: Episodes = {}
 function episodes(state: Episodes = initialStates, action: Action): Episodes {
   switch (action.type) {
     case 'LOAD_EPISODE_SUCCESS': {
-      const episodeId = action.episode.id
+      const episodeId = action.episodeId
       const scriptIds = (episode => {
         if (episode.scripts) {
           return episode.scripts.map(v => v.script.id)

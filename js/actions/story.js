@@ -7,16 +7,15 @@ import type { Episodes, Episode } from '../reducers/episodes'
 import type { Energy } from '../reducers/energy'
 import firebase from '../firebase'
 import {
-  fetchScripts
+  fetchEpisode,
+  fetchEpisodeList,
 } from '../api'
 
 const successLoadEpisode = (episodeId: number, json) => {
   return {
     type: 'LOAD_EPISODE_SUCCESS',
-    episode: {
-      id: episodeId,
-      scripts: json,
-    },
+    episodeId,
+    episode: json,
   }
 }
 
@@ -24,27 +23,9 @@ export function loadEpisode(novelId: number, episodeId: number): ThunkAction {
   return (dispatch, getState) => {
     const { session } = getState()
     const { idToken } = session
-    return fetchScripts({ idToken, episodeId })
+    return fetchEpisode({ idToken, novelId, episodeId })
       .then(v => {
         return dispatch(successLoadEpisode(episodeId, v))
-      })
-  }
-}
-
-const successLoadShareLinks = (episodeId: number, json) => {
-  return {
-    type: 'LOAD_SHARE_LINKS_SUCCESS',
-    episodeId: episodeId,
-    links: json,
-  }
-}
-
-export function loadShareLinks(episodeId: number): ThunkAction {
-  return (dispatch, getState) => {
-    return firebase.database()
-      .ref(`/share_links/${episodeId}`)
-      .once('value').then((snapshot) => {
-        dispatch(successLoadShareLinks(episodeId, snapshot.val()))
       })
   }
 }
@@ -67,24 +48,6 @@ export function loadRecommends(categoryId: number): ThunkAction {
   }
 }
 
-const successLoadNovelMetadata = (novelId: number, json) => {
-  return {
-    type: 'LOAD_NOVEL_METADATA_SUCCESS',
-    novelId: novelId,
-    metadata: json,
-  }
-}
-
-export function loadNovelMetadata(novelId: number): ThunkAction {
-  return (dispatch, getState) => {
-    return firebase.database()
-      .ref(`/novels/${novelId}/metadata`)
-      .once('value').then((snapshot) => (
-        dispatch(successLoadNovelMetadata(novelId, snapshot.val()))
-      ))
-  }
-}
-
 const successLoadEpisodeList = (novelId: number, json) => {
   return {
     type: 'LOAD_EPISODE_LIST_SUCCESS',
@@ -95,14 +58,10 @@ const successLoadEpisodeList = (novelId: number, json) => {
 
 export function loadEpisodeList(novelId: number): ThunkAction {
   return (dispatch, getState) => {
-    return firebase.database()
-      .ref(`/episodes/${novelId}`)
-      .once('value').then((snapshot) => {
-        if (!snapshot.val()) {
-          return Promise.reject()
-        }
-        return dispatch(successLoadEpisodeList(novelId, snapshot.val()))
-      })
+    const { session } = getState()
+    const { idToken } = session
+    return fetchEpisodeList({ idToken, novelId })
+      .then(v => dispatch(successLoadEpisodeList(novelId, v)))
   }
 }
 
