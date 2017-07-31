@@ -59,11 +59,12 @@ const getAllEpisode = (novel, episodes) => {
 const select = (store, props) => {
   const { novelId, episodeId } = props
   const novel = store.novels[novelId]
+  const state = store.pages.storyPageStates[episodeId]
   return {
     novelId,
     novel,
     episodes: getAllEpisode(novel, store.episodes),
-    isOpen: store.pages.storyPageStates[episodeId].isOpenEpisodeList,
+    isOpen: state && state.isOpenEpisodeList,
   }
 }
 
