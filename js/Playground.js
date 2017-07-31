@@ -15,7 +15,7 @@ class Playground extends React.PureComponent {
         <Promotion
           products={{
             products: {
-              'test.skahack.001': {
+              'co.newn.chatnovel.oneweek': {
                 identifier: '',
                 currencyCode: '',
                 currencySymbol: '',

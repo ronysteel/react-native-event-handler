@@ -5,7 +5,8 @@ const { InAppUtils } = NativeModules
 
 export function loadPurcasingProducts(): ThunkAction {
   const products = [
-    'test.skahack.001'
+    'co.newn.chatnovel.oneweek',
+    'co.newn.chatnovel.onemonth',
   ]
 
   return (dispatch, getState) => {

@@ -10,7 +10,7 @@ import {
 import RecommendRibbon from './RecommendRibbon'
 
 export const PurchaseButtonOneMonth = ({ product, onTapPurchase }) => (
-  <TouchableOpacity onPress={ onTapPurchase }>
+  <TouchableOpacity onPress={ onTapPurchase.bind(null, product.identifier) }>
     <View style={ styles.promotionButton }>
       <Text style={ styles.promotionButtonText }>{ product.priceString }</Text>
       <Text style={ styles.promotionButtonTitleText }>{ `/ ${product.title}` }</Text>
@@ -19,7 +19,7 @@ export const PurchaseButtonOneMonth = ({ product, onTapPurchase }) => (
 )
 
 export const PurchaseButtonOneWeek = ({ product, onTapPurchase }) => (
-  <TouchableOpacity onPress={ onTapPurchase }>
+  <TouchableOpacity onPress={ onTapPurchase.bind(null, product.identifier) }>
     <View style={ styles.weekWrapper }>
       <Text style={ styles.weekFreeText }>{ '7日間無料' }</Text>
       <Text style={ styles.weekPriceText }>
