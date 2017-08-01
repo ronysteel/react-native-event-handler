@@ -4,6 +4,7 @@ import type { Script } from './scripts'
 
 export type Character = {
   name: string;
+  color: string;
   avatarUrl: string;
 }
 

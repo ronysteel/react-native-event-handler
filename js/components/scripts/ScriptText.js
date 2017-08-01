@@ -17,7 +17,11 @@ const renderNormalText = (text, character) => (
 
 const renderNormalCharacterName = character => {
   if (character) {
-    return <Text style={ styles.normal.character }>{ character.name }</Text>
+    const color = { color: "#0F8986" }
+    if (character.color) {
+      color.color = character.color
+    }
+    return <Text style={ [styles.normal.character, color] }>{ character.name }</Text>
   }
   return null
 }
