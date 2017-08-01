@@ -7,7 +7,7 @@ const convertEnum = ary =>
     return memo
   }, {})
 
-type TextCharactor = {
+type TextCharacter = {
   name: string;
 }
 const textTypes = [
@@ -22,7 +22,7 @@ type TextType = $Keys<typeof textTypeNumber>;
 type Text = {
   body: string;
   type: TextType;
-  charactor: ?TextCharactor;
+  character: ?TextCharacter;
 }
 
 type BackgroundImage = {

@@ -112,11 +112,6 @@ const styles = {
     image: {
       alignSelf: 'center',
     },
-    charactor: {
-      fontSize: 12,
-      fontWeight: "600",
-      marginBottom: 2,
-    },
   }),
   chatLeft: StyleSheet.create({
     container: {
