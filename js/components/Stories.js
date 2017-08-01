@@ -60,6 +60,7 @@ const Stories = ({ sections }: Props) => {
         renderItem={ () => null }
         stickySectionHeadersEnabled={ false }
         sections={ s }
+        keyExtractor={item => `${item.id}`}
       />
     </List>
   )

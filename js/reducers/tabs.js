@@ -40,7 +40,10 @@ function tabs(state: Tabs = initialStates, action: Action): Tabs {
 
     case 'LOAD_TAB_SUCCESS': {
       const { tabName, tab } = action
-      tab.sections = Object.values(tab.sections)
+      tab.sections = Object.values(tab.sections).map((v, i) => {
+        v.id = i
+        return v
+      })
       const v = Object.assign({}, state[tabName], tab, {
         isLoading: false,
         isLoaded: true,
