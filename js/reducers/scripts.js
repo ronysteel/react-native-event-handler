@@ -41,11 +41,28 @@ type Description = {
   body: string;
 }
 
+const imageTypes = [
+  'UNKNOWN',
+  'NORMAL',
+  'CHAT_LEFT',
+  'CHAT_RIGHT',
+]
+const imageTypeNumber = convertEnum(imageTypes)
+type ImageType = $Keys<typeof imageTypeNumber>;
+type Image = {
+  type: ImageType;
+  imageUrl: string;
+  imageWidth: number;
+  imageHeight: number;
+  characterId: ?number;
+}
+
 const scriptTypes = [
   'UNKNOWN',
   'TEXT',
   'BACKGROUND_IMAGE',
   'DESCRIPTION',
+  'IMAGE',
 ]
 const scriptTypeNumber = convertEnum(scriptTypes)
 type ScriptType = $Keys<typeof scriptTypeNumber>;
@@ -58,6 +75,7 @@ export type Script = {
   text: ?Text;
   backgroundImage: ?BackgroundImage;
   description: ?Description;
+  image: ?Image;
 }
 
 export type Scripts = {
@@ -91,6 +109,10 @@ export default function scripts(state: Scripts = initialStates, action: Action):
           }
           case 'DESCRIPTION': {
             s.description.type = descriptionTypes[s.description.type]
+            break
+          }
+          case 'IMAGE': {
+            s.image.type = imageTypes[s.image.type]
             break
           }
         }

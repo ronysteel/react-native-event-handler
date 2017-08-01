@@ -16,6 +16,7 @@ import BackgroundImage from './BackgroundImage'
 import Share from './Share'
 import ScriptText from './scripts/ScriptText'
 import ScriptDescription from './scripts/ScriptDescription'
+import ScriptImage from './scripts/ScriptImage'
 
 import type { Episode } from '../reducers/episodes'
 import type { Scripts } from '../reducers/scripts'
@@ -43,7 +44,7 @@ class CustomScrollView extends React.PureComponent {
   }
 }
 
-const renderItem = (lastItemId, readState, { item, index }) => {
+const renderItem = (lastItemId, readState, characters, { item, index }) => {
   const isLatestItem = index === (readState.readIndex - 1)
   if (index >= readState.readIndex) {
     return null
@@ -51,10 +52,25 @@ const renderItem = (lastItemId, readState, { item, index }) => {
 
   switch (item.type) {
     case 'TEXT': {
-      return <ScriptText text={ item.text } isLatestItem={ isLatestItem } />
+      return <ScriptText
+        text={ item.text }
+        isLatestItem={ isLatestItem }
+        characters={ characters }
+      />
     }
     case 'DESCRIPTION': {
-      return <ScriptDescription description={ item.description } isLatestItem={ isLatestItem } />
+      return <ScriptDescription
+        description={ item.description }
+        isLatestItem={ isLatestItem }
+        characters={ characters }
+      />
+    }
+    case 'IMAGE': {
+      return <ScriptImage
+        image={ item.image }
+        isLatestItem={ isLatestItem }
+        characters={ characters }
+      />
     }
   }
 
@@ -148,7 +164,7 @@ class EpisodeDetail extends React.Component {
   render() {
     const {
       novel, episode, scripts, scriptValues, readState, shareLinks, recommends,
-      onTapScreen, onTapPurchase,
+      characters, onTapScreen, onTapPurchase,
     } = this.props
 
     const scrollView = props => {
@@ -181,7 +197,7 @@ class EpisodeDetail extends React.Component {
             <FlatList
               ref={r => this.list = r}
               data={ scriptValues }
-              renderItem={ renderItem.bind(null, lastItemId, readState) }
+              renderItem={ renderItem.bind(null, lastItemId, readState, characters) }
               keyExtractor={ item => `${item.id}` }
               ListFooterComponent={ this.renderFooter.bind(this, readState) }
               onLayout={ this.onLayout.bind(this) }
