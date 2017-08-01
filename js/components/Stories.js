@@ -26,7 +26,7 @@ const renderGridWrapper = ({ item }) => {
       data={ item.items }
       renderItem={ GridItem }
       numColumns={ 2 }
-      keyExtractor={item => `${item.key}`}
+      keyExtractor={item => `${item.id}`}
     />
   )
 }

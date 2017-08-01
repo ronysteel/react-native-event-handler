@@ -62,7 +62,6 @@ const renderItem = (lastItemId, readState, characters, { item, index }) => {
       return <ScriptDescription
         description={ item.description }
         isLatestItem={ isLatestItem }
-        characters={ characters }
       />
     }
     case 'IMAGE': {

@@ -170,7 +170,7 @@ export function syncUserEnergy(userId: number, force: boolean = false): ThunkAct
           return Promise.reject()
         }
 
-        if (!energy.latestSyncedAt || v.updated_at > v.latest_synced_at) {
+        if (!energy.latestSyncedAt || v.updatedAt > v.latestSyncedAt) {
           return v
         }
       })
@@ -187,9 +187,9 @@ export function syncUserEnergy(userId: number, force: boolean = false): ThunkAct
             dispatch({
               type: 'SYNC_USER_ENERGY_SUCCESS',
               energy: v.energy,
-              latestSyncedAt: v.latest_synced_at,
-              nextRechargeDate: v.next_recharge_date,
-              ticketCount: v.ticket_count,
+              latestSyncedAt: v.latestSyncedAt,
+              nextRechargeDate: v.nextRechargeDate,
+              ticketCount: v.ticketCount,
             })
           ))
       })
