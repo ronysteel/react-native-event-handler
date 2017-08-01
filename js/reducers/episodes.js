@@ -22,7 +22,7 @@ function episodes(state: Episodes = initialStates, action: Action): Episodes {
       const episodeId = action.episodeId
       const scriptIds = (episode => {
         if (episode.scripts) {
-          return episode.scripts.map(v => v.script.id)
+          return Object.values(episode.scripts).map(v => v.script.id)
         }
         return []
       })(action.episode)
@@ -33,12 +33,12 @@ function episodes(state: Episodes = initialStates, action: Action): Episodes {
     }
     case 'LOAD_EPISODE_LIST_SUCCESS': {
       const { novelId, episodes } = action
-      const es = episodes.reduce((memo, v) => {
-        memo[v.episode_id] = Object.assign({}, state[v.episode_id] || {}, {
-          id: v.episode_id,
+      const es = Object.values(episodes).reduce((memo, v) => {
+        memo[v.episodeId] = Object.assign({}, state[v.episodeId] || {}, {
+          id: v.episodeId,
           title: v.title,
-          episodeUri: v.episode_uri,
-          episodeOrder: v.episode_order,
+          episodeUri: v.episodeUri,
+          episodeOrder: v.episodeOrder,
         })
         return memo
       }, {})

@@ -98,7 +98,7 @@ export default function scripts(state: Scripts = initialStates, action: Action):
         return state
       }
 
-      const scripts = action.episode.scripts.reduce((memo, v) => {
+      const scripts = Object.values(action.episode.scripts).reduce((memo, v) => {
         const s = v.script
         s.type = scriptTypes[s.type]
 

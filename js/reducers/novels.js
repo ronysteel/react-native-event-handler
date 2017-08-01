@@ -18,10 +18,9 @@ const initialStates: Novel = {}
 function novels(state: Novels = initialStates, action: Action): Novels {
   switch (action.type) {
     case 'LOAD_EPISODE_SUCCESS': {
-      const { novel_id, metadata } = action.episode
-      const novelId = novel_id
+      const { novelId, metadata } = action.episode
       const s = Object.assign({}, state[novelId] || {}, {
-        novelId: parseInt(novelId),
+        novelId: novelId,
         title: metadata.title,
         categoryId: metadata.categoryId,
       })
@@ -33,7 +32,7 @@ function novels(state: Novels = initialStates, action: Action): Novels {
         return state
       }
       const s = Object.assign({}, state[novelId], {
-        episodeIds: episodes.map(v => v.episode_id)
+        episodeIds: Object.values(episodes).map(v => v.episodeId)
       })
       return Object.assign({}, state, { [novelId]: s })
     }

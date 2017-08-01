@@ -10,7 +10,7 @@ import ChatBubbleTail from './ChatBubbleTail'
 
 const renderNormalText = (text, character) => (
   <View style={ styles.normal.row }>
-    { renderNormalCharacterName(text, character) }
+    { renderNormalCharacterName(character) }
     <Text style={ styles.normal.text }>{ text.body }</Text>
   </View>
 )
@@ -36,7 +36,7 @@ const renderChatLeft = (text, character) => (
       <View style={ styles.chatLeft.chatBubbleTail }>
         <ChatBubbleTail color={ '#f0f0f0' } direction={ 'LEFT' } />
       </View>
-      { renderChatLeftCharacterName(text, character) }
+      { renderChatLeftCharacterName(character) }
       <Text style={ styles.chatLeft.text }>{ text.body }</Text>
     </View>
   </View>
