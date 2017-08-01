@@ -8,16 +8,16 @@ import ChatBubbleTail from './ChatBubbleTail'
 // NORMAL
 //
 
-const renderNormalText = text => (
+const renderNormalText = (text, character) => (
   <View style={ styles.normal.row }>
-    { renderNormalCharactorName(text) }
+    { renderNormalCharacterName(text, character) }
     <Text style={ styles.normal.text }>{ text.body }</Text>
   </View>
 )
 
-const renderNormalCharactorName = text => {
-  if (text.charactor) {
-    return <Text style={ styles.normal.charactor }>{ text.charactor.name }</Text>
+const renderNormalCharacterName = character => {
+  if (character) {
+    return <Text style={ styles.normal.character }>{ character.name }</Text>
   }
   return null
 }
@@ -26,25 +26,25 @@ const renderNormalCharactorName = text => {
 // CHAT_LEFT
 //
 
-const renderChatLeft = text => (
+const renderChatLeft = (text, character) => (
   <View style={ styles.chatLeft.container }>
-    { text.charactor.avatarUrl
-      ? <Image source={{ uri: text.charactor.avatarUrl }} style={ styles.chatLeft.avatarImage }/>
+    { character.avatarUrl
+      ? <Image source={{ uri: character.avatarUrl }} style={ styles.chatLeft.avatarImage }/>
       : null
     }
     <View style={ styles.chatLeft.row }>
       <View style={ styles.chatLeft.chatBubbleTail }>
         <ChatBubbleTail color={ '#f0f0f0' } direction={ 'LEFT' } />
       </View>
-      { renderChatLeftCharactorName(text) }
+      { renderChatLeftCharacterName(text, character) }
       <Text style={ styles.chatLeft.text }>{ text.body }</Text>
     </View>
   </View>
 )
 
-const renderChatLeftCharactorName = text => {
-  if (text.charactor) {
-    return <Text style={ styles.chatLeft.charactor }>{ text.charactor.name }</Text>
+const renderChatLeftCharacterName = character => {
+  if (character) {
+    return <Text style={ styles.chatLeft.character }>{ character.name }</Text>
   }
   return null
 }
@@ -53,7 +53,7 @@ const renderChatLeftCharactorName = text => {
 // CHAT_RIGHT
 //
 
-const renderChatRight = text => (
+const renderChatRight = (text, character) => (
   <View style={ styles.chatRight.row }>
     <View style={ styles.chatRight.chatBubbleTail }>
       <ChatBubbleTail color={ '#9de05b' } direction={ 'RIGHT' } />
@@ -62,16 +62,16 @@ const renderChatRight = text => (
   </View>
 )
 
-const getTextComponent = (text) => {
+const getTextComponent = (text, character) => {
   switch (text.type) {
     case 'NORMAL': {
-      return renderNormalText(text)
+      return renderNormalText(text, character)
     }
     case 'CHAT_LEFT': {
-      return renderChatLeft(text)
+      return renderChatLeft(text, character)
     }
     case 'CHAT_RIGHT': {
-      return renderChatRight(text)
+      return renderChatRight(text, character)
     }
     default: {
       return null
@@ -79,8 +79,12 @@ const getTextComponent = (text) => {
   }
 }
 
-const ScriptText = ({ text, isLatestItem }) => {
-  return getTextComponent(text)
+const ScriptText = ({ text, characters, isLatestItem }) => {
+  let character
+  if (text.characterId && characters[text.characterId]) {
+    character = characters[text.characterId]
+  }
+  return getTextComponent(text, character)
 }
 
 const styles = {
@@ -99,7 +103,7 @@ const styles = {
       fontSize: 16,
       lineHeight: 16 + 6,
     },
-    charactor: {
+    character: {
       fontSize: 12,
       fontWeight: "600",
       marginBottom: 2,
@@ -127,7 +131,7 @@ const styles = {
       fontSize: 16,
       lineHeight: 16 + 6,
     },
-    charactor: {
+    character: {
       color: '#737373',
       fontSize: 11,
       marginBottom: 6,
