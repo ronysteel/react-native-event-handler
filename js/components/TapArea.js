@@ -14,13 +14,13 @@ import TapIcon from './TapIcon'
 
 const tapAreaHeight = 250
 
-const TapArea = () => {
+const TapArea = ({ offset }) => {
   let text = 'タップして読みはじめましょう'
   // if (readState.reachEndOfContent) {
   //   text = 'ノベルの世界をもっと楽しみましょう'
   // }
   return (
-    <View
+    <Animated.View
       focusedOpacity={ 1 }
       activeOpacity={ 1 }
       style={{
@@ -29,6 +29,10 @@ const TapArea = () => {
         bottom: 0,
         left: 0,
         right: 0,
+        opacity: offset.interpolate({
+          inputRange: [0, 100],
+          outputRange: [1, 0],
+        }),
       }}
     >
       <View style={{
@@ -48,7 +52,7 @@ const TapArea = () => {
           backgroundColor: 'transparent',
         }}>{ text }</Text>
       </View>
-    </View>
+    </Animated.View>
   )
 }
 

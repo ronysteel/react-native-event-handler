@@ -88,6 +88,7 @@ class EpisodeDetail extends React.Component {
       completed: false,
       scrollAnim: new Animated.Value(0),
       isLocked: false,
+      offsetFromEnd: new Animated.Value(0),
     }
     this.isTappable = false
   }
@@ -110,9 +111,22 @@ class EpisodeDetail extends React.Component {
     } else if (this.currentScrollValue >= 0 && delta > 15) {
       this.props.hideHeader()
     }
+  }
 
-    if (this.state.isLocked && delta < 1) {
+  _handleScroll = ({ nativeEvent }) => {
+    Animated.event([{
+      nativeEvent: { contentOffset: { y: this.state.scrollAnim } }
+    }])
+
+    const { contentOffset, contentSize, layoutMeasurement } = nativeEvent
+    const offsetFromEnd = (layoutMeasurement.height - (contentSize.height - contentOffset.y))
+
+    if (this.state.isLocked && Math.abs(offsetFromEnd) < 1) {
       this.setState({ isLocked: false })
+      this.state.offsetFromEnd.setValue(0)
+    }
+    if (!this.state.isLocked) {
+      this.state.offsetFromEnd.setValue(Math.abs(offsetFromEnd))
     }
   }
 
@@ -172,12 +186,10 @@ class EpisodeDetail extends React.Component {
     return (
       <View style={ styles.container }>
         <BackgroundImage imageUrl={ bgImageUrl } />
-        <TapArea onPress={ onTapScreen } />
+        <TapArea onPress={ onTapScreen } offset={ this.state.offsetFromEnd }/>
         <ScrollView
           scrollEventThrottle={ 16 }
-          onScroll={ Animated.event(
-            [ { nativeEvent: { contentOffset: { y: this.state.scrollAnim } } } ],
-          ) }
+          onScroll={ this._handleScroll }
           ref={r => this.storyWrapper = r}
           onTouchStart={ this.onTap }
           onScrollBeginDrag={ () => this.isTappable = false }
