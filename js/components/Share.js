@@ -14,6 +14,11 @@ const Share = ({ novel, shareText, readState, shareOptions, recommends }) => {
   if (!readState.reachEndOfContent) {
     return null
   }
+
+  if (!shareOptions) {
+    return null
+  }
+
   return (
     <View style={ styles.container }>
       <View style={ styles.backDrop }/>

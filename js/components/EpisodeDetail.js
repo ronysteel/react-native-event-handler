@@ -10,6 +10,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native'
 
 import BackgroundImage from './BackgroundImage'
@@ -17,6 +18,7 @@ import Share from './Share'
 import ScriptText from './scripts/ScriptText'
 import ScriptDescription from './scripts/ScriptDescription'
 import ScriptImage from './scripts/ScriptImage'
+import TapArea from './TapArea'
 
 import type { Episode } from '../reducers/episodes'
 import type { Scripts } from '../reducers/scripts'
@@ -99,6 +101,7 @@ class EpisodeDetail extends React.Component {
       completed: false,
       scrollAnim: new Animated.Value(0),
     }
+    this.isTappable = false
   }
 
   componentDidMount() {
@@ -122,27 +125,22 @@ class EpisodeDetail extends React.Component {
   }
 
   renderFooter(readState) {
-    let height = this.state.height
+    let height = tapAreaHeight
     if (readState.reachEndOfContent) {
       height = 30
     }
-    return <View style={{ height }} />
+
+    return (
+      <View style={{ height }} />
+    )
   }
 
   scrollToEnd() {
+    this.isScrolling = true
     this.storyWrapper.scrollToEnd()
   }
 
   setContentHeight(contentHeight) {
-    const h = windowHeight - (contentHeight - this.state.height)
-    let height = 0
-    if (h <= tapAreaHeight) {
-      height = tapAreaHeight
-    } else {
-      height = h
-    }
-
-    this.setState({ height })
     setTimeout(() => this.scrollToEnd(), 0)
   }
 
@@ -152,7 +150,7 @@ class EpisodeDetail extends React.Component {
 
   getShareOptions = (novel, shareLinks) => {
     if (!novel || !shareLinks) {
-      return { title: '', url: '' }
+      return null
     }
     return {
       title: novel.title,
@@ -163,7 +161,7 @@ class EpisodeDetail extends React.Component {
   render() {
     const {
       novel, episode, scripts, scriptValues, readState, shareLinks, recommends,
-      characters, onTapScreen, onTapPurchase,
+      isTutorial, characters, onTapScreen, onTapPurchase,
     } = this.props
 
     const scrollView = props => {
@@ -176,32 +174,33 @@ class EpisodeDetail extends React.Component {
     const bgImageUrl = getBackgroundImage(scripts, readState)
     const shareOptions = this.getShareOptions(novel, shareLinks)
 
-
     return (
       <View style={ styles.container }>
         <BackgroundImage imageUrl={ bgImageUrl } />
+        <TapArea onPress={ onTapScreen } />
         <ScrollView
           scrollEventThrottle={ 16 }
           onScroll={ Animated.event(
             [ { nativeEvent: { contentOffset: { y: this.state.scrollAnim } } } ],
           ) }
           ref={r => this.storyWrapper = r}
+          onTouchStart={ () => this.isTappable = true }
+          onScrollBeginDrag={ () => this.isTappable = false }
+          onTouchEnd={() => {
+            if (this.isTappable) {
+              onTapScreen()
+            }
+            this.isTappable = false
+          }}
         >
-          <TouchableOpacity
-            focusedOpacity={ 1 }
-            activeOpacity={ 1 }
-            onPress={ onTapScreen }
-            style={{ backgroundColor: 'transparent' }}
-          >
-            <FlatList
-              ref={r => this.list = r}
-              data={ scriptValues }
-              renderItem={ renderItem.bind(null, lastItemId, readState, characters) }
-              keyExtractor={ item => `${item.id}` }
-              ListFooterComponent={ this.renderFooter.bind(this, readState) }
-              onLayout={ this.onLayout.bind(this) }
-            />
-          </TouchableOpacity>
+          <FlatList
+            ref={r => this.list = r}
+            data={ scriptValues }
+            renderItem={ renderItem.bind(null, lastItemId, readState, characters) }
+            keyExtractor={ item => `${item.id}` }
+            ListFooterComponent={ this.renderFooter.bind(this, readState) }
+            onLayout={ this.onLayout.bind(this) }
+          />
           <Share
             novel={ novel }
             readState={ readState }
