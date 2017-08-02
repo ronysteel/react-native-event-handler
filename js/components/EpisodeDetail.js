@@ -33,19 +33,6 @@ const headerHeight = 64
 const windowHeight = Dimensions.get('window').height - headerHeight
 const tapAreaHeight = 250
 
-class CustomScrollView extends React.PureComponent {
-  render() {
-    return (
-      <ScrollView
-        style={ styles.containers }
-        ref={ref => this.scrollView = ref}
-      >
-        <View {...this.props} style={ styles.containers } />
-      </ScrollView>
-    )
-  }
-}
-
 const renderItem = (lastItemId, readState, characters, { item, index }) => {
   const isLatestItem = index === (readState.readIndex - 1)
   if (index >= readState.readIndex) {
@@ -100,6 +87,7 @@ class EpisodeDetail extends React.Component {
       contentHeight: 0,
       completed: false,
       scrollAnim: new Animated.Value(0),
+      isLocked: false,
     }
     this.isTappable = false
   }
@@ -122,11 +110,15 @@ class EpisodeDetail extends React.Component {
     } else if (this.currentScrollValue >= 0 && delta > 15) {
       this.props.hideHeader()
     }
+
+    if (this.state.isLocked && delta < 1) {
+      this.setState({ isLocked: false })
+    }
   }
 
-  renderFooter(readState) {
+  renderFooter(readState, isTutorial) {
     let height = tapAreaHeight
-    if (readState.reachEndOfContent) {
+    if (readState.reachEndOfContent && !isTutorial) {
       height = 30
     }
 
@@ -136,16 +128,25 @@ class EpisodeDetail extends React.Component {
   }
 
   scrollToEnd() {
-    this.isScrolling = true
     this.storyWrapper.scrollToEnd()
   }
 
-  setContentHeight(contentHeight) {
-    setTimeout(() => this.scrollToEnd(), 0)
+  onTap = (e) => {
+    this.isTappable = true
   }
 
-  onLayout(event) {
-    this.setContentHeight(event.nativeEvent.layout.height)
+  onTapEnd = (onTapScreen) => {
+    if (this.isTappable && !this.state.isLocked) {
+      onTapScreen()
+      this.setState({ isLocked: true })
+      setTimeout(() => this.scrollToEnd(), 0)
+      setTimeout(() => {
+        if (this.state.isLocked) {
+          this.setState({ isLocked: false })
+        }
+      }, 280)
+    }
+    this.isTappable = false
   }
 
   getShareOptions = (novel, shareLinks) => {
@@ -164,12 +165,6 @@ class EpisodeDetail extends React.Component {
       isTutorial, characters, onTapScreen, onTapPurchase,
     } = this.props
 
-    const scrollView = props => {
-      return (
-        <CustomScrollView {...props} />
-      )
-    }
-
     const lastItemId = scriptValues.length == 0 ? 0 : scriptValues[scriptValues.length - 1].id
     const bgImageUrl = getBackgroundImage(scripts, readState)
     const shareOptions = this.getShareOptions(novel, shareLinks)
@@ -184,22 +179,16 @@ class EpisodeDetail extends React.Component {
             [ { nativeEvent: { contentOffset: { y: this.state.scrollAnim } } } ],
           ) }
           ref={r => this.storyWrapper = r}
-          onTouchStart={ () => this.isTappable = true }
+          onTouchStart={ this.onTap }
           onScrollBeginDrag={ () => this.isTappable = false }
-          onTouchEnd={() => {
-            if (this.isTappable) {
-              onTapScreen()
-            }
-            this.isTappable = false
-          }}
+          onTouchEnd={ this.onTapEnd.bind(this, onTapScreen) }
         >
           <FlatList
             ref={r => this.list = r}
             data={ scriptValues }
             renderItem={ renderItem.bind(null, lastItemId, readState, characters) }
             keyExtractor={ item => `${item.id}` }
-            ListFooterComponent={ this.renderFooter.bind(this, readState) }
-            onLayout={ this.onLayout.bind(this) }
+            ListFooterComponent={ this.renderFooter.bind(this, readState, isTutorial) }
           />
           <Share
             novel={ novel }
@@ -209,6 +198,7 @@ class EpisodeDetail extends React.Component {
             recommends={ recommends }
           />
         </ScrollView>
+        <View style={[ styles.tapGuard, this.state.isLocked ? {top:0} : {} ]} />
       </View>
     )
   }
@@ -220,6 +210,12 @@ const styles: StyleSheet = StyleSheet.create({
   },
   containerBackground: {
     backgroundColor: '#212121',
+  },
+  tapGuard: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 })
 

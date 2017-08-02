@@ -29,7 +29,6 @@ const TapArea = () => {
         bottom: 0,
         left: 0,
         right: 0,
-        backgroundColor: '#aaa',
       }}
     >
       <View style={{
@@ -46,6 +45,7 @@ const TapArea = () => {
           fontSize: 16,
           fontWeight: '600',
           marginTop: 20,
+          backgroundColor: 'transparent',
         }}>{ text }</Text>
       </View>
     </View>
