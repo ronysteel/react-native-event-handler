@@ -186,7 +186,10 @@ class EpisodeDetail extends React.Component {
     return (
       <View style={ styles.container }>
         <BackgroundImage imageUrl={ bgImageUrl } />
-        <TapArea onPress={ onTapScreen } offset={ this.state.offsetFromEnd }/>
+        <TapArea
+          offset={ this.state.offsetFromEnd }
+          readState={ readState }
+        />
         <ScrollView
           scrollEventThrottle={ 16 }
           onScroll={ this._handleScroll }

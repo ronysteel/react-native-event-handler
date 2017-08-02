@@ -2,10 +2,10 @@
 import React from 'react'
 import Svg, { G, Circle } from 'react-native-svg'
 
-const TapIcon = (theme) => {
+const TapIcon = ({ theme }) => {
   let color = "#000"
   if (theme == 'dark') {
-    let color = "#fff"
+    color = "#fff"
   }
 
   return (

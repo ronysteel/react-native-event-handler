@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Modal, StyleSheet, Text, View, StatusBar } from 'react-native'
+import { Animated, Modal, StyleSheet, Text, View, StatusBar } from 'react-native'
 import { connect } from 'react-redux'
 
 import Detail from '../components/EpisodeDetail'
@@ -21,6 +21,8 @@ class TutorialContainer extends React.Component {
 
     this.state = {
       isLoading: true,
+      fadeAnim: new Animated.Value(0),
+      tutorialEnded: false,
     }
   }
 
@@ -40,6 +42,23 @@ class TutorialContainer extends React.Component {
       })
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.readState && this.props.readState.reachEndOfContent &&
+      !prevProps.readState.reachEndOfContent
+    ) {
+      this.setState({ tutorialEnded: true })
+
+      Animated.timing(this.state.fadeAnim, {
+        toValue: 100,
+        duration: 500,
+      }).start()
+
+      setTimeout(() => {
+        this.props.navigation.setParams({ tutorial: false })
+      }, 1000)
+    }
+  }
+
   render() {
     const {
       novel, episode, scripts, readState,
@@ -49,6 +68,11 @@ class TutorialContainer extends React.Component {
     if (this.state.isLoading) {
       return <View style={{ flex: 1, backgroundColor: '#212121' }}></View>
     }
+
+    const color = this.state.fadeAnim.interpolate({
+      inputRange: [0, 100],
+      outputRange: ['rgba(30,30,30,0.1)', 'rgba(30,30,30,1.0)']
+    })
 
     return (
       <View style={{ flex: 1 }}>
@@ -64,6 +88,19 @@ class TutorialContainer extends React.Component {
           showHeader={ () => {} }
           hideHeader={ () => {} }
         />
+        { this.state.tutorialEnded
+            ?  <Animated.View
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    backgroundColor: color,
+                  }}
+                />
+            : null
+        }
       </View>
     )
   }

@@ -63,8 +63,9 @@ class Home extends React.Component {
     if (this.props.navigation.state.params.tutorial) {
       return (
         <TutorialContainer
-          novelId={ '01BPGSTPTBZJEZ09VZC1GZG2VQ' }
-          episodeId={ '01BPGSTPTCYYH3WD894ZTW0M0N' }
+          novelId={ '01BPGRVG5DP32HK9M4WZGS69YY' }
+          episodeId={ '01BPGRVG5F6N3PHEWW5Q71KHMB' }
+          navigation={ this.props.navigation }
         />
       )
     }
