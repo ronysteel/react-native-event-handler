@@ -75,12 +75,12 @@ const styles = StyleSheet.create({
     color: colors.sectionTitle,
     fontSize: 24,
     fontWeight: '600',
-    marginBottom: 20,
+    marginBottom: 29,
   },
   sectionSeparator: {
     borderTopWidth: 0.5,
     borderColor: '#3a3a3a',
-    marginBottom: 30,
+    marginBottom: 28,
   },
   item: {
     padding: 10,
