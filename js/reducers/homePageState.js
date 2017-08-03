@@ -15,7 +15,6 @@ function homePageState(
 ): HomePageState {
   switch (action.type) {
     case 'OPEN_HOME_PAGE_SETTING_MODAL_SUCCESS': {
-      console.log('OPEN_HOME_PAGE_SETTING_MODAL_SUCCESS')
       return Object.assign({}, state, {
         isOpenSetting: true,
       })

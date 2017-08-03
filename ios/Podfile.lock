@@ -71,6 +71,8 @@ PODS:
   - Protobuf (3.3.0)
   - React (0.46.1):
     - React/Core (= 0.46.1)
+  - react-native-blur (0.8.0):
+    - React
   - react-native-in-app-utils (5.5.0):
     - React
   - React/BatchedBridge (0.46.1):
@@ -100,6 +102,7 @@ DEPENDENCIES:
   - Firebase/DynamicLinks
   - Firebase/Messaging
   - Firebase/RemoteConfig
+  - react-native-blur (from `../node_modules/react-native-blur`)
   - react-native-in-app-utils (from `../node_modules/react-native-in-app-utils`)
   - React/BatchedBridge (from `../node_modules/react-native`)
   - React/Core (from `../node_modules/react-native`)
@@ -114,6 +117,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-linear-gradient"
   React:
     :path: "../node_modules/react-native"
+  react-native-blur:
+    :path: "../node_modules/react-native-blur"
   react-native-in-app-utils:
     :path: "../node_modules/react-native-in-app-utils"
   RNFirebase:
@@ -145,6 +150,7 @@ SPEC CHECKSUMS:
   nanopb: 22bc080fa3955e2116b6ff3ee6c2cb3c15ab97cb
   Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
   React: 0c6f45ca8c39fe48ed4e3a5583861a8e1bc0959e
+  react-native-blur: c4b80329b7ef2a8b9c574f73b798b3178c69ff48
   react-native-in-app-utils: 2ef766bea71e31c0bf4a6800f7bb20a8706c579d
   RNFirebase: 22e723806850dd17643cebcf4d9ccdc738e9a157
   RNShare: f58d823417bcdf71859c9afd7bb0cbcbb2b98e90
@@ -152,6 +158,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 6d98d83e944d15014d8071dd9819beb094c61133
   Yoga: 9148a870ff3adaba107edb8ef48ab189c9d9a3d1
 
-PODFILE CHECKSUM: 598654e8e9dc0fa57a5db10ae11a280c3485e32b
+PODFILE CHECKSUM: 6cdd0bb10447cd70c4f3a76d65ef74828d808dae
 
 COCOAPODS: 1.2.1

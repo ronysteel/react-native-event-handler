@@ -28,6 +28,7 @@ class TutorialContainer extends React.Component {
 
   componentDidMount() {
     const { novelId, episodeId, navigation, uid } = this.props
+    StatusBar.setHidden(true)
 
     let categoryId
     Promise.all([
@@ -42,6 +43,10 @@ class TutorialContainer extends React.Component {
       })
   }
 
+  componentWillUnmount() {
+    StatusBar.setHidden(false)
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.props.readState && this.props.readState.reachEndOfContent &&
       !prevProps.readState.reachEndOfContent
@@ -54,6 +59,7 @@ class TutorialContainer extends React.Component {
       }).start()
 
       setTimeout(() => {
+        this.props.navigation.setParams({ pushModal: true })
         this.props.navigation.setParams({ tutorial: false })
       }, 1000)
     }

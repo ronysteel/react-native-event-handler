@@ -113,11 +113,12 @@ class EpisodeDetail extends React.Component {
     }
   }
 
-  _handleScroll = ({ nativeEvent }) => {
+  _handleScroll = (e) => {
     Animated.event([{
       nativeEvent: { contentOffset: { y: this.state.scrollAnim } }
-    }])
+    }])(e)
 
+    const { nativeEvent } = e
     const { contentOffset, contentSize, layoutMeasurement } = nativeEvent
     const offsetFromEnd = (layoutMeasurement.height - (contentSize.height - contentOffset.y))
 

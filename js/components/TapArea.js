@@ -26,7 +26,7 @@ class TapArea extends React.PureComponent {
       this.state.v.setValue(0)
       Animated.timing(this.state.v, {
         toValue: 1,
-        duration: 500,
+        duration: 700,
       }).start();
     }
   }
@@ -36,7 +36,7 @@ class TapArea extends React.PureComponent {
     let text = 'タップして読みはじめましょう'
     let style = {
       opacity: offset.interpolate({
-        inputRange: [0, 100],
+        inputRange: [2, 100],
         outputRange: [1, 0],
       })
     }

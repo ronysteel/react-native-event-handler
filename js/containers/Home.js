@@ -10,6 +10,7 @@ import HeaderTitle from '../components/HeaderTitle'
 import HomeHeaderLeft from '../containers/HomeHeaderLeft'
 import HomeSettingContainer from '../containers/HomeSettingContainer'
 import TutorialContainer from '../containers/TutorialContainer'
+import PushPermissionModal from '../components/PushPermissionModal'
 
 import type { Story } from '../reducers/stories'
 
@@ -44,7 +45,10 @@ class Home extends React.Component {
   }
 
   componentWillMount() {
-    this.props.navigation.setParams({ tutorial: true });
+    this.props.navigation.setParams({
+      tutorial: false,
+      pushModal: false,
+    })
   }
 
   componentDidMount() {
@@ -74,6 +78,7 @@ class Home extends React.Component {
       <View style={ styles.container }>
         <Stories sections={ homeTab.sections } />
         <HomeSettingContainer />
+        <PushPermissionModal />
       </View>
     )
   }
