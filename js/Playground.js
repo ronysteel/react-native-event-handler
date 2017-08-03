@@ -24,6 +24,26 @@ class Playground extends React.PureComponent {
               },
             },
             {
+              id: 10,
+              scriptOrder: 1,
+              type: 'TEXT',
+              text: {
+                body: "はい",
+                characterId: "0",
+                type: 'CHAT_LEFT',
+              },
+            },
+            {
+              id: 11,
+              scriptOrder: 1,
+              type: 'TEXT',
+              text: {
+                body: "はい",
+                characterId: "0",
+                type: 'CHAT_RIGHT',
+              },
+            },
+            {
               id: 2,
               scriptOrder: 2,
               type: 'TEXT',

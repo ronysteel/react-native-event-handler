@@ -36,12 +36,14 @@ const renderChatLeft = (text, character) => (
       ? <Image source={{ uri: character.avatarUrl }} style={ styles.chatLeft.avatarImage }/>
       : null
     }
-    <View style={ styles.chatLeft.row }>
-      <View style={ styles.chatLeft.chatBubbleTail }>
-        <ChatBubbleTail color={ '#f0f0f0' } direction={ 'LEFT' } />
+    <View style={ styles.chatLeft.rowWrapper }>
+      <View style={ styles.chatLeft.row }>
+        <View style={ styles.chatLeft.chatBubbleTail }>
+          <ChatBubbleTail color={ '#f0f0f0' } direction={ 'LEFT' } />
+        </View>
+        { renderChatLeftCharacterName(character) }
+        <Text style={ styles.chatLeft.text }>{ text.body }</Text>
       </View>
-      { renderChatLeftCharacterName(character) }
-      <Text style={ styles.chatLeft.text }>{ text.body }</Text>
     </View>
   </View>
 )
@@ -128,9 +130,12 @@ const styles = {
       marginHorizontal: 15,
       marginTop: 20,
     },
-    row: {
+    rowWrapper: {
       flex: 1,
-      maxWidth: 300,
+      flexDirection: 'row',
+    },
+    row: {
+      maxWidth: 500,
       marginLeft: 5,
       marginBottom: 0,
       borderRadius: 17,
