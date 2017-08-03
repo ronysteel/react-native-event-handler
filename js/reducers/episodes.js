@@ -6,6 +6,7 @@ export type Episode = {
   title: string;
   description: string;
   episodeOrder: number;
+  theme: string;
   novelId: number;
   scriptIds: Array<number>;
 }
@@ -27,7 +28,9 @@ function episodes(state: Episodes = initialStates, action: Action): Episodes {
         return []
       })(action.episode)
 
-      const episode = state[episodeId] || { id: episodeId }
+      let episode = Object.assign({},
+        state[episodeId] || { id: episodeId },
+        action.episode.episode)
       episode.scriptIds = scriptIds
       return Object.assign({}, state, { [episodeId]: episode })
     }

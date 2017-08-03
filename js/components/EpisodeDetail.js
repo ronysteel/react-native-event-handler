@@ -10,6 +10,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native'
 
 import BackgroundImage from './BackgroundImage'
@@ -17,6 +18,7 @@ import Share from './Share'
 import ScriptText from './scripts/ScriptText'
 import ScriptDescription from './scripts/ScriptDescription'
 import ScriptImage from './scripts/ScriptImage'
+import TapArea from './TapArea'
 
 import type { Episode } from '../reducers/episodes'
 import type { Scripts } from '../reducers/scripts'
@@ -30,19 +32,6 @@ type Props = {
 const headerHeight = 64
 const windowHeight = Dimensions.get('window').height - headerHeight
 const tapAreaHeight = 250
-
-class CustomScrollView extends React.PureComponent {
-  render() {
-    return (
-      <ScrollView
-        style={ styles.containers }
-        ref={ref => this.scrollView = ref}
-      >
-        <View {...this.props} style={ styles.containers } />
-      </ScrollView>
-    )
-  }
-}
 
 const renderItem = (lastItemId, readState, characters, { item, index }) => {
   const isLatestItem = index === (readState.readIndex - 1)
@@ -98,7 +87,10 @@ class EpisodeDetail extends React.Component {
       contentHeight: 0,
       completed: false,
       scrollAnim: new Animated.Value(0),
+      isLocked: false,
+      offsetFromEnd: new Animated.Value(0),
     }
+    this.isTappable = false
   }
 
   componentDidMount() {
@@ -121,38 +113,60 @@ class EpisodeDetail extends React.Component {
     }
   }
 
-  renderFooter(readState) {
-    let height = this.state.height
-    if (readState.reachEndOfContent) {
+  _handleScroll = (e) => {
+    Animated.event([{
+      nativeEvent: { contentOffset: { y: this.state.scrollAnim } }
+    }])(e)
+
+    const { nativeEvent } = e
+    const { contentOffset, contentSize, layoutMeasurement } = nativeEvent
+    const offsetFromEnd = (layoutMeasurement.height - (contentSize.height - contentOffset.y))
+
+    // if (this.state.isLocked && Math.abs(offsetFromEnd) < 10) {
+    //   this.setState({ isLocked: false })
+    //   this.state.offsetFromEnd.setValue(0)
+    // }
+    // if (!this.state.isLocked) {
+    //   this.state.offsetFromEnd.setValue(Math.abs(offsetFromEnd))
+    // }
+  }
+
+  renderFooter(readState, isTutorial) {
+    let height = tapAreaHeight
+    if (readState.reachEndOfContent && !isTutorial) {
       height = 30
     }
-    return <View style={{ height }} />
+
+    return (
+      <View style={{ height }} />
+    )
   }
 
   scrollToEnd() {
     this.storyWrapper.scrollToEnd()
   }
 
-  setContentHeight(contentHeight) {
-    const h = windowHeight - (contentHeight - this.state.height)
-    let height = 0
-    if (h <= tapAreaHeight) {
-      height = tapAreaHeight
-    } else {
-      height = h
-    }
-
-    this.setState({ height })
-    setTimeout(() => this.scrollToEnd(), 0)
+  onTap = (e) => {
+    this.isTappable = true
   }
 
-  onLayout(event) {
-    this.setContentHeight(event.nativeEvent.layout.height)
+  onTapEnd = (onTapScreen) => {
+    if (this.isTappable && !this.state.isLocked) {
+      onTapScreen()
+      // this.setState({ isLocked: true })
+      setTimeout(() => this.scrollToEnd(), 0)
+      // setTimeout(() => {
+      //   if (this.state.isLocked) {
+      //     this.setState({ isLocked: false })
+      //   }
+      // }, 50)
+    }
+    this.isTappable = false
   }
 
   getShareOptions = (novel, shareLinks) => {
     if (!novel || !shareLinks) {
-      return { title: '', url: '' }
+      return null
     }
     return {
       title: novel.title,
@@ -163,45 +177,37 @@ class EpisodeDetail extends React.Component {
   render() {
     const {
       novel, episode, scripts, scriptValues, readState, shareLinks, recommends,
-      characters, onTapScreen, onTapPurchase,
+      isTutorial, characters, onTapScreen, onTapPurchase,
     } = this.props
-
-    const scrollView = props => {
-      return (
-        <CustomScrollView {...props} />
-      )
-    }
 
     const lastItemId = scriptValues.length == 0 ? 0 : scriptValues[scriptValues.length - 1].id
     const bgImageUrl = getBackgroundImage(scripts, readState)
     const shareOptions = this.getShareOptions(novel, shareLinks)
 
-
     return (
       <View style={ styles.container }>
         <BackgroundImage imageUrl={ bgImageUrl } />
+        <TapArea
+          offset={ this.state.offsetFromEnd }
+          theme={ episode.theme || 'dark' }
+          readState={ readState }
+          isTutorial={ isTutorial }
+        />
         <ScrollView
           scrollEventThrottle={ 16 }
-          onScroll={ Animated.event(
-            [ { nativeEvent: { contentOffset: { y: this.state.scrollAnim } } } ],
-          ) }
+          onScroll={ this._handleScroll }
           ref={r => this.storyWrapper = r}
+          onTouchStart={ this.onTap }
+          onScrollBeginDrag={ () => this.isTappable = false }
+          onTouchEnd={ this.onTapEnd.bind(this, onTapScreen) }
         >
-          <TouchableOpacity
-            focusedOpacity={ 1 }
-            activeOpacity={ 1 }
-            onPress={ onTapScreen }
-            style={{ backgroundColor: 'transparent' }}
-          >
-            <FlatList
-              ref={r => this.list = r}
-              data={ scriptValues }
-              renderItem={ renderItem.bind(null, lastItemId, readState, characters) }
-              keyExtractor={ item => `${item.id}` }
-              ListFooterComponent={ this.renderFooter.bind(this, readState) }
-              onLayout={ this.onLayout.bind(this) }
-            />
-          </TouchableOpacity>
+          <FlatList
+            ref={r => this.list = r}
+            data={ scriptValues }
+            renderItem={ renderItem.bind(null, lastItemId, readState, characters) }
+            keyExtractor={ item => `${item.id}` }
+            ListFooterComponent={ this.renderFooter.bind(this, readState, isTutorial) }
+          />
           <Share
             novel={ novel }
             readState={ readState }
@@ -210,6 +216,7 @@ class EpisodeDetail extends React.Component {
             recommends={ recommends }
           />
         </ScrollView>
+        <View style={[ styles.tapGuard, this.state.isLocked ? {top:0} : {} ]} />
       </View>
     )
   }
@@ -221,6 +228,12 @@ const styles: StyleSheet = StyleSheet.create({
   },
   containerBackground: {
     backgroundColor: '#212121',
+  },
+  tapGuard: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 })
 

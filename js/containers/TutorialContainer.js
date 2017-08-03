@@ -1,48 +1,35 @@
 // @flow
 import React from 'react'
-import { Modal, StyleSheet, Text, View, StatusBar } from 'react-native'
+import { Animated, StyleSheet, View, StatusBar } from 'react-native'
 import { connect } from 'react-redux'
 
 import Detail from '../components/EpisodeDetail'
 import {
   loadEpisode,
-  loadRecommends,
   updateReadState,
   pageView,
 } from '../actions/story'
-import {
-  decreaseUserEnergy,
-  syncUserEnergy,
-} from '../actions/user'
-import {
-  openPromotionModal,
-  openEpisodeListModal,
-} from '../actions/storyPage'
+import { tutorialEnd } from '../actions/user'
 import { getAllScript } from '../reducers/scripts'
-import StoryHeader from '../components/StoryHeader'
-import EpisodeList from './EpisodeList'
-import PromotionContainer from './PromotionContainer'
 
 import type { Episode } from '../reducers/episodes'
 import type { Script, Scripts, IndexedScripts } from '../reducers/scripts'
 import type { ReadState } from '../reducers/readStates'
 
-class EpisodeDetail extends React.Component {
+class TutorialContainer extends React.Component {
   constructor() {
     super()
 
     this.state = {
       isLoading: true,
-      headerVisible: false,
+      fadeAnim: new Animated.Value(0),
+      tutorialEnded: false,
     }
   }
 
-  static navigationOptions = ({ navigation }) => ({
-    header: null,
-  })
-
   componentDidMount() {
     const { novelId, episodeId, navigation, uid } = this.props
+    StatusBar.setHidden(true)
 
     let categoryId
     Promise.all([
@@ -51,33 +38,47 @@ class EpisodeDetail extends React.Component {
           this.props.pageView(novelId, episodeId)
           this.props.resetReadIndex(episodeId)
         }),
-      this.props.loadUserEnergy(uid),
     ])
       .then(() => {
         this.setState({ isLoading: false })
       })
-      .then(() => {
-        this.props.loadRecommends(1)
-      })
   }
 
-  showHeader = () => {
-    this.setState({ headerVisible: true })
+  componentWillUnmount() {
+    StatusBar.setHidden(false)
   }
 
-  hideHeader = () => {
-    this.setState({ headerVisible: false })
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.readState && this.props.readState.reachEndOfContent &&
+      !prevProps.readState.reachEndOfContent
+    ) {
+      this.setState({ tutorialEnded: true })
+
+      Animated.timing(this.state.fadeAnim, {
+        toValue: 100,
+        duration: 500,
+      }).start()
+
+      setTimeout(() => {
+        this.props.onTutorialEnd()
+      }, 1000)
+    }
   }
 
   render() {
     const {
-      novel, episode, scripts, readState, shareLinks, recommends,
-      characters, uid, navigation, setHeaderVisible, onTapScreen,
+      novel, episode, scripts, readState,
+      characters, uid, navigation, onTapScreen,
     } = this.props
 
     if (this.state.isLoading) {
       return <View style={{ flex: 1, backgroundColor: '#212121' }}></View>
     }
+
+    const color = this.state.fadeAnim.interpolate({
+      inputRange: [0, 100],
+      outputRange: ['rgba(30,30,30,0.1)', 'rgba(30,30,30,1.0)']
+    })
 
     return (
       <View style={{ flex: 1 }}>
@@ -88,23 +89,24 @@ class EpisodeDetail extends React.Component {
           scriptValues={ Object.values(scripts) }
           readState={ readState }
           characters={ characters }
-          setHeaderVisible={ setHeaderVisible }
-          shareLinks={ shareLinks }
-          recommends={ recommends }
-          showHeader={ this.showHeader }
-          hideHeader={ this.hideHeader }
           onTapScreen={ onTapScreen.bind(this, uid, episode.id) }
+          isTutorial={ true }
+          showHeader={ () => {} }
+          hideHeader={ () => {} }
         />
-        <StoryHeader
-          visible={ this.state.headerVisible }
-          navigation={ navigation }
-          openModal={ this.props.openEpisodeListModal.bind(null, episode.id) }
-        />
-        <PromotionContainer episodeId={ episode.id } />
-        <EpisodeList
-          novelId={ novel.novelId }
-          episodeId={ episode.id }
-        />
+        { this.state.tutorialEnded
+            ?  <Animated.View
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    backgroundColor: color,
+                  }}
+                />
+            : null
+        }
       </View>
     )
   }
@@ -122,7 +124,7 @@ const getScripts = (scripts: IndexedScripts, readState: ReadState): IndexedScrip
 const getParams = (props) => props.navigation.state.params
 
 const select = (store, props) => {
-  const { episodeId, novelId } = getParams(props)
+  const { episodeId, novelId } = props
 
   const novel = store.novels[novelId]
   const episode: Episode = store.episodes[episodeId]
@@ -138,8 +140,6 @@ const select = (store, props) => {
     novel,
     scripts: allScript,
     characters: store.characters[episodeId],
-    shareLinks: store.shareLinks[episodeId],
-    recommends: novel && novel.categoryId && store.recommends[novel.categoryId],
   }
 }
 
@@ -147,24 +147,20 @@ const actions = (dispatch, props) => {
   return {
     loadEpisode: (novelId: number, episodeId: number) =>
       dispatch(loadEpisode(novelId, episodeId)),
-    loadRecommends: (categoryId: number) =>
-      dispatch(loadRecommends(categoryId)),
-    loadUserEnergy: (userId: number) =>
-      dispatch(syncUserEnergy(userId, true)),
     onTapScreen: (userId: number, episodeId: number) => (
       dispatch(updateReadState(episodeId))
-      // dispatch(decreaseUserEnergy(userId))
-      //   .then(() => dispatch(syncUserEnergy(userId)))
-      //   .then(() => dispatch(updateReadState(episodeId)))
-      //   .then(() => dispatch(openPromotionModal(episodeId)))
     ),
-    setHeaderVisible: (visible: boolean) => {
-      props.navigation.setParams({ visible })
-    },
     resetReadIndex: (episodeId: number) => dispatch(updateReadState(episodeId, 0)),
     pageView: (novelId: number, episodeId: number) => dispatch(pageView(novelId, episodeId)),
-    openEpisodeListModal: (episodeId: number) => dispatch(openEpisodeListModal(episodeId)),
+    onTutorialEnd: () =>
+      dispatch(tutorialEnd())
+        .then(() => {
+          props.navigation.setParams({
+            pushPopup: true,
+            tutorial: false,
+          })
+        }),
   }
 }
 
-export default connect(select, actions)(EpisodeDetail)
+export default connect(select, actions)(TutorialContainer)

@@ -3,7 +3,7 @@
 
 target 'chatnovel' do
   # use_frameworks!
-  platform :ios, '10.0'
+  platform :ios, '9.0'
 
   pod "Yoga", :path => "../node_modules/react-native/ReactCommon/yoga"
   pod 'React', :path => '../node_modules/react-native', :subspecs => [
@@ -27,4 +27,5 @@ target 'chatnovel' do
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
   pod 'RNShare', :path => '../node_modules/react-native-share'
+  pod 'react-native-blur', :path => '../node_modules/react-native-blur'
 end

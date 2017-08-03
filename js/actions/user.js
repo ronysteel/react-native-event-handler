@@ -232,3 +232,11 @@ export function useTicket(): ThunkAction {
       ))
   }
 }
+
+export function tutorialEnd(): ThunkAction {
+  return (dispatch, getState) => {
+
+    return new Promise(resolve => resolve())
+      .then(() => dispatch({ type: 'TUTORIAL_END_SUCCESS' }))
+  }
+}
