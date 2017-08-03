@@ -46,7 +46,7 @@ class TapArea extends React.PureComponent {
   }
 
   render() {
-    const { offset, readState, isTutorial } = this.props
+    const { theme, offset, readState, isTutorial } = this.props
     let text = 'タップして読みはじめましょう'
     let style = {
       opacity: offset.interpolate({
@@ -65,7 +65,6 @@ class TapArea extends React.PureComponent {
     }
 
     let textColor = { color: 'rgba(0, 0, 0, 0.5)' }
-    const theme = 'dark'
     if (theme == 'dark') {
       textColor = { color: 'rgba(255, 255, 255, 0.5)' }
     }
