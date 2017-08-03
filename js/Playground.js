@@ -2,7 +2,7 @@
 import React from 'react'
 import { View, StatusBar } from 'react-native'
 
-import Share from './components/Share'
+import ScriptList from './components/ScriptList'
 
 StatusBar.setHidden(true)
 StatusBar.setBarStyle('dark-content')
@@ -11,37 +11,69 @@ class Playground extends React.PureComponent {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <Share
-          novel={{
-            novelId: 1,
-            categoryId: 1,
-          }}
+        <ScriptList
+          data={[
+            {
+              id: 1,
+              scriptOrder: 1,
+              type: 'TEXT',
+              text: {
+                body: "すみません。解決策をご用意していたのですが、ちょっと準備に時間がかかってしまって……",
+                characterId: "0",
+                type: 'CHAT_LEFT',
+              },
+            },
+            {
+              id: 2,
+              scriptOrder: 2,
+              type: 'TEXT',
+              text: {
+                body: "すみません。解決策をご用意していたのですが、ちょっと準備に時間がかかってしまって……",
+                characterId: "0",
+                type: 'CHAT_RIGHT',
+              },
+            },
+            {
+              id: 3,
+              scriptOrder: 2,
+              type: 'TEXT',
+              text: {
+                body: "すみません。解決策をご用意していたのですが、ちょっと準備に時間がかかってしまって……",
+                characterId: "1",
+                type: 'CHAT_LEFT',
+              },
+            },
+            {
+              id: 4,
+              scriptOrder: 2,
+              type: 'TEXT',
+              text: {
+                body: "すみません。解決策をご用意していたのですが、ちょっと準備に時間がかかってしまって……",
+                characterId: "1",
+                type: 'CHAT_RIGHT',
+              },
+            },
+          ]}
+          lastItemId={ 10 }
           readState={{
-            readIndex: 1,
-            backgroundImageIndex: 0,
+            episodeId: 1,
+            readIndex: 100,
+            backgroundImageIndex: 1,
             displayPromotion: false,
-            reachEndOfContent: true,
+            reachEndOfContent: false,
           }}
-          shareText={ "怖かった…？ \n怖かったらこのノベルをシェアしよう…" }
-          shareOptions={{
-            title: "title",
-            url: "url",
+          characters={{
+            "0": {
+              name: 'A',
+              avatarUrl: "https://s3-ap-northeast-1.amazonaws.com/chatnovel/character_icon/hoagehgowheg.png",
+            },
+            "1": {
+              name: '謎の人',
+              avatarUrl: "",
+            }
           }}
-          recommends={[{
-            novelId: 2,
-            episodeId: 2,
-            title: 'test',
-            description: 'desc',
-            episodeUri: 'url',
-            thumbnailUrl: "https://s3-ap-northeast-1.amazonaws.com/chatnovel/thumbnails/16x9/couples_cake.jpg",
-          }, {
-            novelId: 2,
-            episodeId: 2,
-            title: 'test',
-            description: 'desc',
-            episodeUri: 'url',
-            thumbnailUrl: "https://s3-ap-northeast-1.amazonaws.com/chatnovel/thumbnails/16x9/couples_cake.jpg",
-          }]}
+          isTutorial={ false }
+          ListFooterComponent={ () => null }
         />
       </View>
     )
