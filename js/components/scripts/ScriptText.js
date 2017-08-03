@@ -62,9 +62,17 @@ const renderChatRight = (text, character) => (
     <View style={ styles.chatRight.chatBubbleTail }>
       <ChatBubbleTail color={ '#9de05b' } direction={ 'RIGHT' } />
     </View>
+    { renderChatRightCharacterName(character) }
     <Text style={ styles.chatRight.text }>{ text.body }</Text>
   </View>
 )
+
+const renderChatRightCharacterName = character => {
+  if (character) {
+    return <Text style={ styles.chatRight.character }>{ character.name }</Text>
+  }
+  return null
+}
 
 const getTextComponent = (text, character) => {
   switch (text.type) {
@@ -168,6 +176,11 @@ const styles = {
     text: {
       fontSize: 16,
       lineHeight: 16 + 6,
+    },
+    character: {
+      color: '#5a5a5a',
+      fontSize: 11,
+      marginBottom: 6,
     },
     chatBubbleTail: {
       position: 'absolute',
