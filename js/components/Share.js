@@ -55,14 +55,13 @@ const styles: StyleSheet = StyleSheet.create({
   },
   text: {
     color: '#fff',
-    marginTop: 128,
+    marginTop: 130,
     textAlign: 'center',
     fontSize: 18,
     fontWeight: '600',
     lineHeight: 25,
   },
   iconsWrapper: {
-    flex: 1,
     flexDirection: 'row',
     alignSelf: 'center',
     marginTop: 30,
@@ -71,7 +70,7 @@ const styles: StyleSheet = StyleSheet.create({
     marginRight: 15,
   },
   recommends: {
-    marginTop: 129,
+    marginTop: 130,
   }
 })
 

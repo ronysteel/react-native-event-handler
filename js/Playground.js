@@ -2,38 +2,46 @@
 import React from 'react'
 import { View, StatusBar } from 'react-native'
 
-import Promotion from './components/Promotion'
-import moment from 'moment'
+import Share from './components/Share'
 
-StatusBar.setHidden(false)
+StatusBar.setHidden(true)
 StatusBar.setBarStyle('dark-content')
 
 class Playground extends React.PureComponent {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <Promotion
-          products={{
-            products: {
-              'co.newn.chatnovel.oneweek': {
-                identifier: '',
-                currencyCode: '',
-                currencySymbol: '',
-                description: '',
-                downloadable: false,
-                price: 900,
-                priceString: '¥900',
-                title: '1ヶ月',
-              }
-            }
+        <Share
+          novel={{
+            novelId: 1,
+            categoryId: 1,
           }}
-          ticketCount={ 1 }
-          onTapPurchase={ () => {} }
-          onTapUseTicket={ () => {} }
-          onTapRestore={ () => {} }
-          nextRechargeDate={ moment().add(30, 'minutes').valueOf() }
-          onEndRecharge={ () => {} }
-          closeModal={ () => {} }
+          readState={{
+            readIndex: 1,
+            backgroundImageIndex: 0,
+            displayPromotion: false,
+            reachEndOfContent: true,
+          }}
+          shareText={ "怖かった…？ \n怖かったらこのノベルをシェアしよう…" }
+          shareOptions={{
+            title: "title",
+            url: "url",
+          }}
+          recommends={[{
+            novelId: 2,
+            episodeId: 2,
+            title: 'test',
+            description: 'desc',
+            episodeUri: 'url',
+            thumbnailUrl: "https://s3-ap-northeast-1.amazonaws.com/chatnovel/thumbnails/16x9/couples_cake.jpg",
+          }, {
+            novelId: 2,
+            episodeId: 2,
+            title: 'test',
+            description: 'desc',
+            episodeUri: 'url',
+            thumbnailUrl: "https://s3-ap-northeast-1.amazonaws.com/chatnovel/thumbnails/16x9/couples_cake.jpg",
+          }]}
         />
       </View>
     )
