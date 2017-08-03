@@ -65,14 +65,14 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     lineHeight: 20,
     marginLeft: 20,
-    marginBottom: 10,
+    marginBottom: 7,
   },
   description: {
     color: colors.description,
     fontSize: 11,
     lineHeight: 16,
     marginLeft: 20,
-    marginTop: 7,
+    marginTop: 6,
   },
   tagWrapper: {
     flexDirection:'row',
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   tag: {
     flexWrap: 'wrap',
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderRadius: 2,
     borderColor: '#565656',
     paddingVertical: 5,
@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
   },
   tagText: {
     color: '#6e6e6e',
-    fontSize: 9,
-    lineHeight: 9,
+    fontSize: 10,
+    lineHeight: 10,
   }
 })
 
