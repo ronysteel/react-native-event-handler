@@ -41,7 +41,6 @@ const styles: StyleSheet = StyleSheet.create({
     borderColor: '#3a3a3a',
   },
   textWrapper: {
-    flex: 1,
     flexDirection: 'row',
     alignSelf: 'center',
   },
