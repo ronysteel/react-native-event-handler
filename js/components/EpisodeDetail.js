@@ -203,7 +203,6 @@ class EpisodeDetail extends React.Component {
           onTouchEnd={ this.onTapEnd.bind(this, onTapScreen) }
         >
           <FlatList
-            ref={r => this.list = r}
             data={ scriptValues }
             renderItem={ renderItem.bind(null, lastItemId, readState, characters) }
             keyExtractor={ item => `${item.id}` }

@@ -121,7 +121,8 @@ const styles = {
       marginTop: 20,
     },
     row: {
-      maxWidth: 224,
+      flex: 1,
+      maxWidth: 300,
       marginLeft: 5,
       marginBottom: 0,
       borderRadius: 17,
@@ -154,10 +155,11 @@ const styles = {
   }),
   chatRight: StyleSheet.create({
     row: {
+      flex: 1,
       alignSelf: 'flex-end',
-      maxWidth: 224,
-      margin: 20,
-      marginBottom: 0,
+      maxWidth: 300 + 15,
+      marginRight: 15,
+      marginTop: 20,
       borderRadius: 17,
       backgroundColor: '#9de05b',
       paddingHorizontal: 15,
