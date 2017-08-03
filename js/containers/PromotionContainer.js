@@ -27,7 +27,7 @@ class PromotionContainer extends React.Component {
 
     return (
       <Modal
-        swipeToClose={ true }
+        swipeToClose={ false }
         onClosed={ this.props.closeModal }
         isOpen={ isOpen }
       >
