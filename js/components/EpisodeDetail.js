@@ -122,13 +122,14 @@ class EpisodeDetail extends React.Component {
     const { contentOffset, contentSize, layoutMeasurement } = nativeEvent
     const offsetFromEnd = (layoutMeasurement.height - (contentSize.height - contentOffset.y))
 
-    // if (this.state.isLocked && Math.abs(offsetFromEnd) < 10) {
-    //   this.setState({ isLocked: false })
-    //   this.state.offsetFromEnd.setValue(0)
-    // }
-    // if (!this.state.isLocked) {
-    //   this.state.offsetFromEnd.setValue(Math.abs(offsetFromEnd))
-    // }
+    if (this.state.isLocked && Math.abs(offsetFromEnd) < 10) {
+      this.setState({ isLocked: false })
+    }
+    if (!this.state.isLocked) {
+      if (offsetFromEnd < 0) {
+        this.state.offsetFromEnd.setValue(Math.abs(offsetFromEnd))
+      }
+    }
   }
 
   renderFooter(readState, isTutorial) {
@@ -151,9 +152,9 @@ class EpisodeDetail extends React.Component {
   }
 
   onTapEnd = (onTapScreen) => {
-    if (this.isTappable && !this.state.isLocked) {
+    if (this.isTappable) {
       onTapScreen()
-      // this.setState({ isLocked: true })
+      this.setState({ isLocked: true })
       setTimeout(() => this.scrollToEnd(), 0)
       // setTimeout(() => {
       //   if (this.state.isLocked) {
@@ -216,7 +217,7 @@ class EpisodeDetail extends React.Component {
             recommends={ recommends }
           />
         </ScrollView>
-        <View style={[ styles.tapGuard, this.state.isLocked ? {top:0} : {} ]} />
+        <View style={[ styles.tapGuard, false ? {top:0} : {} ]} />
       </View>
     )
   }
