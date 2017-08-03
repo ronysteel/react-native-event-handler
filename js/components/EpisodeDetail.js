@@ -72,7 +72,7 @@ class EpisodeDetail extends React.Component {
     this.currentScrollValue = value;
 
     const delta = this.currentScrollValue - this.previousScrollvalue
-    if (delta < -20) {
+    if (delta < -15) {
       this.props.showHeader()
     } else if (this.currentScrollValue >= 0 && delta > 15) {
       this.props.hideHeader()
