@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
   sectionTitle: {
     paddingLeft: 15,
     color: colors.sectionTitle,
-    fontSize: 22,
-    fontWeight: 'bold',
+    fontSize: 24,
+    fontWeight: '600',
     marginBottom: 20,
   },
   sectionSeparator: {
