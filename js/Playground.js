@@ -53,6 +53,48 @@ class Playground extends React.PureComponent {
                 type: 'CHAT_RIGHT',
               },
             },
+            {
+              id: 5,
+              scriptOrder: 2,
+              type: 'IMAGE',
+              image: {
+                type: 'CHAT_LEFT',
+                characterId: '0',
+                imageUrl: "https://s3-ap-northeast-1.amazonaws.com/obake.me/dummy-images/jumping-cat.jpg",
+              },
+            },
+            {
+              id: 6,
+              scriptOrder: 2,
+              type: 'IMAGE',
+              image: {
+                type: 'CHAT_LEFT',
+                characterId: '1',
+                imageUrl: "https://s3-ap-northeast-1.amazonaws.com/obake.me/dummy-images/jumping-cat.jpg",
+              },
+            },
+            {
+              id: 7,
+              scriptOrder: 2,
+              type: 'IMAGE',
+              image: {
+                type: 'CHAT_RIGHT',
+                characterId: '1',
+                imageUrl: "https://s3-ap-northeast-1.amazonaws.com/obake.me/dummy-images/jumping-cat.jpg",
+              },
+            },
+            {
+              id: 8,
+              scriptOrder: 2,
+              type: 'IMAGE',
+              image: {
+                type: 'NORMAL',
+                characterId: '1',
+                imageUrl: "https://s3-ap-northeast-1.amazonaws.com/obake.me/dummy-images/jumping-cat.jpg",
+                imageWidth: 631,
+                imageHeight: 450,
+              },
+            },
           ]}
           lastItemId={ 10 }
           readState={{

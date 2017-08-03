@@ -15,10 +15,8 @@ import {
 
 import BackgroundImage from './BackgroundImage'
 import Share from './Share'
-import ScriptText from './scripts/ScriptText'
-import ScriptDescription from './scripts/ScriptDescription'
-import ScriptImage from './scripts/ScriptImage'
 import TapArea from './TapArea'
+import ScriptList from './ScriptList'
 
 import type { Episode } from '../reducers/episodes'
 import type { Scripts } from '../reducers/scripts'
@@ -32,38 +30,6 @@ type Props = {
 const headerHeight = 64
 const windowHeight = Dimensions.get('window').height - headerHeight
 const tapAreaHeight = 250
-
-const renderItem = (lastItemId, readState, characters, { item, index }) => {
-  const isLatestItem = index === (readState.readIndex - 1)
-  if (index >= readState.readIndex) {
-    return null
-  }
-
-  switch (item.type) {
-    case 'TEXT': {
-      return <ScriptText
-        text={ item.text }
-        isLatestItem={ isLatestItem }
-        characters={ characters }
-      />
-    }
-    case 'DESCRIPTION': {
-      return <ScriptDescription
-        description={ item.description }
-        isLatestItem={ isLatestItem }
-      />
-    }
-    case 'IMAGE': {
-      return <ScriptImage
-        image={ item.image }
-        isLatestItem={ isLatestItem }
-        characters={ characters }
-      />
-    }
-  }
-
-  return null
-}
 
 const getBackgroundImage = (scripts, readState) => {
   if (!readState) {
@@ -202,10 +168,11 @@ class EpisodeDetail extends React.Component {
           onScrollBeginDrag={ () => this.isTappable = false }
           onTouchEnd={ this.onTapEnd.bind(this, onTapScreen) }
         >
-          <FlatList
+          <ScriptList
             data={ scriptValues }
-            renderItem={ renderItem.bind(null, lastItemId, readState, characters) }
-            keyExtractor={ item => `${item.id}` }
+            lastItemId={ lastItemId }
+            readState={ readState }
+            characters={ characters }
             ListFooterComponent={ this.renderFooter.bind(this, readState, isTutorial) }
           />
           <Share
