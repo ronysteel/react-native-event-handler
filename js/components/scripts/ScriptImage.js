@@ -122,13 +122,13 @@ const styles = {
     },
     row: {
       marginLeft: 5,
-      borderRadius: 6,
+      borderRadius: 17,
       backgroundColor: 'transparent',
     },
     image: {
       width: 247,
       height: 247,
-      borderRadius: 6,
+      borderRadius: 17,
       resizeMode: 'cover',
     },
     avatarImage: {
@@ -144,13 +144,13 @@ const styles = {
       marginTop: 20,
       marginRight: 15,
       marginBottom: 0,
-      borderRadius: 6,
+      borderRadius: 17,
       backgroundColor: 'transparent',
     },
     image: {
       width: 247,
       height: 247,
-      borderRadius: 6,
+      borderRadius: 17,
       resizeMode: 'cover',
     },
   }),
