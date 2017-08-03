@@ -14,7 +14,7 @@ import { BlurView, VibrancyView } from 'react-native-blur'
 
 const SCREEN_WIDTH = Dimensions.get('window').width
 
-const PushPermissionModal = () => {
+const PushPermissionPopup = () => {
   return (
     <Modal transparent>
       <View style={ styles.container }>
@@ -42,11 +42,13 @@ const PushPermissionModal = () => {
           <Text style={ styles.text }>
             { '通知をオンにすると、編集部おすすめノベルやチケットプレゼントなどのお得な情報をお届けします！' }
           </Text>
-          <View style={ styles.startButton }>
+          <TouchableOpacity
+            style={ styles.startButton }
+          >
             <Text style={ styles.startButtonText }>
               { 'はじめる' }
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -162,4 +164,4 @@ const styles: StyleSheet = StyleSheet.create({
   },
 })
 
-export default PushPermissionModal
+export default PushPermissionPopup
