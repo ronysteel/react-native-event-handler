@@ -14,25 +14,39 @@ import TapIcon from './TapIcon'
 
 const tapAreaHeight = 250
 
+const isFadeout = ({ isTutorial, readState }) => (
+  !isTutorial && readState.readIndex > 3
+)
+
 class TapArea extends React.PureComponent {
   state = {
-    v: new Animated.Value(0),
+    fadeout: false,
+    v: new Animated.Value(1),
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.readState.reachEndOfContent &&
+    if (this.props.isTutorial && this.props.readState.reachEndOfContent &&
       !prevProps.readState.reachEndOfContent
     ) {
       this.state.v.setValue(0)
       Animated.timing(this.state.v, {
         toValue: 1,
         duration: 700,
-      }).start();
+      }).start()
+    }
+
+    if (!this.state.fadeout && isFadeout(this.props)) {
+      this.state.fadeout = true
+      this.state.v.setValue(1)
+      Animated.timing(this.state.v, {
+        toValue: 0,
+        duration: 500,
+      }).start()
     }
   }
 
   render() {
-    const { offset, readState } = this.props
+    const { offset, readState, isTutorial } = this.props
     let text = 'タップして読みはじめましょう'
     let style = {
       opacity: offset.interpolate({
@@ -41,8 +55,12 @@ class TapArea extends React.PureComponent {
       })
     }
 
-    if (readState.reachEndOfContent) {
+    if (this.props.isTutorial && readState.reachEndOfContent) {
       text = 'ノベルの世界をもっと楽しみましょう'
+      style = { opacity: this.state.v }
+    }
+
+    if (isFadeout(this.props)) {
       style = { opacity: this.state.v }
     }
 
@@ -51,7 +69,6 @@ class TapArea extends React.PureComponent {
     if (theme == 'dark') {
       textColor = { color: 'rgba(255, 255, 255, 0.5)' }
     }
-
 
     return (
       <Animated.View
