@@ -47,8 +47,8 @@ class Home extends React.Component {
 
   componentWillMount() {
     this.props.navigation.setParams({
-      tutorial: false,
-      pushPopup: true,
+      tutorial: !this.props.tutorialEnded,
+      pushPopup: false,
     })
   }
 
@@ -99,6 +99,7 @@ const select = (store) => {
   return {
     stories: store.stories,
     homeTab: store.tabs['home'],
+    tutorialEnded: store.session.tutorialEnded || false,
   }
 }
 

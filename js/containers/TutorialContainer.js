@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Animated, Modal, StyleSheet, Text, View, StatusBar } from 'react-native'
+import { Animated, StyleSheet, View, StatusBar } from 'react-native'
 import { connect } from 'react-redux'
 
 import Detail from '../components/EpisodeDetail'
@@ -9,6 +9,7 @@ import {
   updateReadState,
   pageView,
 } from '../actions/story'
+import { tutorialEnd } from '../actions/user'
 import { getAllScript } from '../reducers/scripts'
 
 import type { Episode } from '../reducers/episodes'
@@ -59,8 +60,7 @@ class TutorialContainer extends React.Component {
       }).start()
 
       setTimeout(() => {
-        this.props.navigation.setParams({ pushModal: true })
-        this.props.navigation.setParams({ tutorial: false })
+        this.props.onTutorialEnd()
       }, 1000)
     }
   }
@@ -152,6 +152,14 @@ const actions = (dispatch, props) => {
     ),
     resetReadIndex: (episodeId: number) => dispatch(updateReadState(episodeId, 0)),
     pageView: (novelId: number, episodeId: number) => dispatch(pageView(novelId, episodeId)),
+    onTutorialEnd: () =>
+      dispatch(tutorialEnd())
+        .then(() => {
+          props.navigation.setParams({
+            pushPopup: true,
+            tutorial: false,
+          })
+        }),
   }
 }
 
