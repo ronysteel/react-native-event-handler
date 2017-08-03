@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingLeft: 15,
     paddingRight: 15,
-    marginBottom: 30,
+    marginBottom: 25,
   },
   image: {
     resizeMode: 'cover',
