@@ -10,7 +10,7 @@ import { closeSettingModal } from '../actions/homePage'
 
 const HomeSettingContainer = ({ uid, closeModal, isOpen }) => (
   <Modal
-    swipeToClose={ true }
+    swipeToClose={ false }
     onClosed={ closeModal }
     isOpen={ isOpen }
     coverScreen={ true }

@@ -28,7 +28,7 @@ class EpisodeList extends React.PureComponent {
     const { closeModal, novel, episodes } = this.props
     return (
       <Modal
-        swipeToClose={ true }
+        swipeToClose={ false }
         onClosed={ closeModal }
         isOpen={ this.props.isOpen }
       >
