@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
     height: Dimensions.get('window').width * (9 / 16),
-    marginBottom: 20,
+    marginBottom: 18,
   },
   title: {
     color: colors.title,
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     lineHeight: 23,
     paddingLeft: 15,
     paddingRight: 15,
-    marginBottom: 10,
+    marginBottom: 5,
   },
   description: {
     color: colors.description,
