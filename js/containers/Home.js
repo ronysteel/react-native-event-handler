@@ -4,6 +4,7 @@ import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Linking } from 'react-native'
 import { connect } from 'react-redux'
 
+import firebase from '../firebase'
 import { loadTab } from '../actions/app'
 import Stories from '../components/Stories'
 import HeaderTitle from '../components/HeaderTitle'
@@ -79,7 +80,7 @@ class Home extends React.Component {
         <Stories sections={ homeTab.sections } />
         <HomeSettingContainer />
         { this.props.navigation.state.params.pushPopup
-          ?  <PushPermissionPopup />
+          ?  <PushPermissionPopup onPress={ this.props.requestPushPermission } />
           : null
         }
       </View>
@@ -103,7 +104,11 @@ const select = (store) => {
 
 const actions = (dispatch, props) => {
   return {
-    loadHomeTab: () => dispatch(loadTab('home'))
+    loadHomeTab: () => dispatch(loadTab('home')),
+    requestPushPermission: () => {
+      firebase.messaging().requestPermissions()
+      props.navigation.setParams({ pushPopup: false })
+    },
   }
 }
 
