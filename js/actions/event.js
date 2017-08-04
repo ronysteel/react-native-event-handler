@@ -36,6 +36,7 @@ export function sentSelectContentEvent(novelId: number, episodeId: number): Thun
           category: novel.categoryId,
           episode: episode.episodeOrder,
 
+          // TODO
           referer: '',
           referer_section: 0,
           referer_position: 0,
