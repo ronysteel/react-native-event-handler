@@ -16,7 +16,7 @@ function shareLinks(state: ShareLinks = initialStates, action: Action): ShareLin
   switch (action.type) {
     case 'LOAD_EPISODE_SUCCESS': {
       const { episodeId, episode } = action
-      return Object.assign({}, state, { [episodeId]: episode.share_links })
+      return Object.assign({}, state, { [episodeId]: episode.shareLinks })
     }
     default:
       return state

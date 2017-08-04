@@ -57,7 +57,7 @@ class EpisodeDetail extends React.Component {
         this.setState({ isLoading: false })
       })
       .then(() => {
-        this.props.loadRecommends(1)
+        this.props.loadRecommends(this.props.novel.categoryId)
       })
   }
 
