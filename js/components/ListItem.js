@@ -11,15 +11,12 @@ import {
 
 import colors from './colors'
 
-const ListItem = ({ item }) => {
-  const onPress = () => {
-    Linking.openURL(item.episodeUri)
-  }
+const ListItem = (onPress, { item }) => {
   return (
     <TouchableOpacity
       focusedOpacity={1}
       activeOpacity={1}
-      onPress={ onPress }
+      onPress={ onPress.bind(null, item) }
     >
       <View style={ styles.container }>
         <Image style={ styles.image } source={{ uri: item.thumbnailUrl }} />

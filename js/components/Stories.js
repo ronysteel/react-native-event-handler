@@ -20,26 +20,30 @@ type Props = {
   stories: StoriesStore;
 }
 
-const renderGridWrapper = ({ item }) => {
+const renderGridWrapper = (onPress, { item }) => {
   return (
     <FlatList
       data={ item.items }
-      renderItem={ GridItem }
+      renderItem={ GridItem.bind(null, onPress) }
       numColumns={ 2 }
       keyExtractor={item => `${item.id}`}
     />
   )
 }
 
-const Stories = ({ sections }: Props) => {
+const onPress = (item) => {
+  Linking.openURL(item.episodeUri)
+}
+
+const Stories = ({ sections, onSlectContent }: Props) => {
   const s = sections.map((v, i) => {
     v.data = v.novels
     if (v.type == 'pickup') {
-      v.renderItem = PickupItem
+      v.renderItem = PickupItem.bind(null, onSlectContent)
     } else if (v.type == 'list') {
-      v.renderItem = ListItem
+      v.renderItem = ListItem.bind(null, onSlectContent)
     } else if (v.type == 'grid') {
-      v.renderItem = renderGridWrapper
+      v.renderItem = renderGridWrapper.bind(null, onSlectContent)
       v.data = [{ items: v.novels, key: 1 }]
     }
     return v

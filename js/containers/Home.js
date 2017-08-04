@@ -77,7 +77,7 @@ class Home extends React.Component {
 
     return (
       <View style={ styles.container }>
-        <Stories sections={ homeTab.sections } />
+        <Stories sections={ homeTab.sections } onSlectContent={ this.props.onSlectContent } />
         <HomeSettingContainer />
         { this.props.navigation.state.params.pushPopup
           ?  <PushPermissionPopup onPress={ this.props.requestPushPermission } />
@@ -109,6 +109,9 @@ const actions = (dispatch, props) => {
     requestPushPermission: () => {
       firebase.messaging().requestPermissions()
       props.navigation.setParams({ pushPopup: false })
+    },
+    onSlectContent: (item) => {
+      Linking.openURL(item.episodeUri)
     },
   }
 }
