@@ -26,7 +26,7 @@ const styles: StyleSheet = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#212121',
+    backgroundColor: '#fff',
   },
 })
 

@@ -194,7 +194,7 @@ const styles: StyleSheet = StyleSheet.create({
     flex: 1,
   },
   containerBackground: {
-    backgroundColor: '#212121',
+    backgroundColor: '#fff',
   },
   tapGuard: {
     position: 'absolute',
