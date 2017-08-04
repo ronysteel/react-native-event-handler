@@ -4,6 +4,7 @@ import { Modal, StyleSheet, Text, View, StatusBar } from 'react-native'
 import { connect } from 'react-redux'
 
 import Detail from '../components/EpisodeDetail'
+
 import {
   loadEpisode,
   loadRecommends,
@@ -18,6 +19,8 @@ import {
   openPromotionModal,
   openEpisodeListModal,
 } from '../actions/storyPage'
+import { sentSelectContentEvent } from '../actions/event'
+
 import { getAllScript } from '../reducers/scripts'
 import StoryHeader from '../components/StoryHeader'
 import EpisodeList from './EpisodeList'
@@ -58,7 +61,9 @@ class EpisodeDetail extends React.Component {
       })
       .then(() => {
         this.props.loadRecommends(this.props.novel.categoryId)
+        this.props.onStartReading(novelId, episodeId)
       })
+
   }
 
   showHeader = () => {
@@ -164,6 +169,9 @@ const actions = (dispatch, props) => {
     resetReadIndex: (episodeId: number) => dispatch(updateReadState(episodeId, 0)),
     pageView: (novelId: number, episodeId: number) => dispatch(pageView(novelId, episodeId)),
     openEpisodeListModal: (episodeId: number) => dispatch(openEpisodeListModal(episodeId)),
+    onStartReading: (novelId: number, episodeId: number) => {
+      dispatch(sentSelectContentEvent(novelId, episodeId))
+    },
   }
 }
 

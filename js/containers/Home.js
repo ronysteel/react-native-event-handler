@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 
 import firebase from '../firebase'
 import { loadTab } from '../actions/app'
+import { sentSlectContentEvent } from '../actions/event'
 import Stories from '../components/Stories'
 import HeaderTitle from '../components/HeaderTitle'
 import HomeHeaderLeft from '../containers/HomeHeaderLeft'
