@@ -2,6 +2,7 @@
 import React from 'react'
 import { Animated, StyleSheet, View, StatusBar } from 'react-native'
 import { connect } from 'react-redux'
+import firebase from '../firebase'
 
 import Detail from '../components/EpisodeDetail'
 import {
@@ -41,6 +42,7 @@ class TutorialContainer extends React.Component {
     ])
       .then(() => {
         this.setState({ isLoading: false })
+        this.props.onTutorialStart()
       })
   }
 
@@ -152,6 +154,9 @@ const actions = (dispatch, props) => {
     ),
     resetReadIndex: (episodeId: number) => dispatch(updateReadState(episodeId, 0)),
     pageView: (novelId: number, episodeId: number) => dispatch(pageView(novelId, episodeId)),
+    onTutorialStart: () => {
+      firebase.analytics().logEvent('tutorial_begin')
+    },
     onTutorialEnd: () =>
       dispatch(tutorialEnd())
         .then(() => {
@@ -159,6 +164,7 @@ const actions = (dispatch, props) => {
             pushPopup: true,
             tutorial: false,
           })
+          firebase.analytics().logEvent('tutorial_complete')
         }),
   }
 }
