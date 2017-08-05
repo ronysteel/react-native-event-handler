@@ -47,6 +47,22 @@ export function sentSelectContentEvent(novelId: number, episodeId: number): Thun
       .catch(() => {})
   }
 }
+
+export function sentLeaveContentEvent(episodeId: number): ThunkAction {
+  return (dispatch, getState) => {
+    const { episodes, readStates } = getState()
+    if (readStates[episodeId] && readStates[episodeId].reachEndOfContent) {
+      return new Promise(resolve => resolve())
+    }
+
+    return new Promise(resolve => resolve())
+      .then(() => (
+        firebase.analytics().logEvent('leave_content', {
+          item_id: episodeId,
+          content_type: 'novel',
+          script_id: readStates[episodeId].readIndex,
+        })
       ))
+      .catch(() => {})
   }
 }

@@ -3,6 +3,8 @@ import type { Action, ThunkAction } from './types'
 import { NativeModules } from 'react-native'
 const { InAppUtils } = NativeModules
 
+import { sentLeaveContentEvent } from './event'
+
 export function loadPurcasingProducts(): ThunkAction {
   const products = [
     'co.newn.chatnovel.oneweek',
@@ -69,6 +71,14 @@ export function moveScreen(screenType: string, params: ?any = {}): ThunkAction {
           screenType,
           params,
         })
+      })
+      .then(() => {
+        const { actionLog } = getState()
+        const { prevScreen, currentScreen } = actionLog
+        if (prevScreen.type != 'NOVEL') {
+          return
+        }
+        dispatch(sentLeaveContentEvent(prevScreen.novel.episodeId))
       })
   }
 }
