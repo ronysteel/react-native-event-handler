@@ -14,6 +14,7 @@ import tickets from './tickets'
 import tabs from './tabs'
 import characters from './characters'
 import purchasingProducts from './purchasingProducts'
+import actionLog from './actionLog'
 import homePageState from './homePageState'
 import storyPageStates from './storyPageStates'
 
@@ -30,6 +31,7 @@ export default combineReducers({
   tabs,
   characters,
   purchasingProducts,
+  actionLog,
 
   pages: combineReducers({
     homePageState,

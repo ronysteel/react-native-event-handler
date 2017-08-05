@@ -59,3 +59,15 @@ export function loadTab(tabName: string = 'home'): ThunkAction {
       ))
   }
 }
+
+export function moveScreen(screenType: string): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => (
+        dispatch({
+          type: 'MOVE_SCREEN_SUCCESS',
+          screenType,
+        })
+      ))
+  }
+}
