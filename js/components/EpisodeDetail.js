@@ -181,6 +181,7 @@ class EpisodeDetail extends React.Component {
             shareText={ "怖かった…？ \n怖かったらこのノベルをシェアしよう…" }
             shareOptions={ shareOptions }
             recommends={ recommends }
+            onSelectContent={ this.props.onSelectContent }
           />
         </ScrollView>
         <View style={[ styles.tapGuard, false ? {top:0} : {} ]} />

@@ -7,6 +7,7 @@ import Modal from 'react-native-modalbox'
 import { loadEpisodeList } from '../actions/story'
 import EpisodeListComponent from '../components/EpisodeList'
 import { closeEpisodeListModal } from '../actions/storyPage'
+import { onSelectContent } from './utils'
 
 class EpisodeList extends React.PureComponent {
   constructor() {
@@ -38,6 +39,7 @@ class EpisodeList extends React.PureComponent {
               novel={ novel }
               episodes={ episodes }
               closeModal={ closeModal }
+              onSelectContent={ this.props.onSelectContent.bind(null, 'episode_list') }
             />
         }
       </Modal>
@@ -71,7 +73,8 @@ const select = (store, props) => {
 const actions = (dispatch, props) => {
   return {
     loadEpisodeList: (novelId: number) => dispatch(loadEpisodeList(novelId)),
-    closeModal: () => dispatch(closeEpisodeListModal(props.episodeId))
+    closeModal: () => dispatch(closeEpisodeListModal(props.episodeId)),
+    onSelectContent: onSelectContent.bind(null, dispatch),
   }
 }
 

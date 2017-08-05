@@ -8,6 +8,7 @@ export function sentTutorialBeginEvent(): ThunkAction {
       .then(() => (
         firebase.analytics().logEvent('tutorial_begin')
       ))
+      .catch(() => {})
   }
 }
 
@@ -17,17 +18,19 @@ export function sentTutorialCompleteEvent(): ThunkAction {
       .then(() => (
         firebase.analytics().logEvent('tutorial_complete')
       ))
+      .catch(() => {})
   }
 }
 
 export function sentSelectContentEvent(novelId: number, episodeId: number): ThunkAction {
   return (dispatch, getState) => {
-    const { novels, episodes } = getState()
-    const novel = novels[novelId]
-    const episode = episodes[episodeId]
+    const { novels, episodes, actionLog } = getState()
 
     return new Promise(resolve => resolve())
-      .then(() => (
+      .then(() => {
+        const novel = novels[novelId]
+        const episode = episodes[episodeId]
+
         firebase.analytics().logEvent('select_content', {
           item_id: novelId,
           content_type: 'novel',
@@ -36,11 +39,14 @@ export function sentSelectContentEvent(novelId: number, episodeId: number): Thun
           category: novel.categoryId,
           episode: episode.episodeOrder,
 
-          // TODO
-          referer: '',
-          referer_section: 0,
-          referer_position: 0,
+          referer: actionLog.type.toLowerCase(),
+          referer_section: actionLog.position.sectionIndex,
+          referer_position: actionLog.position.positionIndex,
         })
+      })
+      .catch(() => {})
+  }
+}
       ))
   }
 }

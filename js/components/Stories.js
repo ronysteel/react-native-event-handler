@@ -31,19 +31,15 @@ const renderGridWrapper = (onPress, { item }) => {
   )
 }
 
-const onPress = (item) => {
-  Linking.openURL(item.episodeUri)
-}
-
-const Stories = ({ sections, onSlectContent }: Props) => {
+const Stories = ({ sections, onSelectContent }: Props) => {
   const s = sections.map((v, i) => {
     v.data = v.novels
     if (v.type == 'pickup') {
-      v.renderItem = PickupItem.bind(null, onSlectContent)
+      v.renderItem = PickupItem.bind(null, onSelectContent.bind(null, `${v.id}`))
     } else if (v.type == 'list') {
-      v.renderItem = ListItem.bind(null, onSlectContent)
+      v.renderItem = ListItem.bind(null, onSelectContent.bind(null, `${v.id}`))
     } else if (v.type == 'grid') {
-      v.renderItem = renderGridWrapper.bind(null, onSlectContent)
+      v.renderItem = renderGridWrapper.bind(null, onSelectContent.bind(null, `${v.id}`))
       v.data = [{ items: v.novels, key: 1 }]
     }
     return v

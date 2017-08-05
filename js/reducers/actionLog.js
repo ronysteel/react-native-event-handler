@@ -13,9 +13,15 @@ type Screen = {
   novel: ?Novel;
 }
 
+type Position = {
+  sectionIndex: number;
+  positionIndex: number;
+}
+
 export type ActionLog = {
   currentScreen: Screen;
   prevScreen: Screen;
+  position: ?Position;
 }
 
 const initialState: ActionLog = {
@@ -29,15 +35,29 @@ function actionLog(
 ): ActionLog {
   switch (action.type) {
     case 'MOVE_SCREEN_SUCCESS': {
-      const { screenType } = action
-      const currentScreen = {
-        type: screenType,
+      const { screenType, params } = action
+      const currentScreen = { type: screenType }
+      if (screenType == 'NOVEL') {
+        currentScreen.novel = {
+          id: params.novelId,
+          episodeId: params.episodeId,
+        }
       }
-      const prevScreen = Object.assign({}, state.currentScreen)
-      return Object.assign({}, state, {
-        currentScreen,
-        prevScreen,
-      })
+      const prevScreen = { ...state.currentScreen }
+      return {
+        ...state,
+        ...({ currentScreen, prevScreen }),
+      }
+    }
+
+    case 'SELECT_CONTENT_SUCCESS': {
+      const { sectionIndex, positionIndex } = action
+      return {
+        ...state,
+        ...({
+          position: { sectionIndex, positionIndex }
+        }),
+      }
     }
 
     default: {

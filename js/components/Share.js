@@ -10,7 +10,14 @@ import Recommends from './Recommends'
 
 const { height } = Dimensions.get('window')
 
-const Share = ({ novel, shareText, readState, shareOptions, recommends }) => {
+const Share = ({
+  novel,
+  shareText,
+  readState,
+  shareOptions,
+  recommends,
+  onSelectContent,
+}) => {
   if (!readState.reachEndOfContent) {
     return null
   }
@@ -33,7 +40,11 @@ const Share = ({ novel, shareText, readState, shareOptions, recommends }) => {
           <LinkIcon options={ shareOptions } />
         </View>
         <View style={ styles.recommends }>
-          <Recommends novel={ novel } recommends={ recommends } />
+          <Recommends
+            novel={ novel }
+            recommends={ recommends }
+            onSelectContent={ onSelectContent }
+          />
         </View>
       </View>
     </View>

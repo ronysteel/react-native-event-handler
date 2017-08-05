@@ -13,7 +13,7 @@ const getRecommends = (recommends, novel) => (
   }, [])
 )
 
-const Recommends = ({ novel, recommends }) => (
+const Recommends = ({ novel, recommends, onSelectContent }) => (
   <View>
     <View style={ styles.sectionWrapper }>
       <View style={ styles.border } />
@@ -23,7 +23,7 @@ const Recommends = ({ novel, recommends }) => (
     </View>
     <FlatList
       data={ getRecommends(recommends, novel) }
-      renderItem={ GridItem }
+      renderItem={ GridItem.bind(null, onSelectContent.bind(null, 'recommend')) }
       numColumns={ 2 }
       keyExtractor={item => `${item.id}`}
     />

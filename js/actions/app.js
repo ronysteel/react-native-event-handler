@@ -60,14 +60,28 @@ export function loadTab(tabName: string = 'home'): ThunkAction {
   }
 }
 
-export function moveScreen(screenType: string): ThunkAction {
+export function moveScreen(screenType: string, params: ?any = {}): ThunkAction {
   return (dispatch, getState) => {
     return new Promise(resolve => resolve())
-      .then(() => (
-        dispatch({
+      .then(() => {
+        return dispatch({
           type: 'MOVE_SCREEN_SUCCESS',
           screenType,
+          params,
         })
-      ))
+      })
+  }
+}
+
+export function selectContent(sectionIndex: string, positionIndex: number): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => {
+        return dispatch({
+          type: 'SELECT_CONTENT_SUCCESS',
+          sectionIndex,
+          positionIndex,
+        })
+      })
   }
 }

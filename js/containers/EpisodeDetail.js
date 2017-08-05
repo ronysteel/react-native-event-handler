@@ -25,6 +25,7 @@ import { getAllScript } from '../reducers/scripts'
 import StoryHeader from '../components/StoryHeader'
 import EpisodeList from './EpisodeList'
 import PromotionContainer from './PromotionContainer'
+import { onSelectContent } from './utils'
 
 import type { Episode } from '../reducers/episodes'
 import type { Script, Scripts, IndexedScripts } from '../reducers/scripts'
@@ -99,6 +100,7 @@ class EpisodeDetail extends React.Component {
           showHeader={ this.showHeader }
           hideHeader={ this.hideHeader }
           onTapScreen={ onTapScreen.bind(this, uid, episode.id) }
+          onSelectContent={ this.props.onSelectContent }
         />
         <StoryHeader
           visible={ this.state.headerVisible }
@@ -172,6 +174,7 @@ const actions = (dispatch, props) => {
     onStartReading: (novelId: number, episodeId: number) => {
       dispatch(sentSelectContentEvent(novelId, episodeId))
     },
+    onSelectContent: onSelectContent.bind(null, dispatch),
   }
 }
 

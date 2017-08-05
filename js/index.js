@@ -51,7 +51,9 @@ const onNavigationStateChange = (store, isDeeplink, prevState, currentState) => 
       }
       case 'EpisodeDetail': {
         StatusBar.setHidden(true)
-        store.dispatch(moveScreen('NOVEL'))
+        store.dispatch(moveScreen('NOVEL', {
+          ...currentState.routes[currentState.index].params
+        }))
         return
       }
     }

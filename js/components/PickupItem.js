@@ -12,12 +12,12 @@ import {
 
 import colors from './colors'
 
-const PickupItem = (onPress, { item }) => {
+const PickupItem = (onPress, { item, index }) => {
   return (
     <TouchableOpacity
       focusedOpacity={1}
       activeOpacity={1}
-      onPress={ onPress.bind(null, item) }
+      onPress={ onPress.bind(null, index, item) }
     >
       <View style={ styles.container }>
         <Image style={ styles.image } source={{ uri: item.thumbnailUrl }} />

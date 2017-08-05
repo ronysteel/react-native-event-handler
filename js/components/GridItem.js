@@ -19,7 +19,7 @@ const GridItem = (onPress, { item, index }) => {
     <TouchableOpacity
       focusedOpacity={1}
       activeOpacity={1}
-      onPress={ onPress.bind(null, item) }
+      onPress={ onPress.bind(null, index, item) }
     >
       <View style={{
         width: (windowWidth / 2),

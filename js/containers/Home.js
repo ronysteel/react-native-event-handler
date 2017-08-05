@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import firebase from '../firebase'
 import { loadTab } from '../actions/app'
 import { sentSlectContentEvent } from '../actions/event'
+import { onSelectContent } from './utils'
 import Stories from '../components/Stories'
 import HeaderTitle from '../components/HeaderTitle'
 import HomeHeaderLeft from '../containers/HomeHeaderLeft'
@@ -78,7 +79,7 @@ class Home extends React.Component {
 
     return (
       <View style={ styles.container }>
-        <Stories sections={ homeTab.sections } onSlectContent={ this.props.onSlectContent } />
+        <Stories sections={ homeTab.sections } onSelectContent={ this.props.onSelectContent } />
         <HomeSettingContainer />
         { this.props.navigation.state.params.pushPopup
           ?  <PushPermissionPopup onPress={ this.props.requestPushPermission } />
@@ -111,9 +112,7 @@ const actions = (dispatch, props) => {
       firebase.messaging().requestPermissions()
       props.navigation.setParams({ pushPopup: false })
     },
-    onSlectContent: (item) => {
-      Linking.openURL(item.episodeUri)
-    },
+    onSelectContent: onSelectContent.bind(null, dispatch),
   }
 }
 
