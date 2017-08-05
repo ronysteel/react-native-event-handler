@@ -18,10 +18,12 @@ target 'chatnovel' do
   pod 'Firebase/DynamicLinks'
   pod 'Firebase/Database'
   pod 'Firebase/RemoteConfig'
+  pod 'Firebase/Crash'
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
 
   pod 'Fabric'
   pod 'Crashlytics'
+  pod 'ReactNativeFabric', :path => '../node_modules/react-native-fabric'
 
   pod 'react-native-in-app-utils', :path => '../node_modules/react-native-in-app-utils'
   pod 'RNSVG', :path => '../node_modules/react-native-svg'

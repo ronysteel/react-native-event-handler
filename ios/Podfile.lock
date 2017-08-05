@@ -10,6 +10,9 @@ PODS:
   - Firebase/Core (4.0.4):
     - FirebaseAnalytics (= 4.0.2)
     - FirebaseCore (= 4.0.4)
+  - Firebase/Crash (4.0.4):
+    - Firebase/Core
+    - FirebaseCrash (= 2.0.0)
   - Firebase/Database (4.0.4):
     - Firebase/Core
     - FirebaseDatabase (= 4.0.0)
@@ -33,6 +36,12 @@ PODS:
   - FirebaseCore (4.0.4):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - nanopb (~> 0.3)
+  - FirebaseCrash (2.0.0):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - Protobuf (~> 3.1)
   - FirebaseDatabase (4.0.0):
     - FirebaseAnalytics (~> 4.0)
   - FirebaseDynamicLinks (2.0.0):
@@ -83,6 +92,10 @@ PODS:
   - React/cxxreact_legacy (0.46.1):
     - React/jschelpers_legacy
   - React/jschelpers_legacy (0.46.1)
+  - ReactNativeFabric (0.5.0):
+    - Crashlytics
+    - Fabric
+    - React
   - RNFirebase (2.0.3)
   - RNShare (1.0.20):
     - React
@@ -98,6 +111,7 @@ DEPENDENCIES:
   - Fabric
   - Firebase/Auth
   - Firebase/Core
+  - Firebase/Crash
   - Firebase/Database
   - Firebase/DynamicLinks
   - Firebase/Messaging
@@ -106,6 +120,7 @@ DEPENDENCIES:
   - react-native-in-app-utils (from `../node_modules/react-native-in-app-utils`)
   - React/BatchedBridge (from `../node_modules/react-native`)
   - React/Core (from `../node_modules/react-native`)
+  - ReactNativeFabric (from `../node_modules/react-native-fabric`)
   - RNFirebase (from `../node_modules/react-native-firebase`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -121,6 +136,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-blur"
   react-native-in-app-utils:
     :path: "../node_modules/react-native-in-app-utils"
+  ReactNativeFabric:
+    :path: "../node_modules/react-native-fabric"
   RNFirebase:
     :path: "../node_modules/react-native-firebase"
   RNShare:
@@ -140,6 +157,7 @@ SPEC CHECKSUMS:
   FirebaseAnalytics: ad41720e3e67fc63fbe3d2948d3e26932a8de311
   FirebaseAuth: ebb6abcbabae00fc47446d690c19ce68d8484fde
   FirebaseCore: cfc042628ef9f20debe09c0eb683135fcd404cb4
+  FirebaseCrash: 600ec2cbd8e10c3064a42de2c6ee7687bd02a076
   FirebaseDatabase: d829b3a8c3e2ac7a16773c5df226966b0805dfc2
   FirebaseDynamicLinks: ad3bef2e8addfa1490af9db02201429c5c9447dd
   FirebaseInstanceID: 9fbf536668f4d3f0880e7438456dabd1376e294b
@@ -152,12 +170,13 @@ SPEC CHECKSUMS:
   React: 0c6f45ca8c39fe48ed4e3a5583861a8e1bc0959e
   react-native-blur: c4b80329b7ef2a8b9c574f73b798b3178c69ff48
   react-native-in-app-utils: 2ef766bea71e31c0bf4a6800f7bb20a8706c579d
+  ReactNativeFabric: 788d50490295586f843b8655285f9ed600e85054
   RNFirebase: 22e723806850dd17643cebcf4d9ccdc738e9a157
   RNShare: f58d823417bcdf71859c9afd7bb0cbcbb2b98e90
   RNSVG: 7548d93456b77f92a73cb77bca5b4b9ef85c90bf
   RNVectorIcons: 6d98d83e944d15014d8071dd9819beb094c61133
   Yoga: 9148a870ff3adaba107edb8ef48ab189c9d9a3d1
 
-PODFILE CHECKSUM: 6cdd0bb10447cd70c4f3a76d65ef74828d808dae
+PODFILE CHECKSUM: aa53a4243fc3ae18b18d2e8c7c500ffb819a0eaa
 
 COCOAPODS: 1.2.1
