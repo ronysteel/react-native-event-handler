@@ -3,7 +3,7 @@ import type { Action, ThunkAction } from './types'
 import { NativeModules } from 'react-native'
 const { InAppUtils } = NativeModules
 
-import { sentLeaveContentEvent } from './event'
+import { sendLeaveContentEvent } from './event'
 
 export function loadPurcasingProducts(): ThunkAction {
   const products = [
@@ -78,7 +78,7 @@ export function moveScreen(screenType: string, params: ?any = {}): ThunkAction {
         if (prevScreen.type != 'NOVEL') {
           return
         }
-        dispatch(sentLeaveContentEvent(prevScreen.novel.episodeId))
+        dispatch(sendLeaveContentEvent(prevScreen.novel.episodeId))
       })
   }
 }

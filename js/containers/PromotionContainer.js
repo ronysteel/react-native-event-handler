@@ -10,7 +10,7 @@ import {
   syncUserEnergy,
   useTicket,
 } from '../actions/user'
-import { sentPromotionEvent } from '../actions/event'
+import { sendPromotionEvent } from '../actions/event'
 import { closePromotionModal } from '../actions/storyPage'
 import Promotion from '../components/Promotion'
 
@@ -106,8 +106,8 @@ const actions = (dispatch, props) => {
           )
         })
     ),
-    sentPromotionEvent: () => (
-      dispatch(sentPromotionEvent(episodeId))
+    sendPromotionEvent: () => (
+      dispatch(sendPromotionEvent(episodeId))
     ),
   }
 }

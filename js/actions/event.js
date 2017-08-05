@@ -2,7 +2,7 @@
 import type { Action, ThunkAction } from './types'
 import firebase from '../firebase'
 
-export function sentTutorialBeginEvent(): ThunkAction {
+export function sendTutorialBeginEvent(): ThunkAction {
   return (dispatch, getState) => {
     return new Promise(resolve => resolve())
       .then(() => (
@@ -12,7 +12,7 @@ export function sentTutorialBeginEvent(): ThunkAction {
   }
 }
 
-export function sentTutorialCompleteEvent(): ThunkAction {
+export function sendTutorialCompleteEvent(): ThunkAction {
   return (dispatch, getState) => {
     return new Promise(resolve => resolve())
       .then(() => (
@@ -22,7 +22,7 @@ export function sentTutorialCompleteEvent(): ThunkAction {
   }
 }
 
-export function sentSelectContentEvent(novelId: number, episodeId: number): ThunkAction {
+export function sendSelectContentEvent(novelId: number, episodeId: number): ThunkAction {
   return (dispatch, getState) => {
     const { novels, episodes, actionLog } = getState()
 
@@ -48,7 +48,7 @@ export function sentSelectContentEvent(novelId: number, episodeId: number): Thun
   }
 }
 
-export function sentLeaveContentEvent(episodeId: number): ThunkAction {
+export function sendLeaveContentEvent(episodeId: number): ThunkAction {
   return (dispatch, getState) => {
     const { episodes, readStates } = getState()
     if (readStates[episodeId] && readStates[episodeId].reachEndOfContent) {
@@ -67,7 +67,7 @@ export function sentLeaveContentEvent(episodeId: number): ThunkAction {
   }
 }
 
-export function sentPromotionEvent(episodeId: number): ThunkAction {
+export function sendPromotionEvent(episodeId: number): ThunkAction {
   return (dispatch, getState) => {
     return new Promise(resolve => resolve())
       .then(() => (

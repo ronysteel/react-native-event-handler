@@ -19,7 +19,7 @@ import {
   openPromotionModal,
   openEpisodeListModal,
 } from '../actions/storyPage'
-import { sentSelectContentEvent } from '../actions/event'
+import { sendSelectContentEvent } from '../actions/event'
 
 import { getAllScript } from '../reducers/scripts'
 import StoryHeader from '../components/StoryHeader'
@@ -172,7 +172,7 @@ const actions = (dispatch, props) => {
     pageView: (novelId: number, episodeId: number) => dispatch(pageView(novelId, episodeId)),
     openEpisodeListModal: (episodeId: number) => dispatch(openEpisodeListModal(episodeId)),
     onStartReading: (novelId: number, episodeId: number) => {
-      dispatch(sentSelectContentEvent(novelId, episodeId))
+      dispatch(sendSelectContentEvent(novelId, episodeId))
     },
     onSelectContent: onSelectContent.bind(null, dispatch),
   }
