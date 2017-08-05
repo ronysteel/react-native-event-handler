@@ -1,18 +1,10 @@
 // @flow
 import React from 'react'
 import Svg, { Path } from 'react-native-svg'
-import Share from 'react-native-share';
 
 import BaseIcon from './BaseIcon'
 
-const onPress = (options) => {
-  Share.shareSingle(Object.assign({}, options, {
-    "social": "facebook"
-  }))
-  .catch((err) => { err && console.log(err) })
-}
-
-const FacebookIcon = ({ options, style }) => (
+const FacebookIcon = ({ onPress, options, style }) => (
   <BaseIcon onPress={ onPress.bind(null, options) } bgColor={ '#3b5998' } style={ style }>
     <Svg width="14" height="26" viewBox="0 0 14 26">
       <Path

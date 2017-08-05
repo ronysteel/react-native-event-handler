@@ -182,6 +182,7 @@ class EpisodeDetail extends React.Component {
             shareOptions={ shareOptions }
             recommends={ recommends }
             onSelectContent={ this.props.onSelectContent }
+            onPressShare={ this.props.onPressShare }
           />
         </ScrollView>
         <View style={[ styles.tapGuard, false ? {top:0} : {} ]} />

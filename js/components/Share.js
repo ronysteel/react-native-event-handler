@@ -17,6 +17,7 @@ const Share = ({
   shareOptions,
   recommends,
   onSelectContent,
+  onPressShare,
 }) => {
   if (!readState.reachEndOfContent) {
     return null
@@ -34,10 +35,25 @@ const Share = ({
           { shareText }
         </Text>
         <View style={ styles.iconsWrapper }>
-          <TwitterIcon options={ shareOptions } style={ styles.icon } />
-          <FacebookIcon options={ shareOptions } style={ styles.icon } />
-          <LineIcon options={ shareOptions } style={ styles.icon } />
-          <LinkIcon options={ shareOptions } />
+          <TwitterIcon
+            onPress={ onPressShare.bind(null, 'twitter') }
+            options={ shareOptions }
+            style={ styles.icon }
+          />
+          <FacebookIcon
+            onPress={ onPressShare.bind(null, 'facebook') }
+            options={ shareOptions }
+            style={ styles.icon }
+          />
+          <LineIcon
+            onPress={ onPressShare.bind(null, 'line') }
+            options={ shareOptions }
+            style={ styles.icon }
+          />
+          <LinkIcon
+            onPress={ onPressShare.bind(null, 'link') }
+            options={ shareOptions }
+          />
         </View>
         <View style={ styles.recommends }>
           <Recommends

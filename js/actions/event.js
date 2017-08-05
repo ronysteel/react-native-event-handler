@@ -79,3 +79,17 @@ export function sendPromotionEvent(episodeId: number): ThunkAction {
       .catch(() => {})
   }
 }
+
+export function sendShareEvent(episodeId: number, shareType: string): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => (
+        firebase.analytics().logEvent('share', {
+          item_id: episodeId,
+          content_type: 'novel',
+          share_type: shareType,
+        })
+      ))
+      .catch(() => {})
+  }
+}

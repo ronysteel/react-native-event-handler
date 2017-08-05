@@ -5,24 +5,7 @@ import Svg, { Path } from 'react-native-svg'
 
 import BaseIcon from './BaseIcon'
 
-const makeUri = (options) => (
-  `line://msg/text/${options.title}\n${options.url}`
-)
-
-const onPress = (options) => {
-  const url = makeUri(options)
-  Linking.canOpenURL(url)
-    .then(supported => {
-      if (!supported) {
-        console.log('Can\'t handle url: ' + url)
-      } else {
-        return Linking.openURL(url)
-      }
-    })
-    .catch(err => console.log('An error occurred', err))
-}
-
-const LineIcon = ({ options, style }) => (
+const LineIcon = ({ onPress, options, style }) => (
   <BaseIcon onPress={ onPress.bind(null, options) } bgColor={ '#00C300' } style={ style }>
     <Svg width="30" height="29" viewBox="0 0 30 29">
       <Path

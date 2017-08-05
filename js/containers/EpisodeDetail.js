@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Modal, StyleSheet, Text, View, StatusBar } from 'react-native'
+import { Modal, StyleSheet, Text, View, Linking, StatusBar } from 'react-native'
 import { connect } from 'react-redux'
 
 import Detail from '../components/EpisodeDetail'
@@ -19,13 +19,13 @@ import {
   openPromotionModal,
   openEpisodeListModal,
 } from '../actions/storyPage'
-import { sendSelectContentEvent } from '../actions/event'
+import { sendSelectContentEvent, sendShareEvent } from '../actions/event'
 
 import { getAllScript } from '../reducers/scripts'
 import StoryHeader from '../components/StoryHeader'
 import EpisodeList from './EpisodeList'
 import PromotionContainer from './PromotionContainer'
-import { onSelectContent } from './utils'
+import { onSelectContent, onPressShare } from './utils'
 
 import type { Episode } from '../reducers/episodes'
 import type { Script, Scripts, IndexedScripts } from '../reducers/scripts'
@@ -101,6 +101,7 @@ class EpisodeDetail extends React.Component {
           hideHeader={ this.hideHeader }
           onTapScreen={ onTapScreen.bind(this, uid, episode.id) }
           onSelectContent={ this.props.onSelectContent }
+          onPressShare={ this.props.onPressShare.bind(null, episode.id) }
         />
         <StoryHeader
           visible={ this.state.headerVisible }
@@ -175,6 +176,10 @@ const actions = (dispatch, props) => {
       dispatch(sendSelectContentEvent(novelId, episodeId))
     },
     onSelectContent: onSelectContent.bind(null, dispatch),
+    onPressShare: (episodeId: number, type: string, options) => {
+      onPressShare(type, options)
+      dispatch(sendShareEvent(episodeId, type))
+    },
   }
 }
 
