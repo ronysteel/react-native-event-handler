@@ -5,16 +5,7 @@ import Share from 'react-native-share';
 
 import BaseIcon from './BaseIcon'
 
-const onPress = (options) => {
-  Share.open({
-    title: options.title,
-    message: options.message,
-    url: options.url,
-  })
-  .catch((err) => { err && console.log(err) })
-}
-
-const LinkIcon = ({ options, style }) => (
+const LinkIcon = ({ onPress, options, style }) => (
   <BaseIcon onPress={ onPress.bind(null, options) } bgColor={ '#535353' } style={ style }>
     <Svg width="20" height="18" viewBox="0 0 20 18">
       <Path

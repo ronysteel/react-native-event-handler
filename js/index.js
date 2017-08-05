@@ -13,7 +13,7 @@ import Home from './containers/Home'
 import EpisodeDetail from './containers/EpisodeDetail'
 
 import { signInAnonymously } from './actions/user'
-import { loadPurcasingProducts } from './actions/app'
+import { loadPurcasingProducts, moveScreen } from './actions/app'
 
 function setupStore(onComplete: () => void) {
   const _createStore = applyMiddleware(thunk)(createStore)
@@ -37,7 +37,7 @@ const getCurrentRouteName = (navigationState) => {
   return route.routeName
 }
 
-const onNavigationStateChange = (prevState, currentState) => {
+const onNavigationStateChange = (store, isDeeplink, prevState, currentState) => {
   const currentScreen = getCurrentRouteName(currentState)
   const prevScreen = getCurrentRouteName(prevState)
 
@@ -46,10 +46,31 @@ const onNavigationStateChange = (prevState, currentState) => {
       case 'Home': {
         StatusBar.setBarStyle('light-content')
         StatusBar.setHidden(false)
-        break;
+        store.dispatch(moveScreen('HOME'))
+        return
       }
       case 'EpisodeDetail': {
         StatusBar.setHidden(true)
+        store.dispatch(moveScreen('NOVEL', {
+          ...currentState.routes[currentState.index].params
+        }))
+        return
+      }
+    }
+  }
+
+  // 一番最初に開いたとき
+  if (isDeeplink != 'DEEPLINK' && prevScreen =='Home' && currentScreen == 'Home') {
+    store.dispatch(moveScreen('HOME'))
+    return
+  }
+
+  if (prevScreen === currentScreen) {
+    switch (currentScreen) {
+      case 'EpisodeDetail': {
+        StatusBar.setHidden(true)
+        store.dispatch(moveScreen('NOVEL'))
+        return
       }
     }
   }
@@ -85,6 +106,32 @@ class Root extends React.Component {
           this.setState({ isLoading: false })
         })
     })
+
+    this.isDeeplink = undefined
+  }
+
+  componentDidMount() {
+    Linking.getInitialURL()
+      .then(url => {
+        if (url) {
+          this.state.store.dispatch(moveScreen('DEEPLINK'))
+          this.isDeeplink = 'DEEPLINK'
+        }
+      })
+      .catch(() => {})
+
+    Linking.addEventListener('url', this._handleOpenURL.bind(this))
+  }
+
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this._handleOpenURL.bind(this))
+  }
+
+  _handleOpenURL(event) {
+    if (/chatnovel:\/\/novels\/[^/]+\/episodes\/[^/]+/.test(event.url)) {
+      this.state.store.dispatch(moveScreen('DEEPLINK'))
+      this.isDeeplink = 'DEEPLINK'
+    }
   }
 
   render() {
@@ -95,7 +142,7 @@ class Root extends React.Component {
       <Provider store={this.state.store}>
         <App
           uriPrefix={ 'chatnovel://' }
-          onNavigationStateChange={ onNavigationStateChange }
+          onNavigationStateChange={ onNavigationStateChange.bind(null, this.state.store, this.isDeeplink) }
         />
       </Provider>
     )

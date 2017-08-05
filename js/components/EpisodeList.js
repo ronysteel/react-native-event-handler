@@ -17,8 +17,8 @@ const ChatBubbleIcon = () => (
   </View>
 )
 
-const onPress = (item, closeModal) => {
-  Linking.openURL(item.episodeUri)
+const onPress = (closeModal, onSelectContent) => {
+  onSelectContent()
 
   // 次の画面がスタックされてから
   // 裏側で見えないようにモーダルを閉じる
@@ -33,8 +33,8 @@ const Footer = () => (
   <View style={ styles.footer }></View>
 )
 
-const renderItem = (novel, closeModal, { item }) => (
-  <TouchableOpacity onPress={ onPress.bind(null, item, closeModal) }>
+const renderItem = (novel, closeModal, onSelectContent, { item, index }) => (
+  <TouchableOpacity onPress={ onPress.bind(null, closeModal, onSelectContent.bind(null, index, item)) }>
     <View style={ styles.container }>
       <View style={ styles.leftWrapper}>
         <ChatBubbleIcon />
@@ -50,16 +50,20 @@ const renderItem = (novel, closeModal, { item }) => (
   </TouchableOpacity>
 )
 
-const EpisodeList = ({ novel, episodes, closeModal }) => {
+/**
+ * @param onSelectContent (positionIndex, item) => void
+ */
+const EpisodeList = ({ novel, episodes, closeModal, onSelectContent }) => {
   return (
     <View style={{ flex: 1, backgroundColor: '#212121' }}>
       <Header
         title={ 'エピソード一覧' }
         closeModal={ closeModal }
       />
+
       <FlatList
         data={ episodes }
-        renderItem={ renderItem.bind(null, novel, closeModal) }
+        renderItem={ renderItem.bind(null, novel, closeModal, onSelectContent) }
         keyExtractor={ item => `${item.id}` }
         ItemSeparatorComponent={ Separator }
         ListFooterComponent={ Footer }

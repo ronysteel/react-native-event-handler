@@ -3,6 +3,8 @@ import type { Action, ThunkAction } from './types'
 import { NativeModules } from 'react-native'
 const { InAppUtils } = NativeModules
 
+import { sendLeaveContentEvent } from './event'
+
 export function loadPurcasingProducts(): ThunkAction {
   const products = [
     'co.newn.chatnovel.oneweek',
@@ -57,5 +59,39 @@ export function loadTab(tabName: string = 'home'): ThunkAction {
           tab: v,
         })
       ))
+  }
+}
+
+export function moveScreen(screenType: string, params: ?any = {}): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => {
+        return dispatch({
+          type: 'MOVE_SCREEN_SUCCESS',
+          screenType,
+          params,
+        })
+      })
+      .then(() => {
+        const { actionLog } = getState()
+        const { prevScreen, currentScreen } = actionLog
+        if (prevScreen.type != 'NOVEL') {
+          return
+        }
+        dispatch(sendLeaveContentEvent(prevScreen.novel.episodeId))
+      })
+  }
+}
+
+export function selectContent(sectionIndex: string, positionIndex: number): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => {
+        return dispatch({
+          type: 'SELECT_CONTENT_SUCCESS',
+          sectionIndex,
+          positionIndex,
+        })
+      })
   }
 }

@@ -14,15 +14,12 @@ import colors from './colors'
 
 const windowWidth = Dimensions.get('window').width;
 
-const GridItem = ({ item, index }) => {
-  const onPress = () => {
-    Linking.openURL(item.episodeUri)
-  }
+const GridItem = (onPress, { item, index }) => {
   return (
     <TouchableOpacity
       focusedOpacity={1}
       activeOpacity={1}
-      onPress={ onPress }
+      onPress={ onPress.bind(null, index, item) }
     >
       <View style={{
         width: (windowWidth / 2),
