@@ -10,20 +10,36 @@ import {
   syncUserEnergy,
   useTicket,
 } from '../actions/user'
+import { sentPromotionEvent } from '../actions/event'
 import { closePromotionModal } from '../actions/storyPage'
 import Promotion from '../components/Promotion'
 
 class PromotionContainer extends React.Component {
+  isOpen = (props) => {
+    const { modalVisible, paid, readState } = props
+    let isOpen = modalVisible
+
+    if (paid) {
+      isOpen = false
+    }
+
+    if (!readState.displayPromotion) {
+      isOpen = false
+    }
+
+    return isOpen
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const prevIsOpen = this.isOpen(prevProps)
+    const isOpen = this.isOpen(this.props)
+
+    if (prevIsOpen !== isOpen && isOpen === true) {
+    }
+  }
+
   render() {
-    let isOpen = this.props.modalVisible
-
-    if (this.props.paid) {
-      isOpen = false
-    }
-
-    if (!this.props.readState.displayPromotion) {
-      isOpen = false
-    }
+    const isOpen = this.isOpen(this.props)
 
     return (
       <Modal
@@ -89,6 +105,9 @@ const actions = (dispatch, props) => {
             '購入の復元に失敗しました'
           )
         })
+    ),
+    sentPromotionEvent: () => (
+      dispatch(sentPromotionEvent(episodeId))
     ),
   }
 }

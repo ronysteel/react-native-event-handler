@@ -66,3 +66,16 @@ export function sentLeaveContentEvent(episodeId: number): ThunkAction {
       .catch(() => {})
   }
 }
+
+export function sentPromotionEvent(episodeId: number): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => (
+        firebase.analytics().logEvent('promotion', {
+          item_id: episodeId,
+          content_type: 'novel',
+        })
+      ))
+      .catch(() => {})
+  }
+}
