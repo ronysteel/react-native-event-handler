@@ -5,6 +5,7 @@ import moment from 'moment'
 import { getAllScript } from '../reducers/scripts'
 import firebase from '../firebase'
 import { loadPurcasingProducts } from './app'
+import { sendSpendVirtualCurrencyEvnet } from './event'
 const { InAppUtils } = NativeModules
 
 const API_HOST = `https://us-central1-test-5913c.cloudfunctions.net/api`
@@ -220,11 +221,12 @@ export function useTicket(): ThunkAction {
     dispatch({ type: 'USE_TICKET_REQUEST' })
 
     return fetchUseTicket(session)
-      .then(v => (
-        dispatch({
+      .then(v => {
+        dispatch(sendSpendVirtualCurrencyEvnet())
+        return dispatch({
           type: 'USE_TICKET_SUCCESS',
         })
-      ))
+      })
       .catch(err => (
         dispatch({
           type: 'USE_TICKET_FAILED',

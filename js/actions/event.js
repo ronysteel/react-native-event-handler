@@ -93,3 +93,17 @@ export function sendShareEvent(episodeId: number, shareType: string): ThunkActio
       .catch(() => {})
   }
 }
+
+export function sendSpendVirtualCurrencyEvnet(): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => (
+        firebase.analytics().logEvent('spend_virtual_currency', {
+          item_name: 'ticket',
+          virtual_currency_name: 'ticket',
+          value: 1,
+        })
+      ))
+      .catch(() => {})
+  }
+}
