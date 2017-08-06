@@ -3147,10 +3147,6 @@ react-native-side-menu@^0.20.1:
   version "0.20.3"
   resolved "https://registry.yarnpkg.com/react-native-side-menu/-/react-native-side-menu-0.20.3.tgz#5dffe3e237018360ed081433d505ea454cba9ca4"
 
-"react-native-social-share@git://github.com/SKAhack/react-native-social-share.git#dev":
-  version "1.1.0"
-  resolved "git://github.com/SKAhack/react-native-social-share.git#542f1e3414ea3ba052ba66b935419fb6719e8e90"
-
 react-native-svg@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-5.3.0.tgz#0d2ca98bee6726d627c2ca31617ac9c5f7d42daf"
