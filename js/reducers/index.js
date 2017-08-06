@@ -13,6 +13,7 @@ import energy from './energy'
 import tickets from './tickets'
 import tabs from './tabs'
 import characters from './characters'
+import categories from './categories'
 import purchasingProducts from './purchasingProducts'
 import actionLog from './actionLog'
 import homePageState from './homePageState'
@@ -30,6 +31,7 @@ export default combineReducers({
   tickets,
   tabs,
   characters,
+  categories,
   purchasingProducts,
   actionLog,
 
