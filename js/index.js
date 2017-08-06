@@ -13,7 +13,7 @@ import Home from './containers/Home'
 import EpisodeDetail from './containers/EpisodeDetail'
 
 import { signInAnonymously } from './actions/user'
-import { loadPurcasingProducts, moveScreen } from './actions/app'
+import { loadPurcasingProducts, moveScreen, loadCategories } from './actions/app'
 
 function setupStore(onComplete: () => void) {
   const _createStore = applyMiddleware(thunk)(createStore)
@@ -101,6 +101,7 @@ class Root extends React.Component {
       Promise.all([
         this.state.store.dispatch(signInAnonymously()),
         this.state.store.dispatch(loadPurcasingProducts()),
+        this.state.store.dispatch(loadCategories()),
       ])
         .then(() => {
           this.setState({ isLoading: false })

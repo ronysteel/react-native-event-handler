@@ -2,6 +2,7 @@
 import type { Action, ThunkAction } from './types'
 import { NativeModules } from 'react-native'
 const { InAppUtils } = NativeModules
+import { fetchCategories } from '../api'
 
 import { sendLeaveContentEvent } from './event'
 
@@ -91,6 +92,19 @@ export function selectContent(sectionIndex: string, positionIndex: number): Thun
           type: 'SELECT_CONTENT_SUCCESS',
           sectionIndex,
           positionIndex,
+        })
+      })
+  }
+}
+
+export function loadCategories(): ThunkAction {
+  return (dispatch, getState) => {
+    const { session } = getState()
+    return fetchCategories(session)
+      .then(v => {
+        return dispatch({
+          type: 'LOAD_CATEGORIES_SUCCESS',
+          categories: v,
         })
       })
   }

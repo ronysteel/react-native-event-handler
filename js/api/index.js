@@ -26,3 +26,16 @@ export const fetchEpisodeList = ({ idToken, novelId }) => (
   .then(r => r.json())
   .then(r => r.response)
 )
+
+export const fetchCategories = ({ idToken }) => (
+  fetch(`${API_HOST}/categories`, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`,
+      'Cache-Control': 'no-cache',
+    }
+  })
+  .then(r => r.json())
+  .then(r => r.response)
+)
