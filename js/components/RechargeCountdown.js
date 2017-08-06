@@ -78,6 +78,7 @@ const styles: StyleSheet = StyleSheet.create({
     backgroundColor: 'transparent',
     fontSize: 36,
     fontFamily: 'Avenir Next',
+    fontWeight: '500',
     width: 45,
     textAlign: 'right',
     marginRight: 5,
