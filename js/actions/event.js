@@ -94,6 +94,20 @@ export function sendShareEvent(episodeId: number, shareType: string): ThunkActio
   }
 }
 
+export function sendShareCompleteEvent(episodeId: number, shareType: string): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => (
+        firebase.analytics().logEvent('share_complete', {
+          item_id: episodeId,
+          content_type: 'novel',
+          share_type: shareType,
+        })
+      ))
+      .catch(() => {})
+  }
+}
+
 export function sendSpendVirtualCurrencyEvnet(): ThunkAction {
   return (dispatch, getState) => {
     return new Promise(resolve => resolve())

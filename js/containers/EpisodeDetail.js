@@ -19,7 +19,7 @@ import {
   openPromotionModal,
   openEpisodeListModal,
 } from '../actions/storyPage'
-import { sendSelectContentEvent, sendShareEvent } from '../actions/event'
+import { sendSelectContentEvent, sendShareEvent, sendShareCompleteEvent } from '../actions/event'
 
 import { getAllScript } from '../reducers/scripts'
 import StoryHeader from '../components/StoryHeader'
@@ -179,7 +179,14 @@ const actions = (dispatch, props) => {
     },
     onSelectContent: onSelectContent.bind(null, dispatch),
     onPressShare: (episodeId: number, type: string, options) => {
-      onPressShare(type, options)
+      const p = onPressShare(type, options)
+      if (type == 'twitter' || type == 'facebook') {
+        p.then(({ shared }) => {
+          if (shared) {
+            dispatch(sendShareCompleteEvent(episodeId, type))
+          }
+        })
+      }
       dispatch(sendShareEvent(episodeId, type))
     },
   }
