@@ -3139,9 +3139,9 @@ react-native-modalbox@^1.4.1:
   dependencies:
     create-react-class "^15.6.0"
 
-react-native-share@^1.0.20:
+"react-native-share@git://github.com/SKAhack/react-native-share.git#dev":
   version "1.0.20"
-  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-1.0.20.tgz#38ba820a4ddfc5afe1dec0e1456ced11f14352bc"
+  resolved "git://github.com/SKAhack/react-native-share.git#2b408ff92b779c931969bee2a97129d700685aaf"
 
 react-native-side-menu@^0.20.1:
   version "0.20.3"
