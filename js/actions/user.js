@@ -59,6 +59,19 @@ export function signInAnonymously(): ThunkAction {
   }
 }
 
+export function saveDeviceToken(): ThunkAction {
+  return (dispatch, getState) => {
+    const { session } = getState()
+    return firebase.messaging()
+      .getToken()
+      .then(token => {
+        return firebase.database()
+          .ref(`/users/${session.uid}`)
+          .update({ device_token: token })
+      })
+  }
+}
+
 const purchaseSuccess = () => {
   return {
     type: 'PURCHASE_SUCCESS',

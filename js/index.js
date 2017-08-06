@@ -12,7 +12,7 @@ import reducers from './reducers'
 import Home from './containers/Home'
 import EpisodeDetail from './containers/EpisodeDetail'
 
-import { signInAnonymously } from './actions/user'
+import { signInAnonymously, saveDeviceToken } from './actions/user'
 import { loadPurcasingProducts, moveScreen, loadCategories } from './actions/app'
 
 function setupStore(onComplete: () => void) {
@@ -98,13 +98,18 @@ class Root extends React.Component {
     }
 
     this.state.store = setupStore((err, state) => {
+      const dispatch = this.state.store.dispatch
+
       Promise.all([
-        this.state.store.dispatch(signInAnonymously()),
-        this.state.store.dispatch(loadPurcasingProducts()),
-        this.state.store.dispatch(loadCategories()),
+        dispatch(signInAnonymously()),
+        dispatch(loadPurcasingProducts()),
+        dispatch(loadCategories()),
       ])
         .then(() => {
           this.setState({ isLoading: false })
+        })
+        .then(() => {
+          dispatch(saveDeviceToken())
         })
     })
 
