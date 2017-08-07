@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { View, StatusBar, AsyncStorage, Linking } from 'react-native'
+import { View, StatusBar, AsyncStorage, AppState, Linking } from 'react-native'
 import { applyMiddleware, createStore, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
 import { persistStore, autoRehydrate } from 'redux-persist'
@@ -14,6 +14,7 @@ import EpisodeDetail from './containers/EpisodeDetail'
 
 import { signInAnonymously, saveDeviceToken } from './actions/user'
 import { loadPurcasingProducts, moveScreen, loadCategories } from './actions/app'
+import { sendLeaveContentEvent } from './actions/event'
 
 function setupStore(onComplete: () => void) {
   const _createStore = applyMiddleware(thunk)(createStore)
@@ -95,6 +96,7 @@ class Root extends React.Component {
     this.state = {
       isLoading: true,
       store: undefined,
+      appState: AppState.currentState,
     }
 
     this.state.store = setupStore((err, state) => {
@@ -127,10 +129,12 @@ class Root extends React.Component {
       .catch(() => {})
 
     Linking.addEventListener('url', this._handleOpenURL.bind(this))
+    AppState.addEventListener('change', this._handleAppStateChange.bind(this))
   }
 
   componentWillUnmount() {
     Linking.removeEventListener('url', this._handleOpenURL.bind(this))
+    AppState.removeEventListener('change', this._handleAppStateChange.bind(this))
   }
 
   _handleOpenURL(event) {
@@ -138,6 +142,19 @@ class Root extends React.Component {
       this.state.store.dispatch(moveScreen('DEEPLINK'))
       this.isDeeplink = 'DEEPLINK'
     }
+  }
+
+  _handleAppStateChange(nextAppState) {
+    if (this.state.appState.match(/inactive|active/) && nextAppState === 'background') {
+      const { actionLog } = this.state.store.getState()
+      const dispatch = this.state.store.dispatch
+
+      const screen = actionLog.currentScreen
+      if (screen.type == 'NOVEL') {
+        dispatch(sendLeaveContentEvent(screen.novel.episodeId))
+      }
+    }
+    this.setState({ appState: nextAppState })
   }
 
   render() {
