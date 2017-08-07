@@ -204,6 +204,7 @@ export function syncUserEnergy(userId: number, force: boolean = false): ThunkAct
               latestSyncedAt: v.latestSyncedAt,
               nextRechargeDate: v.nextRechargeDate,
               ticketCount: v.ticketCount,
+              remainingTweetCount: v.remainingTweetCount,
             })
           ))
       })

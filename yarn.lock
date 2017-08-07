@@ -3141,7 +3141,7 @@ react-native-modalbox@^1.4.1:
 
 "react-native-share@git://github.com/SKAhack/react-native-share.git#dev":
   version "1.0.20"
-  resolved "git://github.com/SKAhack/react-native-share.git#2b408ff92b779c931969bee2a97129d700685aaf"
+  resolved "git://github.com/SKAhack/react-native-share.git#a3caa373d7ee6429ec80280927c85bdfc74be741"
 
 react-native-side-menu@^0.20.1:
   version "0.20.3"

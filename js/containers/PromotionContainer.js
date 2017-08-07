@@ -3,6 +3,7 @@ import React from 'react'
 import { View, Text, AlertIOS } from 'react-native'
 import { connect } from 'react-redux'
 
+import Share from 'react-native-share'
 import Modal from 'react-native-modalbox'
 import {
   purchase,
@@ -30,6 +31,20 @@ class PromotionContainer extends React.Component {
     return isOpen
   }
 
+  state = {
+    isAvailableTwitter: false
+  }
+
+  componentDidMount() {
+    Share.isAvailable('twitter')
+      .then(() => {
+        this.setState({ isAvailableTwitter: true })
+      })
+      .catch(() => {
+        this.setState({ isAvailableTwitter: false })
+      })
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const prevIsOpen = this.isOpen(prevProps)
     const isOpen = this.isOpen(this.props)
@@ -50,6 +65,8 @@ class PromotionContainer extends React.Component {
         <Promotion
           products={ this.props.purchasingProducts }
           ticketCount={ this.props.ticketCount }
+          remainingTweetCount={ this.props.remainingTweetCount }
+          isAvailableTwitter={ this.state.isAvailableTwitter }
           onTapPurchase={ this.props.onTapPurchase }
           onTapUseTicket={ this.props.onTapUseTicket.bind(null, this.props.userId) }
           onTapRestore={ this.props.onTapRestore }
@@ -70,6 +87,7 @@ const select = (store, props) => {
   const purchasingProducts = store.purchasingProducts
   const modalVisible = pageState && pageState.isOpenPromotion
   const ticketCount = store.tickets.ticketCount
+  const remainingTweetCount = store.tweets.remainingTweetCount
 
   return {
     userId: store.session.uid,
@@ -79,6 +97,7 @@ const select = (store, props) => {
     paid: store.session.paid,
     modalVisible,
     ticketCount,
+    remainingTweetCount,
   }
 }
 

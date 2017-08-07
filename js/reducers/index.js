@@ -11,6 +11,7 @@ import recommends from './recommends'
 import session from './session'
 import energy from './energy'
 import tickets from './tickets'
+import tweets from './tweets'
 import tabs from './tabs'
 import characters from './characters'
 import categories from './categories'
@@ -29,6 +30,7 @@ export default combineReducers({
   session,
   energy,
   tickets,
+  tweets,
   tabs,
   characters,
   categories,
