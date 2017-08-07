@@ -16,6 +16,7 @@ import {
   sendPromotionEvent,
   sendPresentOfferEvnet,
   sendPromotionShareBeginEvnet,
+  sendPromotionShareCompleteEvnet,
 } from '../actions/event'
 import { closePromotionModal } from '../actions/storyPage'
 import Promotion from '../components/Promotion'
@@ -136,6 +137,9 @@ const actions = (dispatch, props) => {
           if (!shared) {
             return
           }
+
+          dispatch(sendPromotionShareCompleteEvnet(episodeId))
+
           return dispatch(getTicket())
             .then(() => dispatch(syncUserEnergy(userId, true)))
             .then(() => dispatch(sendPresentOfferEvnet()))

@@ -148,3 +148,16 @@ export function sendPromotionShareBeginEvnet(episodeId: number): ThunkAction {
       .catch(() => {})
   }
 }
+
+export function sendPromotionShareCompleteEvnet(episodeId: number): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => (
+        firebase.analytics().logEvent('promotion_share_complete', {
+          item_id: episodeId,
+          content_type: 'novel',
+        })
+      ))
+      .catch(() => {})
+  }
+}
