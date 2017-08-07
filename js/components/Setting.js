@@ -3,6 +3,7 @@ import React from 'react'
 import { View, Text, FlatList, TouchableOpacity, Linking, StyleSheet } from 'react-native'
 
 import ListHeader from './ListHeader'
+import RightArrowIcon from './RightArrowIcon'
 
 const onPress = item => {
   Linking.openURL(item.url)
@@ -20,6 +21,9 @@ const renderItem = ({ item }) => (
   <TouchableOpacity onPress={ onPress.bind(null, item) }>
     <View style={ styles.listContainer }>
       <Text style={ styles.title }>{ item.title }</Text>
+      <View style={ styles.arrow }>
+        <RightArrowIcon />
+      </View>
     </View>
   </TouchableOpacity>
 )
@@ -48,26 +52,30 @@ const styles: StyleSheet = StyleSheet.create({
   },
   listWrapper: {
     borderTopWidth: 0.5,
-    borderColor: '#3a3a3a',
+    borderColor: '#999999',
   },
   separator: {
     marginLeft: 15,
     borderBottomWidth: 0.5,
-    borderColor: '#3a3a3a',
+    borderColor: '#d6d6d6',
   },
   listContainer: {
     flex: 1,
     height: 54,
     paddingLeft: 15,
     justifyContent: 'center',
+    backgroundColor: '#fff',
   },
   title: {
     fontSize: 14,
-    color: '#fff',
+    color: '#000',
   },
-  footer: {
-    borderTopWidth: 0.5,
-    borderColor: '#3a3a3a',
+  arrow: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 22,
+    justifyContent: 'center',
   },
 })
 

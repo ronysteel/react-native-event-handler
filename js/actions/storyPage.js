@@ -6,7 +6,7 @@ export function closePromotionModal(episodeId: number): ThunkAction {
   return (dispatch, getState) => {
     return (new Promise(resolve => resolve()))
       .then(() => {
-        StatusBar.setBarStyle('light-content')
+        StatusBar.setBarStyle('dark-content')
         StatusBar.setHidden(true)
       })
       .then(() => (
@@ -48,7 +48,7 @@ export function closeEpisodeListModal(episodeId: number): ThunkAction {
   return (dispatch, getState) => {
     return (new Promise(resolve => resolve()))
       .then(() => {
-        StatusBar.setBarStyle('light-content')
+        StatusBar.setBarStyle('dark-content')
         StatusBar.setHidden(true)
       })
       .then(() => (
@@ -64,7 +64,7 @@ export function openEpisodeListModal(episodeId: number): ThunkAction {
   return (dispatch, getState) => {
     return (new Promise(resolve => resolve()))
       .then(() => {
-        StatusBar.setBarStyle('light-content')
+        StatusBar.setBarStyle('dark-content')
         StatusBar.setHidden(false, true)
       })
       .then(() => (

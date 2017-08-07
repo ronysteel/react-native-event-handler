@@ -6,7 +6,7 @@ export function closeSettingModal(): ThunkAction {
   return (dispatch, getState) => {
     return (new Promise(resolve => resolve()))
       .then(() => {
-        StatusBar.setBarStyle('light-content')
+        StatusBar.setBarStyle('dark-content')
         StatusBar.setHidden(false)
       })
       .then(() => (
@@ -21,7 +21,7 @@ export function openSettingModal(): ThunkAction {
   return (dispatch, getState) => {
     return (new Promise(resolve => resolve()))
       .then(() => {
-        StatusBar.setBarStyle('light-content')
+        StatusBar.setBarStyle('dark-content')
         StatusBar.setHidden(false)
       })
       .then(() => (

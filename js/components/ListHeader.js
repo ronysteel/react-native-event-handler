@@ -15,7 +15,7 @@ const ListHeader = ({ title, closeModal }) => {
         <View style={ styles.left }>
           <TouchableOpacity onPress={ closeModal }>
             <View style={ styles.close }>
-              <CloseIcon color={ '#fff' } />
+              <CloseIcon color={ '#000' } />
             </View>
           </TouchableOpacity>
         </View>
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: STATUSBAR_HEIGHT,
     height: APPBAR_HEIGHT + STATUSBAR_HEIGHT,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#F5F5F5',
   },
   header: {
     flex: 1,
@@ -52,9 +52,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   titleText: {
-    color: '#fff',
+    color: '#000',
     fontSize: 17,
-    fontWeight: '600',
     textAlign: 'center',
     alignSelf: 'center',
     justifyContent: 'center',
