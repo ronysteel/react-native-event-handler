@@ -152,7 +152,7 @@ const select = (store, props) => {
     characters: store.characters[episodeId],
     shareLinks: store.shareLinks[episodeId],
     recommends: novel && novel.categoryId && store.recommends[novel.categoryId],
-    category: store.categories[novel.categoryId],
+    category: novel && novel.categoryId && store.categories[novel.categoryId],
   }
 }
 
