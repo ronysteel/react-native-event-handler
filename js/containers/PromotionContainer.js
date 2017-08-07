@@ -12,7 +12,11 @@ import {
   useTicket,
   getTicket,
 } from '../actions/user'
-import { sendPromotionEvent, sendPresentOfferEvnet } from '../actions/event'
+import {
+  sendPromotionEvent,
+  sendPresentOfferEvnet,
+  sendPromotionShareBeginEvnet,
+} from '../actions/event'
 import { closePromotionModal } from '../actions/storyPage'
 import Promotion from '../components/Promotion'
 
@@ -127,6 +131,8 @@ const actions = (dispatch, props) => {
           url: shareLinks.default,
         })
         .then(({ shared }) => {
+          dispatch(sendPromotionShareBeginEvnet(episodeId))
+
           if (!shared) {
             return
           }
