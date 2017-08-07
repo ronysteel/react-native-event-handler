@@ -27,6 +27,7 @@ const renderGridWrapper = (onPress, { item }) => {
       renderItem={ GridItem.bind(null, onPress) }
       numColumns={ 2 }
       keyExtractor={item => `${item.id}`}
+      style={{ backgroundColor: '#fff' }}
     />
   )
 }
@@ -46,12 +47,12 @@ const Stories = ({ sections, onSelectContent }: Props) => {
   })
 
   return (
-    <List style={styles.container}>
+    <View style={ styles.container }>
       <SectionList
         renderSectionHeader={({ section })=> {
           if (!section.title) return null
           return (
-            <View>
+            <View style={ styles.sectionHeader }>
               <View style={ styles.sectionSeparator } />
               <Text style={ styles.sectionTitle }>{ section.title }</Text>
             </View>
@@ -60,26 +61,33 @@ const Stories = ({ sections, onSelectContent }: Props) => {
         renderItem={ () => null }
         stickySectionHeadersEnabled={ false }
         sections={ s }
+        style={ styles.sectionContainer }
         keyExtractor={item => `${item.id}`}
       />
-    </List>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: '#f3f3f3',
+  },
+  sectionContainer: {
+    backgroundColor: '#f3f3f3',
+  },
+  sectionHeader: {
+    backgroundColor: '#fff',
   },
   sectionTitle: {
     paddingLeft: 15,
     color: colors.sectionTitle,
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: '600',
     marginBottom: 29,
   },
   sectionSeparator: {
-    borderTopWidth: 0.5,
-    borderColor: '#3a3a3a',
+    backgroundColor: '#f3f3f3',
+    height: 8,
     marginBottom: 28,
   },
   item: {

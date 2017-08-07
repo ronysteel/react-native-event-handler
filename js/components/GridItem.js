@@ -22,15 +22,23 @@ const GridItem = (onPress, { item, index }) => {
       onPress={ onPress.bind(null, index, item) }
     >
       <View style={{
+        position: 'relative',
         width: (windowWidth / 2),
         paddingLeft: index % 2 ? (15 / 2) : 15,
         paddingRight: index % 2 ? 15 : (15 / 2),
-        marginBottom: 30,
+        marginBottom: 20,
       }}>
         <Image style={ styles.image } source={{ uri: item.thumbnailUrl }} />
         <View>
           <Text style={ styles.title }>{ item.title }</Text>
           <Text style={ styles.description } numberOfLines={ 2 } ellipsizeMode={ 'tail' }>{ item.description }</Text>
+        </View>
+        <View style={[ styles.tagWrapper, {
+          left: index % 2 ? (15 / 2) : 15,
+        }]}>
+          <View style={ styles.tag }>
+            <Text style={ styles.tagText }>{ item.tags[0] }</Text>
+          </View>
         </View>
       </View>
     </TouchableOpacity>
@@ -43,6 +51,7 @@ const styles = StyleSheet.create({
   image: {
     resizeMode: 'cover',
     height: imageWidth * (3 / 4),
+    borderRadius: 4,
     marginBottom: 10,
   },
   title: {
@@ -58,21 +67,23 @@ const styles = StyleSheet.create({
     lineHeight: 16,
   },
   tagWrapper: {
+    position: 'absolute',
     flexDirection:'row',
-    marginLeft: 20,
+    top: imageWidth * (3 / 4) - (17 - 9),
+    left: 0,
   },
   tag: {
     flexWrap: 'wrap',
-    borderWidth: 1,
-    borderRadius: 2,
-    borderColor: '#565656',
-    paddingVertical: 5,
-    paddingHorizontal: 5,
+    minWidth: 36,
+    backgroundColor: '#373737',
+    paddingVertical: 3,
+    paddingHorizontal: 3,
   },
   tagText: {
-    color: '#6e6e6e',
-    fontSize: 9,
-    lineHeight: 9,
+    color: '#fff',
+    fontSize: 10,
+    lineHeight: 10,
+    textAlign: 'center',
   }
 })
 

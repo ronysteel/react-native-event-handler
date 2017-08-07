@@ -55,7 +55,7 @@ const renderItem = (novel, closeModal, onSelectContent, { item, index }) => (
  */
 const EpisodeList = ({ novel, episodes, closeModal, onSelectContent }) => {
   return (
-    <View style={{ flex: 1, backgroundColor: '#212121' }}>
+    <View style={{ flex: 1, backgroundColor: '#f3f3f3' }}>
       <Header
         title={ 'エピソード一覧' }
         closeModal={ closeModal }

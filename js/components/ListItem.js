@@ -41,11 +41,12 @@ const ListItem = (onPress, { item, index }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
     justifyContent: 'center',
     flexDirection: 'row',
     paddingLeft: 15,
     paddingRight: 15,
-    marginBottom: 25,
+    paddingBottom: 25,
   },
   image: {
     resizeMode: 'cover',

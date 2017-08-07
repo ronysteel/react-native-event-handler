@@ -70,10 +70,10 @@ const Share = ({
 const styles: StyleSheet = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#212121',
+    backgroundColor: '#fff',
   },
   backDrop: {
-    backgroundColor: '#212121',
+    backgroundColor: '#fff',
     position: 'absolute',
     top: 0,
     left: 0,

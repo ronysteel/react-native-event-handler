@@ -45,7 +45,7 @@ const onNavigationStateChange = (store, isDeeplink, prevState, currentState) => 
   if (prevScreen !== currentScreen) {
     switch (currentScreen) {
       case 'Home': {
-        StatusBar.setBarStyle('light-content')
+        StatusBar.setBarStyle('dark-content')
         StatusBar.setHidden(false)
         store.dispatch(moveScreen('HOME'))
         return
@@ -159,7 +159,7 @@ class Root extends React.Component {
 
   render() {
     if (this.state.isLoading) {
-      return <View style={{ flex: 1, backgroundColor: '#212121' }}></View>
+      return <View style={{ flex: 1, backgroundColor: '#f3f3f3' }}></View>
     }
     return (
       <Provider store={this.state.store}>
