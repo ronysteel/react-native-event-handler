@@ -49,7 +49,8 @@ class Playground extends React.PureComponent {
             }
           }}
           ticketCount={ 0 }
-          remainingTweetCount={ 0 }
+          remainingTweetCount={ 1 }
+          isAvailableTwitter={ false }
           onTapPurchase={ () => {} }
           onTapUseTicket={ () => {} }
           onTapRestore={ () => {} }

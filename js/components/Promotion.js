@@ -38,6 +38,7 @@ const Promotion = ({
   closeModal,
   ticketCount,
   remainingTweetCount,
+  isAvailableTwitter,
   onTapPurchase,
   onTapUseTicket,
   onTapRestore,
@@ -78,6 +79,7 @@ const Promotion = ({
           <GetTicketButton
             ticketCount={ ticketCount }
             remainingTweetCount={ remainingTweetCount }
+            isAvailableTwitter={ isAvailableTwitter }
             onTapUseTicket={ () => {} }
           />
           <UseTicketButton

@@ -7,8 +7,24 @@ import {
   StyleSheet,
 } from 'react-native'
 
-const GetTicketButton = ({ ticketCount, remainingTweetCount, onTapGetTicket }) => (
-  ( ticketCount > 0 || remainingTweetCount == 0 ? null : (
+const isDisplay = (ticketCount, remainingTweetCount, isAvailableTwitter) => {
+  if (ticketCount > 0) {
+    return false
+  }
+  if (remainingTweetCount == 0) {
+    return false
+  }
+
+  return isAvailableTwitter
+}
+
+const GetTicketButton = ({
+  isAvailableTwitter,
+  ticketCount,
+  remainingTweetCount,
+  onTapGetTicket,
+}) => (
+  ( !isDisplay(ticketCount, remainingTweetCount, isAvailableTwitter) ? null : (
     <View>
       <TouchableOpacity onPress={ onTapGetTicket }>
         <View style={ styles.buttonWrapper }>
