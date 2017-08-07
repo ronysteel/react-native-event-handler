@@ -67,13 +67,24 @@ export function sendLeaveContentEvent(episodeId: number): ThunkAction {
   }
 }
 
-export function sendPromotionEvent(episodeId: number): ThunkAction {
+export function sendPromotionEvent(
+  episodeId: number,
+  hasTweetButton: boolean = false,
+): ThunkAction {
+  let withPromotion = {}
+  if (hasTweetButton) {
+    withPromotion = {
+      with_promotion: 'tweet'
+    }
+  }
+
   return (dispatch, getState) => {
     return new Promise(resolve => resolve())
       .then(() => (
         firebase.analytics().logEvent('promotion', {
           item_id: episodeId,
           content_type: 'novel',
+          ...withPromotion,
         })
       ))
       .catch(() => {})
@@ -116,6 +127,46 @@ export function sendSpendVirtualCurrencyEvnet(): ThunkAction {
           item_name: 'ticket',
           virtual_currency_name: 'ticket',
           value: 1,
+        })
+      ))
+      .catch(() => {})
+  }
+}
+
+export function sendPresentOfferEvnet(): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => (
+        firebase.analytics().logEvent('present_offer', {
+          item_id: 'ticket1',
+          item_name: 'ticket1',
+          item_category: 'ticket',
+        })
+      ))
+      .catch(() => {})
+  }
+}
+
+export function sendPromotionShareBeginEvnet(episodeId: number): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => (
+        firebase.analytics().logEvent('promotion_share_begin', {
+          item_id: episodeId,
+          content_type: 'novel',
+        })
+      ))
+      .catch(() => {})
+  }
+}
+
+export function sendPromotionShareCompleteEvnet(episodeId: number): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => (
+        firebase.analytics().logEvent('promotion_share_complete', {
+          item_id: episodeId,
+          content_type: 'novel',
         })
       ))
       .catch(() => {})
