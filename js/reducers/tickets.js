@@ -29,10 +29,21 @@ function tickets(state: Tickets = initialStates, action: Action): Tickets {
       return state
     }
 
+    case 'GET_TICKET_REQUEST': {
+      return state
+    }
+
+    case 'GET_TICKET_SUCCESS': {
+      return state
+    }
+
+    case 'GET_TICKET_FAILED': {
+      return state
+    }
+
     default: {
       return state
     }
   }
 }
 export default tickets
-

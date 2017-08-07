@@ -23,7 +23,7 @@ export const PurchaseButtonOneWeek = ({ product, onTapPurchase }) => (
     <View style={ styles.weekWrapper }>
       <Text style={ styles.weekFreeText }>{ '7日間無料' }</Text>
       <Text style={ styles.weekPriceText }>
-        { `${product.priceString} / ${product.title}` }
+        { `その後 ${product.priceString} / ${product.title}` }
       </Text>
       <View style={ styles.ribbon }>
         <RecommendRibbon />
@@ -46,6 +46,7 @@ const styles: StyleSheet = StyleSheet.create({
   promotionButtonText: {
     color: '#fff',
     fontSize: 18,
+    fontWeight: '600',
     lineHeight: 21,
   },
   promotionButtonTitleText: {

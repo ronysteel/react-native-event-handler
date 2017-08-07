@@ -11,6 +11,7 @@ import {
 
 import RechargeCountdown from './RechargeCountdown'
 import UseTicketButton from './UseTicketButton'
+import GetTicketButton from './GetTicketButton'
 import CloseIcon from './CloseIcon'
 import {
   PurchaseButtonOneMonth,
@@ -36,8 +37,11 @@ const Promotion = ({
   nextRechargeDate,
   closeModal,
   ticketCount,
+  remainingTweetCount,
+  isAvailableTwitter,
   onTapPurchase,
   onTapUseTicket,
+  onTapGetTicket,
   onTapRestore,
   onEndRecharge,
 }) => {
@@ -72,6 +76,12 @@ const Promotion = ({
           <PurchaseButtonOneMonth
             product={ products.products[PRODUCT_ID_ONE_MONTH] }
             onTapPurchase={ onTapPurchase }
+          />
+          <GetTicketButton
+            ticketCount={ ticketCount }
+            remainingTweetCount={ remainingTweetCount }
+            isAvailableTwitter={ isAvailableTwitter }
+            onTapGetTicket={ onTapGetTicket }
           />
           <UseTicketButton
             ticketCount={ ticketCount }

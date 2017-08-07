@@ -17,14 +17,14 @@ export const onPressShare = (type: string, options) => {
         ...options,
         ...({ social: "twitter" }),
       })
-      .catch(() => {})
+        .catch(() => {})
     }
     case 'facebook': {
       return Share.shareSingle({
         ...options,
         ...({ social: "facebook" }),
       })
-      .catch(() => {})
+        .catch(() => {})
     }
     case 'line': {
       const makeUri = (options) => (

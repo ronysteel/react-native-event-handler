@@ -2,140 +2,62 @@
 import React from 'react'
 import { View, StatusBar } from 'react-native'
 
-import ScriptList from './components/ScriptList'
+import Share from 'react-native-share';
+import Promotion from './components/Promotion'
+import moment from 'moment'
 
-StatusBar.setHidden(true)
+StatusBar.setHidden(false)
 StatusBar.setBarStyle('dark-content')
 
 class Playground extends React.PureComponent {
+  componentDidMount() {
+    Share.isAvailable('twitter')
+      .then(() => {
+        console.log('available')
+      })
+      .catch(() => {
+        console.log('unavailable')
+      })
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <ScriptList
-          data={[
-            {
-              id: 1,
-              scriptOrder: 1,
-              type: 'TEXT',
-              text: {
-                body: "すみません。解決策をご用意していたのですが、ちょっと準備に時間がかかってしまって……",
-                characterId: "0",
-                type: 'CHAT_LEFT',
+        <Promotion
+          products={{
+            products: {
+              'co.newn.chatnovel.oneweek': {
+                identifier: '',
+                currencyCode: '',
+                currencySymbol: '',
+                description: '',
+                downloadable: false,
+                price: 900,
+                priceString: '¥900',
+                title: '1ヶ月',
               },
-            },
-            {
-              id: 10,
-              scriptOrder: 1,
-              type: 'TEXT',
-              text: {
-                body: "はい",
-                characterId: "0",
-                type: 'CHAT_LEFT',
-              },
-            },
-            {
-              id: 11,
-              scriptOrder: 1,
-              type: 'TEXT',
-              text: {
-                body: "はい",
-                characterId: "0",
-                type: 'CHAT_RIGHT',
-              },
-            },
-            {
-              id: 2,
-              scriptOrder: 2,
-              type: 'TEXT',
-              text: {
-                body: "すみません。解決策をご用意していたのですが、ちょっと準備に時間がかかってしまって……",
-                characterId: "0",
-                type: 'CHAT_RIGHT',
-              },
-            },
-            {
-              id: 3,
-              scriptOrder: 2,
-              type: 'TEXT',
-              text: {
-                body: "すみません。解決策をご用意していたのですが、ちょっと準備に時間がかかってしまって……",
-                characterId: "1",
-                type: 'CHAT_LEFT',
-              },
-            },
-            {
-              id: 4,
-              scriptOrder: 2,
-              type: 'TEXT',
-              text: {
-                body: "すみません。解決策をご用意していたのですが、ちょっと準備に時間がかかってしまって……",
-                characterId: "1",
-                type: 'CHAT_RIGHT',
-              },
-            },
-            {
-              id: 5,
-              scriptOrder: 2,
-              type: 'IMAGE',
-              image: {
-                type: 'CHAT_LEFT',
-                characterId: '0',
-                imageUrl: "https://s3-ap-northeast-1.amazonaws.com/obake.me/dummy-images/jumping-cat.jpg",
-              },
-            },
-            {
-              id: 6,
-              scriptOrder: 2,
-              type: 'IMAGE',
-              image: {
-                type: 'CHAT_LEFT',
-                characterId: '1',
-                imageUrl: "https://s3-ap-northeast-1.amazonaws.com/obake.me/dummy-images/jumping-cat.jpg",
-              },
-            },
-            {
-              id: 7,
-              scriptOrder: 2,
-              type: 'IMAGE',
-              image: {
-                type: 'CHAT_RIGHT',
-                characterId: '1',
-                imageUrl: "https://s3-ap-northeast-1.amazonaws.com/obake.me/dummy-images/jumping-cat.jpg",
-              },
-            },
-            {
-              id: 8,
-              scriptOrder: 2,
-              type: 'IMAGE',
-              image: {
-                type: 'NORMAL',
-                characterId: '1',
-                imageUrl: "https://s3-ap-northeast-1.amazonaws.com/obake.me/dummy-images/jumping-cat.jpg",
-                imageWidth: 631,
-                imageHeight: 450,
-              },
-            },
-          ]}
-          lastItemId={ 10 }
-          readState={{
-            episodeId: 1,
-            readIndex: 100,
-            backgroundImageIndex: 1,
-            displayPromotion: false,
-            reachEndOfContent: false,
-          }}
-          characters={{
-            "0": {
-              name: 'A',
-              avatarUrl: "https://s3-ap-northeast-1.amazonaws.com/chatnovel/character_icon/hoagehgowheg.png",
-            },
-            "1": {
-              name: '謎の人',
-              avatarUrl: "",
+              'co.newn.chatnovel.onemonth': {
+                identifier: '',
+                currencyCode: '',
+                currencySymbol: '',
+                description: '',
+                downloadable: false,
+                price: 900,
+                priceString: '¥900',
+                title: '1ヶ月',
+              }
             }
           }}
-          isTutorial={ false }
-          ListFooterComponent={ () => null }
+          ticketCount={ 0 }
+          remainingTweetCount={ 1 }
+          isAvailableTwitter={ false }
+          onTapPurchase={ () => {} }
+          onTapUseTicket={ () => {} }
+          onTapGetTicket={ () => {} }
+          onTapRestore={ () => {} }
+          nextRechargeDate={ moment().add(30, 'minutes').valueOf() }
+          onEndRecharge={ () => {} }
+          closeModal={ () => {} }
         />
       </View>
     )
