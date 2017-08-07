@@ -46,9 +46,9 @@ const styles: StyleSheet = StyleSheet.create({
   buttonText: {
     padding: 15,
     color: '#fff',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
-    lineHeight: 18,
+    lineHeight: 16,
     textAlign: 'center',
   },
   ticketCountText: {
