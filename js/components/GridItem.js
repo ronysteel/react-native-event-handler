@@ -14,6 +14,22 @@ import colors from './colors'
 
 const windowWidth = Dimensions.get('window').width;
 
+const Tag = (index, item) => {
+  if (item.tags.length == 0) {
+    return null
+  }
+
+  return (
+    <View style={[ styles.tagWrapper, {
+      left: index % 2 ? (15 / 2) : 15,
+    }]}>
+      <View style={ styles.tag }>
+        <Text style={ styles.tagText }>{ item.tags[0] }</Text>
+      </View>
+    </View>
+  )
+}
+
 const GridItem = (onPress, { item, index }) => {
   return (
     <TouchableOpacity
@@ -32,13 +48,6 @@ const GridItem = (onPress, { item, index }) => {
         <View>
           <Text style={ styles.title }>{ item.title }</Text>
           <Text style={ styles.description } numberOfLines={ 2 } ellipsizeMode={ 'tail' }>{ item.description }</Text>
-        </View>
-        <View style={[ styles.tagWrapper, {
-          left: index % 2 ? (15 / 2) : 15,
-        }]}>
-          <View style={ styles.tag }>
-            <Text style={ styles.tagText }>{ item.tags[0] }</Text>
-          </View>
         </View>
       </View>
     </TouchableOpacity>
