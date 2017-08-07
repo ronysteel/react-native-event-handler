@@ -53,3 +53,16 @@ export const requestGetTicket = ({ idToken }) => (
   .then(r => r.json())
   .then(r => r.response)
 )
+
+export const fetchRecommends = ({ idToken, categoryId }) => (
+  fetch(`${API_HOST}/recommends/${categoryId}`, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`,
+      'Cache-Control': 'no-cache',
+    }
+  })
+  .then(r => r.json())
+  .then(r => r.response)
+)

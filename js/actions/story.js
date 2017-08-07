@@ -9,6 +9,7 @@ import firebase from '../firebase'
 import {
   fetchEpisode,
   fetchEpisodeList,
+  fetchRecommends,
 } from '../api'
 
 const successLoadEpisode = (episodeId: number, json) => {
@@ -40,11 +41,11 @@ const successLoadRecommends = (categoryId: number, json) => {
 
 export function loadRecommends(categoryId: number): ThunkAction {
   return (dispatch, getState) => {
-    return firebase.database()
-      .ref(`/recommends/${categoryId}`)
-      .once('value').then((snapshot) => (
-        dispatch(successLoadRecommends(categoryId, snapshot.val()))
-      ))
+    const { session } = getState()
+    return fetchRecommends({ ...session, categoryId })
+      .then(v => {
+        dispatch(successLoadRecommends(categoryId, v))
+      })
   }
 }
 
