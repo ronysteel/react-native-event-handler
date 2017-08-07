@@ -121,3 +121,17 @@ export function sendSpendVirtualCurrencyEvnet(): ThunkAction {
       .catch(() => {})
   }
 }
+
+export function sendPresentOfferEvnet(): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => (
+        firebase.analytics().logEvent('present_offer', {
+          item_id: 'ticket1',
+          item_name: 'ticket1',
+          item_category: 'ticket',
+        })
+      ))
+      .catch(() => {})
+  }
+}

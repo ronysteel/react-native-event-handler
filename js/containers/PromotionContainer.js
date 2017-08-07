@@ -12,7 +12,7 @@ import {
   useTicket,
   getTicket,
 } from '../actions/user'
-import { sendPromotionEvent } from '../actions/event'
+import { sendPromotionEvent, sendPresentOfferEvnet } from '../actions/event'
 import { closePromotionModal } from '../actions/storyPage'
 import Promotion from '../components/Promotion'
 
@@ -132,6 +132,7 @@ const actions = (dispatch, props) => {
           }
           return dispatch(getTicket())
             .then(() => dispatch(syncUserEnergy(userId, true)))
+            .then(() => dispatch(sendPresentOfferEvnet()))
         })
         .catch(() => {})
     ),
