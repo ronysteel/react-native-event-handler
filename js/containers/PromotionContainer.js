@@ -10,6 +10,7 @@ import {
   restorePurchases,
   syncUserEnergy,
   useTicket,
+  getTicket,
 } from '../actions/user'
 import { sendPromotionEvent } from '../actions/event'
 import { closePromotionModal } from '../actions/storyPage'
@@ -69,6 +70,7 @@ class PromotionContainer extends React.Component {
           isAvailableTwitter={ this.state.isAvailableTwitter }
           onTapPurchase={ this.props.onTapPurchase }
           onTapUseTicket={ this.props.onTapUseTicket.bind(null, this.props.userId) }
+          onTapGetTicket={ this.props.onTapGetTicket.bind(null, this.props.userId, this.props.novel, this.props.shareLinks) }
           onTapRestore={ this.props.onTapRestore }
           nextRechargeDate={ this.props.nextRechargeDate }
           onEndRecharge={ this.props.onEndRecharge.bind(null, this.props.userId) }
@@ -80,7 +82,8 @@ class PromotionContainer extends React.Component {
 }
 
 const select = (store, props) => {
-  const { episodeId } = props
+  const { novelId, episodeId } = props
+  const novel = store.novels[novelId]
   const readState: ReadState = store.readStates[episodeId]
   const nextRechargeDate = store.energy.nextRechargeDate
   const pageState = store.pages.storyPageStates[episodeId]
@@ -98,6 +101,7 @@ const select = (store, props) => {
     modalVisible,
     ticketCount,
     remainingTweetCount,
+    shareLinks: store.shareLinks[episodeId],
   }
 }
 
@@ -114,6 +118,22 @@ const actions = (dispatch, props) => {
       dispatch(closePromotionModal(episodeId))
         .then(() => dispatch(useTicket()))
         .then(() => dispatch(syncUserEnergy(userId, true)))
+    ),
+    onTapGetTicket: (userId: number, novel, shareLinks) => (
+      Share
+        .shareSingle({
+          social: 'twitter',
+          title: novel.title,
+          url: shareLinks.default,
+        })
+        .then(({ shared }) => {
+          if (!shared) {
+            return
+          }
+          return dispatch(getTicket())
+            .then(() => dispatch(syncUserEnergy(userId, true)))
+        })
+        .catch(() => {})
     ),
     onTapRestore: () => (
       dispatch(restorePurchases())

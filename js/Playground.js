@@ -53,6 +53,7 @@ class Playground extends React.PureComponent {
           isAvailableTwitter={ false }
           onTapPurchase={ () => {} }
           onTapUseTicket={ () => {} }
+          onTapGetTicket={ () => {} }
           onTapRestore={ () => {} }
           nextRechargeDate={ moment().add(30, 'minutes').valueOf() }
           onEndRecharge={ () => {} }

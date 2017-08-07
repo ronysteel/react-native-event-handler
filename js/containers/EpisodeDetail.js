@@ -64,6 +64,9 @@ class EpisodeDetail extends React.Component {
         this.props.loadRecommends(this.props.novel.categoryId)
         this.props.onStartReading(novelId, episodeId)
       })
+      .catch(err => {
+        console.error(err)
+      })
 
   }
 
@@ -109,7 +112,7 @@ class EpisodeDetail extends React.Component {
           navigation={ navigation }
           openModal={ this.props.openEpisodeListModal.bind(null, episode.id) }
         />
-        <PromotionContainer episodeId={ episode.id } />
+        <PromotionContainer novelId={ novel.novelId } episodeId={ episode.id } />
         <EpisodeList
           novelId={ novel.novelId }
           episodeId={ episode.id }

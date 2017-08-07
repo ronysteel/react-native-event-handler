@@ -6,6 +6,7 @@ import { getAllScript } from '../reducers/scripts'
 import firebase from '../firebase'
 import { loadPurcasingProducts } from './app'
 import { sendSpendVirtualCurrencyEvnet } from './event'
+import { requestGetTicket } from '../api'
 const { InAppUtils } = NativeModules
 
 const API_HOST = `https://us-central1-test-5913c.cloudfunctions.net/api`
@@ -244,6 +245,26 @@ export function useTicket(): ThunkAction {
       .catch(err => (
         dispatch({
           type: 'USE_TICKET_FAILED',
+        })
+      ))
+  }
+}
+
+export function getTicket(): ThunkAction {
+  return (dispatch, getState) => {
+    const { session } = getState()
+    const { uid } = session
+    dispatch({ type: 'GET_TICKET_REQUEST' })
+
+    return requestGetTicket(session)
+      .then(v => {
+        return dispatch({
+          type: 'GET_TICKET_SUCCESS',
+        })
+      })
+      .catch(err => (
+        dispatch({
+          type: 'GET_TICKET_FAILED',
         })
       ))
   }
