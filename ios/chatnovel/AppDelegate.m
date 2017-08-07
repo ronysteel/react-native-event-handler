@@ -31,7 +31,7 @@
                                                       moduleName:@"chatnovel"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
-  rootView.backgroundColor = [[UIColor alloc] initWithRed:0.13f green:0.13f blue:0.13f alpha:1];
+  rootView.backgroundColor = [[UIColor alloc] initWithRed:0.95f green:0.95f blue:0.95f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];

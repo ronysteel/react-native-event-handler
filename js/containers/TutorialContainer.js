@@ -74,7 +74,7 @@ class TutorialContainer extends React.Component {
     } = this.props
 
     if (this.state.isLoading) {
-      return <View style={{ flex: 1, backgroundColor: '#212121' }}></View>
+      return <View style={{ flex: 1, backgroundColor: '#f3f3f3' }}></View>
     }
 
     const color = this.state.fadeAnim.interpolate({

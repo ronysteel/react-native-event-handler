@@ -44,7 +44,7 @@ const Setting = ({ links, onTapClose }) => (
 const styles: StyleSheet = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#212121',
+    backgroundColor: '#f3f3f3',
   },
   listWrapper: {
     borderTopWidth: 0.5,

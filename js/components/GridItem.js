@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
   image: {
     resizeMode: 'cover',
     height: imageWidth * (3 / 4),
+    borderRadius: 4,
     marginBottom: 10,
   },
   title: {

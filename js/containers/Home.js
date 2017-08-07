@@ -21,12 +21,12 @@ const headerInit = {
   headerTitle: <HeaderTitle />,
   headerLeft: <HomeHeaderLeft />,
   headerStyle: {
-    backgroundColor: '#1a1a1a',
-    borderColor: '#3a3a3a',
+    backgroundColor: '#f5f5f5',
+    borderColor: '#999',
     borderBottomWidth: 0.5,
   },
   headerTitleStyle: {
-    color: '#fff',
+    color: '#000',
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -93,7 +93,7 @@ class Home extends React.Component {
 const styles: StyleSheet = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#212121',
+    backgroundColor: '#f3f3f3',
   },
 })
 
