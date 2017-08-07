@@ -67,13 +67,24 @@ export function sendLeaveContentEvent(episodeId: number): ThunkAction {
   }
 }
 
-export function sendPromotionEvent(episodeId: number): ThunkAction {
+export function sendPromotionEvent(
+  episodeId: number,
+  hasTweetButton: boolean = false,
+): ThunkAction {
+  let withPromotion = {}
+  if (hasTweetButton) {
+    withPromotion = {
+      with_promotion: 'tweet'
+    }
+  }
+
   return (dispatch, getState) => {
     return new Promise(resolve => resolve())
       .then(() => (
         firebase.analytics().logEvent('promotion', {
           item_id: episodeId,
           content_type: 'novel',
+          ...withPromotion,
         })
       ))
       .catch(() => {})

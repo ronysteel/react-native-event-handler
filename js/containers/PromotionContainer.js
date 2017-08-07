@@ -41,6 +41,17 @@ class PromotionContainer extends React.Component {
     isAvailableTwitter: false
   }
 
+  tweetButtonAvailable = (ticketCount, remainingTweetCount, isAvailableTwitter) => {
+    if (ticketCount > 0) {
+      return false
+    }
+    if (remainingTweetCount == 0) {
+      return false
+    }
+
+    return isAvailableTwitter
+  }
+
   componentDidMount() {
     Share.isAvailable('twitter')
       .then(() => {
@@ -56,6 +67,11 @@ class PromotionContainer extends React.Component {
     const isOpen = this.isOpen(this.props)
 
     if (prevIsOpen !== isOpen && isOpen === true) {
+      this.props.sendPromotionEvent(tweetButtonAvailable(
+        this.props.ticketCount,
+        this.props.remainingTweetCount,
+        this.state.isAvailableTwitter
+      ))
     }
   }
 
@@ -156,8 +172,8 @@ const actions = (dispatch, props) => {
           )
         })
     ),
-    sendPromotionEvent: () => (
-      dispatch(sendPromotionEvent(episodeId))
+    sendPromotionEvent: (hasTweetButton: boolean) => (
+      dispatch(sendPromotionEvent(episodeId, hasTweetButton))
     ),
   }
 }
