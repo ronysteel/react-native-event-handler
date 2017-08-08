@@ -178,7 +178,7 @@ class EpisodeDetail extends React.Component {
           <Share
             novel={ novel }
             readState={ readState }
-            shareText={ this.props.category.shareTitle }
+            shareText={ (this.props.category || {}).shareTitle }
             shareOptions={ shareOptions }
             recommends={ recommends }
             onSelectContent={ this.props.onSelectContent }

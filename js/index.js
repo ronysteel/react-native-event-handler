@@ -6,8 +6,10 @@ import { applyMiddleware, createStore, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
 import { persistStore, autoRehydrate } from 'redux-persist'
 import { Provider } from 'react-redux'
-import { StackNavigator } from 'react-navigation'
+import { StackNavigator, NavigationActions, addNavigationHelpers } from 'react-navigation'
+import pathToRegexp from 'path-to-regexp'
 
+import firebase from './firebase'
 import reducers from './reducers'
 import Home from './containers/Home'
 import EpisodeDetail from './containers/EpisodeDetail'
@@ -77,9 +79,11 @@ const onNavigationStateChange = (store, isDeeplink, prevState, currentState) => 
   }
 }
 
+const episodeDetailPath = 'novels/:novelId/episodes/:episodeId'
+
 const App = StackNavigator({
   Home: { screen: Home },
-  EpisodeDetail: { screen: EpisodeDetail, path: 'novels/:novelId/episodes/:episodeId' },
+  EpisodeDetail: { screen: EpisodeDetail, path: episodeDetailPath },
 }, {
   headerMode: 'screen',
 })
@@ -130,11 +134,48 @@ class Root extends React.Component {
 
     Linking.addEventListener('url', this._handleOpenURL.bind(this))
     AppState.addEventListener('change', this._handleAppStateChange.bind(this))
+
+    firebase.messaging()
+      .onMessage(event => {
+        if (event.episodeUri) {
+          const { path } = this._urlToPathAndParams(event.episodeUri)
+          const keys = []
+          const re = pathToRegexp(episodeDetailPath, keys)
+          const ps = re.exec(path)
+
+          const params = keys.reduce((memo, v, i) => {
+            memo[v.name] = ps[i + 1]
+            return memo
+          }, {})
+
+          this.navigator.dispatch(NavigationActions.reset({
+            index: 1,
+            actions: [
+              NavigationActions.navigate({ routeName: 'Home' }),
+              NavigationActions.navigate({ routeName: 'EpisodeDetail', params }),
+            ]
+          }))
+        }
+      })
   }
 
   componentWillUnmount() {
     Linking.removeEventListener('url', this._handleOpenURL.bind(this))
     AppState.removeEventListener('change', this._handleAppStateChange.bind(this))
+  }
+
+
+  _urlToPathAndParams(url: string) {
+    const params = {}
+    const delimiter = 'chatnovel://' || '://'
+    let path = url.split(delimiter)[1]
+    if (typeof path === 'undefined') {
+      path = url
+    }
+    return {
+      path,
+      params,
+    }
   }
 
   _handleOpenURL(event) {
@@ -164,6 +205,7 @@ class Root extends React.Component {
     return (
       <Provider store={this.state.store}>
         <App
+          ref={ r => this.navigator = r }
           uriPrefix={ 'chatnovel://' }
           onNavigationStateChange={ onNavigationStateChange.bind(null, this.state.store, this.isDeeplink) }
         />
