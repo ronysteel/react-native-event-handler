@@ -47,7 +47,11 @@ const GridItem = (onPress, { item, index }) => {
         <Image style={ styles.image } source={{ uri: item.thumbnailUrl }} />
         <View>
           <Text style={ styles.title }>{ item.title }</Text>
-          <Text style={ styles.description } numberOfLines={ 2 } ellipsizeMode={ 'tail' }>{ item.description }</Text>
+          <Text
+            style={ styles.description }
+            numberOfLines={ 2 }
+            ellipsizeMode={ 'tail' }
+          >{ item.description }</Text>
         </View>
       </View>
       <Tag index={ index } item={ item } />
@@ -69,7 +73,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     lineHeight: 20,
-    marginBottom: 10,
+    marginBottom: 2,
   },
   description: {
     color: colors.description,

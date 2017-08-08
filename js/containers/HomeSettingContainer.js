@@ -36,7 +36,7 @@ class HomeSettingContainer extends React.PureComponent {
           ticketCount={{
             key: 0,
             title: '持っているチケット',
-            ticketCount: this.props.ticketCount,
+            ticketCount: this.props.ticketCount || 0,
           }}
           links={[
             {
