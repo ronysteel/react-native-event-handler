@@ -66,3 +66,16 @@ export const fetchRecommends = ({ idToken, categoryId }) => (
   .then(r => r.json())
   .then(r => r.response)
 )
+
+export const fetchTicketCount = ({ idToken }) => (
+  fetch(`${API_HOST}/tickets/count`, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`,
+      'Cache-Control': 'no-cache',
+    }
+  })
+  .then(r => r.json())
+  .then(r => r.response)
+)

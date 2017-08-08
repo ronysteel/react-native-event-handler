@@ -32,6 +32,8 @@ const styles = StyleSheet.create({
     paddingTop: STATUSBAR_HEIGHT,
     height: APPBAR_HEIGHT + STATUSBAR_HEIGHT,
     backgroundColor: '#F5F5F5',
+    borderBottomWidth: 0.5,
+    borderColor: '#999',
   },
   header: {
     flex: 1,

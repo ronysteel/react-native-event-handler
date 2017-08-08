@@ -2,7 +2,7 @@
 import type { Action, ThunkAction } from './types'
 import { NativeModules } from 'react-native'
 const { InAppUtils } = NativeModules
-import { fetchCategories } from '../api'
+import { fetchCategories, fetchTicketCount } from '../api'
 
 import { sendLeaveContentEvent } from './event'
 
@@ -105,6 +105,19 @@ export function loadCategories(): ThunkAction {
         return dispatch({
           type: 'LOAD_CATEGORIES_SUCCESS',
           categories: v,
+        })
+      })
+  }
+}
+
+export function loadTicketCount(): ThunkAction {
+  return (dispatch, getState) => {
+    const { session } = getState()
+    return fetchTicketCount(session)
+      .then(v => {
+        return dispatch({
+          type: 'LOAD_TICKET_COUNT_SUCCESS',
+          ticketCount: v,
         })
       })
   }
