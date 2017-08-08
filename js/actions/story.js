@@ -22,9 +22,7 @@ const successLoadEpisode = (episodeId: number, json) => {
 
 export function loadEpisode(novelId: number, episodeId: number): ThunkAction {
   return (dispatch, getState) => {
-    const { session } = getState()
-    const { idToken } = session
-    return fetchEpisode({ idToken, novelId, episodeId })
+    return fetchEpisode({ novelId, episodeId })
       .then(v => {
         return dispatch(successLoadEpisode(episodeId, v))
       })
@@ -41,8 +39,7 @@ const successLoadRecommends = (categoryId: number, json) => {
 
 export function loadRecommends(categoryId: number): ThunkAction {
   return (dispatch, getState) => {
-    const { session } = getState()
-    return fetchRecommends({ ...session, categoryId })
+    return fetchRecommends({ categoryId })
       .then(v => {
         dispatch(successLoadRecommends(categoryId, v))
       })
@@ -59,9 +56,7 @@ const successLoadEpisodeList = (novelId: number, json) => {
 
 export function loadEpisodeList(novelId: number): ThunkAction {
   return (dispatch, getState) => {
-    const { session } = getState()
-    const { idToken } = session
-    return fetchEpisodeList({ idToken, novelId })
+    return fetchEpisodeList({ novelId })
       .then(v => dispatch(successLoadEpisodeList(novelId, v)))
   }
 }

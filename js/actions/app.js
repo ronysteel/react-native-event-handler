@@ -2,7 +2,11 @@
 import type { Action, ThunkAction } from './types'
 import { NativeModules } from 'react-native'
 const { InAppUtils } = NativeModules
-import { fetchCategories, fetchTicketCount } from '../api'
+import {
+  fetchCategories,
+  fetchTicketCount,
+  fetchTab,
+} from '../api'
 
 import { sendLeaveContentEvent } from './event'
 
@@ -32,27 +36,11 @@ export function loadPurcasingProducts(): ThunkAction {
   }
 }
 
-const API_HOST = `https://us-central1-test-5913c.cloudfunctions.net/api`
-const fetchTab = ({ idToken, tabName }) => (
-  fetch(`${API_HOST}/tabs/${tabName}`, {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${idToken}`,
-      'Cache-Control': 'no-cache',
-    }
-  })
-  .then(r => r.json())
-  .then(r => r.response)
-)
-
 export function loadTab(tabName: string = 'home'): ThunkAction {
   return (dispatch, getState) => {
-    const { session } = getState()
-
     dispatch({ type: 'LOAD_TAB_REQUEST', tabName })
-    return fetchTab({ idToken: session.idToken, tabName: tabName })
+
+    return fetchTab({ tabName: tabName })
       .then(v => (
         dispatch({
           type: 'LOAD_TAB_SUCCESS',
@@ -99,8 +87,7 @@ export function selectContent(sectionIndex: string, positionIndex: number): Thun
 
 export function loadCategories(): ThunkAction {
   return (dispatch, getState) => {
-    const { session } = getState()
-    return fetchCategories(session)
+    return fetchCategories()
       .then(v => {
         return dispatch({
           type: 'LOAD_CATEGORIES_SUCCESS',

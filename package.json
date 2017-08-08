@@ -12,6 +12,7 @@
     "preset": "react-native"
   },
   "dependencies": {
+    "babel-plugin-transform-remove-console": "^6.8.4",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "path-to-regexp": "^1.7.0",
@@ -30,6 +31,7 @@
     "react-navigation": "^1.0.0-beta.11",
     "react-redux": "^5.0.5",
     "redux": "^3.7.1",
+    "redux-logger": "^3.0.6",
     "redux-persist": "^4.8.2",
     "redux-thunk": "^2.2.0",
     "stacktrace-js": "^2.0.0"
