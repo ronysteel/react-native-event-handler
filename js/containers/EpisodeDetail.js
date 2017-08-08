@@ -53,7 +53,7 @@ class EpisodeDetail extends React.Component {
       this.props.loadEpisode(novelId, episodeId)
         .then(() => {
           this.props.pageView(novelId, episodeId)
-          if (this.props.readState.reachEndOfContent) {
+          if (this.props.readState && this.props.readState.reachEndOfContent) {
             this.props.resetReadIndex(episodeId)
           }
         }),
