@@ -15,7 +15,11 @@ import colors from './colors'
 const windowWidth = Dimensions.get('window').width;
 
 const Tag = ({ index, item }) => {
-  if (item.tags.length == 0) {
+  if (!item.tags) {
+    return null
+  }
+
+  if (item.tags && item.tags.length == 0) {
     return null
   }
 
