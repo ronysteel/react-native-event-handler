@@ -96,7 +96,8 @@ PODS:
     - Crashlytics
     - Fabric
     - React
-  - RNFirebase (2.0.3)
+  - RNFirebase (2.1.0):
+    - React
   - RNShare (1.0.20):
     - React
   - RNSVG (5.3.0):
@@ -171,7 +172,7 @@ SPEC CHECKSUMS:
   react-native-blur: c4b80329b7ef2a8b9c574f73b798b3178c69ff48
   react-native-in-app-utils: 2ef766bea71e31c0bf4a6800f7bb20a8706c579d
   ReactNativeFabric: 788d50490295586f843b8655285f9ed600e85054
-  RNFirebase: 22e723806850dd17643cebcf4d9ccdc738e9a157
+  RNFirebase: dcdb1be13628827647bba47592d4d19fba5ba84d
   RNShare: f58d823417bcdf71859c9afd7bb0cbcbb2b98e90
   RNSVG: 7548d93456b77f92a73cb77bca5b4b9ef85c90bf
   RNVectorIcons: 6d98d83e944d15014d8071dd9819beb094c61133

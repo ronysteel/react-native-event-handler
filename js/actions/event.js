@@ -1,6 +1,8 @@
 // @flow
 import type { Action, ThunkAction } from './types'
+import moment from 'moment'
 import firebase from '../firebase'
+import { getText } from '../reducers/scripts'
 
 export function sendTutorialBeginEvent(): ThunkAction {
   return (dispatch, getState) => {
@@ -50,20 +52,59 @@ export function sendSelectContentEvent(novelId: number, episodeId: number): Thun
 
 export function sendLeaveContentEvent(episodeId: number): ThunkAction {
   return (dispatch, getState) => {
-    const { episodes, readStates } = getState()
+    const { readStates } = getState()
+
+    if (!readStates[episodeId]) {
+      return new Promise(resolve => resolve())
+    }
+
     if (readStates[episodeId] && readStates[episodeId].reachEndOfContent) {
       return new Promise(resolve => resolve())
     }
+
+    const readIndex = readStates[episodeId].readIndex
 
     return new Promise(resolve => resolve())
       .then(() => (
         firebase.analytics().logEvent('leave_content', {
           item_id: episodeId,
           content_type: 'novel',
-          script_id: readStates[episodeId].readIndex,
+          script_id: readIndex,
         })
       ))
-      .catch(() => {})
+      .then(() => {
+        // Cancel all local notifications
+        firebase.messaging().cancelLocalNotification('*')
+
+        const { characters, episodes, scripts } = getState()
+        const episodeCharacters = characters[episodeId]
+        const script = getText(episodes[episodeId], scripts, readIndex)
+
+        if (!script) {
+          return
+        }
+
+        const { characterId, body } = script.text
+        const name = episodeCharacters[characterId].name
+        const { episodeUri } = episodes[episodeId]
+
+        firebase.messaging().scheduleLocalNotification({
+          id: 'LEAVE_CONTENT_1',
+          body: `${name}: ${body}`,
+          fire_date: moment().add(1, 'hours').valueOf(),
+          episodeUri,
+        })
+
+        firebase.messaging().scheduleLocalNotification({
+          id: 'LEAVE_CONTENT_2',
+          body: `${name}: ${body}`,
+          fire_date: moment().add(1, 'days').valueOf(),
+          episodeUri,
+        })
+      })
+      .catch((err) => {
+        console.error(err)
+      })
   }
 }
 

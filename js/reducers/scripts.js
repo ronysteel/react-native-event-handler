@@ -139,3 +139,19 @@ export const getAllScript = (episode: Episode, scripts: Scripts): IndexedScripts
     return memo
   }, {})
 }
+
+export const getText = (episode: Episode, scripts: Scripts, readIndex: number) => {
+  if (!episode || !episode.scriptIds) {
+    return
+  }
+
+  const ids = episode.scriptIds.slice(0, readIndex).reverse()
+  for (let i = 0; i < ids.length; i++) {
+    const s = scripts[ids[i]]
+    if (s.type === 'TEXT') {
+      return s
+    }
+  }
+
+  return
+}
