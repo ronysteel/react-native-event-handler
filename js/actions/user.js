@@ -6,7 +6,12 @@ import { getAllScript } from '../reducers/scripts'
 import firebase from '../firebase'
 import { loadPurcasingProducts } from './app'
 import { sendSpendVirtualCurrencyEvnet } from './event'
-import { requestGetTicket } from '../api'
+import {
+  fetchUser,
+  verifyReceipt,
+  requestGetTicket,
+  fetchUserEnergy,
+} from '../api'
 const { InAppUtils } = NativeModules
 
 const API_HOST = `https://us-central1-test-5913c.cloudfunctions.net/api`
@@ -36,22 +41,14 @@ export function signInAnonymously(): ThunkAction {
           return user
         })
       })
-      .then(user => {
-        return fetch('https://us-central1-test-5913c.cloudfunctions.net/api/user', {
-          headers: {
-            'Authorization': `Bearer ${userObj.idToken}`,
-          }
-        })
-        .then(r => r.json())
-        .then(r => {
-          const json = r.response
-          if (!json.paid_account_expires_date) {
-            userObj.paid = false
-            return
-          }
+      .then(() => fetchUser())
+      .then(json => {
+        if (!json.paid_account_expires_date) {
+          userObj.paid = false
+          return
+        }
 
-          userObj.paid = Number(json.paid_account_expires_date) > (new Date().getTime())
-        })
+        userObj.paid = Number(json.paid_account_expires_date) > (new Date().getTime())
       })
       .then(() => {
         dispatch(successSignInAnonymously(userObj))
@@ -85,18 +82,6 @@ const purchaseFailed = () => {
   }
 }
 
-const verifyReceipt = ({ idToken, body }) => (
-  fetch(`${API_HOST}/verify-receipt`, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${idToken}`,
-    }
-  })
-  .then(r => r.json())
-)
-
 export function purchase(productId: string): ThunkAction {
   return (dispatch, getState) => {
     const { idToken } = getState().session
@@ -110,7 +95,7 @@ export function purchase(productId: string): ThunkAction {
               receipt: res.transactionReceipt,
             })
 
-            return verifyReceipt({ idToken, body: r })
+            return verifyReceipt({ body: r })
               .then(json => dispatch(purchaseSuccess()))
               .catch(err => dispatch(purchaseFailed()))
           } else {
@@ -152,20 +137,9 @@ export function decreaseUserEnergy(userId: number, amount: ?number): ThunkAction
   }
 }
 
-const fetchUserEnergy = ({ idToken }) => (
-  fetch(`${API_HOST}/user_energy`, {
-    headers: {
-      'Authorization': `Bearer ${idToken}`,
-      'Cache-Control': 'no-cache',
-    }
-  })
-  .then(r => r.json())
-  .then(r => r.response)
-)
-
 export function syncUserEnergy(userId: number, force: boolean = false): ThunkAction {
   return (dispatch, getState) => {
-    const { session, energy } = getState()
+    const { energy } = getState()
 
     if (energy.nextRechargeDate && (energy.nextRechargeDate - moment().valueOf()) < 0) {
       force = true
@@ -179,7 +153,7 @@ export function syncUserEnergy(userId: number, force: boolean = false): ThunkAct
       return (new Promise(resolve => resolve()))
     }
 
-    return fetchUserEnergy(session)
+    return fetchUserEnergy()
       .then(v => {
         if (!v) {
           return Promise.reject()
@@ -197,7 +171,7 @@ export function syncUserEnergy(userId: number, force: boolean = false): ThunkAct
         }
         const ref = firebase.database().ref(`/user_energies/${userId}`)
         return ref.update(Object.assign({}, base, ext))
-          .then(() => fetchUserEnergy(session))
+          .then(() => fetchUserEnergy())
           .then(v => (
             dispatch({
               type: 'SYNC_USER_ENERGY_SUCCESS',
@@ -212,30 +186,11 @@ export function syncUserEnergy(userId: number, force: boolean = false): ThunkAct
   }
 }
 
-const fetchUseTicket = ({ idToken }) => (
-  fetch(`${API_HOST}/tickets/use`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${idToken}`,
-    }
-  })
-  .then(r => {
-    if (!r.ok) {
-      return Promise.reject({ err: 'failed to useTicket request', status: r.status })
-    }
-    return r
-  })
-  .then(r => r.json())
-  .then(r => r.response)
-)
-
 export function useTicket(): ThunkAction {
   return (dispatch, getState) => {
-    const { session } = getState()
-    const { uid } = session
     dispatch({ type: 'USE_TICKET_REQUEST' })
 
-    return fetchUseTicket(session)
+    return fetchUseTicket()
       .then(v => {
         dispatch(sendSpendVirtualCurrencyEvnet())
         return dispatch({
@@ -252,11 +207,9 @@ export function useTicket(): ThunkAction {
 
 export function getTicket(): ThunkAction {
   return (dispatch, getState) => {
-    const { session } = getState()
-    const { uid } = session
     dispatch({ type: 'GET_TICKET_REQUEST' })
 
-    return requestGetTicket(session)
+    return requestGetTicket()
       .then(v => {
         return dispatch({
           type: 'GET_TICKET_SUCCESS',
