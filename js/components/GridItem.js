@@ -14,7 +14,7 @@ import colors from './colors'
 
 const windowWidth = Dimensions.get('window').width;
 
-const Tag = (index, item) => {
+const Tag = ({ index, item }) => {
   if (item.tags.length == 0) {
     return null
   }
@@ -50,6 +50,7 @@ const GridItem = (onPress, { item, index }) => {
           <Text style={ styles.description } numberOfLines={ 2 } ellipsizeMode={ 'tail' }>{ item.description }</Text>
         </View>
       </View>
+      <Tag index={ index } item={ item } />
     </TouchableOpacity>
   )
 }
