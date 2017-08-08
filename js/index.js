@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { View, StatusBar, AsyncStorage, AppState, Linking } from 'react-native'
-import { applyMiddleware, createStore, combineReducers } from 'redux'
+import { compose, applyMiddleware, createStore, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
 import { persistStore, autoRehydrate } from 'redux-persist'
 import { Provider } from 'react-redux'
@@ -19,7 +19,14 @@ import { loadPurcasingProducts, moveScreen, loadCategories } from './actions/app
 import { sendLeaveContentEvent } from './actions/event'
 
 function setupStore(onComplete: () => void) {
-  const _createStore = applyMiddleware(thunk)(createStore)
+  const middlewares = []
+  if (__DEV__) {
+    const { logger } = require(`redux-logger`)
+    middlewares.push(logger)
+  }
+  middlewares.push(thunk)
+
+  const _createStore = compose(applyMiddleware(...middlewares))(createStore)
   const store = autoRehydrate()(_createStore)(reducers)
   persistStore(store, { storage: AsyncStorage }, onComplete);
 
