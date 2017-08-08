@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View, Text, FlatList, TouchableOpacity, Linking, StyleSheet } from 'react-native'
+import { View, Text, SectionList, FlatList, TouchableOpacity, Linking, StyleSheet } from 'react-native'
 
 import ListHeader from './ListHeader'
 import RightArrowIcon from './RightArrowIcon'
@@ -22,25 +22,44 @@ const renderItem = ({ item }) => (
     <View style={ styles.listContainer }>
       <Text style={ styles.title }>{ item.title }</Text>
       <View style={ styles.arrow }>
-        <RightArrowIcon />
+      { item.ticketCount !== undefined
+        ? <Text>{ `${item.ticketCount}枚` }</Text>
+        : <RightArrowIcon />
+      }
       </View>
     </View>
   </TouchableOpacity>
 )
 
-const Setting = ({ links, onTapClose }) => (
+const sectionHeader = () => (
+  <View style={{
+    backgroundColor: '#f3f3f3',
+    height: 20,
+  }}>
+  </View>
+)
+
+const Setting = ({ links, ticketCount, onTapClose }) => (
   <View style={ styles.root }>
     <ListHeader
       title={ '設定・その他' }
       closeModal={ onTapClose }
     />
-    <FlatList
-      data={ links }
+    <SectionList
+      sections={[
+        {
+          data: [ticketCount],
+          ItemSeparatorComponent: Separator,
+        },
+        {
+          data: links,
+          ItemSeparatorComponent: Separator,
+        }
+      ]}
+      renderSectionHeader={ sectionHeader }
       renderItem={ renderItem }
+      stickySectionHeadersEnabled={ false }
       keyExtractor={ item => `${item.key}` }
-      ItemSeparatorComponent={ Separator }
-      ListFooterComponent={ Footer }
-      style={ styles.listWrapper }
     />
   </View>
 )

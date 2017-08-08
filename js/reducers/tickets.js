@@ -12,9 +12,17 @@ const initialStates: Tickets = {
 function tickets(state: Tickets = initialStates, action: Action): Tickets {
   switch (action.type) {
     case 'SYNC_USER_ENERGY_SUCCESS': {
-      return Object.assign({}, state, {
-        ticketCount: action.ticketCount,
-      })
+      return {
+        ...state,
+        ...({ ticketCount: action.ticketCount })
+      }
+    }
+
+    case 'LOAD_TICKET_COUNT_SUCCESS': {
+      return {
+        ...state,
+        ...({ ticketCount: action.ticketCount })
+      }
     }
 
     case 'USE_TICKET_REQUEST': {
