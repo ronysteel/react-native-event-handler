@@ -55,6 +55,7 @@ class EpisodeDetail extends React.Component {
       scrollAnim: new Animated.Value(0),
       isLocked: false,
       offsetFromEnd: new Animated.Value(0),
+      firstLoad: true,
     }
     this.isTappable = false
   }
@@ -141,6 +142,13 @@ class EpisodeDetail extends React.Component {
     }
   }
 
+  onRenderComplate() {
+    if (this.state.firstLoad) {
+      this.scrollToEnd()
+      this.state.firstLoad = false
+    }
+  }
+
   render() {
     const {
       novel, episode, scripts, scriptValues, readState, shareLinks, recommends,
@@ -174,6 +182,7 @@ class EpisodeDetail extends React.Component {
             readState={ readState }
             characters={ characters }
             ListFooterComponent={ this.renderFooter.bind(this, readState, isTutorial) }
+            onRenderComplete={ this.onRenderComplate.bind(this) }
           />
           <Share
             novel={ novel }

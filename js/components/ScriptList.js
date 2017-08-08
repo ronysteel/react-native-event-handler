@@ -45,12 +45,14 @@ const ScriptList = ({
   characters,
   isTutorial,
   ListFooterComponent,
+  onRenderComplete,
 }) => (
   <FlatList
     data={ data }
     renderItem={ renderItem.bind(null, lastItemId, readState, characters) }
     keyExtractor={ item => `${item.id}` }
     ListFooterComponent={ ListFooterComponent }
+    onViewableItemsChanged={ onRenderComplete }
   />
 )
 

@@ -53,7 +53,9 @@ class EpisodeDetail extends React.Component {
       this.props.loadEpisode(novelId, episodeId)
         .then(() => {
           this.props.pageView(novelId, episodeId)
-          this.props.resetReadIndex(episodeId)
+          if (this.props.readState.reachEndOfContent) {
+            this.props.resetReadIndex(episodeId)
+          }
         }),
       this.props.loadUserEnergy(uid),
     ])
@@ -67,7 +69,6 @@ class EpisodeDetail extends React.Component {
       .catch(err => {
         console.error(err)
       })
-
   }
 
   showHeader = () => {
