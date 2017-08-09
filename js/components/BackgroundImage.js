@@ -13,7 +13,7 @@ const BackgroundImage = ({ imageUrl, children }) => {
   }
 
   return (
-    <FadeIn style={ styles.bg } duration={ 200 }>
+    <FadeIn style={ styles.bg } duration={ 200 } placeholderStyle={ styles.placeholderStyle }>
       <Image
         source={{ uri: imageUrl }}
         style={ styles.bg }
@@ -31,6 +31,9 @@ const styles: StyleSheet = StyleSheet.create({
     right: 0,
     backgroundColor: '#fff',
   },
+  placeholderStyle: {
+    backgroundColor: '#fff',
+  }
 })
 
 export default BackgroundImage
