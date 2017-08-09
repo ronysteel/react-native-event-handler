@@ -21,6 +21,7 @@
     "react-native-blur": "^3.1.2",
     "react-native-elements": "^0.13.0",
     "react-native-fabric": "^0.5.0",
+    "react-native-fade-in-image": "git://github.com/SKAhack/react-native-fade-in-image.git#dev",
     "react-native-firebase": "^2.0.5",
     "react-native-in-app-utils": "^5.5.0",
     "react-native-linear-gradient": "^2.1.0",
