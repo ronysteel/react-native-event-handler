@@ -142,8 +142,8 @@ class EpisodeDetail extends React.Component {
     }
   }
 
-  onRenderComplate() {
-    if (this.state.firstLoad) {
+  onRenderComplate({ viewableItems }) {
+    if (this.state.firstLoad && viewableItems.length == this.props.scriptValues.length - 1) {
       this.scrollToEnd()
       this.state.firstLoad = false
     }
