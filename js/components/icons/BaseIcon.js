@@ -14,9 +14,9 @@ const BaseIcon = ({ style, onPress, bgColor, children }) => (
 
 const styles: StyleSheet = StyleSheet.create({
   container: {
-    width: 44,
-    height: 44,
-    borderRadius: 2,
+    width: 48,
+    height: 48,
+    borderRadius: 48,
     justifyContent: 'center',
   },
   wrapper: {
