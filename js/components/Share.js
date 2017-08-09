@@ -30,7 +30,7 @@ const Share = ({
   return (
     <View style={ styles.container }>
       <View style={ styles.backDrop }/>
-      <View>
+      <View style={ styles.shareContainer }>
         <Text style={ styles.text }>
           { shareText }
         </Text>
@@ -55,7 +55,8 @@ const Share = ({
             options={ shareOptions }
           />
         </View>
-        <View style={ styles.recommends }>
+        <View style={ styles.separator } />
+        <View>
           <Recommends
             novel={ novel }
             recommends={ recommends }
@@ -73,7 +74,7 @@ const styles: StyleSheet = StyleSheet.create({
     backgroundColor: '#fff',
   },
   backDrop: {
-    backgroundColor: '#fff',
+    backgroundColor: '#f3f3f3',
     position: 'absolute',
     top: 0,
     left: 0,
@@ -81,8 +82,8 @@ const styles: StyleSheet = StyleSheet.create({
     height: 355 + height,
   },
   text: {
-    color: '#fff',
-    marginTop: 130,
+    color: '#000',
+    marginTop: 120,
     textAlign: 'center',
     fontSize: 18,
     fontWeight: '600',
@@ -91,14 +92,19 @@ const styles: StyleSheet = StyleSheet.create({
   iconsWrapper: {
     flexDirection: 'row',
     alignSelf: 'center',
-    marginTop: 30,
+    marginTop: 20,
+    marginBottom: 120,
   },
   icon: {
     marginRight: 15,
   },
-  recommends: {
-    marginTop: 130,
-  }
+  separator: {
+    height: 14,
+    backgroundColor: '#f3f3f3',
+  },
+  shareContainer: {
+    backgroundColor: '#fff',
+  },
 })
 
 export default Share

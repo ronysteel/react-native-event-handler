@@ -13,6 +13,7 @@ export type Recommend = {
   description: string;
   episodeUri: string;
   thumbnailUrl: string;
+  tags: Array<string>;
 }
 
 const initialStates: Recommends = {}
@@ -27,10 +28,11 @@ function recommends(state: Recommends = initialStates, action: Action): Recommen
         rs.push({
           title: v.title,
           description: v.description,
-          novelId: v.novel_id,
-          episodeId: v.episode_id,
-          episodeUri: v.episode_uri,
-          thumbnailUrl: v.thumbnail_url,
+          novelId: v.novelId,
+          episodeId: v.episodeId,
+          episodeUri: v.episodeUri,
+          thumbnailUrl: v.thumbnailUrl,
+          tags: v.tags,
         })
       }
       return Object.assign({}, state, { [categoryId]: rs })

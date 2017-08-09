@@ -14,12 +14,9 @@ const getRecommends = (recommends, novel) => (
 )
 
 const Recommends = ({ novel, recommends, onSelectContent }) => (
-  <View>
+  <View style={ styles.container }>
     <View style={ styles.sectionWrapper }>
-      <View style={ styles.border } />
-      <View style={ styles.textWrapper }>
-        <Text style={ styles.text }>{ 'こんなノベルもおすすめ' }</Text>
-      </View>
+      <Text style={ styles.text }>{ 'こんなノベルもおすすめ' }</Text>
     </View>
     <FlatList
       data={ getRecommends(recommends, novel) }
@@ -31,27 +28,19 @@ const Recommends = ({ novel, recommends, onSelectContent }) => (
 )
 
 const styles: StyleSheet = StyleSheet.create({
+  container: {
+    backgroundColor: '#fff',
+  },
   sectionWrapper: {
     position: 'relative',
     paddingHorizontal: 15,
-    marginBottom: 30,
-  },
-  border: {
-    borderWidth: 0.5,
-    borderColor: '#3a3a3a',
-  },
-  textWrapper: {
-    flexDirection: 'row',
-    alignSelf: 'center',
+    marginTop: 25,
+    marginBottom: 25,
   },
   text: {
-    color: '#fff',
-    backgroundColor: '#fff',
-    marginTop: -14 / 2,
-    paddingHorizontal: 10,
-    fontSize: 14,
+    color: '#000',
+    fontSize: 24,
     fontWeight: '600',
-    textAlign: 'center',
   },
 })
 
