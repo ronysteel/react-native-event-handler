@@ -27,6 +27,7 @@ function session(state: Session = initialStates, action: Action): Session {
         uid: user.uid,
         idToken: user.idToken,
         paid: user.paid,
+        tutorialEnded: false,
       })
     }
 
