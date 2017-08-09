@@ -115,11 +115,21 @@ class EpisodeDetail extends React.Component {
   }
 
   onTap = (e) => {
-    this.isTappable = true
+    this.isTappable = e.nativeEvent
+  }
+
+  onTapMove = (e) => {
+    if (this.isTappable !== null) {
+      if (Math.abs(this.isTappable.locationX - e.nativeEvent.locationX) > 5 ||
+        Math.abs(this.isTappable.locationY - e.nativeEvent.locationY) > 5
+      ) {
+        this.isTappable = null
+      }
+    }
   }
 
   onTapEnd = (onTapScreen) => {
-    if (this.isTappable) {
+    if (this.isTappable !== null) {
       onTapScreen()
       this.setState({ isLocked: true })
       setTimeout(() => this.scrollToEnd(), 0)
@@ -129,7 +139,7 @@ class EpisodeDetail extends React.Component {
       //   }
       // }, 50)
     }
-    this.isTappable = false
+    this.isTappable = null
   }
 
   getShareOptions = (novel, shareLinks) => {
@@ -173,8 +183,7 @@ class EpisodeDetail extends React.Component {
           onScroll={ this._handleScroll }
           ref={r => this.storyWrapper = r}
           onTouchStart={ this.onTap }
-          onTouchMove={ () => this.isTappable = false }
-          onScrollBeginDrag={ () => this.isTappable = false }
+          onTouchMove={ this.onTapMove }
           onTouchEnd={ this.onTapEnd.bind(this, onTapScreen) }
         >
           <ScriptList
