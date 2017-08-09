@@ -14,8 +14,6 @@ import {
 } from '../api'
 const { InAppUtils } = NativeModules
 
-const API_HOST = `https://us-central1-test-5913c.cloudfunctions.net/api`
-
 const requestSignInAnonymously = () => {
   return { type: 'SIGN_IN_ANONYMOUSLY_REQUEST' }
 }
