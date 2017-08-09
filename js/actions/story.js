@@ -68,6 +68,7 @@ const successUpdateReadState = (
   readIndex: ?number,
   paid: boolean,
   energy: number,
+  tutorialEnded: boolean,
 ): Action => {
   return {
     type: 'UPDATE_READ_STATE',
@@ -76,6 +77,7 @@ const successUpdateReadState = (
     readIndex,
     paid,
     energy,
+    tutorialEnded,
   }
 }
 
@@ -86,7 +88,7 @@ export function updateReadState(
   return (dispatch, getState) => {
     const { episodes, scripts, session, energy } = getState()
     return dispatch(successUpdateReadState(
-      episodes, episodeId, scripts, readIndex, session.paid, energy.energy))
+      episodes, episodeId, scripts, readIndex, session.paid, energy.energy, session.tutorialEnded))
   }
 }
 

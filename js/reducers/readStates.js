@@ -28,7 +28,11 @@ function isSkippable(script: Script): boolean {
 
 const maxReadNum = 10
 
-function isRead(readIndex: number, paid: boolean, energy: number) {
+function isRead(readIndex: number, paid: boolean, energy: number, tutorialEnded: boolean) {
+  if (!tutorialEnded) {
+    return true
+  }
+
   if (paid) {
     return true
   }
@@ -47,7 +51,7 @@ function isRead(readIndex: number, paid: boolean, energy: number) {
 function readStates(state: ReadStates = initialStates, action: Action): ReadStates {
   switch (action.type) {
     case 'UPDATE_READ_STATE': {
-      const { episodeId, scripts, readIndex, paid, energy } = action
+      const { episodeId, scripts, readIndex, paid, energy, tutorialEnded } = action
       const init = {
         episodeId: episodeId,
         readIndex: 0,
@@ -62,9 +66,9 @@ function readStates(state: ReadStates = initialStates, action: Action): ReadStat
         s.reachEndOfContent = false
       }
 
-      s.displayPromotion = !isRead(s.readIndex, paid, energy)
+      s.displayPromotion = !isRead(s.readIndex, paid, energy, tutorialEnded)
 
-      if (scripts && isRead(s.readIndex, paid, energy)) {
+      if (scripts && isRead(s.readIndex, paid, energy, tutorialEnded)) {
         do {
           s.readIndex = s.readIndex + 1
           if (scripts[s.readIndex] && scripts[s.readIndex].type == 'BACKGROUND_IMAGE') {

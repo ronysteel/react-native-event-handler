@@ -180,7 +180,6 @@ class EpisodeDetail extends React.Component {
           offset={ this.state.offsetFromEnd }
           theme={ episode.theme || 'dark' }
           readState={ readState }
-          isTutorial={ isTutorial }
         />
         <ScrollView
           scrollEventThrottle={ 16 }
