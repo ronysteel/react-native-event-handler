@@ -5,6 +5,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
+import FadeIn from 'react-native-fade-in-image'
 
 const BackgroundImage = ({ imageUrl, children }) => {
   if (!imageUrl) {
@@ -12,10 +13,12 @@ const BackgroundImage = ({ imageUrl, children }) => {
   }
 
   return (
-    <Image
-      source={{ uri: imageUrl }}
-      style={ styles.bg }
-    />
+    <FadeIn style={ styles.bg } duration={ 200 }>
+      <Image
+        source={{ uri: imageUrl }}
+        style={ styles.bg }
+      />
+    </FadeIn>
   )
 }
 
