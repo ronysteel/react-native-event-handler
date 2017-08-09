@@ -67,7 +67,7 @@ class PromotionContainer extends React.Component {
     const isOpen = this.isOpen(this.props)
 
     if (prevIsOpen !== isOpen && isOpen === true) {
-      this.props.sendPromotionEvent(tweetButtonAvailable(
+      this.props.sendPromotionEvent(this.tweetButtonAvailable(
         this.props.ticketCount,
         this.props.remainingTweetCount,
         this.state.isAvailableTwitter
