@@ -55,7 +55,7 @@ class EpisodeDetail extends React.Component {
       scrollAnim: new Animated.Value(0),
       isLocked: false,
       offsetFromEnd: new Animated.Value(0),
-      firstLoad: true,
+      renderCompleted: false,
     }
     this.isTappable = false
   }
@@ -110,8 +110,8 @@ class EpisodeDetail extends React.Component {
     )
   }
 
-  scrollToEnd() {
-    this.storyWrapper.scrollToEnd()
+  scrollToEnd(params: Object = {}) {
+    this.storyWrapper.scrollToEnd(params)
   }
 
   onTap = (e) => {
@@ -153,9 +153,13 @@ class EpisodeDetail extends React.Component {
   }
 
   onRenderComplate({ viewableItems }) {
-    if (this.state.firstLoad && viewableItems.length == this.props.scriptValues.length - 1) {
-      this.scrollToEnd()
-      this.state.firstLoad = false
+    if (!this.state.renderCompleted &&
+      viewableItems.length == this.props.scriptValues.length - 1
+    ) {
+      this.scrollToEnd({
+        animated: false
+      })
+      this.setState({ renderCompleted: true })
     }
   }
 
@@ -193,6 +197,9 @@ class EpisodeDetail extends React.Component {
             characters={ characters }
             ListFooterComponent={ this.renderFooter.bind(this, readState, isTutorial) }
             onRenderComplete={ this.onRenderComplate.bind(this) }
+            style={{
+              opacity: this.state.renderCompleted ? 1 : 0
+            }}
           />
           <Share
             novel={ novel }
