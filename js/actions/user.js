@@ -141,7 +141,10 @@ export function syncUserEnergy(userId: number, force: boolean = false): ThunkAct
     const { energy } = getState()
 
     if (energy.isLoading) {
-      return (new Promise((resolve, reject) => reject()))
+      return (new Promise((resolve, reject) => {
+        dispatch({ type: 'SYNC_USER_ENERGY_FAILED' })
+        return reject()
+      }))
     }
 
     if (energy.nextRechargeDate && (energy.nextRechargeDate - moment().valueOf()) < 0) {

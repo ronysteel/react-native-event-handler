@@ -91,7 +91,10 @@ class PromotionContainer extends React.Component {
           isAvailableTwitter={ this.state.isAvailableTwitter }
           onTapPurchase={ this.props.onTapPurchase }
           onTapUseTicket={ this.props.onTapUseTicket.bind(null, this.props.userId) }
-          onTapGetTicket={ this.props.onTapGetTicket.bind(null, this.props.userId, this.props.novel, this.props.shareLinks) }
+          onTapGetTicket={
+            this.props.onTapGetTicket.bind(null,
+              this.props.userId, this.props.novel, this.props.shareLinks)
+          }
           onTapRestore={ this.props.onTapRestore }
           nextRechargeDate={ this.props.nextRechargeDate }
           onEndRecharge={ this.props.onEndRecharge.bind(null, this.props.userId) }
@@ -116,6 +119,7 @@ const select = (store, props) => {
   return {
     userId: store.session.uid,
     readState,
+    novel,
     purchasingProducts,
     nextRechargeDate,
     paid: store.session.paid,

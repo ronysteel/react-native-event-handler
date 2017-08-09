@@ -41,7 +41,6 @@ function energy(state: Energy = initialStates, action: Action): Energy {
       return {
         ...state,
         isLoading: false,
-        isLoaded: false,
       }
     }
 
