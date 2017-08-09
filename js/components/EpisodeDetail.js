@@ -173,6 +173,7 @@ class EpisodeDetail extends React.Component {
           onScroll={ this._handleScroll }
           ref={r => this.storyWrapper = r}
           onTouchStart={ this.onTap }
+          onTouchMove={ () => this.isTappable = false }
           onScrollBeginDrag={ () => this.isTappable = false }
           onTouchEnd={ this.onTapEnd.bind(this, onTapScreen) }
         >
