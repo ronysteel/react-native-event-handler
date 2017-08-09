@@ -38,6 +38,7 @@ class EpisodeDetail extends React.Component {
     this.state = {
       isLoading: true,
       headerVisible: false,
+      tapping: false,
     }
   }
 
@@ -104,7 +105,7 @@ class EpisodeDetail extends React.Component {
           recommends={ recommends }
           showHeader={ this.showHeader }
           hideHeader={ this.hideHeader }
-          onTapScreen={ onTapScreen.bind(this, uid, episode.id) }
+          onTapScreen={ onTapScreen.bind(null, this, uid, episode.id) }
           onSelectContent={ this.props.onSelectContent }
           onPressShare={ this.props.onPressShare.bind(null, episode.id) }
         />
@@ -165,12 +166,18 @@ const actions = (dispatch, props) => {
       dispatch(loadRecommends(categoryId)),
     loadUserEnergy: (userId: number) =>
       dispatch(syncUserEnergy(userId, true)),
-    onTapScreen: (userId: number, episodeId: number) => (
-      dispatch(decreaseUserEnergy(userId))
+    onTapScreen: (obj: EpisodeDetail, userId: number, episodeId: number) => {
+      if (obj.state.tapping) {
+        return
+      }
+      obj.state.tapping = true
+      return dispatch(updateReadState(episodeId))
         .then(() => dispatch(syncUserEnergy(userId)))
-        .then(() => dispatch(updateReadState(episodeId)))
+        .then(() => dispatch(decreaseUserEnergy(userId)))
         .then(() => dispatch(openPromotionModal(episodeId)))
-    ),
+        .then(() => obj.state.tapping = false)
+        .catch(() => obj.state.tapping = false)
+    },
     setHeaderVisible: (visible: boolean) => {
       props.navigation.setParams({ visible })
     },

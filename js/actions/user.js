@@ -11,6 +11,7 @@ import {
   verifyReceipt,
   requestGetTicket,
   fetchUserEnergy,
+  updateUserEnergy,
 } from '../api'
 const { InAppUtils } = NativeModules
 
@@ -139,6 +140,10 @@ export function syncUserEnergy(userId: number, force: boolean = false): ThunkAct
   return (dispatch, getState) => {
     const { energy } = getState()
 
+    if (energy.isLoading) {
+      return (new Promise((resolve, reject) => reject()))
+    }
+
     if (energy.nextRechargeDate && (energy.nextRechargeDate - moment().valueOf()) < 0) {
       force = true
     }
@@ -150,6 +155,8 @@ export function syncUserEnergy(userId: number, force: boolean = false): ThunkAct
     if (!force && energy.energy > 0) {
       return (new Promise(resolve => resolve()))
     }
+
+    dispatch({ type: 'SYNC_USER_ENERGY_REQUEST' })
 
     return fetchUserEnergy()
       .then(v => {
@@ -167,8 +174,8 @@ export function syncUserEnergy(userId: number, force: boolean = false): ThunkAct
           latest_synced_at: firebase.database.ServerValue.TIMESTAMP,
           updated_at: firebase.database.ServerValue.TIMESTAMP,
         }
-        const ref = firebase.database().ref(`/user_energies/${userId}`)
-        return ref.update(Object.assign({}, base, ext))
+
+        return updateUserEnergy(Object.assign({}, ext))
           .then(() => fetchUserEnergy())
           .then(v => (
             dispatch({
