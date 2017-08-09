@@ -166,11 +166,10 @@ const actions = (dispatch, props) => {
     loadUserEnergy: (userId: number) =>
       dispatch(syncUserEnergy(userId, true)),
     onTapScreen: (userId: number, episodeId: number) => (
-      dispatch(updateReadState(episodeId))
-      // dispatch(decreaseUserEnergy(userId))
-      //   .then(() => dispatch(syncUserEnergy(userId)))
-      //   .then(() => dispatch(updateReadState(episodeId)))
-      //   .then(() => dispatch(openPromotionModal(episodeId)))
+      dispatch(decreaseUserEnergy(userId))
+        .then(() => dispatch(syncUserEnergy(userId)))
+        .then(() => dispatch(updateReadState(episodeId)))
+        .then(() => dispatch(openPromotionModal(episodeId)))
     ),
     setHeaderVisible: (visible: boolean) => {
       props.navigation.setParams({ visible })
