@@ -31,7 +31,7 @@ const PickupItem = (onPress, { item, index }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom: 25,
+    paddingBottom: 19,
     backgroundColor: '#fff',
   },
   image: {
@@ -42,17 +42,17 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.title,
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '600',
     lineHeight: 23,
     paddingLeft: 15,
     paddingRight: 15,
-    marginBottom: 5,
+    marginBottom: 4,
   },
   description: {
     color: colors.description,
-    fontSize: 12,
-    lineHeight: 20,
+    fontSize: 13,
+    lineHeight: 18,
     paddingLeft: 15,
     paddingRight: 15,
   }
