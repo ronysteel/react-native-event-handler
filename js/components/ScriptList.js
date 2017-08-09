@@ -46,6 +46,7 @@ const ScriptList = ({
   isTutorial,
   ListFooterComponent,
   onRenderComplete,
+  style,
 }) => (
   <FlatList
     data={ data }
@@ -53,6 +54,7 @@ const ScriptList = ({
     keyExtractor={ item => `${item.id}` }
     ListFooterComponent={ ListFooterComponent }
     onViewableItemsChanged={ onRenderComplete }
+    style={ style }
   />
 )
 
