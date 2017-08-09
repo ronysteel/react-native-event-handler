@@ -10,7 +10,7 @@ const ChatBubbleIcon = () => (
     <Svg width="30" height="30" viewBox="0 0 30 30">
       <Path
         d="M28.955 28.406l-1.833-6.212.108-.186c1.255-2.163 1.926-4.622 1.926-7.18C29.156 6.915 22.74.5 14.828.5 6.915.5.5 6.915.5 14.828c0 7.913 6.415 14.328 14.328 14.328 2.703 0 5.295-.75 7.542-2.143l.208-.13 5.722 2.133c.102.038.213.042.316.01.265-.077.417-.355.34-.62z"
-        stroke="#FFF"
+        stroke="#000"
         fill="none"
       />
     </Svg>
@@ -66,8 +66,6 @@ const EpisodeList = ({ novel, episodes, closeModal, onSelectContent }) => {
         renderItem={ renderItem.bind(null, novel, closeModal, onSelectContent) }
         keyExtractor={ item => `${item.id}` }
         ItemSeparatorComponent={ Separator }
-        ListFooterComponent={ Footer }
-        style={ styles.listWrapper }
       />
     </View>
   )
@@ -78,6 +76,7 @@ const styles = StyleSheet.create({
     height: 90,
     flex: 1,
     flexDirection: 'row',
+    backgroundColor: '#fff',
   },
   leftWrapper: {
     marginLeft: 15,
@@ -88,27 +87,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: 20,
   },
-  listWrapper: {
-    borderTopWidth: 0.5,
-    borderColor: '#3a3a3a',
-  },
   separator: {
     marginLeft: 15,
     borderBottomWidth: 0.5,
-    borderColor: '#3a3a3a',
+    borderColor: '#d6d6d6',
   },
   novelTitle: {
     fontSize: 15,
-    color: '#fff',
+    color: '#000',
     marginBottom: 10,
   },
   episodeTitle: {
     fontSize: 15,
-    color: '#fff',
-  },
-  footer: {
-    borderTopWidth: 0.5,
-    borderColor: '#3a3a3a',
+    color: '#000',
   },
   bubbleTextWrapper: {
     position: 'absolute',
@@ -119,7 +110,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bubbleText: {
-    color: '#fff',
+    color: '#000',
     fontSize: 15,
     backgroundColor: 'transparent',
   },
