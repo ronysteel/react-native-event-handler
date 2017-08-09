@@ -187,8 +187,10 @@ class Root extends React.Component {
 
   _handleOpenURL(event) {
     if (/chatnovel:\/\/novels\/[^/]+\/episodes\/[^/]+/.test(event.url)) {
-      this.state.store.dispatch(moveScreen('DEEPLINK'))
-      this.isDeeplink = 'DEEPLINK'
+      if (this.state.appState !== 'active') {
+        this.state.store.dispatch(moveScreen('DEEPLINK'))
+        this.isDeeplink = 'DEEPLINK'
+      }
     }
   }
 
