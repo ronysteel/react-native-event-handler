@@ -46,7 +46,7 @@ const GridItem = (onPress, { item, index }) => {
         width: (windowWidth / 2),
         paddingLeft: index % 2 ? (15 / 2) : 15,
         paddingRight: index % 2 ? 15 : (15 / 2),
-        marginBottom: 20,
+        marginBottom: 18,
       }}>
         <Image style={ styles.image } source={{ uri: item.thumbnailUrl }} />
         <View>
@@ -70,19 +70,21 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     height: imageWidth * (3 / 4),
     borderRadius: 4,
-    marginBottom: 10,
+    marginBottom: 15,
   },
   title: {
     color: colors.title,
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: 'bold',
-    lineHeight: 20,
+    lineHeight: 16,
     marginBottom: 2,
+    marginLeft: 2,
   },
   description: {
     color: colors.description,
-    fontSize: 11,
+    fontSize: 12,
     lineHeight: 16,
+    marginLeft: 2,
   },
   tagWrapper: {
     position: 'absolute',
@@ -99,7 +101,7 @@ const styles = StyleSheet.create({
   },
   tagText: {
     color: '#fff',
-    fontSize: 10,
+    fontSize: 11,
     lineHeight: 10,
     textAlign: 'center',
   }

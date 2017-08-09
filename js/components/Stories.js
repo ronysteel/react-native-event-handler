@@ -81,14 +81,14 @@ const styles = StyleSheet.create({
   sectionTitle: {
     paddingLeft: 15,
     color: colors.sectionTitle,
-    fontSize: 22,
+    fontSize: 23,
     fontWeight: '600',
-    marginBottom: 29,
+    marginBottom: 24,
   },
   sectionSeparator: {
     backgroundColor: '#f3f3f3',
     height: 8,
-    marginBottom: 28,
+    marginBottom: 25,
   },
   item: {
     padding: 10,
