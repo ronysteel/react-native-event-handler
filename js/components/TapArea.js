@@ -14,8 +14,8 @@ import TapIcon from './TapIcon'
 
 const tapAreaHeight = 250
 
-const isFadeout = ({ isTutorial, readState }) => (
-  !isTutorial && readState.readIndex > 3
+const isFadeout = ({ readState }) => (
+  readState.readIndex > 3
 )
 
 class TapArea extends React.PureComponent {
@@ -25,16 +25,6 @@ class TapArea extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.isTutorial && this.props.readState.reachEndOfContent &&
-      !prevProps.readState.reachEndOfContent
-    ) {
-      this.state.v.setValue(0)
-      Animated.timing(this.state.v, {
-        toValue: 1,
-        duration: 700,
-      }).start()
-    }
-
     if (!this.state.fadeout && isFadeout(this.props)) {
       this.state.fadeout = true
       this.state.v.setValue(1)
@@ -46,18 +36,13 @@ class TapArea extends React.PureComponent {
   }
 
   render() {
-    const { theme, offset, readState, isTutorial } = this.props
+    const { theme, offset, readState } = this.props
     let text = 'タップして読みはじめましょう'
     let style = {
       opacity: offset.interpolate({
         inputRange: [2, 100],
         outputRange: [1, 0],
       })
-    }
-
-    if (this.props.isTutorial && readState.reachEndOfContent) {
-      text = 'ノベルの世界をもっと楽しみましょう'
-      style = { opacity: this.state.v }
     }
 
     if (isFadeout(this.props)) {

@@ -79,7 +79,7 @@ class TutorialContainer extends React.Component {
 
     const color = this.state.fadeAnim.interpolate({
       inputRange: [0, 100],
-      outputRange: ['rgba(30,30,30,0.1)', 'rgba(30,30,30,1.0)']
+      outputRange: ['rgba(255,255,255,0.1)', 'rgba(255,255,255,1.0)']
     })
 
     return (
