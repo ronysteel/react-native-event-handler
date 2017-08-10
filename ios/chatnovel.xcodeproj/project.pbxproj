@@ -1237,7 +1237,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" c4d47a2d69385309f5db2c08d73182dc4a00dbd2 7de2350cbdc122b1463ae7328f960cdefc642237f6e0707a285130bd79c97afa";
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 7a2539d11b88cfa8b5ba03a4b9e744c29623d98d 84141d6ce9f9015aad09e937a47312f6a3d5f175f9c4d2d3256d4c8ecee197f0";
 		};
 		958669D43F2F4D931C270FB8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1449,7 +1449,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = chatnovel/chatnovel.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 45;
+				CURRENT_PROJECT_VERSION = 47;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 5ZFQE66DKU;
 				HEADER_SEARCH_PATHS = (
@@ -1482,7 +1482,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = chatnovel/chatnovel.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 45;
+				CURRENT_PROJECT_VERSION = 47;
 				DEVELOPMENT_TEAM = 5ZFQE66DKU;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
