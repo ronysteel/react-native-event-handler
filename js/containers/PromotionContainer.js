@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 
 import Share from 'react-native-share'
 import Modal from 'react-native-modalbox'
+import moment from 'moment'
+
 import {
   purchase,
   restorePurchases,
@@ -23,7 +25,7 @@ import Promotion from '../components/Promotion'
 
 class PromotionContainer extends React.Component {
   isOpen = (props) => {
-    const { modalVisible, paid, readState } = props
+    const { modalVisible, paid, readState, nextRechargeDate } = props
     let isOpen = modalVisible
 
     if (paid) {
@@ -31,6 +33,10 @@ class PromotionContainer extends React.Component {
     }
 
     if (!readState.displayPromotion) {
+      isOpen = false
+    }
+
+    if (!nextRechargeDate || nextRechargeDate < moment().valueOf()) {
       isOpen = false
     }
 
