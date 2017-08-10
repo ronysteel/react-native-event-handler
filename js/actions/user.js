@@ -85,7 +85,7 @@ export function purchase(productId: string): ThunkAction {
   return (dispatch, getState) => {
     const { idToken } = getState().session
 
-    return loadPurcasingProducts
+    return dispatch(loadPurcasingProducts())
       .then(() => {
         InAppUtils.purchaseProduct(productId, (err, res) => {
           if (res && res.productIdentifier) {
