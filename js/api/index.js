@@ -121,6 +121,7 @@ export const verifyReceipt = ({ body }) => (
   .then(token => (
     fetch(`${API_HOST}/verify-receipt`, {
       method: 'POST',
+      body,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -129,7 +130,35 @@ export const verifyReceipt = ({ body }) => (
       }
     })
   ))
-  .then(r => r.json())
+  .then(r => {
+    if (!r.ok) {
+      return Promise.reject()
+    }
+    return r.json()
+  })
+  .then(r => r.response)
+)
+
+export const updateReceipt = () => (
+  firebase.auth().currentUser.getIdToken()
+  .then(token => (
+    fetch(`${API_HOST}/verify-receipt`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'Cache-Control': 'no-cache',
+      }
+    })
+  ))
+  .then(r => {
+    if (!r.ok) {
+      return Promise.reject()
+    }
+    return r.json()
+  })
+  .then(r => r.response)
 )
 
 export const fetchUserEnergy = () => (
@@ -137,6 +166,24 @@ export const fetchUserEnergy = () => (
   .then(token => (
     fetch(`${API_HOST}/user_energy`, {
       headers: {
+        'Authorization': `Bearer ${token}`,
+        'Cache-Control': 'no-cache',
+      }
+    })
+  ))
+  .then(r => r.json())
+  .then(r => r.response)
+)
+
+export const updateUserEnergy = (body) => (
+  firebase.auth().currentUser.getIdToken()
+  .then(token => (
+    fetch(`${API_HOST}/user_energy`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
         'Cache-Control': 'no-cache',
       }

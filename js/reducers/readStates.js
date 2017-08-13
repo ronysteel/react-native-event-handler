@@ -26,6 +26,7 @@ function isSkippable(script: Script): boolean {
   return false
 }
 
+// const maxReadNum = 100
 const maxReadNum = 10
 
 function isRead(readIndex: number, paid: boolean, energy: number, tutorialEnded: boolean) {

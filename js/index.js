@@ -8,6 +8,7 @@ import { persistStore, autoRehydrate } from 'redux-persist'
 import { Provider } from 'react-redux'
 import { StackNavigator, NavigationActions, addNavigationHelpers } from 'react-navigation'
 import pathToRegexp from 'path-to-regexp'
+import moment from 'moment'
 
 import firebase from './firebase'
 import reducers from './reducers'
@@ -116,8 +117,10 @@ class Root extends React.Component {
       Promise.all([
         dispatch(signInAnonymously()),
         dispatch(loadPurcasingProducts()),
-        dispatch(loadCategories()),
       ])
+        .then(() => {
+          dispatch(loadCategories())
+        })
         .then(() => {
           this.setState({ isLoading: false })
         })
@@ -171,7 +174,6 @@ class Root extends React.Component {
     AppState.removeEventListener('change', this._handleAppStateChange.bind(this))
   }
 
-
   _urlToPathAndParams(url: string) {
     const params = {}
     const delimiter = 'chatnovel://' || '://'
@@ -187,21 +189,34 @@ class Root extends React.Component {
 
   _handleOpenURL(event) {
     if (/chatnovel:\/\/novels\/[^/]+\/episodes\/[^/]+/.test(event.url)) {
-      this.state.store.dispatch(moveScreen('DEEPLINK'))
-      this.isDeeplink = 'DEEPLINK'
+      if (this.state.appState !== 'active') {
+        this.state.store.dispatch(moveScreen('DEEPLINK'))
+        this.isDeeplink = 'DEEPLINK'
+      }
     }
   }
 
   _handleAppStateChange(nextAppState) {
+    const dispatch = this.state.store.dispatch
+
     if (this.state.appState.match(/inactive|active/) && nextAppState === 'background') {
       const { actionLog } = this.state.store.getState()
-      const dispatch = this.state.store.dispatch
 
       const screen = actionLog.currentScreen
       if (screen.type == 'NOVEL') {
         dispatch(sendLeaveContentEvent(screen.novel.episodeId))
       }
     }
+
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      const { session } = this.state.store.getState()
+      if (session.paid === true &&
+          Number(session.paidAccountExpiresDate) <= moment().valueOf()
+      ) {
+        dispatch(signInAnonymously())
+      }
+    }
+
     this.setState({ appState: nextAppState })
   }
 

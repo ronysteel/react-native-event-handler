@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 
 import Share from 'react-native-share'
 import Modal from 'react-native-modalbox'
+import moment from 'moment'
+
 import {
   purchase,
   restorePurchases,
@@ -23,7 +25,7 @@ import Promotion from '../components/Promotion'
 
 class PromotionContainer extends React.Component {
   isOpen = (props) => {
-    const { modalVisible, paid, readState } = props
+    const { modalVisible, paid, readState, nextRechargeDate } = props
     let isOpen = modalVisible
 
     if (paid) {
@@ -31,6 +33,10 @@ class PromotionContainer extends React.Component {
     }
 
     if (!readState.displayPromotion) {
+      isOpen = false
+    }
+
+    if (!nextRechargeDate || nextRechargeDate < moment().valueOf()) {
       isOpen = false
     }
 
@@ -67,7 +73,7 @@ class PromotionContainer extends React.Component {
     const isOpen = this.isOpen(this.props)
 
     if (prevIsOpen !== isOpen && isOpen === true) {
-      this.props.sendPromotionEvent(tweetButtonAvailable(
+      this.props.sendPromotionEvent(this.tweetButtonAvailable(
         this.props.ticketCount,
         this.props.remainingTweetCount,
         this.state.isAvailableTwitter
@@ -91,7 +97,10 @@ class PromotionContainer extends React.Component {
           isAvailableTwitter={ this.state.isAvailableTwitter }
           onTapPurchase={ this.props.onTapPurchase }
           onTapUseTicket={ this.props.onTapUseTicket.bind(null, this.props.userId) }
-          onTapGetTicket={ this.props.onTapGetTicket.bind(null, this.props.userId, this.props.novel, this.props.shareLinks) }
+          onTapGetTicket={
+            this.props.onTapGetTicket.bind(null,
+              this.props.userId, this.props.novel, this.props.shareLinks)
+          }
           onTapRestore={ this.props.onTapRestore }
           nextRechargeDate={ this.props.nextRechargeDate }
           onEndRecharge={ this.props.onEndRecharge.bind(null, this.props.userId) }
@@ -116,6 +125,7 @@ const select = (store, props) => {
   return {
     userId: store.session.uid,
     readState,
+    novel,
     purchasingProducts,
     nextRechargeDate,
     paid: store.session.paid,
@@ -168,7 +178,7 @@ const actions = (dispatch, props) => {
         .catch(() => {
           AlertIOS.alert(
             'ストアエラー',
-            '購入の復元に失敗しました'
+            '復元可能な購入が見つかりませんでした'
           )
         })
     ),

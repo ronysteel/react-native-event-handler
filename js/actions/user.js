@@ -11,10 +11,10 @@ import {
   verifyReceipt,
   requestGetTicket,
   fetchUserEnergy,
+  updateUserEnergy,
+  updateReceipt,
 } from '../api'
 const { InAppUtils } = NativeModules
-
-const API_HOST = `https://us-central1-test-5913c.cloudfunctions.net/api`
 
 const requestSignInAnonymously = () => {
   return { type: 'SIGN_IN_ANONYMOUSLY_REQUEST' }
@@ -28,27 +28,26 @@ const successSignInAnonymously = user => {
 }
 
 export function signInAnonymously(): ThunkAction {
-  return dispatch => {
+  return (dispatch, getState) => {
     let userObj = {}
+    const { session } = getState()
 
     dispatch(requestSignInAnonymously())
 
     return firebase.auth().signInAnonymously()
       .then(user => {
         userObj.uid = user.uid
-        return user.getIdToken().then(token => {
-          userObj.idToken = token
-          return user
-        })
+        return user
       })
+      .then(() => updateReceipt().catch(() => {}))
       .then(() => fetchUser())
       .then(json => {
-        if (!json.paid_account_expires_date) {
+        if (!json.paidAccountExpiresDate) {
           userObj.paid = false
           return
         }
 
-        userObj.paid = Number(json.paid_account_expires_date) > (new Date().getTime())
+        userObj.paid = Number(json.paidAccountExpiresDate) > (moment().valueOf())
       })
       .then(() => {
         dispatch(successSignInAnonymously(userObj))
@@ -70,9 +69,10 @@ export function saveDeviceToken(): ThunkAction {
   }
 }
 
-const purchaseSuccess = () => {
+const purchaseSuccess = ({ expiresDate }) => {
   return {
     type: 'PURCHASE_SUCCESS',
+    expiresDate,
   }
 }
 
@@ -84,9 +84,8 @@ const purchaseFailed = () => {
 
 export function purchase(productId: string): ThunkAction {
   return (dispatch, getState) => {
-    const { idToken } = getState().session
 
-    return loadPurcasingProducts
+    return dispatch(loadPurcasingProducts())
       .then(() => {
         InAppUtils.purchaseProduct(productId, (err, res) => {
           if (res && res.productIdentifier) {
@@ -96,7 +95,12 @@ export function purchase(productId: string): ThunkAction {
             })
 
             return verifyReceipt({ body: r })
-              .then(json => dispatch(purchaseSuccess()))
+              .then(res => {
+                if (!res.expiresDate) {
+                  return Promise.reject({})
+                }
+                return dispatch(purchaseSuccess(res))
+              })
               .catch(err => dispatch(purchaseFailed()))
           } else {
             console.log('Purchase Failed', res, err)
@@ -120,7 +124,37 @@ export function restorePurchases(): ThunkAction {
         return resolve({ res })
       })
     })
-    .then(() => dispatch(purchaseSuccess()))
+      .then(res => {
+        for (const purchase of response) {
+          if (purchase.productIdentifier === 'co.newn.chatnovel.onemonth' ||
+              purchase.productIdentifier === 'co.newn.chatnovel.oneweek'
+          ) {
+            const r = JSON.stringify({
+              receipt: purchase.transactionReceipt,
+            })
+
+            return verifyReceipt({ body: r })
+          }
+        }
+
+        return reject({ err: 'did not found any purchases' })
+      })
+      .then(res => {
+        if (!res.expiresDate) {
+          return Promise.reject({ err: '' })
+        }
+
+        return dispatch({
+          type: 'RESTORE_PURCHASE_SUCCESS',
+          expiresDate: res.expiresDate,
+        })
+      })
+      .catch(() => {
+        dispatch({
+          type: 'RESTORE_PURCHASE_FAILED'
+        })
+        return Promise.reject()
+      })
   }
 }
 
@@ -141,6 +175,13 @@ export function syncUserEnergy(userId: number, force: boolean = false): ThunkAct
   return (dispatch, getState) => {
     const { energy } = getState()
 
+    if (energy.isLoading) {
+      return (new Promise((resolve, reject) => {
+        dispatch({ type: 'SYNC_USER_ENERGY_FAILED' })
+        return reject()
+      }))
+    }
+
     if (energy.nextRechargeDate && (energy.nextRechargeDate - moment().valueOf()) < 0) {
       force = true
     }
@@ -152,6 +193,8 @@ export function syncUserEnergy(userId: number, force: boolean = false): ThunkAct
     if (!force && energy.energy > 0) {
       return (new Promise(resolve => resolve()))
     }
+
+    dispatch({ type: 'SYNC_USER_ENERGY_REQUEST' })
 
     return fetchUserEnergy()
       .then(v => {
@@ -169,8 +212,8 @@ export function syncUserEnergy(userId: number, force: boolean = false): ThunkAct
           latest_synced_at: firebase.database.ServerValue.TIMESTAMP,
           updated_at: firebase.database.ServerValue.TIMESTAMP,
         }
-        const ref = firebase.database().ref(`/user_energies/${userId}`)
-        return ref.update(Object.assign({}, base, ext))
+
+        return updateUserEnergy(Object.assign({}, ext))
           .then(() => fetchUserEnergy())
           .then(v => (
             dispatch({

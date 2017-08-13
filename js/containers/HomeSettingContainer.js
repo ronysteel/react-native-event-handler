@@ -42,11 +42,9 @@ class HomeSettingContainer extends React.PureComponent {
             {
               key: 0,
               title: 'お問い合わせ',
-              url: `mailto:${encodeURIComponent(
-                'chatnovel-info@newn.co?' +
-                'subject=chatnovelについて&' +
-                "body=\n\nUser ID: " + uid
-              )}`,
+              url: `mailto:chatnovel-info@newn.co?` +
+                `subject=chatnovelについて&` +
+                `body=\n\nUser ID: ${uid}`,
             },
             {
               key: 1,

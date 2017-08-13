@@ -21,18 +21,21 @@ export function loadPurcasingProducts(): ThunkAction {
       type: 'LOAD_PURCHASING_PRODUCT_REQUEST',
     })
 
-    InAppUtils.loadProducts(products, (err, products) => {
-      if (err) {
-        return dispatch({
-          type: 'LOAD_PURCHASING_PRODUCT_FAILED',
-        })
-      }
+    return new Promise(resolve => resolve())
+      .then(() => {
+        InAppUtils.loadProducts(products, (err, products) => {
+          if (err) {
+            return dispatch({
+              type: 'LOAD_PURCHASING_PRODUCT_FAILED',
+            })
+          }
 
-      return dispatch({
-        type: 'LOAD_PURCHASING_PRODUCT_SUCCESS',
-        products,
+          dispatch({
+            type: 'LOAD_PURCHASING_PRODUCT_SUCCESS',
+            products,
+          })
+        })
       })
-    })
   }
 }
 
