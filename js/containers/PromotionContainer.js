@@ -178,7 +178,7 @@ const actions = (dispatch, props) => {
         .catch(() => {
           AlertIOS.alert(
             'ストアエラー',
-            '購入の復元に失敗しました'
+            '復元可能な購入が見つかりませんでした'
           )
         })
     ),

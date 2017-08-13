@@ -3,15 +3,15 @@ import type { Action } from '../actions/types'
 
 export type Session = {
   uid: ?string;
-  idToken: ?string;
   paid: boolean;
+  paidAccountExpiresDate: ?number;
   tutorialEnded: boolean;
 }
 
 const initialStates: Session = {
   uid: undefined,
-  idToken: undefined,
   paid: false,
+  paidAccountExpiresDate: null,
   tutorialEnded: false,
 }
 
@@ -23,19 +23,32 @@ function session(state: Session = initialStates, action: Action): Session {
 
     case 'SIGN_IN_ANONYMOUSLY_SUCCESS': {
       const { user } = action
+      let expiresDate = user.paidAccountExpiresDate
+      if (!expiresDate) expiresDate = null
+
       return Object.assign({}, state, {
         uid: user.uid,
-        idToken: user.idToken,
         paid: user.paid,
+        paidAccountExpiresDate: expiresDate,
       })
     }
 
     case 'PURCHASE_SUCCESS': {
-      return Object.assign({}, state, { paid: true })
+      const { expiresDate } = action
+      return { ...state, paid: true, paidAccountExpiresDate: expiresDate }
     }
 
     case 'PURCHASE_FAILED': {
-      return Object.assign({}, state, { paid: false })
+      return { ...state, paid: false, paidAccountExpiresDate: null }
+    }
+
+    case 'RESTORE_PURCHASE_SUCCESS': {
+      const { expiresDate } = action
+      return { ...state, paid: true, paidAccountExpiresDate: expiresDate }
+    }
+
+    case 'RESTORE_PURCHASE_FAILED': {
+      return { ...state, paid: false, paidAccountExpiresDate: null }
     }
 
     case 'TUTORIAL_END_SUCCESS': {

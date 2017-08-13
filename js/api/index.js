@@ -130,7 +130,35 @@ export const verifyReceipt = ({ body }) => (
       }
     })
   ))
-  .then(r => r.json())
+  .then(r => {
+    if (!r.ok) {
+      return Promise.reject()
+    }
+    return r.json()
+  })
+  .then(r => r.response)
+)
+
+export const updateReceipt = () => (
+  firebase.auth().currentUser.getIdToken()
+  .then(token => (
+    fetch(`${API_HOST}/verify-receipt`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'Cache-Control': 'no-cache',
+      }
+    })
+  ))
+  .then(r => {
+    if (!r.ok) {
+      return Promise.reject()
+    }
+    return r.json()
+  })
+  .then(r => r.response)
 )
 
 export const fetchUserEnergy = () => (

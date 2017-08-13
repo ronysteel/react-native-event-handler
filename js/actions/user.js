@@ -12,6 +12,7 @@ import {
   requestGetTicket,
   fetchUserEnergy,
   updateUserEnergy,
+  updateReceipt,
 } from '../api'
 const { InAppUtils } = NativeModules
 
@@ -27,27 +28,26 @@ const successSignInAnonymously = user => {
 }
 
 export function signInAnonymously(): ThunkAction {
-  return dispatch => {
+  return (dispatch, getState) => {
     let userObj = {}
+    const { session } = getState()
 
     dispatch(requestSignInAnonymously())
 
     return firebase.auth().signInAnonymously()
       .then(user => {
         userObj.uid = user.uid
-        return user.getIdToken().then(token => {
-          userObj.idToken = token
-          return user
-        })
+        return user
       })
+      .then(() => updateReceipt().catch(() => {}))
       .then(() => fetchUser())
       .then(json => {
-        if (!json.paid_account_expires_date) {
+        if (!json.paidAccountExpiresDate) {
           userObj.paid = false
           return
         }
 
-        userObj.paid = Number(json.paid_account_expires_date) > (new Date().getTime())
+        userObj.paid = Number(json.paidAccountExpiresDate) > (moment().valueOf())
       })
       .then(() => {
         dispatch(successSignInAnonymously(userObj))
@@ -69,9 +69,10 @@ export function saveDeviceToken(): ThunkAction {
   }
 }
 
-const purchaseSuccess = () => {
+const purchaseSuccess = ({ expiresDate }) => {
   return {
     type: 'PURCHASE_SUCCESS',
+    expiresDate,
   }
 }
 
@@ -83,7 +84,6 @@ const purchaseFailed = () => {
 
 export function purchase(productId: string): ThunkAction {
   return (dispatch, getState) => {
-    const { idToken } = getState().session
 
     return dispatch(loadPurcasingProducts())
       .then(() => {
@@ -95,7 +95,12 @@ export function purchase(productId: string): ThunkAction {
             })
 
             return verifyReceipt({ body: r })
-              .then(json => dispatch(purchaseSuccess()))
+              .then(res => {
+                if (!res.expiresDate) {
+                  return Promise.reject({})
+                }
+                return dispatch(purchaseSuccess(res))
+              })
               .catch(err => dispatch(purchaseFailed()))
           } else {
             console.log('Purchase Failed', res, err)
@@ -119,7 +124,37 @@ export function restorePurchases(): ThunkAction {
         return resolve({ res })
       })
     })
-    .then(() => dispatch(purchaseSuccess()))
+      .then(res => {
+        for (const purchase of response) {
+          if (purchase.productIdentifier === 'co.newn.chatnovel.onemonth' ||
+              purchase.productIdentifier === 'co.newn.chatnovel.oneweek'
+          ) {
+            const r = JSON.stringify({
+              receipt: purchase.transactionReceipt,
+            })
+
+            return verifyReceipt({ body: r })
+          }
+        }
+
+        return reject({ err: 'did not found any purchases' })
+      })
+      .then(res => {
+        if (!res.expiresDate) {
+          return Promise.reject({ err: '' })
+        }
+
+        return dispatch({
+          type: 'RESTORE_PURCHASE_SUCCESS',
+          expiresDate: res.expiresDate,
+        })
+      })
+      .catch(() => {
+        dispatch({
+          type: 'RESTORE_PURCHASE_FAILED'
+        })
+        return Promise.reject()
+      })
   }
 }
 
