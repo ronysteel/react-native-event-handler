@@ -24,6 +24,17 @@ class HomeSettingContainer extends React.PureComponent {
   render() {
     const { uid, closeModal, isOpen } = this.props
 
+    let firstRow = {}
+    if (this.props.paid) {
+      firstRow = { key: 0, title: '購読中' }
+    } else {
+      firstRow = {
+        key: 0,
+        title: '持っているチケット',
+        ticketCount: this.props.ticketCount || 0,
+      }
+    }
+
     return (
       <Modal
         swipeToClose={ false }
@@ -33,11 +44,8 @@ class HomeSettingContainer extends React.PureComponent {
       >
         <Setting
           onTapClose={ closeModal }
-          ticketCount={{
-            key: 0,
-            title: '持っているチケット',
-            ticketCount: this.props.ticketCount || 0,
-          }}
+          paid={ this.props.paid }
+          firstRow={ firstRow }
           links={[
             {
               key: 0,
@@ -72,6 +80,7 @@ const select = (store, props) => ({
   isOpen: store.pages.homePageState.isOpenSetting,
   uid: store.session.uid,
   ticketCount: store.tickets.ticketCount,
+  paid: store.session.paid,
 })
 
 const actions = (dispatch, props) => ({
