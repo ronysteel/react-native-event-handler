@@ -56,6 +56,11 @@ class HomeSettingContainer extends React.PureComponent {
               title: 'プライバシーポリシー',
               url: 'http://newn.co/privacy.html',
             },
+            {
+              key: 3,
+              title: 'ヘルプセンター',
+              url: 'http://newn.co/help.html',
+            },
           ]}
         />
       </Modal>
