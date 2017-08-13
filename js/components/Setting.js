@@ -17,19 +17,38 @@ const Footer = () => (
   <View style={ styles.footer }></View>
 )
 
-const renderItem = ({ item }) => (
-  <TouchableOpacity onPress={ onPress.bind(null, item) }>
+const renderRight = (item) => {
+  if (item.url) {
+    return <RightArrowIcon />
+  }
+
+  if (item.ticketCount !== undefined) {
+    return <Text>{ `${item.ticketCount}枚` }</Text>
+  }
+
+  return null
+}
+
+const renderItem = ({ item }) => {
+  const inner = (
     <View style={ styles.listContainer }>
       <Text style={ styles.title }>{ item.title }</Text>
       <View style={ styles.arrow }>
-      { item.ticketCount !== undefined
-        ? <Text>{ `${item.ticketCount}枚` }</Text>
-        : <RightArrowIcon />
-      }
+        { renderRight(item) }
       </View>
     </View>
-  </TouchableOpacity>
-)
+  )
+
+  if (item.url) {
+    return (
+      <TouchableOpacity onPress={ onPress.bind(null, item) }>
+        { inner }
+      </TouchableOpacity>
+    )
+  }
+
+  return inner
+}
 
 const sectionHeader = () => (
   <View style={{
@@ -39,7 +58,7 @@ const sectionHeader = () => (
   </View>
 )
 
-const Setting = ({ links, ticketCount, onTapClose }) => (
+const Setting = ({ links, firstRow, onTapClose }) => (
   <View style={ styles.root }>
     <ListHeader
       title={ '設定・その他' }
@@ -48,7 +67,7 @@ const Setting = ({ links, ticketCount, onTapClose }) => (
     <SectionList
       sections={[
         {
-          data: [ticketCount],
+          data: [firstRow],
           ItemSeparatorComponent: Separator,
         },
         {
