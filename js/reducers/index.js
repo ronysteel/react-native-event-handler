@@ -15,6 +15,7 @@ import tweets from './tweets'
 import tabs from './tabs'
 import characters from './characters'
 import categories from './categories'
+import tutorial from './tutorial'
 import purchasingProducts from './purchasingProducts'
 import actionLog from './actionLog'
 import homePageState from './homePageState'
@@ -36,6 +37,7 @@ export default combineReducers({
   categories,
   purchasingProducts,
   actionLog,
+  tutorial,
 
   pages: combineReducers({
     homePageState,

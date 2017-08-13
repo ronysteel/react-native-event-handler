@@ -6,6 +6,7 @@ import {
   fetchCategories,
   fetchTicketCount,
   fetchTab,
+  fetchTutorial,
 } from '../api'
 
 import { sendLeaveContentEvent } from './event'
@@ -110,5 +111,20 @@ export function loadTicketCount(): ThunkAction {
           ticketCount: v,
         })
       })
+  }
+}
+
+export function loadTutorial(): ThunkAction {
+  return (dispatch, getState) => {
+    dispatch({ type: 'LOAD_TUTORIAL_REQUEST' })
+
+    return fetchTutorial()
+      .then(v => (
+        dispatch({
+          type: 'LOAD_TUTORIAL_SUCCESS',
+          novelId: v.novelId,
+          episodeId: v.episodeId,
+        })
+      ))
   }
 }
