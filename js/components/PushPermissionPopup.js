@@ -12,50 +12,37 @@ import {
 } from 'react-native'
 import { BlurView, VibrancyView } from 'react-native-blur'
 
+const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
 
 const PushPermissionPopup = ({ onPress }) => {
   return (
     <Modal transparent>
       <View style={ styles.container }>
-        <VibrancyView blurType="xlight" blurAmount={ 10 } style={ styles.popup }>
-        </VibrancyView>
-      </View>
-      <View style={ styles.popupInnerContainer }>
-        <View style={ styles.popupInner }>
-          <View style={ styles.alert }>
-            <Text style={ styles.alertText }>
-              { `“CHAT NOVEL”は\n通知を送信します\n通知をオンにしましょう！` }
+        <View style={ styles.wrapper }>
+          <View style={ styles.popupInner }>
+            <VibrancyView blurType="xlight" blurAmount={ 10 } style={ styles.blur } />
+            <Image source={require('./img/permission.png')} style={ styles.image } />
+            <Text style={ styles.text }>
+              { '通知をオンにすると、編集部おすすめノベルやチケットプレゼントなどのお得な情報をお届けします！' }
             </Text>
-            <View style={ styles.alertButtonWrapper }>
-              <View style={ styles.alertLook } />
-              <Text style={ styles.alertNgText }>
-                { `許可しない` }
+            <TouchableOpacity
+              style={ styles.startButton }
+              onPress={ onPress }
+            >
+              <Text style={ styles.startButtonText }>
+                { 'はじめる' }
               </Text>
-              <View style={ styles.alertOkTextWrapper }>
-                <Text style={ styles.alertOkText }>
-                  { `許可` }
-                </Text>
-              </View>
-            </View>
+            </TouchableOpacity>
           </View>
-          <Text style={ styles.text }>
-            { '通知をオンにすると、編集部おすすめノベルやチケットプレゼントなどのお得な情報をお届けします！' }
-          </Text>
-          <TouchableOpacity
-            style={ styles.startButton }
-            onPress={ onPress }
-          >
-            <Text style={ styles.startButtonText }>
-              { 'はじめる' }
-            </Text>
-          </TouchableOpacity>
         </View>
       </View>
     </Modal>
   )
 }
 
+const BASE_WIDTH = 375
+const BASE_HEIGHT = 667
 const styles: StyleSheet = StyleSheet.create({
   container: {
     position: 'absolute',
@@ -66,95 +53,43 @@ const styles: StyleSheet = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.45)',
     justifyContent: 'center',
   },
-  popup: {
+  wrapper: {
+    flex: 1,
+    margin: SCREEN_WIDTH * (40/BASE_WIDTH),
     alignSelf: 'center',
+    justifyContent: 'center',
     borderRadius: 12,
-    width: SCREEN_WIDTH - (40*2),
-    height: 372,
   },
-  popupInnerContainer: {
+  blur: {
     position: 'absolute',
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'transparent',
-    justifyContent: 'center',
+    borderRadius: 12,
   },
   popupInner: {
+    width: SCREEN_WIDTH * (295/BASE_WIDTH),
+    padding: SCREEN_WIDTH * (30/BASE_WIDTH),
     alignSelf: 'center',
     borderRadius: 12,
-    width: SCREEN_WIDTH - (40*2),
-    height: 372,
-
     backgroundColor: 'rgba(255,255,255,0.0)',
-    paddingTop: 30,
-    paddingHorizontal: 30,
   },
   text: {
-    marginTop: 20,
+    marginTop: 10,
     fontSize: 14,
     lineHeight: 21,
   },
-
-  // alert
-  alert: {
-    backgroundColor: '#fff',
-    borderWidth: 0.5,
-    borderColor: '#9c9c9c',
-    borderRadius: 8,
-  },
-  alertText: {
-    fontSize: 16,
-    fontWeight: '600',
-    lineHeight: 21,
-    textAlign: 'center',
-    backgroundColor: 'transparent',
-    paddingVertical: 17,
-  },
-  alertButtonWrapper: {
-    position: 'relative',
-    borderTopWidth: 0.5,
-    borderColor: '#dbdbdb',
-    height: 42,
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
-  },
-  alertNgText: {
-    flex: 0.5,
-    color: '#007aff',
-    fontSize: 14,
-    textAlign: 'center',
-    paddingVertical: 15,
-  },
-  alertOkText: {
-    color: '#007aff',
-    fontSize: 14,
-    textAlign: 'center',
-    paddingVertical: 15,
-  },
-  alertOkTextWrapper: {
-    flex: 0.5,
-    borderLeftWidth: 0.5,
-    borderColor: '#dbdbdb',
-  },
-  alertLook: {
-    position: 'absolute',
-    right: 25,
-    bottom: -11,
-    width: 66,
-    height: 66,
-    borderWidth: 1,
-    borderRadius: 66,
-    borderColor: '#007aff',
-    backgroundColor: 'rgba(255,255,255,0.7)',
+  image: {
+    width: SCREEN_WIDTH * (235/BASE_WIDTH),
+    height: SCREEN_HEIGHT * (168/BASE_HEIGHT)
   },
 
   startButton: {
     height: 50,
     borderRadius: 6,
     backgroundColor: '#ff395d',
-    marginTop: 25,
+    marginTop: SCREEN_WIDTH * (25/BASE_WIDTH),
     justifyContent: 'center',
   },
   startButtonText: {
