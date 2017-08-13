@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Linking } from 'react-native'
 import { connect } from 'react-redux'
 
 import firebase from '../firebase'
-import { loadTab } from '../actions/app'
+import { loadTab, loadTutorial } from '../actions/app'
 import { sentSlectContentEvent } from '../actions/event'
 import { onSelectContent } from './utils'
 import Stories from '../components/Stories'
@@ -55,7 +55,10 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    this.props.loadHomeTab()
+    Promise.all([
+      this.props.loadHomeTab(),
+      this.props.loadTutorial(this.props.tutorialEnded),
+    ])
       .then(() => {
         this.setState({ isLoaded: true })
       })
@@ -68,10 +71,11 @@ class Home extends React.Component {
     }
 
     if (this.props.navigation.state.params.tutorial) {
+      const { novelId, episodeId } = this.props.tutorial
       return (
         <TutorialContainer
-          novelId={ '01BPGRVG5DP32HK9M4WZGS69YY' }
-          episodeId={ '01BPGRVG5F6N3PHEWW5Q71KHMB' }
+          novelId={ novelId }
+          episodeId={ episodeId }
           navigation={ this.props.navigation }
         />
       )
@@ -102,12 +106,19 @@ const select = (store) => {
     stories: store.stories,
     homeTab: store.tabs['home'],
     tutorialEnded: store.session.tutorialEnded || false,
+    tutorial: store.tutorial,
   }
 }
 
 const actions = (dispatch, props) => {
   return {
     loadHomeTab: () => dispatch(loadTab('home')),
+    loadTutorial: (tutorialEnded: boolean) => {
+      if (tutorialEnded) {
+        return new Promise(resolve => resolve())
+      }
+      return dispatch(loadTutorial())
+    },
     requestPushPermission: () => {
       firebase.messaging().requestPermissions()
       props.navigation.setParams({ pushPopup: false })

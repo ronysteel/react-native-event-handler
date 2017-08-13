@@ -227,3 +227,17 @@ export const fetchUser = () => (
   .then(r => r.json())
   .then(r => r.response)
 )
+
+export const fetchTutorial = () => (
+  firebase.auth().currentUser.getIdToken()
+  .then(token => (
+    fetch(`${API_HOST}/tutorial`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Cache-Control': 'no-cache',
+      }
+    })
+  ))
+  .then(r => r.json())
+  .then(r => r.response)
+)
