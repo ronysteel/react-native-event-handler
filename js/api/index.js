@@ -1,6 +1,6 @@
 import firebase from '../firebase'
 
-const API_HOST = `https://us-central1-test-5913c.cloudfunctions.net/api`
+const API_HOST = `https://us-central1-chatnovel-cef70.cloudfunctions.net/api`
 
 export const fetchEpisode = ({ novelId, episodeId }) => (
   firebase.auth().currentUser.getIdToken()
