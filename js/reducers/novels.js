@@ -32,7 +32,7 @@ function novels(state: Novels = initialStates, action: Action): Novels {
         return state
       }
       const s = Object.assign({}, state[novelId], {
-        episodeIds: Object.values(episodes).map(v => v.episodeId)
+        episodeIds: Object.keys(episodes)
       })
       return Object.assign({}, state, { [novelId]: s })
     }

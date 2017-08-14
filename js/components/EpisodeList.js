@@ -64,7 +64,7 @@ const EpisodeList = ({ novel, episodes, closeModal, onSelectContent }) => {
       <FlatList
         data={ episodes }
         renderItem={ renderItem.bind(null, novel, closeModal, onSelectContent) }
-        keyExtractor={ item => `${item.id}` }
+        keyExtractor={ item => `${item.episodeOrder}` }
         ItemSeparatorComponent={ Separator }
       />
     </View>
