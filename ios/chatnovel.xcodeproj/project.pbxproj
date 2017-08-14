@@ -722,6 +722,7 @@
 				A7521027A504FD2D4D0593DD /* [CP] Embed Pods Frameworks */,
 				AEDB42A514D2CF80B824FE4A /* [CP] Copy Pods Resources */,
 				5674773C1F1C67810095359C /* ShellScript */,
+				5677C5FF1F4180BD00293BAD /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1239,6 +1240,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 7a2539d11b88cfa8b5ba03a4b9e744c29623d98d 84141d6ce9f9015aad09e937a47312f6a3d5f175f9c4d2d3256d4c8ecee197f0";
 		};
+		5677C5FF1F4180BD00293BAD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "GOOGLE_APP_ID=1:447306018094:ios:6c511cc0514a84ed\n\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"${PODS_ROOT}/../chatnovel/serviceAccount.json\"";
+		};
 		958669D43F2F4D931C270FB8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1449,7 +1463,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = chatnovel/chatnovel.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 49;
+				CURRENT_PROJECT_VERSION = 52;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 5ZFQE66DKU;
 				HEADER_SEARCH_PATHS = (
@@ -1482,7 +1496,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = chatnovel/chatnovel.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 49;
+				CURRENT_PROJECT_VERSION = 52;
 				DEVELOPMENT_TEAM = 5ZFQE66DKU;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
