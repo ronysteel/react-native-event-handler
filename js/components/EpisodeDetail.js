@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native'
+import _ from 'lodash'
 
 import BackgroundImage from './BackgroundImage'
 import Share from './Share'
@@ -154,7 +155,7 @@ class EpisodeDetail extends React.Component {
 
   onRenderComplate({ viewableItems }) {
     if (!this.state.renderCompleted &&
-      viewableItems.length == this.props.scriptValues.length - 1
+      _.last(viewableItems).item.id === _.last(this.props.scriptValues).id
     ) {
       this.scrollToEnd({
         animated: false
