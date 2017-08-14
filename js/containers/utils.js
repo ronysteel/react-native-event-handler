@@ -1,4 +1,4 @@
-import { Linking } from 'react-native'
+import { Linking, AlertIOS } from 'react-native'
 import Share from 'react-native-share';
 import { selectContent } from '../actions/app'
 
@@ -34,7 +34,10 @@ export const onPressShare = (type: string, options) => {
       return Linking.canOpenURL(url)
         .then(supported => {
           if (!supported) {
-            console.log('Can\'t handle url: ' + url)
+            AlertIOS.alert(
+              'エラー',
+              'LINEがインストールされていません'
+            )
           } else {
             return Linking.openURL(url)
           }
