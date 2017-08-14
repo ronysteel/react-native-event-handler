@@ -15,14 +15,20 @@ export const onPressShare = (type: string, options) => {
     case 'twitter': {
       return Share.shareSingle({
         ...options,
-        ...({ social: "twitter" }),
+        ...({
+          message: `${options.title} @CHATNOVEL`,
+          social: "twitter",
+        }),
       })
         .catch(() => {})
     }
     case 'facebook': {
       return Share.shareSingle({
         ...options,
-        ...({ social: "facebook" }),
+        ...({
+          message: `${options.title}`,
+          social: "facebook"
+        }),
       })
         .catch(() => {})
     }
@@ -46,8 +52,7 @@ export const onPressShare = (type: string, options) => {
     }
     case 'link': {
       return Share.open({
-        title: options.title,
-        message: options.message,
+        message: `${options.title}`,
         url: options.url,
       })
       .catch(() => {})
