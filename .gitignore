@@ -49,3 +49,7 @@ buck-out/
 # Expo
 #
 .expo/
+
+# firebase
+
+serviceAccount.json
