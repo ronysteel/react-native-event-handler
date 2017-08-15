@@ -16,7 +16,7 @@ import Home from './containers/Home'
 import EpisodeDetail from './containers/EpisodeDetail'
 
 import { signInAnonymously, saveDeviceToken } from './actions/user'
-import { loadPurcasingProducts, moveScreen, loadCategories } from './actions/app'
+import { loadTab, loadPurcasingProducts, moveScreen, loadCategories } from './actions/app'
 import { sendLeaveContentEvent } from './actions/event'
 
 function setupStore(onComplete: () => void) {
@@ -218,6 +218,8 @@ class Root extends React.Component {
       ) {
         dispatch(signInAnonymously())
       }
+
+      dispatch(loadTab('home'))
     }
 
     this.setState({ appState: nextAppState })
