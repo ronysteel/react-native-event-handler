@@ -5,6 +5,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  ScrollView,
   Platform,
   StyleSheet,
 } from 'react-native'
@@ -46,7 +47,7 @@ const Promotion = ({
   onEndRecharge,
 }) => {
   return (
-    <View style={ styles.container }>
+    <ScrollView style={ styles.container }>
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity onPress={ closeModal }>
           <View style={ styles.close }>
@@ -95,7 +96,7 @@ const Promotion = ({
           <Text style={ styles.restoreText }>{ 'メンバーのかたはこちら' }</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
@@ -167,10 +168,7 @@ const styles: StyleSheet = StyleSheet.create({
   // restore purchase
 
   restoreWrapper: {
-    position: 'absolute',
-    bottom: 30,
-    left: 0,
-    right: 0,
+    marginTop: 50,
     flexDirection: 'row',
     justifyContent: 'center',
   },
