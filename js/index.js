@@ -134,44 +134,47 @@ class Root extends React.Component {
 
   componentDidMount() {
     Linking.getInitialURL()
-      .then(url => {
-        if (url) {
-          this.state.store.dispatch(moveScreen('DEEPLINK'))
-          this.isDeeplink = 'DEEPLINK'
-        }
-      })
+      .then(this._handleInitialURL.bind(this))
       .catch(() => {})
 
     Linking.addEventListener('url', this._handleOpenURL.bind(this))
     AppState.addEventListener('change', this._handleAppStateChange.bind(this))
 
-    firebase.messaging()
-      .onMessage(event => {
-        if (event.episodeUri) {
-          const { path } = this._urlToPathAndParams(event.episodeUri)
-          const keys = []
-          const re = pathToRegexp(episodeDetailPath, keys)
-          const ps = re.exec(path)
-
-          const params = keys.reduce((memo, v, i) => {
-            memo[v.name] = ps[i + 1]
-            return memo
-          }, {})
-
-          this.navigator.dispatch(NavigationActions.reset({
-            index: 1,
-            actions: [
-              NavigationActions.navigate({ routeName: 'Home' }),
-              NavigationActions.navigate({ routeName: 'EpisodeDetail', params }),
-            ]
-          }))
-        }
-      })
+    firebase.messaging().onMessage(this._handleOnMessage.bind(this))
   }
 
   componentWillUnmount() {
     Linking.removeEventListener('url', this._handleOpenURL.bind(this))
     AppState.removeEventListener('change', this._handleAppStateChange.bind(this))
+  }
+
+  _handleOnMessage(event) {
+    if (event.episodeUri) {
+      const { path } = this._urlToPathAndParams(event.episodeUri)
+      const keys = []
+      const re = pathToRegexp(episodeDetailPath, keys)
+      const ps = re.exec(path)
+
+      const params = keys.reduce((memo, v, i) => {
+        memo[v.name] = ps[i + 1]
+        return memo
+      }, {})
+
+      this.navigator.dispatch(NavigationActions.reset({
+        index: 1,
+        actions: [
+          NavigationActions.navigate({ routeName: 'Home' }),
+          NavigationActions.navigate({ routeName: 'EpisodeDetail', params }),
+        ]
+      }))
+    }
+  }
+
+  _handleInitialURL(url: string) {
+    if (url) {
+      this.state.store.dispatch(moveScreen('DEEPLINK'))
+      this.isDeeplink = 'DEEPLINK'
+    }
   }
 
   _urlToPathAndParams(url: string) {
