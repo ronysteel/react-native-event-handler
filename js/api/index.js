@@ -224,6 +224,12 @@ export const fetchUser = () => (
       }
     })
   ))
+  .then(r => {
+    if (!r.ok) {
+      return Promise.reject({ err: 'user not found', status: r.status })
+    }
+    return r
+  })
   .then(r => r.json())
   .then(r => r.response)
 )

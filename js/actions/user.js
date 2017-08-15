@@ -40,14 +40,18 @@ export function signInAnonymously(): ThunkAction {
         return user
       })
       .then(() => updateReceipt().catch(() => {}))
-      .then(() => fetchUser())
-      .then(json => {
-        if (!json.paidAccountExpiresDate) {
-          userObj.paid = false
-          return
-        }
+      .then(() => {
+        return fetchUser()
+          .then(json => {
+            if (!json.paidAccountExpiresDate) {
+              userObj.paid = false
+              return
+            }
 
-        userObj.paid = Number(json.paidAccountExpiresDate) > (moment().valueOf())
+            userObj.paid = Number(json.paidAccountExpiresDate) > (moment().valueOf())
+          })
+          // 初回起動時にまだusers DBにデータがない時がある
+          .catch(err => {})
       })
       .then(() => {
         dispatch(successSignInAnonymously(userObj))
