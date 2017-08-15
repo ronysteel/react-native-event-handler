@@ -154,7 +154,7 @@ const actions = (dispatch, props) => {
       Share
         .shareSingle({
           social: 'twitter',
-          title: `無料で読める新感覚ノベルアプリCHAT NOVELで「${novel.title}」を読もう！ @CHATNOVEL`,
+          message: `無料で読める新感覚ノベルアプリCHAT NOVELで「${novel.title}」を読もう！ @CHATNOVEL`,
           url: shareLinks.default,
         })
         .then(({ shared }) => {

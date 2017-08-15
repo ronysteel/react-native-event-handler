@@ -13,6 +13,7 @@ import {
   fetchUserEnergy,
   updateUserEnergy,
   updateReceipt,
+  fetchUseTicket,
 } from '../api'
 const { InAppUtils } = NativeModules
 
