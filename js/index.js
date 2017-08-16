@@ -196,6 +196,27 @@ class Root extends React.Component {
         this.state.store.dispatch(moveScreen('DEEPLINK'))
         this.isDeeplink = 'DEEPLINK'
       }
+
+      return
+    }
+
+    if (/https:\/\/chatnovel\.jp\/novels\/[^/]+\/episodes\/[^/]+/.test(event.url)) {
+      if (this.state.appState !== 'active') {
+        this.state.store.dispatch(moveScreen('DEEPLINK'))
+        this.isDeeplink = 'DEEPLINK'
+      }
+
+      const url = event.url.replace('https://chatnovel.jp/', '')
+      const keys = []
+      const re = pathToRegexp(episodeDetailPath, keys)
+      const ps = re.exec(url)
+      const params = keys.reduce((memo, v, i) => {
+        memo[v.name] = ps[i + 1]
+        return memo
+      }, {})
+
+      Linking.openURL(`chatnovel://novels/${params.novelId}/episodes/${params.episodeId}`)
+      return
     }
   }
 
