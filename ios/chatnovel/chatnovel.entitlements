@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:chatnovel-cef70.firebaseapp.com</string>
+		<string>applinks:chatnovel.jp</string>
 	</array>
 </dict>
 </plist>
