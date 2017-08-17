@@ -32,7 +32,8 @@ class AboutSubscriptionContainer extends React.PureComponent {
   }
 }
 AboutSubscriptionContainer.navigationOptions = () => ({
-  title: '定期購読について'
+  title: '定期購読について',
+  headerTintColor: '#000',
 })
 
 const styles: StyleSheet = StyleSheet.create({

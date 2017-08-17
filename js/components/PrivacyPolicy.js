@@ -9,7 +9,8 @@ const PrivacyPolicy = () => (
   />
 )
 PrivacyPolicy.navigationOptions = () => ({
-  title: 'プライバシーポリシー'
+  title: 'プライバシーポリシー',
+  headerTintColor: '#000',
 })
 
 export default PrivacyPolicy

@@ -9,7 +9,8 @@ const Terms = () => (
   />
 )
 Terms.navigationOptions = () => ({
-  title: '利用規約'
+  title: '利用規約',
+  headerTintColor: '#000',
 })
 
 export default Terms
