@@ -14,6 +14,9 @@ import firebase from './firebase'
 import reducers from './reducers'
 import Home from './containers/Home'
 import EpisodeDetail from './containers/EpisodeDetail'
+import AboutSubscriptionContainer from './containers/AboutSubscriptionContainer'
+import PrivacyPolicy from './components/PrivacyPolicy'
+import Terms from './components/Terms'
 
 import { signInAnonymously, saveDeviceToken } from './actions/user'
 import { loadTab, loadPurcasingProducts, moveScreen, loadCategories } from './actions/app'
@@ -67,6 +70,18 @@ const onNavigationStateChange = (store, isDeeplink, prevState, currentState) => 
         }))
         return
       }
+      case 'PrivacyPolicy': {
+        StatusBar.setHidden(false)
+        return
+      }
+      case 'Terms': {
+        StatusBar.setHidden(false)
+        return
+      }
+      case 'AboutSubscription': {
+        StatusBar.setHidden(false)
+        return
+      }
     }
   }
 
@@ -92,6 +107,9 @@ const episodeDetailPath = 'novels/:novelId/episodes/:episodeId'
 const App = StackNavigator({
   Home: { screen: Home },
   EpisodeDetail: { screen: EpisodeDetail, path: episodeDetailPath },
+  PrivacyPolicy: { screen: PrivacyPolicy, path: 'about/privacy' },
+  Terms: { screen: Terms, path: 'about/terms' },
+  AboutSubscription: { screen: AboutSubscriptionContainer, path: 'about/subscription' },
 }, {
   headerMode: 'screen',
 })

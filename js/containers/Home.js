@@ -18,6 +18,7 @@ import PushPermissionPopup from '../components/PushPermissionPopup'
 import type { Story } from '../reducers/stories'
 
 const headerInit = {
+  title: 'Home',
   headerTitle: <HeaderTitle />,
   headerLeft: <HomeHeaderLeft />,
   headerStyle: {

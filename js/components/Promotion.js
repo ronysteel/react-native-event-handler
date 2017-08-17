@@ -24,6 +24,7 @@ const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0
 const PRODUCT_ID_ONE_MONTH = `co.newn.chatnovel.onemonth`
 const PRODUCT_ID_ONE_WEEK = `co.newn.chatnovel.oneweek`
 
+
 const Separator = () => (
   <View style={ styles.sectionTitleWrapper }>
     <View style={ styles.sectionTitleBorder } />
@@ -45,76 +46,100 @@ const Promotion = ({
   onTapGetTicket,
   onTapRestore,
   onEndRecharge,
+  onTapPrivacyPolicy,
+  onTapTermOfUse,
+  onTapHelpPurchase,
 }) => {
   return (
-    <ScrollView style={ styles.container }>
-      <View style={{ flexDirection: 'row' }}>
-        <TouchableOpacity onPress={ closeModal }>
-          <View style={ styles.close }>
-            <CloseIcon color={ "#000" } />
+    <View style={ styles.wrapper }>
+      <ScrollView style={ styles.container }>
+        <View style={ styles.countTextWrapper }>
+          <Text style={ styles.countText }>{ '続きが読めるまで…' }</Text>
+        </View>
+        <RechargeCountdown
+          onEndRecharge={ onEndRecharge }
+          nextRechargeDate={ nextRechargeDate }
+        />
+
+        <Separator />
+
+        <View>
+          <Text style={ styles.promotionTitle }>
+            { "まずは7日間無料\nすべてのノベルが読み放題！" }
+          </Text>
+          <View style={ styles.promotionButtons }>
+            <PurchaseButtonOneWeek
+              product={ products.products[PRODUCT_ID_ONE_WEEK] }
+              onTapPurchase={ onTapPurchase }
+            />
+            <PurchaseButtonOneMonth
+              product={ products.products[PRODUCT_ID_ONE_MONTH] }
+              onTapPurchase={ onTapPurchase }
+            />
+            <GetTicketButton
+              ticketCount={ ticketCount }
+              remainingTweetCount={ remainingTweetCount }
+              isAvailableTwitter={ isAvailableTwitter }
+              onTapGetTicket={ onTapGetTicket }
+            />
+            <UseTicketButton
+              ticketCount={ ticketCount }
+              onTapUseTicket={ onTapUseTicket }
+            />
           </View>
-        </TouchableOpacity>
-      </View>
-      <View style={ styles.countTextWrapper }>
-        <Text style={ styles.countText }>{ '続きが読めるまで…' }</Text>
-      </View>
-      <RechargeCountdown
-        onEndRecharge={ onEndRecharge }
-        nextRechargeDate={ nextRechargeDate }
-      />
+        </View>
 
-      <Separator />
+        <View style={ styles.restoreWrapper }>
+          <TouchableOpacity onPress={ onTapRestore }>
+            <Text style={ styles.restoreText }>{ 'メンバーのかたはこちら' }</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
 
-      <View>
-        <Text style={ styles.promotionTitle }>
-          { "まずは7日間無料\nすべてのノベルが読み放題！" }
-        </Text>
-        <View style={ styles.promotionButtons }>
-          <PurchaseButtonOneWeek
-            product={ products.products[PRODUCT_ID_ONE_WEEK] }
-            onTapPurchase={ onTapPurchase }
-          />
-          <PurchaseButtonOneMonth
-            product={ products.products[PRODUCT_ID_ONE_MONTH] }
-            onTapPurchase={ onTapPurchase }
-          />
-          <GetTicketButton
-            ticketCount={ ticketCount }
-            remainingTweetCount={ remainingTweetCount }
-            isAvailableTwitter={ isAvailableTwitter }
-            onTapGetTicket={ onTapGetTicket }
-          />
-          <UseTicketButton
-            ticketCount={ ticketCount }
-            onTapUseTicket={ onTapUseTicket }
-          />
+      <View style={ styles.closeWrapper }>
+        <View style={ styles.closeContainer }>
+          <TouchableOpacity onPress={ closeModal }>
+            <View style={ styles.close }>
+              <CloseIcon color={ "#000" } />
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
 
-      <View style={ styles.restoreWrapper }>
-        <TouchableOpacity onPress={ onTapRestore }>
-          <Text style={ styles.restoreText }>{ 'メンバーのかたはこちら' }</Text>
-        </TouchableOpacity>
+      <View style={ styles.linksWrapper }>
+        <View style={ styles.linksContainer }>
+          <TouchableOpacity onPress={ onTapPrivacyPolicy }>
+            <Text style={ styles.linkText }>{ 'プライバシーポリシー' }</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={ onTapTermOfUse }>
+            <Text style={ styles.linkText }>{ '利用規約' }</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={ onTapHelpPurchase }>
+            <Text style={ styles.linkText }>{ '定期購読について' }</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </ScrollView>
+    </View>
   )
 }
 
 const styles: StyleSheet = StyleSheet.create({
-  container: {
+  wrapper: {
     flex: 1,
-    backgroundColor: '#fff',
-    marginTop: STATUSBAR_HEIGHT,
+    flexDirection: 'row',
+    backgroundColor: '#f9f9f9',
   },
 
-  close: {
-    padding: 15,
+  container: {
+    flex: 1,
+    backgroundColor: '#f9f9f9',
+    marginTop: STATUSBAR_HEIGHT + 45,
+    marginBottom: 41.5,
   },
 
   // counter
 
   countTextWrapper: {
-    marginTop: 12,
     marginBottom: 10,
   },
   countText: {
@@ -144,7 +169,7 @@ const styles: StyleSheet = StyleSheet.create({
   },
   sectionTitle: {
     color: '#d1d1d1',
-    backgroundColor: '#fff',
+    backgroundColor: '#f9f9f9',
     marginTop: (-14 / 2) - 2,
     paddingHorizontal: 10,
     fontSize: 14,
@@ -168,7 +193,7 @@ const styles: StyleSheet = StyleSheet.create({
   // restore purchase
 
   restoreWrapper: {
-    marginTop: 50,
+    marginTop: 0,
     flexDirection: 'row',
     justifyContent: 'center',
   },
@@ -178,6 +203,41 @@ const styles: StyleSheet = StyleSheet.create({
     textAlign: 'center',
     padding: 15,
   },
+
+  // close header
+
+  closeWrapper: {
+    position: 'absolute',
+    top: STATUSBAR_HEIGHT,
+    left: 0,
+    right: 0,
+    backgroundColor: '#f9f9f9',
+  },
+  closeContainer: {
+    flexDirection: 'row',
+  },
+  close: {
+    padding: 15,
+  },
+
+  // links
+
+  linksWrapper: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  linksContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: '#f9f9f9',
+  },
+  linkText: {
+    padding: 15,
+    fontSize: 11,
+    color: '#828282',
+  }
 })
 
 export default Promotion
