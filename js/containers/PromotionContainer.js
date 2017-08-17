@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View, Text, AlertIOS } from 'react-native'
+import { View, Text, AlertIOS, Linking } from 'react-native'
 import { connect } from 'react-redux'
 
 import Share from 'react-native-share'
@@ -105,6 +105,9 @@ class PromotionContainer extends React.Component {
           nextRechargeDate={ this.props.nextRechargeDate }
           onEndRecharge={ this.props.onEndRecharge.bind(null, this.props.userId) }
           closeModal={ this.props.closeModal }
+          onTapPrivacyPolicy={ this.props.onTapPrivacyPolicy }
+          onTapTermOfUse={ this.props.onTapTermOfUse }
+          onTapHelpPurchase={ this.props.onTapHelpPurchase }
         />
       </Modal>
     )
@@ -184,6 +187,15 @@ const actions = (dispatch, props) => {
     ),
     sendPromotionEvent: (hasTweetButton: boolean) => (
       dispatch(sendPromotionEvent(episodeId, hasTweetButton))
+    ),
+    onTapPrivacyPolicy: () => (
+      Linking.openURL('chatnovel://about/privacy')
+    ),
+    onTapTermOfUse: () => (
+      Linking.openURL('chatnovel://about/terms')
+    ),
+    onTapHelpPurchase: () => (
+      Linking.openURL('chatnovel://about/subscription')
     ),
   }
 }
