@@ -112,6 +112,10 @@ class EpisodeDetail extends React.Component {
   }
 
   scrollToEnd(params: Object = {}) {
+    // unmount 後に呼ばれることがある
+    if (!this.storyWrapper) {
+      return
+    }
     this.storyWrapper.scrollToEnd(params)
   }
 
