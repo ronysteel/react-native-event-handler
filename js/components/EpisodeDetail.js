@@ -155,8 +155,14 @@ class EpisodeDetail extends React.Component {
 
   onRenderComplate({ viewableItems }) {
     if (!this.state.renderCompleted &&
+      viewableItems.length > 0 &&
       _.last(viewableItems).item.id === _.last(this.props.scriptValues).id
     ) {
+      // unmount 後に呼ばれることがある
+      if (!this) {
+        return
+      }
+
       this.scrollToEnd({
         animated: false
       })
