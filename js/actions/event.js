@@ -3,6 +3,7 @@ import type { Action, ThunkAction } from './types'
 import moment from 'moment'
 import firebase from '../firebase'
 import { getText } from '../reducers/scripts'
+import { log } from '../logging'
 
 export function sendTutorialBeginEvent(): ThunkAction {
   return (dispatch, getState) => {
@@ -41,12 +42,14 @@ export function sendSelectContentEvent(novelId: number, episodeId: number): Thun
           category: novel.categoryId,
           episode: episode.episodeOrder,
 
-          referer: actionLog.type.toLowerCase(),
+          referer: actionLog.prevScreen.type.toLowerCase(),
           referer_section: actionLog.position.sectionIndex,
           referer_position: actionLog.position.positionIndex,
         })
       })
-      .catch(() => {})
+      .catch(err => {
+        log('sendSelectContentEvent', err)
+      })
   }
 }
 
