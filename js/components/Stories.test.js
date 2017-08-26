@@ -4,6 +4,12 @@ import renderer from 'react-test-renderer'
 import Stories from './Stories'
 
 it('renders without crashing', () => {
-  const rendered = renderer.create(<Stories />).toJSON()
+  const component = (
+    <Stories
+      sections={ [] }
+      onSelectContent={ () => {} }
+    />
+  )
+  const rendered = renderer.create(component).toJSON()
   expect(rendered).toBeTruthy()
 })
