@@ -8,7 +8,6 @@ import {
   SectionList,
   StyleSheet,
 } from 'react-native'
-import { List } from 'react-native-elements'
 
 import type { Stories as StoriesStore } from '../reducers/stories'
 import PickupItem from './PickupItem'
