@@ -47,7 +47,7 @@ platform :ios do
     ensure_git_status_clean
     increment_build_number
     commit_version_bump(
-      message: 'build version bump',
+      message: 'build version bump [ci skip]',
       xcodeproj: 'chatnovel.xcodeproj',
     )
     push_to_git_remote(
