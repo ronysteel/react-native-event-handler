@@ -35,7 +35,7 @@ export function sendSelectContentEvent(novelId: number, episodeId: number): Thun
         const episode = episodes[episodeId]
 
         firebase.analytics().logEvent('select_content', {
-          item_id: novelId,
+          item_id: episodeId,
           content_type: 'novel',
 
           title: novel.title,
