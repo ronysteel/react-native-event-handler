@@ -13,6 +13,8 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native'
 import _ from 'lodash'
+import TimerMixin from 'react-timer-mixin'
+import reactMixin from 'react-mixin'
 
 import BackgroundImage from './BackgroundImage'
 import Share from './Share'
@@ -45,7 +47,7 @@ const getBackgroundImage = (scripts, readState) => {
   return scripts[readState.backgroundImageIndex].backgroundImage.imageUrl
 }
 
-class EpisodeDetail extends React.Component {
+class EpisodeDetail extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -90,14 +92,16 @@ class EpisodeDetail extends React.Component {
     const { contentOffset, contentSize, layoutMeasurement } = nativeEvent
     const offsetFromEnd = (layoutMeasurement.height - (contentSize.height - contentOffset.y))
 
-    if (this.state.isLocked && Math.abs(offsetFromEnd) < 10) {
-      this.setState({ isLocked: false })
-    }
-    if (!this.state.isLocked) {
-      if (offsetFromEnd < 0) {
-        this.state.offsetFromEnd.setValue(Math.abs(offsetFromEnd))
+    this.requestAnimationFrame(() => {
+      if (this.state.isLocked && Math.abs(offsetFromEnd) < 10) {
+        this.setState({ isLocked: false })
       }
-    }
+      if (!this.state.isLocked) {
+        if (offsetFromEnd < 0) {
+          this.state.offsetFromEnd.setValue(Math.abs(offsetFromEnd))
+        }
+      }
+    })
   }
 
   renderFooter(readState, isTutorial) {
@@ -138,13 +142,14 @@ class EpisodeDetail extends React.Component {
       onTapScreen()
       this.setState({ isLocked: true })
       setTimeout(() => this.scrollToEnd(), 0)
-      // setTimeout(() => {
-      //   if (this.state.isLocked) {
-      //     this.setState({ isLocked: false })
-      //   }
-      // }, 50)
     }
     this.isTappable = null
+  }
+
+  onMomentumScrollEnd = () => {
+    if (this.state.isLocked) {
+      this.setState({ isLocked: false })
+    }
   }
 
   getShareOptions = (novel, shareLinks) => {
@@ -199,6 +204,7 @@ class EpisodeDetail extends React.Component {
           onTouchStart={ this.onTap }
           onTouchMove={ this.onTapMove }
           onTouchEnd={ this.onTapEnd.bind(this, onTapScreen) }
+          onMomentumScrollEnd={ this.onMomentumScrollEnd }
         >
           <ScriptList
             data={ scriptValues }
@@ -221,7 +227,12 @@ class EpisodeDetail extends React.Component {
             onPressShare={ this.props.onPressShare }
           />
         </ScrollView>
-        <View style={[ styles.tapGuard, false ? {top:0} : {} ]} />
+        <View
+          style={[ styles.tapGuard, this.state.isLocked ? {top:0} : {} ]}
+          onTouchStart={ this.onTap }
+          onTouchMove={ this.onTapMove }
+          onTouchEnd={ this.onTapEnd.bind(this, onTapScreen) }
+        />
       </View>
     )
   }
@@ -239,7 +250,11 @@ const styles: StyleSheet = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+    backgroundColor: '#fff',
+    opacity: 0,
   },
 })
+
+reactMixin(EpisodeDetail.prototype, TimerMixin)
 
 export default EpisodeDetail

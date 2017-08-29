@@ -87,18 +87,17 @@ export function updateReadState(
 ): ThunkAction {
   return (dispatch, getState) => {
     const { episodes, scripts, session, energy } = getState()
-    return new Promise(resolve => resolve())
-      .then(() =>
-        dispatch(successUpdateReadState(
-          episodes,
-          episodeId,
-          scripts,
-          readIndex,
-          session.paid,
-          energy.energy,
-          session.tutorialEnded
-        ))
-      )
+    return new Promise(resolve => {
+      resolve(dispatch(successUpdateReadState(
+        episodes,
+        episodeId,
+        scripts,
+        readIndex,
+        session.paid,
+        energy.energy,
+        session.tutorialEnded
+      )))
+    })
   }
 }
 

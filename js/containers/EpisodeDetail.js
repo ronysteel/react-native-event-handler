@@ -31,7 +31,7 @@ import type { Episode } from '../reducers/episodes'
 import type { Script, Scripts, IndexedScripts } from '../reducers/scripts'
 import type { ReadState } from '../reducers/readStates'
 
-class EpisodeDetail extends React.Component {
+class EpisodeDetail extends React.PureComponent {
   constructor() {
     super()
 

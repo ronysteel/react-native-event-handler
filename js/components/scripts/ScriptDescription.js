@@ -32,8 +32,11 @@ const getComponent = (description) => {
   }
 }
 
-const ScriptDescription = ({ description, isLatestItem }) => {
-  return getComponent(description)
+class ScriptDescription extends React.PureComponent {
+  render() {
+    const { description, isLatestItem } = this.props
+    return getComponent(description)
+  }
 }
 
 const styles = {
