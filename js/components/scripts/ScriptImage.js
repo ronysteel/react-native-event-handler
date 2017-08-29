@@ -93,12 +93,15 @@ const getImageComponent = (image, character) => {
   }
 }
 
-const ScriptImage = ({ image, characters, isLatestItem }) => {
-  let character
-  if (image.characterId && characters[image.characterId]) {
-    character = characters[image.characterId]
+class ScriptImage extends React.PureComponent {
+  render() {
+    const { image, characters, isLatestItem } = this.props
+    let character
+    if (image.characterId && characters[image.characterId]) {
+      character = characters[image.characterId]
+    }
+    return getImageComponent(image, character)
   }
-  return getImageComponent(image, character)
 }
 
 const styles = {

@@ -93,12 +93,15 @@ const getTextComponent = (text, character) => {
   }
 }
 
-const ScriptText = ({ text, characters, isLatestItem }) => {
-  let character
-  if (text.characterId && characters[text.characterId]) {
-    character = characters[text.characterId]
+class ScriptText extends React.PureComponent {
+  render() {
+    const { text, characters, isLatestItem } = this.props
+    let character
+    if (text.characterId && characters[text.characterId]) {
+      character = characters[text.characterId]
+    }
+    return getTextComponent(text, character)
   }
-  return getTextComponent(text, character)
 }
 
 const styles = {
