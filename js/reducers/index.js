@@ -9,6 +9,7 @@ import readStates from './readStates'
 import shareLinks from './shareLinks'
 import recommends from './recommends'
 import session from './session'
+import review from './review'
 import energy from './energy'
 import tickets from './tickets'
 import tweets from './tweets'
@@ -30,6 +31,7 @@ export default combineReducers({
   shareLinks,
   recommends,
   session,
+  review,
   energy,
   tickets,
   tweets,

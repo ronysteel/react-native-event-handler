@@ -137,6 +137,9 @@ export function sendLeaveContentEvent(episodeId: number): ThunkAction {
           episodeId,
         })
       })
+      .then(() => {
+        dispatch({ type: 'FINISH_READING_NOVEL' })
+      })
       .catch((err) => {
         console.error(err)
       })
@@ -302,5 +305,21 @@ export function sendPushDenyEvent(): ThunkAction {
         firebase.analytics().logEvent('push_deny')
       ))
       .catch(() => {})
+  }
+}
+
+export function finishReadingNovel(): ThunkAction {
+  return (dispatch, getState) => {
+
+    return new Promise(resolve => resolve())
+      .then(() => dispatch({ type: 'FINISH_READING_NOVEL' }))
+  }
+}
+
+export function finishRequestReview(): ThunkAction {
+  return (dispatch, getState) => {
+
+    return new Promise(resolve => resolve())
+      .then(() => dispatch({ type: 'FINISH_REQUEST_REVIEW' }))
   }
 }
