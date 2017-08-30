@@ -22,6 +22,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [FIROptions defaultOptions].deepLinkURLScheme = @"chatnovel";
   [FIRApp configure];
   [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
   [Fabric with:@[[Crashlytics class]]];
@@ -43,11 +44,31 @@
   return YES;
 }
 
+- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
+            options:(NSDictionary<NSString *, id> *)options
+{
+  return [self application:app openURL:url sourceApplication:nil annotation:@{}];
+}
+
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
-            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
 {
-  return [RCTLinkingManager application:application openURL:url options:options];
+  FIRDynamicLink *dynamicLink = [[FIRDynamicLinks dynamicLinks] dynamicLinkFromCustomSchemeURL:url];
+
+  if (dynamicLink) {
+    return [RCTLinkingManager application:application
+                                  openURL:dynamicLink.url
+                        sourceApplication:sourceApplication
+                               annotation:annotation];
+  }
+
+  return [RCTLinkingManager application:application
+                                openURL:url
+                      sourceApplication:sourceApplication
+                             annotation:annotation];
 }
 
 - (BOOL) application:(UIApplication *)application
