@@ -7,6 +7,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:chatnovel.jp</string>
+		<string>applinks:n2gzw.app.goo.gl</string>
 	</array>
 </dict>
 </plist>
