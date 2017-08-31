@@ -261,3 +261,23 @@ export function sendLocalNotificationOpenEvent(episodeId: string): ThunkAction {
       .catch(() => {})
   }
 }
+
+export function sendPushAllowEvent(): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => (
+        firebase.analytics().logEvent('push_allow')
+      ))
+      .catch(() => {})
+  }
+}
+
+export function sendPushDenyEvent(): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => (
+        firebase.analytics().logEvent('push_deny')
+      ))
+      .catch(() => {})
+  }
+}
