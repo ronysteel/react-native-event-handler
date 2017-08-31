@@ -29,6 +29,32 @@ export function sendTutorialCompleteEvent(episodeId: string): ThunkAction {
   }
 }
 
+export function sendTutorialLeaveEvent(episodeId: string): ThunkAction {
+  return (dispatch, getState) => {
+    const { readStates } = getState()
+
+    if (!readStates[episodeId]) {
+      return new Promise(resolve => resolve())
+    }
+
+    if (readStates[episodeId] && readStates[episodeId].reachEndOfContent) {
+      return new Promise(resolve => resolve())
+    }
+
+    const readIndex = readStates[episodeId].readIndex
+
+    return new Promise(resolve => resolve())
+      .then(() => (
+        firebase.analytics().logEvent('tutorial_leave', {
+          item_id: episodeId,
+          content_type: 'novel',
+          script_id: readIndex,
+        })
+      ))
+      .catch(() => {})
+  }
+}
+
 export function sendSelectContentEvent(novelId: number, episodeId: number): ThunkAction {
   return (dispatch, getState) => {
     const { novels, episodes, actionLog } = getState()
