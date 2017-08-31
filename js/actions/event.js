@@ -96,6 +96,7 @@ export function sendLeaveContentEvent(episodeId: number): ThunkAction {
           body: `${name}: ${body}`,
           fire_date: moment().add(1, 'hours').valueOf(),
           episodeUri,
+          episodeId,
         })
 
         firebase.messaging().scheduleLocalNotification({
@@ -103,6 +104,7 @@ export function sendLeaveContentEvent(episodeId: number): ThunkAction {
           body: `${name}: ${body}`,
           fire_date: moment().add(1, 'days').valueOf(),
           episodeUri,
+          episodeId,
         })
       })
       .catch((err) => {
@@ -209,6 +211,19 @@ export function sendPromotionShareCompleteEvnet(episodeId: number): ThunkAction 
     return new Promise(resolve => resolve())
       .then(() => (
         firebase.analytics().logEvent('promotion_share_complete', {
+          item_id: episodeId,
+          content_type: 'novel',
+        })
+      ))
+      .catch(() => {})
+  }
+}
+
+export function sendLocalNotificationOpenEvent(episodeId: string): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => (
+        firebase.analytics().logEvent('local_notification_open', {
           item_id: episodeId,
           content_type: 'novel',
         })

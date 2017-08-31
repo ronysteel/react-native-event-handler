@@ -20,7 +20,7 @@ import Terms from './components/Terms'
 
 import { signInAnonymously, saveDeviceToken } from './actions/user'
 import { loadTab, loadPurcasingProducts, moveScreen, loadCategories } from './actions/app'
-import { sendLeaveContentEvent } from './actions/event'
+import { sendLeaveContentEvent, sendLocalNotificationOpenEvent } from './actions/event'
 
 function setupStore(onComplete: () => void) {
   const middlewares = []
@@ -167,6 +167,12 @@ class Root extends React.Component {
   }
 
   _handleOnMessage(event) {
+    if (event.local_notification) {
+      if (event.episodeId) {
+        this.state.store.dispatch(sendLocalNotificationOpenEvent(event.episodeId))
+      }
+    }
+
     if (event.episodeUri) {
       const { path } = this._urlToPathAndParams(event.episodeUri)
       const keys = []
