@@ -42,7 +42,7 @@ class TutorialContainer extends React.Component {
     ])
       .then(() => {
         this.setState({ isLoading: false })
-        this.props.onTutorialStart()
+        this.props.onTutorialStart(episodeId)
       })
   }
 
@@ -62,7 +62,7 @@ class TutorialContainer extends React.Component {
       }).start()
 
       setTimeout(() => {
-        this.props.onTutorialEnd()
+        this.props.onTutorialEnd(this.props.episodeId)
       }, 1000)
     }
   }
@@ -154,17 +154,17 @@ const actions = (dispatch, props) => {
     ),
     resetReadIndex: (episodeId: number) => dispatch(updateReadState(episodeId, 0)),
     pageView: (novelId: number, episodeId: number) => dispatch(pageView(novelId, episodeId)),
-    onTutorialStart: () => {
-      dispatch(sendTutorialBeginEvent())
+    onTutorialStart: (episodeId: string) => {
+      dispatch(sendTutorialBeginEvent(episodeId))
     },
-    onTutorialEnd: () =>
+    onTutorialEnd: (episodeId: string) =>
       dispatch(tutorialEnd())
         .then(() => {
           props.navigation.setParams({
             pushPopup: true,
             tutorial: false,
           })
-          dispatch(sendTutorialCompleteEvent())
+          dispatch(sendTutorialCompleteEvent(episodeId))
         }),
   }
 }
