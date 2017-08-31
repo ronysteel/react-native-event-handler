@@ -5,21 +5,51 @@ import firebase from '../firebase'
 import { getText } from '../reducers/scripts'
 import { log } from '../logging'
 
-export function sendTutorialBeginEvent(): ThunkAction {
+export function sendTutorialBeginEvent(episodeId: string): ThunkAction {
   return (dispatch, getState) => {
     return new Promise(resolve => resolve())
       .then(() => (
-        firebase.analytics().logEvent('tutorial_begin')
+        firebase.analytics().logEvent('tutorial_begin', {
+          item_id: episodeId,
+        })
       ))
       .catch(() => {})
   }
 }
 
-export function sendTutorialCompleteEvent(): ThunkAction {
+export function sendTutorialCompleteEvent(episodeId: string): ThunkAction {
   return (dispatch, getState) => {
     return new Promise(resolve => resolve())
       .then(() => (
-        firebase.analytics().logEvent('tutorial_complete')
+        firebase.analytics().logEvent('tutorial_complete', {
+          item_id: episodeId,
+        })
+      ))
+      .catch(() => {})
+  }
+}
+
+export function sendTutorialLeaveEvent(episodeId: string): ThunkAction {
+  return (dispatch, getState) => {
+    const { readStates } = getState()
+
+    if (!readStates[episodeId]) {
+      return new Promise(resolve => resolve())
+    }
+
+    if (readStates[episodeId] && readStates[episodeId].reachEndOfContent) {
+      return new Promise(resolve => resolve())
+    }
+
+    const readIndex = readStates[episodeId].readIndex
+
+    return new Promise(resolve => resolve())
+      .then(() => (
+        firebase.analytics().logEvent('tutorial_leave', {
+          item_id: episodeId,
+          content_type: 'novel',
+          script_id: readIndex,
+        })
       ))
       .catch(() => {})
   }

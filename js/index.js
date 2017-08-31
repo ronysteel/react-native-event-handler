@@ -20,7 +20,11 @@ import Terms from './components/Terms'
 
 import { signInAnonymously, saveDeviceToken } from './actions/user'
 import { loadTab, loadPurcasingProducts, moveScreen, loadCategories } from './actions/app'
-import { sendLeaveContentEvent, sendLocalNotificationOpenEvent } from './actions/event'
+import {
+  sendLeaveContentEvent,
+  sendTutorialLeaveEvent,
+  sendLocalNotificationOpenEvent,
+} from './actions/event'
 
 function setupStore(onComplete: () => void) {
   const middlewares = []
@@ -246,13 +250,26 @@ class Root extends React.Component {
 
   _handleAppStateChange(nextAppState) {
     const dispatch = this.state.store.dispatch
+    const { actionLog } = this.state.store.getState()
+    const screen = actionLog.currentScreen
 
     if (this.state.appState.match(/inactive|active/) && nextAppState === 'background') {
-      const { actionLog } = this.state.store.getState()
-
-      const screen = actionLog.currentScreen
       if (screen.type == 'NOVEL') {
+        //
+        // ノベルを読んでいる途中でアプリを閉じたときに
+        // 離脱イベントを送信する
+        //
         dispatch(sendLeaveContentEvent(screen.novel.episodeId))
+
+      } else if (screen.type == 'HOME') {
+        //
+        // チュートリアルのノベルを読んでいる途中でアプリを閉じたときに
+        // 離脱イベントを送信する
+        //
+        const { session, tutorial } = this.state.store.getState()
+        if (!session.tutorialEnded) {
+          dispatch(sendTutorialLeaveEvent(tutorial.episodeId))
+        }
       }
     }
 
