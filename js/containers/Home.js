@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 
 import firebase from '../firebase'
 import { loadTab, loadTutorial } from '../actions/app'
-import { sentSlectContentEvent } from '../actions/event'
+import { sentSlectContentEvent, sendPushAllowEvent, sendPushDenyEvent } from '../actions/event'
 import { onSelectContent } from './utils'
 import Stories from '../components/Stories'
 import HeaderTitle from '../components/HeaderTitle'
@@ -122,6 +122,18 @@ const actions = (dispatch, props) => {
     },
     requestPushPermission: () => {
       firebase.messaging().requestPermissions()
+        .then(res => {
+          if (res.granted === undefined) {
+            return
+          }
+
+          if (res.granted) {
+            dispatch(sendPushAllowEvent())
+          } else {
+            dispatch(sendPushDenyEvent())
+          }
+        })
+
       props.navigation.setParams({ pushPopup: false })
     },
     onSelectContent: onSelectContent.bind(null, dispatch),
