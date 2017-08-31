@@ -56,15 +56,6 @@
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
-  FIRDynamicLink *dynamicLink = [[FIRDynamicLinks dynamicLinks] dynamicLinkFromCustomSchemeURL:url];
-
-  if (dynamicLink) {
-    return [RCTLinkingManager application:application
-                                  openURL:dynamicLink.url
-                        sourceApplication:sourceApplication
-                               annotation:annotation];
-  }
-
   return [RCTLinkingManager application:application
                                 openURL:url
                       sourceApplication:sourceApplication
