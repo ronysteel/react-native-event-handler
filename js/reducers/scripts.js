@@ -79,7 +79,9 @@ export type Script = {
 }
 
 export type Scripts = {
-  [id: number]: Script;
+  [episodeId: string]: {
+    [scriptId: number]: Script
+  }
 }
 
 //
@@ -121,7 +123,7 @@ export default function scripts(state: Scripts = initialStates, action: Action):
         return memo
       }, {})
 
-      return Object.assign({}, state, scripts)
+      return { ...state, [action.episodeId]: scripts }
     }
 
     default:
@@ -134,7 +136,7 @@ export const getAllScript = (episode: Episode, scripts: Scripts): IndexedScripts
     return {}
   }
   return episode.scriptIds.reduce((memo, id) => {
-    const s = scripts[id]
+    const s = scripts[episode.id][id]
     memo[s.scriptOrder] = s
     return memo
   }, {})
@@ -147,7 +149,7 @@ export const getText = (episode: Episode, scripts: Scripts, readIndex: number) =
 
   const ids = episode.scriptIds.slice(0, readIndex).reverse()
   for (let i = 0; i < ids.length; i++) {
-    const s = scripts[ids[i]]
+    const s = scripts[episode.id][ids[i]]
     if (s.type === 'TEXT') {
       return s
     }
