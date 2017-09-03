@@ -56,8 +56,20 @@ const successLoadEpisodeList = (novelId: number, json) => {
 
 export function loadEpisodeList(novelId: number): ThunkAction {
   return (dispatch, getState) => {
-    return fetchEpisodeList({ novelId })
-      .then(v => dispatch(successLoadEpisodeList(novelId, v)))
+    const { novels } = getState()
+    const novel = novels[novelId]
+
+    if (novel && !novel.isLoadingEpisodeList && !novel.isLoadedEpisodeList) {
+      dispatch({
+        type: 'LOAD_EPISODE_LIST_REQUEST',
+        novelId,
+      })
+
+      return fetchEpisodeList({ novelId })
+        .then(v => dispatch(successLoadEpisodeList(novelId, v)))
+    }
+
+    return new Promise(resolve => resolve())
   }
 }
 
