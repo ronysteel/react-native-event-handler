@@ -3,6 +3,8 @@ import React from 'react'
 import { Text, View, FlatList, StyleSheet } from 'react-native'
 
 import GridItem from './GridItem'
+import type { Novel } from '../reducers/novels'
+import type { Recommend } from '../reducers/recommends'
 
 const getRecommends = (recommends, novel) => (
   recommends.reduce((memo, v) => {
@@ -13,19 +15,35 @@ const getRecommends = (recommends, novel) => (
   }, [])
 )
 
-const Recommends = ({ novel, recommends, onSelectContent }) => (
-  <View style={ styles.container }>
-    <View style={ styles.sectionWrapper }>
-      <Text style={ styles.text }>{ 'こんなノベルもおすすめ' }</Text>
-    </View>
-    <FlatList
-      data={ getRecommends(recommends, novel) }
-      renderItem={ GridItem.bind(null, onSelectContent.bind(null, 'recommend')) }
-      numColumns={ 2 }
-      keyExtractor={item => `${item.id}`}
-    />
-  </View>
-)
+type Props = {
+  novel: Novel,
+  recommends: Array<Recommend>,
+  onSelectContent: Function,
+}
+
+class Recommends extends React.PureComponent<Props> {
+  render() {
+    const { novel, recommends, onSelectContent } = this.props
+
+    if (!recommends) {
+      return null
+    }
+
+    return (
+      <View style={ styles.container }>
+        <View style={ styles.sectionWrapper }>
+          <Text style={ styles.text }>{ 'こんなノベルもおすすめ' }</Text>
+        </View>
+        <FlatList
+          data={ getRecommends(recommends, novel) }
+          renderItem={ GridItem.bind(null, onSelectContent.bind(null, 'recommend')) }
+          numColumns={ 2 }
+          keyExtractor={item => `${item.id}`}
+        />
+      </View>
+    )
+  }
+}
 
 const styles: StyleSheet = StyleSheet.create({
   container: {

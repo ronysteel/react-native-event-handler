@@ -11,7 +11,10 @@ describe('renders without crashing', () => {
         episode={{ title: '' }}
         scripts={[]}
         scriptValues={[]}
-        readState={{ readIndex: 0 }}
+        readState={{
+          readIndex: 0,
+          reachEndOfContent: false,
+        }}
         shareLinks={{ default: '' }}
         recommends={[]}
         isTutorial={ false }

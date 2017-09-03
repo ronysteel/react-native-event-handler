@@ -20,6 +20,8 @@ import BackgroundImage from './BackgroundImage'
 import Share from './Share'
 import TapArea from './TapArea'
 import ScriptList from './ScriptList'
+import Recommends from './Recommends'
+import NextEpisode from './NextEpisode'
 
 import type { Episode } from '../reducers/episodes'
 import type { Scripts } from '../reducers/scripts'
@@ -181,13 +183,48 @@ class EpisodeDetail extends React.PureComponent {
 
   render() {
     const {
-      novel, episode, scripts, scriptValues, readState, shareLinks, recommends,
+      novel, episode, scripts, scriptValues, readState, shareLinks,
       isTutorial, characters, onTapScreen, onTapPurchase,
     } = this.props
 
     const lastItemId = scriptValues.length == 0 ? 0 : scriptValues[scriptValues.length - 1].id
     const bgImageUrl = getBackgroundImage(scripts, readState)
     const shareOptions = this.getShareOptions(novel, shareLinks)
+
+    const NextContent = () => {
+      if (this.props.nextEpisode) {
+        return (
+          <NextEpisode
+            novel={ novel }
+            episode={ this.props.nextEpisode }
+            onSelectContent={ this.props.onSelectContent }
+          />
+        )
+      } else {
+        return (
+          <Recommends
+            novel={ novel }
+            recommends={ this.props.recommends }
+            onSelectContent={ this.props.onSelectContent }
+          />
+        )
+      }
+    }
+
+    const FooterContent = () => (
+      readState.reachEndOfContent && (
+        <View>
+          <Share
+            shareText={ (this.props.category || {}).shareTitle }
+            shareOptions={ shareOptions }
+            onSelectContent={ this.props.onSelectContent }
+            onPressShare={ this.props.onPressShare }
+          />
+          <View style={ styles.separator } />
+          <NextContent />
+        </View>
+      )
+    )
 
     return (
       <View style={ styles.container }>
@@ -217,15 +254,7 @@ class EpisodeDetail extends React.PureComponent {
               opacity: this.state.renderCompleted ? 1 : 0
             }}
           />
-          <Share
-            novel={ novel }
-            readState={ readState }
-            shareText={ (this.props.category || {}).shareTitle }
-            shareOptions={ shareOptions }
-            recommends={ recommends }
-            onSelectContent={ this.props.onSelectContent }
-            onPressShare={ this.props.onPressShare }
-          />
+          <FooterContent />
         </ScrollView>
         <View
           style={[ styles.tapGuard, this.state.isLocked ? {top:0} : {} ]}
@@ -244,6 +273,10 @@ const styles: StyleSheet = StyleSheet.create({
   },
   containerBackground: {
     backgroundColor: '#fff',
+  },
+  separator: {
+    height: 14,
+    backgroundColor: '#f3f3f3',
   },
   tapGuard: {
     position: 'absolute',

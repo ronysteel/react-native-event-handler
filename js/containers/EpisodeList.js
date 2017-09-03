@@ -7,6 +7,7 @@ import Modal from 'react-native-modalbox'
 import { loadEpisodeList } from '../actions/story'
 import EpisodeListComponent from '../components/EpisodeList'
 import { closeEpisodeListModal } from '../actions/storyPage'
+import { getAllEpisode } from '../reducers/episodes'
 import { onSelectContent } from './utils'
 
 class EpisodeList extends React.PureComponent {
@@ -45,17 +46,6 @@ class EpisodeList extends React.PureComponent {
       </Modal>
     )
   }
-}
-
-const getAllEpisode = (novel, episodes) => {
-  if (!novel || !novel.episodeIds) {
-    return []
-  }
-
-  return novel.episodeIds.reduce((memo, id) => {
-    memo.push(episodes[id])
-    return memo
-  }, [])
 }
 
 const select = (store, props) => {
