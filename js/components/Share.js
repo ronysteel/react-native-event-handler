@@ -6,23 +6,14 @@ import TwitterIcon from './icons/TwitterIcon'
 import FacebookIcon from './icons/FacebookIcon'
 import LineIcon from './icons/LineIcon'
 import LinkIcon from './icons/LinkIcon'
-import Recommends from './Recommends'
 
 const { height } = Dimensions.get('window')
 
 const Share = ({
-  novel,
   shareText,
-  readState,
   shareOptions,
-  recommends,
-  onSelectContent,
   onPressShare,
 }) => {
-  if (!readState.reachEndOfContent) {
-    return null
-  }
-
   if (!shareOptions) {
     return null
   }
@@ -53,14 +44,6 @@ const Share = ({
           <LinkIcon
             onPress={ onPressShare.bind(null, 'link') }
             options={ shareOptions }
-          />
-        </View>
-        <View style={ styles.separator } />
-        <View>
-          <Recommends
-            novel={ novel }
-            recommends={ recommends }
-            onSelectContent={ onSelectContent }
           />
         </View>
       </View>
@@ -97,10 +80,6 @@ const styles: StyleSheet = StyleSheet.create({
   },
   icon: {
     marginRight: 15,
-  },
-  separator: {
-    height: 14,
-    backgroundColor: '#f3f3f3',
   },
   shareContainer: {
     backgroundColor: '#fff',

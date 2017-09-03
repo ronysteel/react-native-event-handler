@@ -1,10 +1,9 @@
 // @flow
 import React from 'react'
-import { View, StatusBar } from 'react-native'
+import { View, ScrollView, StatusBar } from 'react-native'
 
-import Share from 'react-native-share';
-import Promotion from './components/Promotion'
-import moment from 'moment'
+import Share from './components/Share'
+import NextEpisode from './components/NextEpisode'
 
 StatusBar.setHidden(false)
 StatusBar.setBarStyle('dark-content')
@@ -12,47 +11,29 @@ StatusBar.setBarStyle('dark-content')
 class Playground extends React.PureComponent {
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <Promotion
-          products={{
-            products: {
-              'co.newn.chatnovel.oneweek': {
-                identifier: '',
-                currencyCode: '',
-                currencySymbol: '',
-                description: '',
-                downloadable: false,
-                price: 900,
-                priceString: '¥900',
-                title: '1ヶ月',
-              },
-              'co.newn.chatnovel.onemonth': {
-                identifier: '',
-                currencyCode: '',
-                currencySymbol: '',
-                description: '',
-                downloadable: false,
-                price: 900,
-                priceString: '¥900',
-                title: '1ヶ月',
-              }
-            }
+      <ScrollView style={{ flex: 1 }}>
+        <Share
+          novel={{}}
+          shareText={ 'Foo' }
+          readState={{
+            reachEndOfContent: true,
           }}
-          ticketCount={ 1 }
-          remainingTweetCount={ 1 }
-          isAvailableTwitter={ false }
-          onTapPurchase={ () => {} }
-          onTapUseTicket={ () => {} }
-          onTapGetTicket={ () => {} }
-          onTapRestore={ () => {} }
-          nextRechargeDate={ moment().add(30, 'minutes').valueOf() }
-          onEndRecharge={ () => {} }
-          closeModal={ () => {} }
-          onTapPrivacyPolicy={ () => {} }
-          onTapTermOfUse={ () => {} }
-          onTapHelpPurchase={ () => {} }
+          shareOptions={{}}
+          recommends={[]}
+          onSelectContent={ () => {} }
+          onPressShare={ () => {} }
         />
-      </View>
+
+        <NextEpisode
+          novel={{
+            thumbnailUrl: 'https://s3-ap-northeast-1.amazonaws.com/chatnovel/thumbnails/16x9/couples_cake.jpg',
+          }}
+          episode={{
+            title: 'エピソード2「夏の終わり」',
+          }}
+          onSelectContent={ () => {} }
+        />
+      </ScrollView>
     )
   }
 }

@@ -7,6 +7,7 @@ import Detail from '../components/EpisodeDetail'
 
 import {
   loadEpisode,
+  loadEpisodeList,
   loadRecommends,
   updateReadState,
   pageView,
@@ -22,6 +23,7 @@ import {
 import { sendSelectContentEvent, sendShareEvent, sendShareCompleteEvent } from '../actions/event'
 
 import { getAllScript } from '../reducers/scripts'
+import { getNextEpisode } from '../reducers/episodes'
 import StoryHeader from '../components/StoryHeader'
 import EpisodeList from './EpisodeList'
 import PromotionContainer from './PromotionContainer'
@@ -59,6 +61,7 @@ class EpisodeDetail extends React.PureComponent {
           }
         }),
       this.props.loadUserEnergy(uid),
+      this.props.loadEpisodeList(novelId),
     ])
       .then(() => {
         this.setState({ isLoading: false })
@@ -82,7 +85,7 @@ class EpisodeDetail extends React.PureComponent {
 
   render() {
     const {
-      novel, episode, scripts, readState, shareLinks, recommends,
+      novel, episode, scripts, readState, shareLinks,
       characters, uid, navigation, setHeaderVisible, onTapScreen,
     } = this.props
 
@@ -95,6 +98,7 @@ class EpisodeDetail extends React.PureComponent {
         <Detail
           novel={ novel }
           episode={ episode }
+          nextEpisode={ this.props.nextEpisode }
           scripts={ scripts }
           scriptValues={ Object.values(scripts) }
           readState={ readState }
@@ -102,7 +106,7 @@ class EpisodeDetail extends React.PureComponent {
           setHeaderVisible={ setHeaderVisible }
           shareLinks={ shareLinks }
           category={ this.props.category }
-          recommends={ recommends }
+          recommends={ this.props.recommends }
           showHeader={ this.showHeader }
           hideHeader={ this.hideHeader }
           onTapScreen={ onTapScreen.bind(null, this, uid, episode.id) }
@@ -147,6 +151,7 @@ const select = (store, props) => {
     novelId,
     episodeId,
     episode,
+    nextEpisode: getNextEpisode(novel, episode, store.episodes),
     readState,
     allScript,
     novel,
@@ -166,6 +171,7 @@ const actions = (dispatch, props) => {
       dispatch(loadRecommends(categoryId)),
     loadUserEnergy: (userId: number) =>
       dispatch(syncUserEnergy(userId, true)),
+    loadEpisodeList: (novelId: string) => dispatch(loadEpisodeList(novelId)),
     onTapScreen: (obj: EpisodeDetail, userId: number, episodeId: number) => {
       if (obj.state.tapping) {
         return
