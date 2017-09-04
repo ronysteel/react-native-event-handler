@@ -96,7 +96,7 @@ class EpisodeDetail extends React.PureComponent {
 
     this.requestAnimationFrame(() => {
       if (this.state.isLocked && Math.abs(offsetFromEnd) < 10) {
-        this.setState({ isLocked: false })
+        this.state.isLocked = false
       }
       if (!this.state.isLocked) {
         if (offsetFromEnd < 0) {
@@ -142,17 +142,21 @@ class EpisodeDetail extends React.PureComponent {
   onTapEnd = (readState, onTapScreen) => {
     if (this.isTappable !== null) {
       onTapScreen()
-      if (readState.readIndex > 5 && !readState.reachEndOfContent) {
-        this.setState({ isLocked: true })
-      }
-      setTimeout(() => this.scrollToEnd(), 0)
+      this.state.isLocked = true
+      const self = this
+      this.setTimeout(() => self.scrollToEnd(), 0)
+      this.setTimeout(() => self.unlockTapGuard(), 500)
     }
     this.isTappable = null
   }
 
   onMomentumScrollEnd = () => {
+    this.unlockTapGuard()
+  }
+
+  unlockTapGuard() {
     if (this.state.isLocked) {
-      this.setState({ isLocked: false })
+      this.state.isLocked = false
     }
   }
 
@@ -250,12 +254,6 @@ class EpisodeDetail extends React.PureComponent {
             </View>
           )}
         </ScrollView>
-        <View
-          style={[ styles.tapGuard, (this.state.isLocked) ? {top:0} : {} ]}
-          onTouchStart={ this.onTap }
-          onTouchMove={ this.onTapMove }
-          onTouchEnd={ this.onTapEnd.bind(this, readState, onTapScreen) }
-        />
       </View>
     )
   }
