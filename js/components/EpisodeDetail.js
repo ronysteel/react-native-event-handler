@@ -193,41 +193,6 @@ class EpisodeDetail extends React.PureComponent {
     const bgImageUrl = getBackgroundImage(scripts, readState)
     const shareOptions = this.getShareOptions(novel, shareLinks)
 
-    const NextContent = () => {
-      if (this.props.nextEpisode) {
-        return (
-          <NextEpisode
-            novel={ novel }
-            episode={ this.props.nextEpisode }
-            onSelectContent={ this.props.onSelectContent }
-          />
-        )
-      } else {
-        return (
-          <Recommends
-            novel={ novel }
-            recommends={ this.props.recommends }
-            onSelectContent={ this.props.onSelectContent }
-          />
-        )
-      }
-    }
-
-    const FooterContent = () => (
-      readState.reachEndOfContent && (
-        <View>
-          <Share
-            shareText={ (this.props.category || {}).shareTitle }
-            shareOptions={ shareOptions }
-            onSelectContent={ this.props.onSelectContent }
-            onPressShare={ this.props.onPressShare }
-          />
-          <View style={ styles.separator } />
-          <NextContent />
-        </View>
-      )
-    )
-
     return (
       <View style={ styles.container }>
         <BackgroundImage imageUrl={ bgImageUrl } />
@@ -256,7 +221,34 @@ class EpisodeDetail extends React.PureComponent {
               opacity: this.state.renderCompleted ? 1 : 0
             }}
           />
-          <FooterContent />
+          { readState.reachEndOfContent && (
+            <View>
+              <Share
+                shareText={ (this.props.category || {}).shareTitle }
+                shareOptions={ shareOptions }
+                onSelectContent={ this.props.onSelectContent }
+                onPressShare={ this.props.onPressShare }
+              />
+              <View style={ styles.separator } />
+              {
+                this.props.nextEpisode
+                  ? (
+                    <NextEpisode
+                      novel={ novel }
+                      episode={ this.props.nextEpisode }
+                      onSelectContent={ this.props.onSelectContent }
+                    />
+                  )
+                  : (
+                    <Recommends
+                      novel={ novel }
+                      recommends={ this.props.recommends }
+                      onSelectContent={ this.props.onSelectContent }
+                    />
+                  )
+              }
+            </View>
+          )}
         </ScrollView>
         <View
           style={[ styles.tapGuard, (this.state.isLocked) ? {top:0} : {} ]}
