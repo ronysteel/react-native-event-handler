@@ -139,10 +139,12 @@ class EpisodeDetail extends React.PureComponent {
     }
   }
 
-  onTapEnd = (onTapScreen) => {
+  onTapEnd = (readState, onTapScreen) => {
     if (this.isTappable !== null) {
       onTapScreen()
-      this.setState({ isLocked: true })
+      if (readState.readIndex > 5 && !readState.reachEndOfContent) {
+        this.setState({ isLocked: true })
+      }
       setTimeout(() => this.scrollToEnd(), 0)
     }
     this.isTappable = null
@@ -240,7 +242,7 @@ class EpisodeDetail extends React.PureComponent {
           ref={r => this.storyWrapper = r}
           onTouchStart={ this.onTap }
           onTouchMove={ this.onTapMove }
-          onTouchEnd={ this.onTapEnd.bind(this, onTapScreen) }
+          onTouchEnd={ this.onTapEnd.bind(this, readState, onTapScreen) }
           onMomentumScrollEnd={ this.onMomentumScrollEnd }
         >
           <ScriptList
@@ -257,10 +259,10 @@ class EpisodeDetail extends React.PureComponent {
           <FooterContent />
         </ScrollView>
         <View
-          style={[ styles.tapGuard, this.state.isLocked ? {top:0} : {} ]}
+          style={[ styles.tapGuard, (this.state.isLocked) ? {top:0} : {} ]}
           onTouchStart={ this.onTap }
           onTouchMove={ this.onTapMove }
-          onTouchEnd={ this.onTapEnd.bind(this, onTapScreen) }
+          onTouchEnd={ this.onTapEnd.bind(this, readState, onTapScreen) }
         />
       </View>
     )
