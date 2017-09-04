@@ -132,7 +132,7 @@ export default function scripts(state: Scripts = initialStates, action: Action):
 }
 
 export const getAllScript = (episode: Episode, scripts: Scripts): IndexedScripts => {
-  if (!episode || !episode.scriptIds) {
+  if (!episode || !episode.scriptIds || !scripts[episode.id]) {
     return {}
   }
   return episode.scriptIds.reduce((memo, id) => {
@@ -143,7 +143,7 @@ export const getAllScript = (episode: Episode, scripts: Scripts): IndexedScripts
 }
 
 export const getText = (episode: Episode, scripts: Scripts, readIndex: number) => {
-  if (!episode || !episode.scriptIds) {
+  if (!episode || !episode.scriptIds || !scripts[episode.id]) {
     return
   }
 
