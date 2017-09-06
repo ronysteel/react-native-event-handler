@@ -34,7 +34,6 @@ $ brew install yarn
 
 ```
 $ yarn
-( $ npm install でも可)
 ```
 
 * ReactNative CLIのインストール
@@ -73,7 +72,7 @@ $ bundle install
 * CocoaPodsでiOSライブラリの更新
 
 ```
-$ pod install
+$ yarn setup:ios
 ```
 
 #### Run
@@ -83,7 +82,7 @@ $ pod install
 * top directoryで以下を実行
 
 ```
-$ npm run ios
+$ yarn run ios
 ```
 
 ##### Xcode
