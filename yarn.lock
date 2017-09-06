@@ -3127,6 +3127,10 @@ react-native-blur@^3.1.2:
   dependencies:
     prop-types "^15.5.10"
 
+"react-native-config@git://github.com/SKAhack/react-native-config.git#dev":
+  version "0.6.0"
+  resolved "git://github.com/SKAhack/react-native-config.git#37a9791c22f0d0188c7dfa45366a65b5774ebe9b"
+
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"

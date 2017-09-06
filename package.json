@@ -21,6 +21,7 @@
     "react": "16.0.0-alpha.12",
     "react-native": "0.46.1",
     "react-native-blur": "^3.1.2",
+    "react-native-config": "git://github.com/SKAhack/react-native-config.git#dev",
     "react-native-elements": "^0.13.0",
     "react-native-fabric": "^0.5.0",
     "react-native-fade-in-image": "git://github.com/SKAhack/react-native-fade-in-image.git#dev",
@@ -47,7 +48,9 @@
   },
   "xcodeSchemes": {
     "Debug": [],
-    "Release": ["Development"],
+    "Release": [
+      "Development"
+    ],
     "projectDirectory": "ios"
   }
 }
