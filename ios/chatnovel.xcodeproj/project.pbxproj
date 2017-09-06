@@ -38,8 +38,9 @@
 		2DCD954D1E0B4F2C00145EB5 /* chatnovelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* chatnovelTests.m */; };
 		4A2A39335B094107A47BC379 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ED2D9D819324B91BD548CE3 /* Ionicons.ttf */; };
 		528FCFE1E4234CA0A84C577D /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76CF1D608CE5455B8C9C52E7 /* SimpleLineIcons.ttf */; };
+		5615071E1F5FFBDF0003E257 /* GoogleService-Info.development.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5615071D1F5FFBDF0003E257 /* GoogleService-Info.development.plist */; };
 		569273FA1F247433004E0E0A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 569273F91F247433004E0E0A /* StoreKit.framework */; };
-		5692761D1F285462004E0E0A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5692761C1F285462004E0E0A /* GoogleService-Info.plist */; };
+		5692761D1F285462004E0E0A /* GoogleService-Info.production.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5692761C1F285462004E0E0A /* GoogleService-Info.production.plist */; };
 		569276CC1F2DE93F004E0E0A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 569276CA1F2DE93F004E0E0A /* LaunchScreen.xib */; };
 		5D0EABD737074D9BAC504667 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4EFB862908F545E4BD5B7F80 /* EvilIcons.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -347,10 +348,11 @@
 		3D82C820B21A4691BC47F839 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		4EFB862908F545E4BD5B7F80 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		5151C8726DA7F954A67CDCFA /* libPods-chatnovel.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-chatnovel.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5615071D1F5FFBDF0003E257 /* GoogleService-Info.development.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.development.plist"; path = "chatnovel/GoogleService-Info.development.plist"; sourceTree = "<group>"; };
 		569273F81F247428004E0E0A /* chatnovel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = chatnovel.entitlements; path = chatnovel/chatnovel.entitlements; sourceTree = "<group>"; };
 		569273F91F247433004E0E0A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		569274531F24A609004E0E0A /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
-		5692761C1F285462004E0E0A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "chatnovel/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5692761C1F285462004E0E0A /* GoogleService-Info.production.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.production.plist"; path = "chatnovel/GoogleService-Info.production.plist"; sourceTree = "<group>"; };
 		569276CB1F2DE93F004E0E0A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = chatnovel/Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		57B05DE227A945AE9509B079 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
@@ -506,7 +508,8 @@
 			isa = PBXGroup;
 			children = (
 				569273F81F247428004E0E0A /* chatnovel.entitlements */,
-				5692761C1F285462004E0E0A /* GoogleService-Info.plist */,
+				5692761C1F285462004E0E0A /* GoogleService-Info.production.plist */,
+				5615071D1F5FFBDF0003E257 /* GoogleService-Info.development.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -1169,7 +1172,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5692761D1F285462004E0E0A /* GoogleService-Info.plist in Resources */,
+				5692761D1F285462004E0E0A /* GoogleService-Info.production.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				BE71FA8903CD4CD7B1C78096 /* Entypo.ttf in Resources */,
 				5D0EABD737074D9BAC504667 /* EvilIcons.ttf in Resources */,
@@ -1179,6 +1182,7 @@
 				D522F6324CCE42ABA890AF78 /* MaterialCommunityIcons.ttf in Resources */,
 				A178A89C511246EE98D34E90 /* MaterialIcons.ttf in Resources */,
 				569276CC1F2DE93F004E0E0A /* LaunchScreen.xib in Resources */,
+				5615071E1F5FFBDF0003E257 /* GoogleService-Info.development.plist in Resources */,
 				0D5D863A40DE48DB81C1E0DC /* Octicons.ttf in Resources */,
 				528FCFE1E4234CA0A84C577D /* SimpleLineIcons.ttf in Resources */,
 				13E8F542518F487496B1E3E6 /* Zocial.ttf in Resources */,
@@ -1242,7 +1246,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" 7a2539d11b88cfa8b5ba03a4b9e744c29623d98d 84141d6ce9f9015aad09e937a47312f6a3d5f175f9c4d2d3256d4c8ecee197f0";
+			shellScript = "if [ $ENV = \"production\" ]; then\n  \"${PODS_ROOT}/Fabric/run\" 7a2539d11b88cfa8b5ba03a4b9e744c29623d98d 84141d6ce9f9015aad09e937a47312f6a3d5f175f9c4d2d3256d4c8ecee197f0\nfi";
 		};
 		5677C5FF1F4180BD00293BAD /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1255,7 +1259,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "GOOGLE_APP_ID=1:447306018094:ios:6c511cc0514a84ed\n\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"${PODS_ROOT}/../chatnovel/serviceAccount.json\"";
+			shellScript = ". \"${PODS_ROOT}/FirebaseCrash/upload-sym-util.bash\"\n\nif [ -e \"${PODS_ROOT}/../chatnovel/serviceAccount.${ENV}.json\" ]; then\n  SERVICE_ACCOUNT_PATH=\"${PODS_ROOT}/../chatnovel/serviceAccount.${ENV}.json\"\nelse\n  SERVICE_ACCOUNT_PATH=\"${PODS_ROOT}/../chatnovel/serviceAccount.development.json\"\nfi\n\nif [ -e \"${PODS_ROOT}/../chatnovel/GoogleService-Info.${ENV}.plist\" ]; then\n  PLIST_PATH=\"${PODS_ROOT}/../chatnovel/GoogleService-Info.${ENV}.plist\"\nelse\n  PLIST_PATH=\"${PODS_ROOT}/../chatnovel/GoogleService-Info.development.plist\"\nfi\n\nGOOGLE_APP_ID=$(property GOOGLE_APP_ID $PLIST_PATH)\ncp $PLIST_PATH \"${TARGET_BUILD_DIR}/${FULL_PRODUCT_NAME}/GoogleService-Info.plist\"\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"${SERVICE_ACCOUNT_PATH}\"";
 		};
 		958669D43F2F4D931C270FB8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
