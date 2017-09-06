@@ -1,6 +1,7 @@
 import firebase from '../firebase'
+import Config from 'react-native-config'
 
-const API_HOST = `https://us-central1-chatnovel-cef70.cloudfunctions.net/api`
+const API_HOST = Config.API_HOST
 
 export const fetchEpisode = ({ novelId, episodeId }) => (
   firebase.auth().currentUser.getIdToken()

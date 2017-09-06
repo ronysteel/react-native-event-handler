@@ -1470,6 +1470,8 @@
 				CURRENT_PROJECT_VERSION = 83;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 5ZFQE66DKU;
+				DOT_ENV_FILE = ".env.${ENV}";
+				ENV = debug;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
@@ -1503,6 +1505,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 83;
 				DEVELOPMENT_TEAM = 5ZFQE66DKU;
+				DOT_ENV_FILE = ".env.${ENV}";
+				ENV = production;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
@@ -1726,6 +1730,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 83;
 				DEVELOPMENT_TEAM = 5ZFQE66DKU;
+				DOT_ENV_FILE = ".env.${ENV}";
+				ENV = development;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
