@@ -49,6 +49,7 @@ platform :ios do
     )
 
     crashlytics(
+      groups: ['chatnovel'],
       api_token: "7a2539d11b88cfa8b5ba03a4b9e744c29623d98d",
       build_secret: "84141d6ce9f9015aad09e937a47312f6a3d5f175f9c4d2d3256d4c8ecee197f0",
     )
