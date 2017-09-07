@@ -50,6 +50,3 @@ buck-out/
 #
 .expo/
 
-# firebase
-
-serviceAccount.*.json
