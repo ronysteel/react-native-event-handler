@@ -36,7 +36,7 @@ platform :ios do
   lane :beta do
     increment_build_number
 
-    info_plist_pah = "../chatnovel/Info.plist"
+    info_plist_pah = "chatnovel/Info.plist"
     update_info_plist(
       plist_path: info_plist_pah,
       display_name: "[dev] CHAT NOVEL",
