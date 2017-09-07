@@ -38,8 +38,7 @@ platform :ios do
 
     # match(type: "appstore") # more information: https://codesigning.guide
     gym(
-      scheme: "chatnovel",
-      configuration: "Development",
+      scheme: "dev chatnovel",
     )
     pilot(
       skip_waiting_for_build_processing: true
