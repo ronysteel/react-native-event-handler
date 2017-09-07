@@ -31,4 +31,5 @@ target 'chatnovel' do
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
   pod 'RNShare', :path => '../node_modules/react-native-share'
   pod 'react-native-blur', :path => '../node_modules/react-native-blur'
+  pod 'react-native-config', :path => '../node_modules/react-native-config'
 end

@@ -52,4 +52,4 @@ buck-out/
 
 # firebase
 
-serviceAccount.json
+serviceAccount.*.json
