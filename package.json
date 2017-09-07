@@ -8,7 +8,8 @@
     "ios": "react-native run-ios",
     "test": "node node_modules/jest/bin/jest.js",
     "test:watch": "node node_modules/jest/bin/jest.js --watch",
-    "setup:ios": "react-native-schemes-manager all && cd ios && bundle exec pod install"
+    "setup:ios": "react-native-schemes-manager all && cd ios && bundle exec pod install",
+    "schemes-manager": "react-native-schemes-manager all"
   },
   "jest": {
     "preset": "react-native"
