@@ -39,6 +39,7 @@
 		4A2A39335B094107A47BC379 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ED2D9D819324B91BD548CE3 /* Ionicons.ttf */; };
 		528FCFE1E4234CA0A84C577D /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76CF1D608CE5455B8C9C52E7 /* SimpleLineIcons.ttf */; };
 		5615071E1F5FFBDF0003E257 /* GoogleService-Info.development.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5615071D1F5FFBDF0003E257 /* GoogleService-Info.development.plist */; };
+		561508051F60FB010003E257 /* Info.development.plist in Resources */ = {isa = PBXBuildFile; fileRef = 561508031F60FB010003E257 /* Info.development.plist */; };
 		569273FA1F247433004E0E0A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 569273F91F247433004E0E0A /* StoreKit.framework */; };
 		5692761D1F285462004E0E0A /* GoogleService-Info.production.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5692761C1F285462004E0E0A /* GoogleService-Info.production.plist */; };
 		569276CC1F2DE93F004E0E0A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 569276CA1F2DE93F004E0E0A /* LaunchScreen.xib */; };
@@ -349,6 +350,7 @@
 		4EFB862908F545E4BD5B7F80 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		5151C8726DA7F954A67CDCFA /* libPods-chatnovel.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-chatnovel.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5615071D1F5FFBDF0003E257 /* GoogleService-Info.development.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.development.plist"; path = "chatnovel/GoogleService-Info.development.plist"; sourceTree = "<group>"; };
+		561508031F60FB010003E257 /* Info.development.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.development.plist; path = chatnovel/Info.development.plist; sourceTree = "<group>"; };
 		569273F81F247428004E0E0A /* chatnovel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = chatnovel.entitlements; path = chatnovel/chatnovel.entitlements; sourceTree = "<group>"; };
 		569273F91F247433004E0E0A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		569274531F24A609004E0E0A /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -516,6 +518,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				569276CA1F2DE93F004E0E0A /* LaunchScreen.xib */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
+				561508031F60FB010003E257 /* Info.development.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = chatnovel;
@@ -1184,6 +1187,7 @@
 				569276CC1F2DE93F004E0E0A /* LaunchScreen.xib in Resources */,
 				5615071E1F5FFBDF0003E257 /* GoogleService-Info.development.plist in Resources */,
 				0D5D863A40DE48DB81C1E0DC /* Octicons.ttf in Resources */,
+				561508051F60FB010003E257 /* Info.development.plist in Resources */,
 				528FCFE1E4234CA0A84C577D /* SimpleLineIcons.ttf in Resources */,
 				13E8F542518F487496B1E3E6 /* Zocial.ttf in Resources */,
 			);
@@ -1468,7 +1472,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A506D119C627020FDFF0D29D /* Pods-chatnovel.debug.xcconfig */;
 			buildSettings = {
+				APP_DISPLAY_NAME = "[debug] CHAT NOVEL";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUNDLE_ID_SUFFIX = .dev;
 				CODE_SIGN_ENTITLEMENTS = chatnovel/chatnovel.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 83;
@@ -1476,6 +1482,7 @@
 				DEVELOPMENT_TEAM = 5ZFQE66DKU;
 				DOT_ENV_FILE = ".env.${ENV}";
 				ENV = debug;
+				FILE_SUFFIX = ".${SUFFIX}";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
@@ -1485,7 +1492,7 @@
 					"$(SRCROOT)/../node_modules/react-native-social-share/iOS",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 				);
-				INFOPLIST_FILE = chatnovel/Info.plist;
+				INFOPLIST_FILE = "chatnovel/Info${FILE_SUFFIX}.plist";
 				INFOPLIST_PREPROCESS = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1494,8 +1501,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.newn.chatnovel;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.newn.chatnovel${BUNDLE_ID_SUFFIX}";
 				PRODUCT_NAME = chatnovel;
+				SUFFIX = development;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1504,13 +1512,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 007550F72DBB2635A29188EB /* Pods-chatnovel.release.xcconfig */;
 			buildSettings = {
+				APP_DISPLAY_NAME = "CHAT NOVEL";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUNDLE_ID_SUFFIX = "";
 				CODE_SIGN_ENTITLEMENTS = chatnovel/chatnovel.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 83;
 				DEVELOPMENT_TEAM = 5ZFQE66DKU;
 				DOT_ENV_FILE = ".env.${ENV}";
 				ENV = production;
+				FILE_SUFFIX = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
@@ -1520,7 +1531,7 @@
 					"$(SRCROOT)/../node_modules/react-native-social-share/iOS",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 				);
-				INFOPLIST_FILE = chatnovel/Info.plist;
+				INFOPLIST_FILE = "chatnovel/Info${FILE_SUFFIX}.plist";
 				INFOPLIST_PREPROCESS = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1529,8 +1540,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.newn.chatnovel;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.newn.chatnovel${BUNDLE_ID_SUFFIX}";
 				PRODUCT_NAME = chatnovel;
+				SUFFIX = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -1729,13 +1741,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FADB62EBABA92DD4541D5500 /* Pods-chatnovel.development.xcconfig */;
 			buildSettings = {
+				APP_DISPLAY_NAME = "[dev] CHAT NOVEL";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUNDLE_ID_SUFFIX = .dev;
 				CODE_SIGN_ENTITLEMENTS = chatnovel/chatnovel.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 83;
 				DEVELOPMENT_TEAM = 5ZFQE66DKU;
 				DOT_ENV_FILE = ".env.${ENV}";
 				ENV = development;
+				FILE_SUFFIX = ".${SUFFIX}";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
@@ -1745,7 +1760,7 @@
 					"$(SRCROOT)/../node_modules/react-native-social-share/iOS",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 				);
-				INFOPLIST_FILE = chatnovel/Info.plist;
+				INFOPLIST_FILE = "chatnovel/Info${FILE_SUFFIX}.plist";
 				INFOPLIST_PREPROCESS = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1754,8 +1769,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.newn.chatnovel;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.newn.chatnovel${BUNDLE_ID_SUFFIX}";
 				PRODUCT_NAME = chatnovel;
+				SUFFIX = development;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Development;
