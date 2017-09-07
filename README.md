@@ -89,6 +89,12 @@ $ yarn run ios
 
 * 通常通りビルド
 
+##### 環境を切り替える
+
+XcodeのEdit Schemaから以下のように選ぶ
+
+![image](https://user-images.githubusercontent.com/76637/30145879-7b0d0828-93cf-11e7-9d89-af3da8a7843c.png)
+
 ### Android
 
 * WIP
