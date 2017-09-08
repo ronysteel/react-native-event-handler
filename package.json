@@ -7,7 +7,11 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "test": "node node_modules/jest/bin/jest.js",
-    "test:watch": "node node_modules/jest/bin/jest.js --watch"
+    "test:watch": "node node_modules/jest/bin/jest.js --watch",
+    "lint": "standard",
+    "format": "prettier-standard 'js/**/*.js'",
+    "setup:ios": "react-native-schemes-manager all && cd ios && bundle exec pod install",
+    "schemes-manager": "react-native-schemes-manager all"
   },
   "jest": {
     "preset": "react-native"
@@ -20,6 +24,7 @@
     "react": "16.0.0-alpha.12",
     "react-native": "0.46.1",
     "react-native-blur": "^3.1.2",
+    "react-native-config": "git://github.com/SKAhack/react-native-config.git#dev",
     "react-native-elements": "^0.13.0",
     "react-native-fabric": "^0.5.0",
     "react-native-fade-in-image": "git://github.com/SKAhack/react-native-fade-in-image.git#dev",
@@ -39,8 +44,26 @@
     "stacktrace-js": "^2.0.0"
   },
   "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint-plugin-flowtype": "^2.35.1",
     "flow-bin": "^0.49.1",
     "jest": "^20.0.4",
-    "react-test-renderer": "16.0.0-alpha.12"
+    "prettier-standard": "^6.0.0",
+    "react-native-schemes-manager": "^1.0.0",
+    "react-test-renderer": "16.0.0-alpha.12",
+    "standard": "^10.0.3"
+  },
+  "xcodeSchemes": {
+    "Debug": [],
+    "Release": [
+      "Development"
+    ],
+    "projectDirectory": "ios"
+  },
+  "standard": {
+    "plugins": [
+      "flowtype"
+    ],
+    "parser": "babel-eslint"
   }
 }

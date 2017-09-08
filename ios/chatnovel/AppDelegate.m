@@ -19,11 +19,16 @@
 
 
 @implementation AppDelegate
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+  
+- (void)settingFirebaseApp
 {
   [FIROptions defaultOptions].deepLinkURLScheme = @"chatnovel";
   [FIRApp configure];
+}
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+  [self settingFirebaseApp];
   [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
   [Fabric with:@[[Crashlytics class]]];
   NSURL *jsCodeLocation;

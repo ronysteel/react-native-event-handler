@@ -34,7 +34,6 @@ $ brew install yarn
 
 ```
 $ yarn
-( $ npm install でも可)
 ```
 
 * ReactNative CLIのインストール
@@ -73,7 +72,7 @@ $ bundle install
 * CocoaPodsでiOSライブラリの更新
 
 ```
-$ pod install
+$ yarn setup:ios
 ```
 
 #### Run
@@ -83,12 +82,18 @@ $ pod install
 * top directoryで以下を実行
 
 ```
-$ npm run ios
+$ yarn run ios
 ```
 
 ##### Xcode
 
 * 通常通りビルド
+
+##### 環境を切り替える
+
+XcodeのEdit Schemaから以下のように選ぶ
+
+![image](https://user-images.githubusercontent.com/76637/30145879-7b0d0828-93cf-11e7-9d89-af3da8a7843c.png)
 
 ### Android
 
