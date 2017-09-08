@@ -20,7 +20,12 @@ import {
   openPromotionModal,
   openEpisodeListModal,
 } from '../actions/storyPage'
-import { sendSelectContentEvent, sendShareEvent, sendShareCompleteEvent } from '../actions/event'
+import {
+  sendSelectContentEvent,
+  sendShareEvent,
+  sendShareCompleteEvent,
+  sendCompleteContentEvent,
+} from '../actions/event'
 
 import { getAllScript } from '../reducers/scripts'
 import { getNextEpisode } from '../reducers/episodes'
@@ -181,6 +186,7 @@ const actions = (dispatch, props) => {
         .then(() => dispatch(syncUserEnergy(userId)))
         .then(() => dispatch(decreaseUserEnergy(userId)))
         .then(() => dispatch(openPromotionModal(episodeId)))
+        .then(() => dispatch(sendCompleteContentEvent(episodeId)))
         .then(() => obj.state.tapping = false)
         .catch(() => obj.state.tapping = false)
     },

@@ -143,6 +143,29 @@ export function sendLeaveContentEvent(episodeId: number): ThunkAction {
   }
 }
 
+export function sendCompleteContentEvent(episodeId: string): ThunkAction {
+  return (dispatch, getState) => {
+    const { readStates } = getState()
+
+    if (!readStates[episodeId]) {
+      return new Promise(resolve => resolve())
+    }
+
+    if (!readStates[episodeId].reachEndOfContent) {
+      return new Promise(resolve => resolve())
+    }
+
+    return new Promise(resolve => resolve())
+      .then(() => (
+        firebase.analytics().logEvent('complete_content', {
+          item_id: episodeId,
+          content_type: 'novel',
+        })
+      ))
+      .catch(() => {})
+  }
+}
+
 export function sendPromotionEvent(
   episodeId: number,
   hasTweetButton: boolean = false,
