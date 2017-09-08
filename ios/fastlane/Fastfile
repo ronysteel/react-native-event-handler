@@ -56,4 +56,30 @@ platform :ios do
       tags: true,
     )
   end
+
+  desc "Submit a new Beta Build to Apple TestFlight"
+  desc "This will also make sure the profile is up to date"
+  lane :release do
+    increment_build_number
+
+    # match(type: "appstore") # more information: https://codesigning.guide
+    gym(scheme: "chatnovel") # Build your app - more options available
+    pilot(
+      skip_waiting_for_build_processing: true
+    )
+
+    reset_git_repo(force: true)
+    ensure_git_status_clean
+    increment_build_number
+    commit_version_bump(
+      message: 'build version bump [ci skip]',
+      xcodeproj: 'chatnovel.xcodeproj',
+    )
+    push_to_git_remote(
+      remote: "origin",
+      local_branch: "HEAD",
+      remote_branch: "master",
+      tags: true,
+    )
+  end
 end
