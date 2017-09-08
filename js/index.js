@@ -9,6 +9,7 @@ import { Provider } from 'react-redux'
 import { StackNavigator, NavigationActions, addNavigationHelpers } from 'react-navigation'
 import pathToRegexp from 'path-to-regexp'
 import moment from 'moment'
+import Config from 'react-native-config'
 
 import firebase from './firebase'
 import reducers from './reducers'
@@ -25,6 +26,8 @@ import {
   sendTutorialLeaveEvent,
   sendLocalNotificationOpenEvent,
 } from './actions/event'
+
+const URL_SCHEME = Config.URL_SCHEME
 
 function setupStore(onComplete: () => void) {
   const middlewares = []
@@ -207,7 +210,7 @@ class Root extends React.Component {
 
   _urlToPathAndParams(url: string) {
     const params = {}
-    const delimiter = 'chatnovel://' || '://'
+    const delimiter = `${URL_SCHEME}://` || '://'
     let path = url.split(delimiter)[1]
     if (typeof path === 'undefined') {
       path = url
@@ -219,7 +222,8 @@ class Root extends React.Component {
   }
 
   _handleOpenURL(event) {
-    if (/chatnovel:\/\/novels\/[^/]+\/episodes\/[^/]+/.test(event.url)) {
+    const re = new RegExp(`${URL_SCHEME}:\\/\\/novels\\/[^/]+\\/episodes\\/[^/]+`)
+    if (re.test(event.url)) {
       if (this.state.appState !== 'active') {
         this.state.store.dispatch(moveScreen('DEEPLINK'))
         this.isDeeplink = 'DEEPLINK'
@@ -243,7 +247,7 @@ class Root extends React.Component {
         return memo
       }, {})
 
-      Linking.openURL(`chatnovel://novels/${params.novelId}/episodes/${params.episodeId}`)
+      Linking.openURL(`${URL_SCHEME}://novels/${params.novelId}/episodes/${params.episodeId}`)
       return
     }
   }
@@ -295,7 +299,7 @@ class Root extends React.Component {
       <Provider store={this.state.store}>
         <App
           ref={ r => this.navigator = r }
-          uriPrefix={ 'chatnovel://' }
+          uriPrefix={ `${URL_SCHEME}://` }
           onNavigationStateChange={ onNavigationStateChange.bind(null, this.state.store, this.isDeeplink) }
         />
       </Provider>

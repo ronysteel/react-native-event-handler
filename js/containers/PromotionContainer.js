@@ -3,6 +3,7 @@ import React from 'react'
 import { View, Text, AlertIOS, Linking } from 'react-native'
 import { connect } from 'react-redux'
 
+import Config from 'react-native-config'
 import Share from 'react-native-share'
 import Modal from 'react-native-modalbox'
 import moment from 'moment'
@@ -22,6 +23,8 @@ import {
 } from '../actions/event'
 import { closePromotionModal } from '../actions/storyPage'
 import Promotion from '../components/Promotion'
+
+const URL_SCHEME = Config.URL_SCHEME
 
 class PromotionContainer extends React.Component {
   isOpen = (props) => {
@@ -189,13 +192,13 @@ const actions = (dispatch, props) => {
       dispatch(sendPromotionEvent(episodeId, hasTweetButton))
     ),
     onTapPrivacyPolicy: () => (
-      Linking.openURL('chatnovel://about/privacy')
+      Linking.openURL(`${URL_SCHEME}://about/privacy`)
     ),
     onTapTermOfUse: () => (
-      Linking.openURL('chatnovel://about/terms')
+      Linking.openURL(`${URL_SCHEME}://about/terms`)
     ),
     onTapHelpPurchase: () => (
-      Linking.openURL('chatnovel://about/subscription')
+      Linking.openURL(`${URL_SCHEME}://about/subscription`)
     ),
   }
 }
