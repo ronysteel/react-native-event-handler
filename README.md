@@ -16,12 +16,12 @@
 
 #### 手順
 
-* 指定のnodeをInstall, Defaultに指定
+* nodeをインストール
+  * バージョンは `.node-version` を参照する
 
 ```
-$ nvm install 7.10.1
-$ nvm use 7.10.1
-$ nvm alias default 7.10.1
+$ brew install node-build nodenv
+$ nodenv install
 ```
 
 * yarnのインストール
@@ -53,19 +53,18 @@ $ npm install -g react-native-cli
 
 #### 手順
 
-rvmを使った手順なので、rbenvを使う場合は同様の対応が必要です
-
-* 指定のRubyをInstall, Defaultに指定
+* Rubyをインストール
+  * バージョンは `.ruby-version` を参照する
 
 ```
-$ rvm install 2.4.1
-$ rvm use 2.4.1
-$ rvm default 2.4.1
+$ brew install ruby-build rbenv
+$ rbenv install
 ```
 
 * gemパッケージの更新
 
 ```
+$ cd ./ios
 $ bundle install
 ```
 
