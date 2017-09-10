@@ -42,6 +42,10 @@ platform :ios do
       plist_path: info_plist_pah,
       display_name: "[dev] CHAT NOVEL",
     )
+    update_url_schemes(
+      path: info_plist_pah,
+      url_schemes: ["dev-chatnovel"],
+    )
 
     gym(
       scheme: "dev chatnovel",
