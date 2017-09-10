@@ -20,6 +20,10 @@ import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.perf.RNFirebasePerformancePackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 
+import com.smixx.fabric.FabricPackage;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,7 +51,10 @@ public class MainApplication extends Application implements ReactApplication {
           new RNFirebaseDatabasePackage(),
           new RNFirebaseMessagingPackage(),
           new RNFirebasePerformancePackage(),
-          new RNFirebaseStoragePackage()
+          new RNFirebaseStoragePackage(),
+
+          // fabric
+          new FabricPackage()
       );
     }
   };
@@ -60,6 +67,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    Fabric.with(this, new Crashlytics());
     SoLoader.init(this, /* native exopackage */ false);
   }
 }
