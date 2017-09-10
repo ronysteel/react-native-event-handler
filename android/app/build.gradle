@@ -106,7 +106,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.3" // changed from 23.0.1 to 23.0.3 for react-navtive-blurview
 
     defaultConfig {
         applicationId "com.chatnovel"
@@ -117,6 +117,9 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+        // for react-native-blurview
+        renderscriptTargetApi 23
+        renderscriptSupportModeEnabled true
     }
     splits {
         abi {
@@ -178,6 +181,9 @@ dependencies {
 
     // react-native-svg
     compile project(':react-native-svg')
+
+    // react-native-blur
+    compile project(':react-native-blur')
 }
 
 // Run this once to be able to run the application with BUCK

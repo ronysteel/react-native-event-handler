@@ -26,6 +26,8 @@ import io.fabric.sdk.android.Fabric;
 
 import com.horcrux.svg.SvgPackage;
 
+import com.cmcewen.blurview.BlurViewPackage;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -59,7 +61,10 @@ public class MainApplication extends Application implements ReactApplication {
           new FabricPackage(),
 
           // react-native-svg
-          new SvgPackage()
+          new SvgPackage(),
+
+          // react-native-blur
+          new BlurViewPackage()
       );
     }
   };
