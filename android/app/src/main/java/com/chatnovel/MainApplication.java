@@ -28,6 +28,8 @@ import com.horcrux.svg.SvgPackage;
 
 import com.cmcewen.blurview.BlurViewPackage;
 
+import com.BV.LinearGradient.LinearGradientPackage;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -64,7 +66,10 @@ public class MainApplication extends Application implements ReactApplication {
           new SvgPackage(),
 
           // react-native-blur
-          new BlurViewPackage()
+          new BlurViewPackage(),
+
+          // react-native-linear-gradient
+          new LinearGradientPackage()
       );
     }
   };

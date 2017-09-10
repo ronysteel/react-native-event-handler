@@ -184,6 +184,9 @@ dependencies {
 
     // react-native-blur
     compile project(':react-native-blur')
+
+    // react-native-linear-gradient
+    compile project(':react-native-linear-gradient')
 }
 
 // Run this once to be able to run the application with BUCK
