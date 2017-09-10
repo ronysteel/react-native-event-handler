@@ -24,6 +24,8 @@ import com.smixx.fabric.FabricPackage;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
+import com.horcrux.svg.SvgPackage;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,7 +56,10 @@ public class MainApplication extends Application implements ReactApplication {
           new RNFirebaseStoragePackage(),
 
           // fabric
-          new FabricPackage()
+          new FabricPackage(),
+
+          // react-native-svg
+          new SvgPackage()
       );
     }
   };

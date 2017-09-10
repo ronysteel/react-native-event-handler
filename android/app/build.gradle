@@ -175,6 +175,9 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
+
+    // react-native-svg
+    compile project(':react-native-svg')
 }
 
 // Run this once to be able to run the application with BUCK
