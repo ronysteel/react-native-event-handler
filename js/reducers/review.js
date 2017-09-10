@@ -2,13 +2,13 @@
 import type { Action } from '../actions/types'
 
 export type Review = {
-  version: ?Array<string>;
+  version: ?string;
   finishReadingCount: ?number;
   reviewRequestEnded: boolean;
 }
 
 const initialState: Review = {
-  version: ['0','0','0'],
+  version: '0.0.0',
   finishReadingCount: 0,
   reviewRequestEnded: false,
 }
@@ -21,9 +21,10 @@ function review(state: Review = initialState, action: Action): Review {
       const { version } = state
 
       let currentVersion = DeviceInfo.getVersion().split('.')
-      if (currentVersion.length > 1 && version.length > 1) {
+      let reviewVersion = version.split('.')
+      if (currentVersion.length > 1 && reviewVersion.length > 1) {
         // バージョンアップがないかMajor,Minorを比較
-        if (currentVersion[0] != version[0] || currentVersion[1] != version[1]) {
+        if (currentVersion[0] != reviewVersion[0] || currentVersion[1] != reviewVersion[1]) {
           let state = initialState
           state.version = [currentVersion[0], currentVersion[1]].join('.')
           return state
