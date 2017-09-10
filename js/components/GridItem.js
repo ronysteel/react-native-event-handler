@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   },
   tagText: {
     color: '#fff',
-    fontSize: 11,
+    fontSize: 10,
     lineHeight: 10,
     textAlign: 'center',
   }
