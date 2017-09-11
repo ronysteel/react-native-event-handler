@@ -96,7 +96,7 @@ PODS:
     - React/Core (= 0.46.1)
   - react-native-blur (0.8.0):
     - React
-  - react-native-config (0.6.0):
+  - react-native-config (0.6.1):
     - React
   - react-native-in-app-utils (5.5.0):
     - React
@@ -192,7 +192,7 @@ SPEC CHECKSUMS:
   Protobuf: 03eef2ee0b674770735cf79d9c4d3659cf6908e8
   React: 0c6f45ca8c39fe48ed4e3a5583861a8e1bc0959e
   react-native-blur: c4b80329b7ef2a8b9c574f73b798b3178c69ff48
-  react-native-config: 0350d9b476efe2c949ae48a55943d7679b911cb0
+  react-native-config: 15dad433f67438902854707535161413c07ec9bb
   react-native-in-app-utils: 2ef766bea71e31c0bf4a6800f7bb20a8706c579d
   ReactNativeFabric: 788d50490295586f843b8655285f9ed600e85054
   RNFirebase: dcdb1be13628827647bba47592d4d19fba5ba84d

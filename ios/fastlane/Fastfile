@@ -41,6 +41,7 @@ platform :ios do
     update_info_plist(
       plist_path: info_plist_pah,
       display_name: "[dev] CHAT NOVEL",
+      app_identifier: 'co.newn.chatnovel.dev',
     )
     update_url_schemes(
       path: info_plist_pah,
@@ -48,7 +49,10 @@ platform :ios do
     )
 
     gym(scheme: "dev chatnovel")
-    pilot(skip_waiting_for_build_processing: true)
+    testflight(
+      app_identifier: 'co.newn.chatnovel.dev',
+      skip_waiting_for_build_processing: true,
+    )
 
     reset_git_repo(force: true)
     ensure_git_status_clean
@@ -72,7 +76,7 @@ platform :ios do
 
     # match(type: "appstore") # more information: https://codesigning.guide
     gym(scheme: "chatnovel")
-    pilot(skip_waiting_for_build_processing: true)
+    testflight(skip_waiting_for_build_processing: true)
 
     reset_git_repo(force: true)
     ensure_git_status_clean
