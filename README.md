@@ -96,4 +96,23 @@ XcodeのEdit Schemaから以下のように選ぶ
 
 ### Android
 
-* WIP
+#### Requirements
+- Java 8 SDK or newer
+- Android Studio
+- Android SDK
+> 前提となる詳細なセットアップ手順は React Native 公式の手順を参照  
+> https://facebook.github.io/react-native/docs/getting-started.html  
+> Building Projects with Native Code > Target OS > Android
+
+#### Setup
+
+
+```
+yarn install
+```
+
+#### Run
+
+```
+yarn run android
+```
