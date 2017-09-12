@@ -1,12 +1,21 @@
 import { Linking, AlertIOS } from 'react-native'
 import Share from 'react-native-share';
 import { selectContent } from '../actions/app'
+import { parseNovelUri } from '../utils'
 
 /**
  * @param item Novel
  */
-export const onSelectContent = (dispatch, sectionIndex: string, positionIndex: number, item) => {
-  Linking.openURL(item.episodeUri)
+export const onSelectContent = (navigate, dispatch, sectionIndex: string, positionIndex: number, item) => {
+  const params = parseNovelUri(item.episodeUri)
+  if (!params) {
+    return
+  }
+
+  navigate('EpisodeDetail', {
+    novelId: params.novelId,
+    episodeId: params.episodeId,
+  })
   dispatch(selectContent(sectionIndex, positionIndex))
 }
 
