@@ -307,11 +307,3 @@ export function sendPushDenyEvent(): ThunkAction {
       .catch(() => {})
   }
 }
-
-export function finishRequestReview(): ThunkAction {
-  return (dispatch, getState) => {
-
-    return new Promise(resolve => resolve())
-      .then(() => dispatch({ type: 'FINISH_REQUEST_REVIEW' }))
-  }
-}
