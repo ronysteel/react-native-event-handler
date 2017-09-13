@@ -7,6 +7,9 @@ import type { Episodes, Episode } from '../reducers/episodes'
 import type { Energy } from '../reducers/energy'
 import firebase from '../firebase'
 import {
+  sendCompleteContentEvent,
+} from '../actions/event'
+import {
   fetchEpisode,
   fetchEpisodeList,
   fetchRecommends,
@@ -126,6 +129,32 @@ export function pageView(novelId: number, episodeId: number): ThunkAction {
       .set(true)
       .then(() => {
         dispatch(successPageView())
+      })
+  }
+}
+
+const completePageView = () => ({
+  type: 'FINISH_READING_NOVEL'
+})
+
+export function completeContent(episodeId: number): ThunkAction {
+  return (dispatch, getState) => {
+    const { readStates } = getState()
+
+    if (!readStates[episodeId]) {
+      return new Promise(resolve => resolve())
+    }
+
+    if (!readStates[episodeId].reachEndOfContent) {
+      return new Promise(resolve => resolve())
+    }
+
+    return new Promise(resolve => resolve())
+      .then(() => {
+        dispatch(sendCompleteContentEvent(episodeId))
+      })
+      .then(() => {
+        dispatch(completePageView())
       })
   }
 }

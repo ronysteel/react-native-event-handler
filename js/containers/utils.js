@@ -1,4 +1,4 @@
-import { Linking, AlertIOS } from 'react-native'
+import { Linking, Alert } from 'react-native'
 import Share from 'react-native-share';
 import { selectContent } from '../actions/app'
 import { navigateNovel } from '../actions/navigator'
@@ -50,7 +50,7 @@ export const onPressShare = (type: string, options) => {
       return Linking.canOpenURL(url)
         .then(supported => {
           if (!supported) {
-            AlertIOS.alert(
+            Alert.alert(
               'エラー',
               'LINEがインストールされていません'
             )
@@ -68,4 +68,42 @@ export const onPressShare = (type: string, options) => {
       .catch(() => {})
     }
   }
+}
+
+export const requestReviewPopup = () => {
+  Alert.alert(
+    'CHAT NOVELをレビューする',
+    'いつもご利用いただきましてありがとうございます！\nこれからも面白いノベルを作る励みになりますので☆5のレビューをお願いします！',
+    [
+      {text: '☆5をつける', onPress: () => {
+        Linking.openURL('itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=1263726333&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software')
+      }},
+      {text: 'バグ・改善してほしい', onPress: () => {
+        Linking.openURL('mailto:chatnovel-info@newn.co?subject=CHAT NOVELバグ・改善要望')
+      }},
+      {text: 'また今度', onPress: () => {} },
+    ],
+  )
+}
+
+export function getMajorMinorVersion(version: string): string {
+  let versionArray = version.split('.')
+  if (versionArray.length > 1) {
+    return [versionArray[0], versionArray[1]].join('.')
+  }
+
+  return version
+}
+
+export function compareAppVersion(a: string, b:string): boolean {
+  // a,b : "major.minor.fix"
+  let aVersionArray = a.split('.')
+  let bVersionArray = b.split('.')
+  if (aVersionArray.length > 1 && bVersionArray.length > 1) {
+    // バージョンアップがないかMajor,Minorを比較
+    if (aVersionArray[0] != bVersionArray[0] || aVersionArray[1] != bVersionArray[1]) {
+      return true
+    }
+  }
+  return false
 }

@@ -128,3 +128,22 @@ export function loadTutorial(): ThunkAction {
       ))
   }
 }
+
+export function setupReviewStatus(): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => {
+        return dispatch({
+          type: 'SETUP_REVIEW_STATUS',
+        })
+      })
+  }
+}
+
+export function finishRequestReview(): ThunkAction {
+  return (dispatch, getState) => {
+
+    return new Promise(resolve => resolve())
+      .then(() => dispatch({ type: 'FINISH_REQUEST_REVIEW' }))
+  }
+}

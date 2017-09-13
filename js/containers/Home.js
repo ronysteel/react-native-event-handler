@@ -5,8 +5,9 @@ import { StyleSheet, Text, View, TouchableOpacity, Linking } from 'react-native'
 import { connect } from 'react-redux'
 
 import firebase from '../firebase'
-import { loadTab, loadTutorial } from '../actions/app'
+import { loadTab, loadTutorial, finishRequestReview } from '../actions/app'
 import { sentSlectContentEvent, sendPushAllowEvent, sendPushDenyEvent } from '../actions/event'
+import { openHomePage } from '../actions/homePage'
 import { onSelectContent } from './utils'
 import Stories from '../components/Stories'
 import HeaderTitle from '../components/HeaderTitle'
@@ -14,6 +15,7 @@ import HomeHeaderLeft from '../containers/HomeHeaderLeft'
 import HomeSettingContainer from '../containers/HomeSettingContainer'
 import TutorialContainer from '../containers/TutorialContainer'
 import PushPermissionPopup from '../components/PushPermissionPopup'
+import { requestReviewPopup } from './utils'
 
 import type { Story } from '../reducers/stories'
 
@@ -90,6 +92,9 @@ class Home extends React.Component {
           ?  <PushPermissionPopup onPress={ this.props.requestPushPermission } />
           : null
         }
+        { !this.props.review.reviewRequestEnded && this.props.review.finishReadingCount >=5
+          ? <View onLayout= { this.props.requestReview } /> : null
+        }
       </View>
     )
   }
@@ -108,12 +113,15 @@ const select = (store) => {
     homeTab: store.tabs['home'],
     tutorialEnded: store.session.tutorialEnded || false,
     tutorial: store.tutorial,
+    review: store.review,
   }
 }
 
 const actions = (dispatch, props) => {
   return {
-    loadHomeTab: () => dispatch(loadTab('home')),
+    loadHomeTab: () => {
+      dispatch(loadTab('home'))
+    },
     loadTutorial: (tutorialEnded: boolean) => {
       if (tutorialEnded) {
         return new Promise(resolve => resolve())
@@ -136,7 +144,11 @@ const actions = (dispatch, props) => {
 
       props.navigation.setParams({ pushPopup: false })
     },
-    onSelectContent: onSelectContent.bind(null, dispatch),
+    requestReview: () => {
+      requestReviewPopup()
+      dispatch(finishRequestReview())
+    },
+    onSelectContent: onSelectContent.bind(null, props.navigation.navigate, dispatch),
   }
 }
 
