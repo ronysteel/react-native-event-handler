@@ -308,14 +308,6 @@ export function sendPushDenyEvent(): ThunkAction {
   }
 }
 
-export function finishReadingNovel(): ThunkAction {
-  return (dispatch, getState) => {
-
-    return new Promise(resolve => resolve())
-      .then(() => dispatch({ type: 'FINISH_READING_NOVEL' }))
-  }
-}
-
 export function finishRequestReview(): ThunkAction {
   return (dispatch, getState) => {
 
