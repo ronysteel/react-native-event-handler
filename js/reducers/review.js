@@ -1,5 +1,6 @@
 // @flow
 import type { Action } from '../actions/types'
+import DeviceInfo from 'react-native-device-info'
 
 export type Review = {
   version: ?string;
@@ -12,8 +13,6 @@ const initialState: Review = {
   finishReadingCount: 0,
   reviewRequestEnded: false,
 }
-
-var DeviceInfo = require('react-native-device-info')
 
 function review(state: Review = initialState, action: Action): Review {
   switch (action.type) {
