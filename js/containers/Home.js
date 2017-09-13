@@ -148,7 +148,7 @@ const actions = (dispatch, props) => {
       requestReviewPopup()
       dispatch(finishRequestReview())
     },
-    onSelectContent: onSelectContent.bind(null, props.navigation.navigate, dispatch),
+    onSelectContent: onSelectContent.bind(null, dispatch),
   }
 }
 
