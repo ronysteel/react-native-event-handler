@@ -18,7 +18,7 @@ import reducers from './reducers'
 import Router, { onNavigationStateChange } from './containers/Router'
 import { signInAnonymously, saveDeviceToken } from './actions/user'
 import { resetNavigator } from './actions/navigator'
-import { loadTab, loadPurcasingProducts, moveScreen, loadCategories } from './actions/app'
+import { loadTab, loadPurcasingProducts, moveScreen, loadCategories, setupReviewStatus } from './actions/app'
 import {
   sendLeaveContentEvent,
   sendTutorialLeaveEvent,
@@ -66,6 +66,7 @@ class Root extends React.PureComponent {
         dispatch(resetNavigator()),
         dispatch(signInAnonymously()),
         dispatch(loadPurcasingProducts()),
+        dispatch(setupReviewStatus()),
       ])
         .then(() => {
           dispatch(loadCategories())
