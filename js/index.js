@@ -10,16 +10,14 @@ import { StackNavigator, NavigationActions, addNavigationHelpers } from 'react-n
 import pathToRegexp from 'path-to-regexp'
 import moment from 'moment'
 import Config from 'react-native-config'
+import { parseNovelUri } from './utils'
 
 import firebase from './firebase'
 import reducers from './reducers'
-import Home from './containers/Home'
-import EpisodeDetail from './containers/EpisodeDetail'
-import AboutSubscriptionContainer from './containers/AboutSubscriptionContainer'
-import PrivacyPolicy from './components/PrivacyPolicy'
-import Terms from './components/Terms'
 
+import Router, { onNavigationStateChange } from './containers/Router'
 import { signInAnonymously, saveDeviceToken } from './actions/user'
+import { resetNavigator } from './actions/navigator'
 import { loadTab, loadPurcasingProducts, moveScreen, loadCategories } from './actions/app'
 import {
   sendLeaveContentEvent,
@@ -44,84 +42,9 @@ function setupStore(onComplete: () => void) {
   return store
 }
 
-// gets the current screen from navigation state
-const getCurrentRouteName = (navigationState) => {
-  if (!navigationState) {
-    return null
-  }
-
-  const route = navigationState.routes[navigationState.index]
-  // dive into nested navigators
-  if (route.routes) {
-    return getCurrentRouteName(route)
-  }
-  return route.routeName
-}
-
-const onNavigationStateChange = (store, isDeeplink, prevState, currentState) => {
-  const currentScreen = getCurrentRouteName(currentState)
-  const prevScreen = getCurrentRouteName(prevState)
-
-  if (prevScreen !== currentScreen) {
-    switch (currentScreen) {
-      case 'Home': {
-        StatusBar.setBarStyle('dark-content')
-        StatusBar.setHidden(false)
-        store.dispatch(moveScreen('HOME'))
-        return
-      }
-      case 'EpisodeDetail': {
-        StatusBar.setHidden(true)
-        store.dispatch(moveScreen('NOVEL', {
-          ...currentState.routes[currentState.index].params
-        }))
-        return
-      }
-      case 'PrivacyPolicy': {
-        StatusBar.setHidden(false)
-        return
-      }
-      case 'Terms': {
-        StatusBar.setHidden(false)
-        return
-      }
-      case 'AboutSubscription': {
-        StatusBar.setHidden(false)
-        return
-      }
-    }
-  }
-
-  // 一番最初に開いたとき
-  if (isDeeplink != 'DEEPLINK' && prevScreen =='Home' && currentScreen == 'Home') {
-    store.dispatch(moveScreen('HOME'))
-    return
-  }
-
-  if (prevScreen === currentScreen) {
-    switch (currentScreen) {
-      case 'EpisodeDetail': {
-        StatusBar.setHidden(true)
-        store.dispatch(moveScreen('NOVEL'))
-        return
-      }
-    }
-  }
-}
-
 const episodeDetailPath = 'novels/:novelId/episodes/:episodeId'
 
-const App = StackNavigator({
-  Home: { screen: Home },
-  EpisodeDetail: { screen: EpisodeDetail, path: episodeDetailPath },
-  PrivacyPolicy: { screen: PrivacyPolicy, path: 'about/privacy' },
-  Terms: { screen: Terms, path: 'about/terms' },
-  AboutSubscription: { screen: AboutSubscriptionContainer, path: 'about/subscription' },
-}, {
-  headerMode: 'screen',
-})
-
-class Root extends React.Component {
+class Root extends React.PureComponent {
   state: {
     isLoading: boolean;
     store: any;
@@ -140,6 +63,7 @@ class Root extends React.Component {
       const dispatch = this.state.store.dispatch
 
       Promise.all([
+        dispatch(resetNavigator()),
         dispatch(signInAnonymously()),
         dispatch(loadPurcasingProducts()),
       ])
@@ -181,15 +105,10 @@ class Root extends React.Component {
     }
 
     if (event.episodeUri) {
-      const { path } = this._urlToPathAndParams(event.episodeUri)
-      const keys = []
-      const re = pathToRegexp(episodeDetailPath, keys)
-      const ps = re.exec(path)
-
-      const params = keys.reduce((memo, v, i) => {
-        memo[v.name] = ps[i + 1]
-        return memo
-      }, {})
+      const params = parseNovelUri(event.episodeUri)
+      if (!params) {
+        return
+      }
 
       this.navigator.dispatch(NavigationActions.reset({
         index: 1,
@@ -205,19 +124,6 @@ class Root extends React.Component {
     if (url) {
       this.state.store.dispatch(moveScreen('DEEPLINK'))
       this.isDeeplink = 'DEEPLINK'
-    }
-  }
-
-  _urlToPathAndParams(url: string) {
-    const params = {}
-    const delimiter = `${URL_SCHEME}://` || '://'
-    let path = url.split(delimiter)[1]
-    if (typeof path === 'undefined') {
-      path = url
-    }
-    return {
-      path,
-      params,
     }
   }
 
@@ -239,15 +145,11 @@ class Root extends React.Component {
       }
 
       const url = event.url.replace('https://chatnovel.jp/', '')
-      const keys = []
-      const re = pathToRegexp(episodeDetailPath, keys)
-      const ps = re.exec(url)
-      const params = keys.reduce((memo, v, i) => {
-        memo[v.name] = ps[i + 1]
-        return memo
-      }, {})
+      const params = parseNovelUri(url)
+      if (params) {
+        Linking.openURL(`${URL_SCHEME}://novels/${params.novelId}/episodes/${params.episodeId}`)
+      }
 
-      Linking.openURL(`${URL_SCHEME}://novels/${params.novelId}/episodes/${params.episodeId}`)
       return
     }
   }
@@ -297,10 +199,12 @@ class Root extends React.Component {
     }
     return (
       <Provider store={this.state.store}>
-        <App
+        <Router
           ref={ r => this.navigator = r }
           uriPrefix={ `${URL_SCHEME}://` }
-          onNavigationStateChange={ onNavigationStateChange.bind(null, this.state.store, this.isDeeplink) }
+          onNavigationStateChange={
+            onNavigationStateChange.bind(null, this.state.store, this.isDeeplink)
+          }
         />
       </Provider>
     )

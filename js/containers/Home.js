@@ -136,7 +136,7 @@ const actions = (dispatch, props) => {
 
       props.navigation.setParams({ pushPopup: false })
     },
-    onSelectContent: onSelectContent.bind(null, props.navigation.navigate, dispatch),
+    onSelectContent: onSelectContent.bind(null, dispatch),
   }
 }
 
