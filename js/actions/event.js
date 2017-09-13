@@ -137,9 +137,6 @@ export function sendLeaveContentEvent(episodeId: number): ThunkAction {
           episodeId,
         })
       })
-      .then(() => {
-        dispatch({ type: 'FINISH_READING_NOVEL' })
-      })
       .catch((err) => {
         console.error(err)
       })
