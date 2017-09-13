@@ -1,4 +1,4 @@
-import { Linking, AlertIOS, Alert } from 'react-native'
+import { Linking, Alert } from 'react-native'
 import Share from 'react-native-share';
 import { selectContent } from '../actions/app'
 import { navigateNovel } from '../actions/navigator'
@@ -50,7 +50,7 @@ export const onPressShare = (type: string, options) => {
       return Linking.canOpenURL(url)
         .then(supported => {
           if (!supported) {
-            AlertIOS.alert(
+            Alert.alert(
               'エラー',
               'LINEがインストールされていません'
             )
