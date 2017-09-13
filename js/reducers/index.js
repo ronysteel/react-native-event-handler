@@ -20,6 +20,7 @@ import purchasingProducts from './purchasingProducts'
 import actionLog from './actionLog'
 import homePageState from './homePageState'
 import storyPageStates from './storyPageStates'
+import navigator from './navigator'
 
 export default combineReducers({
   novels,
@@ -38,6 +39,7 @@ export default combineReducers({
   purchasingProducts,
   actionLog,
   tutorial,
+  navigator,
 
   pages: combineReducers({
     homePageState,
