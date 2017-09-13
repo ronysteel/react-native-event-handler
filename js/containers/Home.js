@@ -120,7 +120,6 @@ const actions = (dispatch, props) => {
   return {
     loadHomeTab: () => {
       dispatch(loadTab('home'))
-      dispatch(openHomePage())
     },
     loadTutorial: (tutorialEnded: boolean) => {
       if (tutorialEnded) {

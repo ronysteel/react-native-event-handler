@@ -31,14 +31,3 @@ export function openSettingModal(): ThunkAction {
       ))
   }
 }
-
-export function openHomePage(): ThunkAction {
-  return (dispatch, getState) => {
-    return (new Promise(resolve => resolve()))
-      .then(() => (
-        dispatch({
-          type: 'OPEN_HOME_PAGE',
-        })
-      ))
-  }
-}

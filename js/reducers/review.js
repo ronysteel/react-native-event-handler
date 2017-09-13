@@ -17,7 +17,7 @@ var DeviceInfo = require('react-native-device-info')
 
 function review(state: Review = initialState, action: Action): Review {
   switch (action.type) {
-    case "OPEN_HOME_PAGE":
+    case "SETUP_REVIEW_STATUS": {
       const { version } = state
 
       let currentVersion = DeviceInfo.getVersion().split('.')
@@ -31,6 +31,7 @@ function review(state: Review = initialState, action: Action): Review {
         }
       }
       return state
+    }
     case "FINISH_READING_NOVEL": {
       const { finishReadingCount } = state
       console.log('FINISH_READING_NOVEL' + finishReadingCount, '')
