@@ -1,4 +1,4 @@
-import { Linking, AlertIOS } from 'react-native'
+import { Linking, AlertIOS, Alert } from 'react-native'
 import Share from 'react-native-share';
 import { selectContent } from '../actions/app'
 import { navigateNovel } from '../actions/navigator'
@@ -68,4 +68,20 @@ export const onPressShare = (type: string, options) => {
       .catch(() => {})
     }
   }
+}
+
+export const requestReviewPopup = () => {
+  Alert.alert(
+    'CHAT NOVELをレビューする',
+    'いつもご利用いただきましてありがとうございます！\nこれからも面白いノベルを作る励みになりますので☆5のレビューをお願いします！',
+    [
+      {text: '☆5をつける', onPress: () => {
+        Linking.openURL('itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=1263726333&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software')
+      }},
+      {text: 'バグ・改善してほしい', onPress: () => {
+        Linking.openURL('mailto:chatnovel-info@newn.co?subject=CHAT NOVELバグ・改善要望')
+      }},
+      {text: 'また今度', onPress: () => console.log('Dismiss')},
+    ],
+  )
 }

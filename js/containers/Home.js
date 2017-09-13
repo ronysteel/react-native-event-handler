@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Linking, Alert } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Linking } from 'react-native'
 import { connect } from 'react-redux'
 
 import firebase from '../firebase'
@@ -15,6 +15,7 @@ import HomeHeaderLeft from '../containers/HomeHeaderLeft'
 import HomeSettingContainer from '../containers/HomeSettingContainer'
 import TutorialContainer from '../containers/TutorialContainer'
 import PushPermissionPopup from '../components/PushPermissionPopup'
+import { requestReviewPopup } from './utils'
 
 import type { Story } from '../reducers/stories'
 
@@ -144,22 +145,10 @@ const actions = (dispatch, props) => {
       props.navigation.setParams({ pushPopup: false })
     },
     requestReview: () => {
-      Alert.alert(
-        'CHAT NOVELをレビューする',
-        'いつもご利用いただきましてありがとうございます！\nこれからも面白いノベルを作る励みになりますので☆5のレビューをお願いします！',
-        [
-          {text: '☆5をつける', onPress: () => {
-            Linking.openURL('itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=1263726333&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software')
-          }},
-          {text: 'バグ・改善してほしい', onPress: () => {
-            Linking.openURL('mailto:chatnovel-info@newn.co?subject=CHAT NOVELバグ・改善要望')
-          }},
-          {text: 'また今度', onPress: () => console.log('Dismiss')},
-        ],
-      )
+      requestReviewPopup()
       dispatch(finishRequestReview())
     },
-    onSelectContent: onSelectContent.bind(null, dispatch),
+    onSelectContent: onSelectContent.bind(null, props.navigation.navigate, dispatch),
   }
 }
 
