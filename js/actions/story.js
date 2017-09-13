@@ -139,7 +139,15 @@ const completePageView = () => ({
 
 export function completeContent(episodeId: number): ThunkAction {
   return (dispatch, getState) => {
-    const { session } = getState()
+    const { readStates } = getState()
+
+    if (!readStates[episodeId]) {
+      return new Promise(resolve => resolve())
+    }
+
+    if (!readStates[episodeId].reachEndOfContent) {
+      return new Promise(resolve => resolve())
+    }
 
     return new Promise(resolve => resolve())
       .then(() => {
