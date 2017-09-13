@@ -33,12 +33,10 @@ function review(state: Review = initialState, action: Action): Review {
     }
     case "FINISH_READING_NOVEL": {
       const { finishReadingCount } = state
-      console.log('FINISH_READING_NOVEL' + finishReadingCount, '')
       return { ...state, finishReadingCount: finishReadingCount + 1 }
     }
     case "FINISH_REQUEST_REVIEW": {
       const { reviewRequestEnded } = state
-      console.log('FINISH_REVIEW_REQUEST', '')
       return { ...state, reviewRequestEnded: true }
     }
     default:

@@ -81,7 +81,7 @@ export const requestReviewPopup = () => {
       {text: 'バグ・改善してほしい', onPress: () => {
         Linking.openURL('mailto:chatnovel-info@newn.co?subject=CHAT NOVELバグ・改善要望')
       }},
-      {text: 'また今度', onPress: () => console.log('Dismiss')},
+      {text: 'また今度', onPress: () => {} },
     ],
   )
 }
