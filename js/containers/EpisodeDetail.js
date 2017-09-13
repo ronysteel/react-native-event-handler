@@ -11,6 +11,7 @@ import {
   loadRecommends,
   updateReadState,
   pageView,
+  completeContent,
 } from '../actions/story'
 import {
   decreaseUserEnergy,
@@ -24,7 +25,6 @@ import {
   sendSelectContentEvent,
   sendShareEvent,
   sendShareCompleteEvent,
-  sendCompleteContentEvent,
 } from '../actions/event'
 
 import { getAllScript } from '../reducers/scripts'
@@ -186,7 +186,7 @@ const actions = (dispatch, props) => {
         .then(() => dispatch(syncUserEnergy(userId)))
         .then(() => dispatch(decreaseUserEnergy(userId)))
         .then(() => dispatch(openPromotionModal(episodeId)))
-        .then(() => dispatch(sendCompleteContentEvent(episodeId)))
+        .then(() => dispatch(completeContent(episodeId)))
         .then(() => obj.state.tapping = false)
         .catch(() => obj.state.tapping = false)
     },
