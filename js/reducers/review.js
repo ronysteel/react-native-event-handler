@@ -1,6 +1,7 @@
 // @flow
 import type { Action } from '../actions/types'
 import DeviceInfo from 'react-native-device-info'
+import { getMajorMinorVersion, compareAppVersion } from '../containers/utils'
 
 export type Review = {
   version: ?string;
@@ -19,16 +20,13 @@ function review(state: Review = initialState, action: Action): Review {
     case "SETUP_REVIEW_STATUS": {
       const { version } = state
 
-      let currentVersion = DeviceInfo.getVersion().split('.')
-      let reviewVersion = version.split('.')
-      if (currentVersion.length > 1 && reviewVersion.length > 1) {
-        // バージョンアップがないかMajor,Minorを比較
-        if (currentVersion[0] != reviewVersion[0] || currentVersion[1] != reviewVersion[1]) {
-          let state = initialState
-          state.version = [currentVersion[0], currentVersion[1]].join('.')
-          return state
-        }
+      let appVersion = DeviceInfo.getVersion()
+      if (compareAppVersion(appVersion, version)) {
+        let state = initialState
+        state.version = getMajorMinorVersion(appVersion)
+        return state
       }
+      
       return state
     }
     case "FINISH_READING_NOVEL": {
