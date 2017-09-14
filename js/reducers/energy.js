@@ -2,27 +2,27 @@
 import type { Action } from '../actions/types'
 
 export type Energy = {
-  isLoaded: boolean;
-  isLoading: boolean;
-  energy: number;
+  isLoaded: boolean,
+  isLoading: boolean,
+  energy: number,
   latestSyncedEnergy: number,
   latestSyncedAt: ?number,
-  nextRechargeDate: ?number,
+  nextRechargeDate: ?number
 }
 
 const initialStates: Energy = {
   energy: 0,
   latestSyncedEnergy: 0,
   latestSyncedAt: undefined,
-  nextRechargeDate: undefined,
+  nextRechargeDate: undefined
 }
 
-function energy(state: Energy = initialStates, action: Action): Energy {
+function energy (state: Energy = initialStates, action: Action): Energy {
   switch (action.type) {
     case 'SYNC_USER_ENERGY_REQUEST': {
       return {
         ...state,
-        isLoading: true,
+        isLoading: true
       }
     }
 
@@ -33,14 +33,14 @@ function energy(state: Energy = initialStates, action: Action): Energy {
         latestSyncedAt: action.latestSyncedAt,
         nextRechargeDate: action.nextRechargeDate,
         isLoading: false,
-        isLoaded: true,
+        isLoaded: true
       })
     }
 
     case 'SYNC_USER_ENERGY_FAILED': {
       return {
         ...state,
-        isLoading: false,
+        isLoading: false
       }
     }
 
@@ -58,7 +58,7 @@ function energy(state: Energy = initialStates, action: Action): Energy {
       const { amount } = action
       const num = amount || 1
       return Object.assign({}, state, {
-        energy: state.energy + num,
+        energy: state.energy + num
       })
     }
 

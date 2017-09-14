@@ -8,7 +8,7 @@ import {
   Text,
   View,
   Modal,
-  TouchableOpacity,
+  TouchableOpacity
 } from 'react-native'
 import { BlurView, VibrancyView } from 'react-native-blur'
 
@@ -18,21 +18,23 @@ const SCREEN_WIDTH = Dimensions.get('window').width
 const PushPermissionPopup = ({ onPress }) => {
   return (
     <Modal transparent>
-      <View style={ styles.container }>
-        <View style={ styles.wrapper }>
-          <View style={ styles.popupInner }>
-            <VibrancyView blurType="xlight" blurAmount={ 10 } style={ styles.blur } />
-            <Image source={require('./img/permission.png')} style={ styles.image } />
-            <Text style={ styles.text }>
-              { '通知をオンにすると、編集部おすすめノベルやチケットプレゼントなどのお得な情報をお届けします！' }
+      <View style={styles.container}>
+        <View style={styles.wrapper}>
+          <View style={styles.popupInner}>
+            <VibrancyView
+              blurType='xlight'
+              blurAmount={10}
+              style={styles.blur}
+            />
+            <Image
+              source={require('./img/permission.png')}
+              style={styles.image}
+            />
+            <Text style={styles.text}>
+              {'通知をオンにすると、編集部おすすめノベルやチケットプレゼントなどのお得な情報をお届けします！'}
             </Text>
-            <TouchableOpacity
-              style={ styles.startButton }
-              onPress={ onPress }
-            >
-              <Text style={ styles.startButtonText }>
-                { 'はじめる' }
-              </Text>
+            <TouchableOpacity style={styles.startButton} onPress={onPress}>
+              <Text style={styles.startButtonText}>{'はじめる'}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -51,14 +53,14 @@ const styles: StyleSheet = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: 'rgba(0,0,0,0.45)',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   wrapper: {
     flex: 1,
-    margin: SCREEN_WIDTH * (40/BASE_WIDTH),
+    margin: SCREEN_WIDTH * (40 / BASE_WIDTH),
     alignSelf: 'center',
     justifyContent: 'center',
-    borderRadius: 12,
+    borderRadius: 12
   },
   blur: {
     position: 'absolute',
@@ -66,38 +68,38 @@ const styles: StyleSheet = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    borderRadius: 12,
+    borderRadius: 12
   },
   popupInner: {
-    width: SCREEN_WIDTH * (295/BASE_WIDTH),
-    padding: SCREEN_WIDTH * (30/BASE_WIDTH),
+    width: SCREEN_WIDTH * (295 / BASE_WIDTH),
+    padding: SCREEN_WIDTH * (30 / BASE_WIDTH),
     alignSelf: 'center',
     borderRadius: 12,
-    backgroundColor: 'rgba(255,255,255,0.0)',
+    backgroundColor: 'rgba(255,255,255,0.0)'
   },
   text: {
     marginTop: 10,
     fontSize: 14,
-    lineHeight: 21,
+    lineHeight: 21
   },
   image: {
-    width: SCREEN_WIDTH * (235/BASE_WIDTH),
-    height: SCREEN_HEIGHT * (168/BASE_HEIGHT)
+    width: SCREEN_WIDTH * (235 / BASE_WIDTH),
+    height: SCREEN_HEIGHT * (168 / BASE_HEIGHT)
   },
 
   startButton: {
     height: 50,
     borderRadius: 6,
     backgroundColor: '#ff395d',
-    marginTop: SCREEN_WIDTH * (25/BASE_WIDTH),
-    justifyContent: 'center',
+    marginTop: SCREEN_WIDTH * (25 / BASE_WIDTH),
+    justifyContent: 'center'
   },
   startButtonText: {
     color: '#fff',
     backgroundColor: 'transparent',
     fontSize: 16,
-    textAlign: 'center',
-  },
+    textAlign: 'center'
+  }
 })
 
 export default PushPermissionPopup

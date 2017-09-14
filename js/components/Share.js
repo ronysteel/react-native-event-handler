@@ -9,41 +9,35 @@ import LinkIcon from './icons/LinkIcon'
 
 const { height } = Dimensions.get('window')
 
-const Share = ({
-  shareText,
-  shareOptions,
-  onPressShare,
-}) => {
+const Share = ({ shareText, shareOptions, onPressShare }) => {
   if (!shareOptions) {
     return null
   }
 
   return (
-    <View style={ styles.container }>
-      <View style={ styles.backDrop }/>
-      <View style={ styles.shareContainer }>
-        <Text style={ styles.text }>
-          { shareText }
-        </Text>
-        <View style={ styles.iconsWrapper }>
+    <View style={styles.container}>
+      <View style={styles.backDrop} />
+      <View style={styles.shareContainer}>
+        <Text style={styles.text}>{shareText}</Text>
+        <View style={styles.iconsWrapper}>
           <TwitterIcon
-            onPress={ onPressShare.bind(null, 'twitter') }
-            options={ shareOptions }
-            style={ styles.icon }
+            onPress={onPressShare.bind(null, 'twitter')}
+            options={shareOptions}
+            style={styles.icon}
           />
           <FacebookIcon
-            onPress={ onPressShare.bind(null, 'facebook') }
-            options={ shareOptions }
-            style={ styles.icon }
+            onPress={onPressShare.bind(null, 'facebook')}
+            options={shareOptions}
+            style={styles.icon}
           />
           <LineIcon
-            onPress={ onPressShare.bind(null, 'line') }
-            options={ shareOptions }
-            style={ styles.icon }
+            onPress={onPressShare.bind(null, 'line')}
+            options={shareOptions}
+            style={styles.icon}
           />
           <LinkIcon
-            onPress={ onPressShare.bind(null, 'link') }
-            options={ shareOptions }
+            onPress={onPressShare.bind(null, 'link')}
+            options={shareOptions}
           />
         </View>
       </View>
@@ -54,7 +48,7 @@ const Share = ({
 const styles: StyleSheet = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   },
   backDrop: {
     backgroundColor: '#f3f3f3',
@@ -62,7 +56,7 @@ const styles: StyleSheet = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: 355 + height,
+    height: 355 + height
   },
   text: {
     color: '#000',
@@ -70,20 +64,20 @@ const styles: StyleSheet = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     fontWeight: '600',
-    lineHeight: 25,
+    lineHeight: 25
   },
   iconsWrapper: {
     flexDirection: 'row',
     alignSelf: 'center',
     marginTop: 20,
-    marginBottom: 120,
+    marginBottom: 120
   },
   icon: {
-    marginRight: 15,
+    marginRight: 15
   },
   shareContainer: {
-    backgroundColor: '#fff',
-  },
+    backgroundColor: '#fff'
+  }
 })
 
 export default Share

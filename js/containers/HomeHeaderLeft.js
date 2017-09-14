@@ -7,10 +7,10 @@ import MenuIcon from '../components/MenuIcon'
 import { openSettingModal } from '../actions/homePage'
 
 class HomeHeaderLeft extends React.Component {
-  render() {
+  render () {
     return (
-      <TouchableOpacity onPress={ this.props.openSettingModal }>
-        <View style={ styles.headerLeftWrapper }>
+      <TouchableOpacity onPress={this.props.openSettingModal}>
+        <View style={styles.headerLeftWrapper}>
           <MenuIcon />
         </View>
       </TouchableOpacity>
@@ -20,8 +20,8 @@ class HomeHeaderLeft extends React.Component {
 
 const styles: StyleSheet = StyleSheet.create({
   headerLeftWrapper: {
-    padding: 15,
-  },
+    padding: 15
+  }
 })
 
 const select = (store, props) => ({})

@@ -5,12 +5,12 @@ import { WebView } from 'react-native'
 const PrivacyPolicy = () => (
   <WebView
     source={{ uri: 'http://newn.co/privacy.html' }}
-    decelerationRate={ 0.998 }
+    decelerationRate={0.998}
   />
 )
 PrivacyPolicy.navigationOptions = () => ({
   title: 'プライバシーポリシー',
-  headerTintColor: '#000',
+  headerTintColor: '#000'
 })
 
 export default PrivacyPolicy

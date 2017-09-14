@@ -17,8 +17,8 @@ const uriToPath = (uri: string): string => {
 const NOVEL_URI = 'novels/:novelId/episodes/:episodeId'
 
 type novelUriParams = {
-  novelId: string;
-  episodeId: string;
+  novelId: string,
+  episodeId: string
 }
 
 export const parseNovelUri = (uri: string): ?novelUriParams => {

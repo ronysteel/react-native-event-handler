@@ -13,18 +13,17 @@ describe('renders without crashing', () => {
         scriptValues={[]}
         readState={{
           readIndex: 0,
-          reachEndOfContent: false,
+          reachEndOfContent: false
         }}
         shareLinks={{ default: '' }}
         recommends={[]}
-        isTutorial={ false }
+        isTutorial={false}
         characters={{}}
-        onTapScreen={ () => {} }
-        onTapPurchase={ () => {} }
+        onTapScreen={() => {}}
+        onTapPurchase={() => {}}
       />
     )
     const rendered = renderer.create(component).toJSON()
     expect(rendered).toBeTruthy()
   })
 })
-

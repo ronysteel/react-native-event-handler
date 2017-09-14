@@ -2,20 +2,20 @@
 import type { Action } from '../actions/types'
 
 export type Session = {
-  uid: ?string;
-  paid: boolean;
-  paidAccountExpiresDate: ?number;
-  tutorialEnded: boolean;
+  uid: ?string,
+  paid: boolean,
+  paidAccountExpiresDate: ?number,
+  tutorialEnded: boolean
 }
 
 const initialStates: Session = {
   uid: undefined,
   paid: false,
   paidAccountExpiresDate: null,
-  tutorialEnded: false,
+  tutorialEnded: false
 }
 
-function session(state: Session = initialStates, action: Action): Session {
+function session (state: Session = initialStates, action: Action): Session {
   switch (action.type) {
     case 'SIGN_IN_ANONYMOUSLY_REQUEST': {
       return state
@@ -29,7 +29,7 @@ function session(state: Session = initialStates, action: Action): Session {
       return Object.assign({}, state, {
         uid: user.uid,
         paid: user.paid,
-        paidAccountExpiresDate: expiresDate,
+        paidAccountExpiresDate: expiresDate
       })
     }
 

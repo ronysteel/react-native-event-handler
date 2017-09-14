@@ -7,41 +7,39 @@ import {
   Image,
   Text,
   View,
-  TouchableOpacity,
+  TouchableOpacity
 } from 'react-native'
 
 import TapIcon from './TapIcon'
 
 const tapAreaHeight = 250
 
-const isFadeout = ({ readState }) => (
-  readState.readIndex > 3
-)
+const isFadeout = ({ readState }) => readState.readIndex > 3
 
 class TapArea extends React.PureComponent {
   state = {
     fadeout: false,
-    v: new Animated.Value(1),
+    v: new Animated.Value(1)
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate (prevProps, prevState) {
     if (!this.state.fadeout && isFadeout(this.props)) {
       this.state.fadeout = true
       this.state.v.setValue(1)
       Animated.timing(this.state.v, {
         toValue: 0,
-        duration: 500,
+        duration: 500
       }).start()
     }
   }
 
-  render() {
+  render () {
     const { theme, offset, readState } = this.props
     let text = 'タップして読みはじめましょう'
     let style = {
       opacity: offset.interpolate({
         inputRange: [2, 100],
-        outputRange: [1, 0],
+        outputRange: [1, 0]
       })
     }
 
@@ -56,13 +54,13 @@ class TapArea extends React.PureComponent {
 
     return (
       <Animated.View
-        focusedOpacity={ 1 }
-        activeOpacity={ 1 }
-        style={[ styles.container, style ]}
+        focusedOpacity={1}
+        activeOpacity={1}
+        style={[styles.container, style]}
       >
-        <View style={ styles.tapAreaWrapper }>
-          <TapIcon theme={ theme } />
-          <Text style={[styles.text, textColor ]}>{ text }</Text>
+        <View style={styles.tapAreaWrapper}>
+          <TapIcon theme={theme} />
+          <Text style={[styles.text, textColor]}>{text}</Text>
         </View>
       </Animated.View>
     )
@@ -76,7 +74,7 @@ const styles: StyleSheet = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    opacity: 1,
+    opacity: 1
   },
   tapAreaWrapper: {
     position: 'absolute',
@@ -84,14 +82,14 @@ const styles: StyleSheet = StyleSheet.create({
     left: 0,
     right: 0,
     height: 130,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   text: {
     color: '#00000050',
     fontSize: 16,
     fontWeight: '600',
     marginTop: 20,
-    backgroundColor: 'transparent',
+    backgroundColor: 'transparent'
   }
 })
 
