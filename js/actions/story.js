@@ -18,10 +18,15 @@ const successLoadEpisode = (episodeId: number, json) => {
 }
 
 export function loadEpisode (novelId: number, episodeId: number): ThunkAction {
-  return (dispatch, getState) => {
-    return fetchEpisode({ novelId, episodeId }).then(v => {
-      return dispatch(successLoadEpisode(episodeId, v))
-    })
+  return async (dispatch, getState) => {
+    dispatch({ type: 'LOAD_EPISODE_REQUEST', episodeId })
+
+    try {
+      const episode = await fetchEpisode({ novelId, episodeId })
+      dispatch(successLoadEpisode(episodeId, episode))
+    } catch (err) {
+      dispatch({ type: 'LOAD_EPISODE_FAILED', episodeId })
+    }
   }
 }
 

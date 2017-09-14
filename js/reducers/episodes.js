@@ -2,23 +2,54 @@
 import type { Action } from '../actions/types'
 
 export type Episode = {
-  id: number,
+  id: string,
   title: string,
   description: string,
   episodeOrder: number,
   theme: string,
-  novelId: number,
-  scriptIds: Array<number>
+  novelId: string,
+  scriptIds: Array<number>,
+  isLoading: boolean,
+  isLoaded: boolean
 }
 
 export type Episodes = {
-  [id: number]: Episode
+  [id: string]: Episode
 }
 
+const initialState: Episode = {
+  id: '',
+  title: '',
+  description: '',
+  episodeOrder: 0,
+  theme: 'dark',
+  novelId: '',
+  scriptIds: [],
+  isLoading: false,
+  isLoaded: false
+}
 const initialStates: Episodes = {}
 
 function episodes (state: Episodes = initialStates, action: Action): Episodes {
   switch (action.type) {
+    case 'LOAD_EPISODE_REQUEST': {
+      const episodeId = action.episodeId
+      const episode = {
+        ...(state[episodeId] || initialState),
+        isLoading: true,
+      }
+      return { ...state, [episodeId]: episode }
+    }
+
+    case 'LOAD_EPISODE_FAILED': {
+      const episodeId = action.episodeId
+      const episode = {
+        ...(state[episodeId] || initialState),
+        isLoading: false,
+      }
+      return { ...state, [episodeId]: episode }
+    }
+
     case 'LOAD_EPISODE_SUCCESS': {
       const episodeId = action.episodeId
       const scriptIds = (episode => {
@@ -29,10 +60,12 @@ function episodes (state: Episodes = initialStates, action: Action): Episodes {
       })(action.episode)
 
       const episode = {
-        ...(state[episodeId] || {}),
+        ...(state[episodeId] || initialState),
         ...action.episode.episode,
         id: episodeId,
-        scriptIds
+        scriptIds,
+        isLoading: false,
+        isLoaded: true,
       }
       return { ...state, [episodeId]: episode }
     }
