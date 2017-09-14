@@ -8,16 +8,16 @@ describe('renders without crashing', () => {
     const component = (
       <EpisodeList
         novel={{
-          title: '',
+          title: ''
         }}
         episodes={[
           {
             episodeOrder: 0,
-            title: 'ep 1',
+            title: 'ep 1'
           }
         ]}
-        closeModal={ () => {} }
-        onSelectContent={ () => {} }
+        closeModal={() => {}}
+        onSelectContent={() => {}}
       />
     )
     const rendered = renderer.create(component).toJSON()

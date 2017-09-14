@@ -1,5 +1,5 @@
 import { Linking, Alert } from 'react-native'
-import Share from 'react-native-share';
+import Share from 'react-native-share'
 import { selectContent } from '../actions/app'
 import { navigateNovel } from '../actions/navigator'
 import { parseNovelUri } from '../utils'
@@ -25,35 +25,29 @@ export const onPressShare = (type: string, options) => {
     case 'twitter': {
       return Share.shareSingle({
         ...options,
-        ...({
+        ...{
           message: `${options.title} @CHATNOVEL`,
-          social: "twitter",
-        }),
-      })
-        .catch(() => {})
+          social: 'twitter'
+        }
+      }).catch(() => {})
     }
     case 'facebook': {
       return Share.shareSingle({
         ...options,
-        ...({
+        ...{
           message: `${options.title}`,
-          social: "facebook"
-        }),
-      })
-        .catch(() => {})
+          social: 'facebook'
+        }
+      }).catch(() => {})
     }
     case 'line': {
-      const makeUri = (options) => (
+      const makeUri = options =>
         `line://msg/text/${options.title}\n${options.url}`
-      )
       const url = makeUri(options)
       return Linking.canOpenURL(url)
         .then(supported => {
           if (!supported) {
-            Alert.alert(
-              'エラー',
-              'LINEがインストールされていません'
-            )
+            Alert.alert('エラー', 'LINEがインストールされていません')
           } else {
             return Linking.openURL(url)
           }
@@ -63,9 +57,8 @@ export const onPressShare = (type: string, options) => {
     case 'link': {
       return Share.open({
         message: `${options.title}`,
-        url: options.url,
-      })
-      .catch(() => {})
+        url: options.url
+      }).catch(() => {})
     }
   }
 }
@@ -75,18 +68,28 @@ export const requestReviewPopup = () => {
     'CHAT NOVELをレビューする',
     'いつもご利用いただきましてありがとうございます！\nこれからも面白いノベルを作る励みになりますので☆5のレビューをお願いします！',
     [
-      {text: '☆5をつける', onPress: () => {
-        Linking.openURL('itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=1263726333&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software')
-      }},
-      {text: 'バグ・改善してほしい', onPress: () => {
-        Linking.openURL('mailto:chatnovel-info@newn.co?subject=CHAT NOVELバグ・改善要望')
-      }},
-      {text: 'また今度', onPress: () => {} },
-    ],
+      {
+        text: '☆5をつける',
+        onPress: () => {
+          Linking.openURL(
+            'itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=1263726333&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software'
+          )
+        }
+      },
+      {
+        text: 'バグ・改善してほしい',
+        onPress: () => {
+          Linking.openURL(
+            'mailto:chatnovel-info@newn.co?subject=CHAT NOVELバグ・改善要望'
+          )
+        }
+      },
+      { text: 'また今度', onPress: () => {} }
+    ]
   )
 }
 
-export function getMajorMinorVersion(version: string): string {
+export function getMajorMinorVersion (version: string): string {
   let versionArray = version.split('.')
   if (versionArray.length > 1) {
     return [versionArray[0], versionArray[1]].join('.')
@@ -95,13 +98,16 @@ export function getMajorMinorVersion(version: string): string {
   return version
 }
 
-export function compareAppVersion(a: string, b:string): boolean {
+export function compareAppVersion (a: string, b: string): boolean {
   // a,b : "major.minor.fix"
   let aVersionArray = a.split('.')
   let bVersionArray = b.split('.')
   if (aVersionArray.length > 1 && bVersionArray.length > 1) {
     // バージョンアップがないかMajor,Minorを比較
-    if (aVersionArray[0] != bVersionArray[0] || aVersionArray[1] != bVersionArray[1]) {
+    if (
+      aVersionArray[0] != bVersionArray[0] ||
+      aVersionArray[1] != bVersionArray[1]
+    ) {
       return true
     }
   }

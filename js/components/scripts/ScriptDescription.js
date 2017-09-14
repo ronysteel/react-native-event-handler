@@ -2,23 +2,23 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet } from 'react-native'
 
-const renderNormal = (description) => (
-  <View style={ styles.normal.container }>
-    <View style={ styles.normal.row }>
-      <Text style={ styles.normal.text }>{ description.body }</Text>
+const renderNormal = description => (
+  <View style={styles.normal.container}>
+    <View style={styles.normal.row}>
+      <Text style={styles.normal.text}>{description.body}</Text>
     </View>
   </View>
 )
 
-const renderChat = (description) => (
-  <View style={ styles.chat.container }>
-    <View style={ styles.chat.row }>
-      <Text style={ styles.chat.text }>{ description.body }</Text>
+const renderChat = description => (
+  <View style={styles.chat.container}>
+    <View style={styles.chat.row}>
+      <Text style={styles.chat.text}>{description.body}</Text>
     </View>
   </View>
 )
 
-const getComponent = (description) => {
+const getComponent = description => {
   switch (description.type) {
     case 'NORMAL': {
       return renderNormal(description)
@@ -33,7 +33,7 @@ const getComponent = (description) => {
 }
 
 class ScriptDescription extends React.PureComponent {
-  render() {
+  render () {
     const { description, isLatestItem } = this.props
     return getComponent(description)
   }
@@ -42,7 +42,7 @@ class ScriptDescription extends React.PureComponent {
 const styles = {
   normal: StyleSheet.create({
     container: {
-      flex: 1,
+      flex: 1
     },
     row: {
       margin: 20,
@@ -52,20 +52,20 @@ const styles = {
       paddingHorizontal: 15,
       paddingVertical: 12,
       borderWidth: 0.5,
-      borderColor: '#d8d8d8',
+      borderColor: '#d8d8d8'
     },
     text: {
       textAlign: 'center',
       fontSize: 14,
       color: '#5a5a5a',
-      lineHeight: 14 + 6,
+      lineHeight: 14 + 6
     }
   }),
   chat: StyleSheet.create({
     container: {
       flex: 1,
       flexDirection: 'row',
-      alignSelf: 'center',
+      alignSelf: 'center'
     },
     row: {
       margin: 20,
@@ -73,13 +73,13 @@ const styles = {
       borderRadius: 17,
       backgroundColor: '#f0f0f0',
       paddingHorizontal: 15,
-      paddingVertical: 12,
+      paddingVertical: 12
     },
     text: {
       textAlign: 'center',
       fontSize: 14,
       color: '#5a5a5a',
-      lineHeight: 14 + 6,
+      lineHeight: 14 + 6
     }
   })
 }

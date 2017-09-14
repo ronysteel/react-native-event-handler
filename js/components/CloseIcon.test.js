@@ -5,9 +5,7 @@ import CloseIcon from './CloseIcon'
 
 describe('renders without crashing', () => {
   it('', () => {
-    const component = (
-      <CloseIcon color={ '#fff' } />
-    )
+    const component = <CloseIcon color={'#fff'} />
     const rendered = renderer.create(component).toJSON()
     expect(rendered).toBeTruthy()
   })

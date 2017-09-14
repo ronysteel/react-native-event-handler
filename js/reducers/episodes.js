@@ -2,22 +2,22 @@
 import type { Action } from '../actions/types'
 
 export type Episode = {
-  id: number;
-  title: string;
-  description: string;
-  episodeOrder: number;
-  theme: string;
-  novelId: number;
-  scriptIds: Array<number>;
+  id: number,
+  title: string,
+  description: string,
+  episodeOrder: number,
+  theme: string,
+  novelId: number,
+  scriptIds: Array<number>
 }
 
 export type Episodes = {
-  [id: number]: Episode;
+  [id: number]: Episode
 }
 
 const initialStates: Episodes = {}
 
-function episodes(state: Episodes = initialStates, action: Action): Episodes {
+function episodes (state: Episodes = initialStates, action: Action): Episodes {
   switch (action.type) {
     case 'LOAD_EPISODE_SUCCESS': {
       const episodeId = action.episodeId
@@ -32,7 +32,7 @@ function episodes(state: Episodes = initialStates, action: Action): Episodes {
         ...(state[episodeId] || {}),
         ...action.episode.episode,
         id: episodeId,
-        scriptIds,
+        scriptIds
       }
       return { ...state, [episodeId]: episode }
     }
@@ -45,7 +45,7 @@ function episodes(state: Episodes = initialStates, action: Action): Episodes {
       const _episodes = Object.keys(episodes).reduce((memo, k) => {
         memo[k.toUpperCase()] = {
           ...(state[k.toUpperCase()] || {}),
-          ...episodes[k],
+          ...episodes[k]
         }
         return memo
       }, {})
@@ -71,15 +71,13 @@ export const getAllEpisode = (novel, episodes): Array<Episode> => {
 export const getNextEpisode = (
   novel,
   currentEpisode: Episode,
-  episodes: Episodes,
+  episodes: Episodes
 ): ?Episode => {
   if (!novel || !novel.episodeIds) {
     return null
   }
 
-  const index = novel.episodeIds.findIndex(v => (
-    v === currentEpisode.id
-  ))
+  const index = novel.episodeIds.findIndex(v => v === currentEpisode.id)
 
   if (index < 0) {
     return null

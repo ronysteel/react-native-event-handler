@@ -45,6 +45,6 @@ export default combineReducers({
 
   pages: combineReducers({
     homePageState,
-    storyPageStates,
-  }),
+    storyPageStates
+  })
 })

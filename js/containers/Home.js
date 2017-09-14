@@ -6,7 +6,11 @@ import { connect } from 'react-redux'
 
 import firebase from '../firebase'
 import { loadTab, loadTutorial, finishRequestReview } from '../actions/app'
-import { sentSlectContentEvent, sendPushAllowEvent, sendPushDenyEvent } from '../actions/event'
+import {
+  sentSlectContentEvent,
+  sendPushAllowEvent,
+  sendPushDenyEvent
+} from '../actions/event'
 import { openHomePage } from '../actions/homePage'
 import { onSelectContent } from './utils'
 import Stories from '../components/Stories'
@@ -26,18 +30,19 @@ const headerInit = {
   headerStyle: {
     backgroundColor: '#f5f5f5',
     borderColor: '#999',
-    borderBottomWidth: 0.5,
+    borderBottomWidth: 0.5
   },
   headerTitleStyle: {
     color: '#000',
     fontSize: 18,
-    fontWeight: 'bold',
-  },
+    fontWeight: 'bold'
+  }
 }
 
 class Home extends React.Component {
   static navigationOptions = ({ navigation }) => {
-    const isTutorial = (navigation.state.params && navigation.state.params.tutorial)
+    const isTutorial =
+      navigation.state.params && navigation.state.params.tutorial
 
     let header = {}
     if (isTutorial) {
@@ -50,51 +55,53 @@ class Home extends React.Component {
     isLoaded: false
   }
 
-  componentWillMount() {
+  componentWillMount () {
     this.props.navigation.setParams({
       tutorial: !this.props.tutorialEnded,
-      pushPopup: false,
+      pushPopup: false
     })
   }
 
-  componentDidMount() {
+  componentDidMount () {
     Promise.all([
       this.props.loadHomeTab(),
-      this.props.loadTutorial(this.props.tutorialEnded),
-    ])
-      .then(() => {
-        this.setState({ isLoaded: true })
-      })
+      this.props.loadTutorial(this.props.tutorialEnded)
+    ]).then(() => {
+      this.setState({ isLoaded: true })
+    })
   }
 
-  render() {
+  render () {
     const { stories, navigation, homeTab } = this.props
     if (!this.state.isLoaded) {
-      return <View style={ styles.container } />
+      return <View style={styles.container} />
     }
 
     if (this.props.navigation.state.params.tutorial) {
       const { novelId, episodeId } = this.props.tutorial
       return (
         <TutorialContainer
-          novelId={ novelId }
-          episodeId={ episodeId }
-          navigation={ this.props.navigation }
+          novelId={novelId}
+          episodeId={episodeId}
+          navigation={this.props.navigation}
         />
       )
     }
 
     return (
-      <View style={ styles.container }>
-        <Stories sections={ homeTab.sections } onSelectContent={ this.props.onSelectContent } />
+      <View style={styles.container}>
+        <Stories
+          sections={homeTab.sections}
+          onSelectContent={this.props.onSelectContent}
+        />
         <HomeSettingContainer />
-        { this.props.navigation.state.params.pushPopup
-          ?  <PushPermissionPopup onPress={ this.props.requestPushPermission } />
-          : null
-        }
-        { !this.props.review.reviewRequestEnded && this.props.review.finishReadingCount >=5
-          ? <View onLayout= { this.props.requestReview } /> : null
-        }
+        {this.props.navigation.state.params.pushPopup ? (
+          <PushPermissionPopup onPress={this.props.requestPushPermission} />
+        ) : null}
+        {!this.props.review.reviewRequestEnded &&
+        this.props.review.finishReadingCount >= 5 ? (
+          <View onLayout={this.props.requestReview} />
+        ) : null}
       </View>
     )
   }
@@ -103,17 +110,17 @@ class Home extends React.Component {
 const styles: StyleSheet = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f3f3f3',
-  },
+    backgroundColor: '#f3f3f3'
+  }
 })
 
-const select = (store) => {
+const select = store => {
   return {
     stories: store.stories,
     homeTab: store.tabs['home'],
     tutorialEnded: store.session.tutorialEnded || false,
     tutorial: store.tutorial,
-    review: store.review,
+    review: store.review
   }
 }
 
@@ -129,7 +136,9 @@ const actions = (dispatch, props) => {
       return dispatch(loadTutorial())
     },
     requestPushPermission: () => {
-      firebase.messaging().requestPermissions()
+      firebase
+        .messaging()
+        .requestPermissions()
         .then(res => {
           if (res.granted === undefined) {
             return
@@ -148,7 +157,7 @@ const actions = (dispatch, props) => {
       requestReviewPopup()
       dispatch(finishRequestReview())
     },
-    onSelectContent: onSelectContent.bind(null, dispatch),
+    onSelectContent: onSelectContent.bind(null, dispatch)
   }
 }
 

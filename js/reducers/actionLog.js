@@ -2,37 +2,34 @@
 import type { Action } from '../actions/types'
 
 type Novel = {
-  id: string;
-  episodeId: string;
-  title: string;
-  categoryId: number;
+  id: string,
+  episodeId: string,
+  title: string,
+  categoryId: number
 }
 
 type Screen = {
-  type: 'UNKNOWN' | 'HOME' | 'NOVEL' | 'DEEPLINK';
-  novel: ?Novel;
+  type: 'UNKNOWN' | 'HOME' | 'NOVEL' | 'DEEPLINK',
+  novel: ?Novel
 }
 
 type Position = {
-  sectionIndex: number;
-  positionIndex: number;
+  sectionIndex: number,
+  positionIndex: number
 }
 
 export type ActionLog = {
-  currentScreen: Screen;
-  prevScreen: Screen;
-  position: ?Position;
+  currentScreen: Screen,
+  prevScreen: Screen,
+  position: ?Position
 }
 
 const initialState: ActionLog = {
   currentScreen: { type: 'UNKNOWN' },
-  prevScreen: { type: 'UNKNOWN' },
+  prevScreen: { type: 'UNKNOWN' }
 }
 
-function actionLog(
-  state: ActionLog = initialState,
-  action: Action,
-): ActionLog {
+function actionLog (state: ActionLog = initialState, action: Action): ActionLog {
   switch (action.type) {
     case 'MOVE_SCREEN_SUCCESS': {
       const { screenType, params } = action
@@ -40,13 +37,13 @@ function actionLog(
       if (screenType == 'NOVEL') {
         currentScreen.novel = {
           id: params.novelId,
-          episodeId: params.episodeId,
+          episodeId: params.episodeId
         }
       }
       const prevScreen = { ...state.currentScreen }
       return {
         ...state,
-        ...({ currentScreen, prevScreen }),
+        ...{ currentScreen, prevScreen }
       }
     }
 
@@ -54,9 +51,9 @@ function actionLog(
       const { sectionIndex, positionIndex } = action
       return {
         ...state,
-        ...({
+        ...{
           position: { sectionIndex, positionIndex }
-        }),
+        }
       }
     }
 

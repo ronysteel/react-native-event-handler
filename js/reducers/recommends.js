@@ -3,22 +3,25 @@ import type { Action } from '../actions/types'
 import type { Script } from './scripts'
 
 export type Recommends = {
-  [categoryId: number]: Array<Recommend>;
+  [categoryId: number]: Array<Recommend>
 }
 
 export type Recommend = {
-  novelId: number;
-  episodeId: number;
-  title: string;
-  description: string;
-  episodeUri: string;
-  thumbnailUrl: string;
-  tags: Array<string>;
+  novelId: number,
+  episodeId: number,
+  title: string,
+  description: string,
+  episodeUri: string,
+  thumbnailUrl: string,
+  tags: Array<string>
 }
 
 const initialStates: Recommends = {}
 
-function recommends(state: Recommends = initialStates, action: Action): Recommends {
+function recommends (
+  state: Recommends = initialStates,
+  action: Action
+): Recommends {
   switch (action.type) {
     case 'LOAD_RECOMMENDS_SUCCESS': {
       const { categoryId, recommends } = action
@@ -32,7 +35,7 @@ function recommends(state: Recommends = initialStates, action: Action): Recommen
           episodeId: v.episodeId,
           episodeUri: v.episodeUri,
           thumbnailUrl: v.thumbnailUrl,
-          tags: v.tags,
+          tags: v.tags
         })
       }
       return Object.assign({}, state, { [categoryId]: rs })

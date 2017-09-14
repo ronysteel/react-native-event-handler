@@ -4,7 +4,6 @@ import moment from 'moment'
 
 import Promotion from './Promotion'
 
-
 describe('renders without crashing', () => {
   it('', () => {
     jest.useFakeTimers()
@@ -21,7 +20,7 @@ describe('renders without crashing', () => {
               downloadable: false,
               price: 900,
               priceString: '¥900',
-              title: '1ヶ月',
+              title: '1ヶ月'
             },
             'co.newn.chatnovel.onemonth': {
               identifier: '',
@@ -31,23 +30,25 @@ describe('renders without crashing', () => {
               downloadable: false,
               price: 900,
               priceString: '¥900',
-              title: '1ヶ月',
+              title: '1ヶ月'
             }
           }
         }}
-        ticketCount={ 1 }
-        remainingTweetCount={ 1 }
-        isAvailableTwitter={ false }
-        onTapPurchase={ () => {} }
-        onTapUseTicket={ () => {} }
-        onTapGetTicket={ () => {} }
-        onTapRestore={ () => {} }
-        nextRechargeDate={ moment().add(30, 'minutes').valueOf() }
-        onEndRecharge={ () => {} }
-        closeModal={ () => {} }
-        onTapPrivacyPolicy={ () => {} }
-        onTapTermOfUse={ () => {} }
-        onTapHelpPurchase={ () => {} }
+        ticketCount={1}
+        remainingTweetCount={1}
+        isAvailableTwitter={false}
+        onTapPurchase={() => {}}
+        onTapUseTicket={() => {}}
+        onTapGetTicket={() => {}}
+        onTapRestore={() => {}}
+        nextRechargeDate={moment()
+          .add(30, 'minutes')
+          .valueOf()}
+        onEndRecharge={() => {}}
+        closeModal={() => {}}
+        onTapPrivacyPolicy={() => {}}
+        onTapTermOfUse={() => {}}
+        onTapHelpPurchase={() => {}}
       />
     )
     const rendered = renderer.create(Component).toJSON()

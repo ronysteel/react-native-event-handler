@@ -1,23 +1,20 @@
 // @flow
 import React from 'react'
-import {
-  Image,
-  View,
-  StyleSheet,
-} from 'react-native'
+import { Image, View, StyleSheet } from 'react-native'
 import FadeIn from 'react-native-fade-in-image'
 
 const BackgroundImage = ({ imageUrl, children }) => {
   if (!imageUrl) {
-    return <View style={ styles.bg } />
+    return <View style={styles.bg} />
   }
 
   return (
-    <FadeIn style={ styles.bg } duration={ 200 } placeholderStyle={ styles.placeholderStyle }>
-      <Image
-        source={{ uri: imageUrl }}
-        style={ styles.bg }
-      />
+    <FadeIn
+      style={styles.bg}
+      duration={200}
+      placeholderStyle={styles.placeholderStyle}
+    >
+      <Image source={{ uri: imageUrl }} style={styles.bg} />
     </FadeIn>
   )
 }
@@ -29,10 +26,10 @@ const styles: StyleSheet = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   },
   placeholderStyle: {
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   }
 })
 

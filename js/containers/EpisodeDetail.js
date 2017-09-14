@@ -11,20 +11,14 @@ import {
   loadRecommends,
   updateReadState,
   pageView,
-  completeContent,
+  completeContent
 } from '../actions/story'
-import {
-  decreaseUserEnergy,
-  syncUserEnergy,
-} from '../actions/user'
-import {
-  openPromotionModal,
-  openEpisodeListModal,
-} from '../actions/storyPage'
+import { decreaseUserEnergy, syncUserEnergy } from '../actions/user'
+import { openPromotionModal, openEpisodeListModal } from '../actions/storyPage'
 import {
   sendSelectContentEvent,
   sendShareEvent,
-  sendShareCompleteEvent,
+  sendShareCompleteEvent
 } from '../actions/event'
 
 import { getAllScript } from '../reducers/scripts'
@@ -39,34 +33,36 @@ import type { Script, Scripts, IndexedScripts } from '../reducers/scripts'
 import type { ReadState } from '../reducers/readStates'
 
 class EpisodeDetail extends React.PureComponent {
-  constructor() {
+  constructor () {
     super()
 
     this.state = {
       isLoading: true,
       headerVisible: false,
-      tapping: false,
+      tapping: false
     }
   }
 
   static navigationOptions = ({ navigation }) => ({
-    header: null,
+    header: null
   })
 
-  componentDidMount() {
+  componentDidMount () {
     const { novelId, episodeId, navigation, uid } = this.props
 
     let categoryId
     Promise.all([
-      this.props.loadEpisode(novelId, episodeId)
-        .then(() => {
-          this.props.pageView(novelId, episodeId)
-          if (!this.props.readState || (this.props.readState && this.props.readState.reachEndOfContent)) {
-            this.props.resetReadIndex(episodeId)
-          }
-        }),
+      this.props.loadEpisode(novelId, episodeId).then(() => {
+        this.props.pageView(novelId, episodeId)
+        if (
+          !this.props.readState ||
+          (this.props.readState && this.props.readState.reachEndOfContent)
+        ) {
+          this.props.resetReadIndex(episodeId)
+        }
+      }),
       this.props.loadUserEnergy(uid),
-      this.props.loadEpisodeList(novelId),
+      this.props.loadEpisodeList(novelId)
     ])
       .then(() => {
         this.setState({ isLoading: false })
@@ -88,52 +84,60 @@ class EpisodeDetail extends React.PureComponent {
     this.setState({ headerVisible: false })
   }
 
-  render() {
+  render () {
     const {
-      novel, episode, scripts, readState, shareLinks,
-      characters, uid, navigation, setHeaderVisible, onTapScreen,
+      novel,
+      episode,
+      scripts,
+      readState,
+      shareLinks,
+      characters,
+      uid,
+      navigation,
+      setHeaderVisible,
+      onTapScreen
     } = this.props
 
     if (this.state.isLoading) {
-      return <View style={{ flex: 1, backgroundColor: '#fff' }}></View>
+      return <View style={{ flex: 1, backgroundColor: '#fff' }} />
     }
 
     return (
       <View style={{ flex: 1 }}>
         <Detail
-          novel={ novel }
-          episode={ episode }
-          nextEpisode={ this.props.nextEpisode }
-          scripts={ scripts }
-          scriptValues={ Object.values(scripts) }
-          readState={ readState }
-          characters={ characters }
-          setHeaderVisible={ setHeaderVisible }
-          shareLinks={ shareLinks }
-          category={ this.props.category }
-          recommends={ this.props.recommends }
-          showHeader={ this.showHeader }
-          hideHeader={ this.hideHeader }
-          onTapScreen={ onTapScreen.bind(null, this, uid, episode.id) }
-          onSelectContent={ this.props.onSelectContent }
-          onPressShare={ this.props.onPressShare.bind(null, episode.id) }
+          novel={novel}
+          episode={episode}
+          nextEpisode={this.props.nextEpisode}
+          scripts={scripts}
+          scriptValues={Object.values(scripts)}
+          readState={readState}
+          characters={characters}
+          setHeaderVisible={setHeaderVisible}
+          shareLinks={shareLinks}
+          category={this.props.category}
+          recommends={this.props.recommends}
+          showHeader={this.showHeader}
+          hideHeader={this.hideHeader}
+          onTapScreen={onTapScreen.bind(null, this, uid, episode.id)}
+          onSelectContent={this.props.onSelectContent}
+          onPressShare={this.props.onPressShare.bind(null, episode.id)}
         />
         <StoryHeader
-          visible={ this.state.headerVisible }
-          navigation={ navigation }
-          openModal={ this.props.openEpisodeListModal.bind(null, episode.id) }
+          visible={this.state.headerVisible}
+          navigation={navigation}
+          openModal={this.props.openEpisodeListModal.bind(null, episode.id)}
         />
-        <PromotionContainer novelId={ novel.novelId } episodeId={ episode.id } />
-        <EpisodeList
-          novelId={ novel.novelId }
-          episodeId={ episode.id }
-        />
+        <PromotionContainer novelId={novel.novelId} episodeId={episode.id} />
+        <EpisodeList novelId={novel.novelId} episodeId={episode.id} />
       </View>
     )
   }
 }
 
-const getScripts = (scripts: IndexedScripts, readState: ReadState): IndexedScripts => {
+const getScripts = (
+  scripts: IndexedScripts,
+  readState: ReadState
+): IndexedScripts => {
   return Object.keys(scripts).reduce((memo, k) => {
     if (readState && k <= readState.readIndex) {
       memo[k] = scripts[k]
@@ -142,7 +146,7 @@ const getScripts = (scripts: IndexedScripts, readState: ReadState): IndexedScrip
   }, {})
 }
 
-const getParams = (props) => props.navigation.state.params
+const getParams = props => props.navigation.state.params
 
 const select = (store, props) => {
   const { episodeId, novelId } = getParams(props)
@@ -150,7 +154,10 @@ const select = (store, props) => {
   const novel = store.novels[novelId]
   const episode: Episode = store.episodes[episodeId]
   const readState: ReadState = store.readStates[episodeId]
-  const allScript: Scripts = getAllScript(store.episodes[episodeId], store.scripts)
+  const allScript: Scripts = getAllScript(
+    store.episodes[episodeId],
+    store.scripts
+  )
   return {
     uid: store.session.uid,
     novelId,
@@ -164,7 +171,7 @@ const select = (store, props) => {
     characters: store.characters[episodeId],
     shareLinks: store.shareLinks[episodeId],
     recommends: novel && novel.categoryId && store.recommends[novel.categoryId],
-    category: novel && novel.categoryId && store.categories[novel.categoryId],
+    category: novel && novel.categoryId && store.categories[novel.categoryId]
   }
 }
 
@@ -174,8 +181,7 @@ const actions = (dispatch, props) => {
       dispatch(loadEpisode(novelId, episodeId)),
     loadRecommends: (categoryId: number) =>
       dispatch(loadRecommends(categoryId)),
-    loadUserEnergy: (userId: number) =>
-      dispatch(syncUserEnergy(userId, true)),
+    loadUserEnergy: (userId: number) => dispatch(syncUserEnergy(userId, true)),
     loadEpisodeList: (novelId: string) => dispatch(loadEpisodeList(novelId)),
     onTapScreen: (obj: EpisodeDetail, userId: number, episodeId: number) => {
       if (obj.state.tapping) {
@@ -187,15 +193,18 @@ const actions = (dispatch, props) => {
         .then(() => dispatch(decreaseUserEnergy(userId)))
         .then(() => dispatch(openPromotionModal(episodeId)))
         .then(() => dispatch(completeContent(episodeId)))
-        .then(() => obj.state.tapping = false)
-        .catch(() => obj.state.tapping = false)
+        .then(() => (obj.state.tapping = false))
+        .catch(() => (obj.state.tapping = false))
     },
     setHeaderVisible: (visible: boolean) => {
       props.navigation.setParams({ visible })
     },
-    resetReadIndex: (episodeId: number) => dispatch(updateReadState(episodeId, 0)),
-    pageView: (novelId: number, episodeId: number) => dispatch(pageView(novelId, episodeId)),
-    openEpisodeListModal: (episodeId: number) => dispatch(openEpisodeListModal(episodeId)),
+    resetReadIndex: (episodeId: number) =>
+      dispatch(updateReadState(episodeId, 0)),
+    pageView: (novelId: number, episodeId: number) =>
+      dispatch(pageView(novelId, episodeId)),
+    openEpisodeListModal: (episodeId: number) =>
+      dispatch(openEpisodeListModal(episodeId)),
     onStartReading: (novelId: number, episodeId: number) => {
       dispatch(sendSelectContentEvent(novelId, episodeId))
     },
@@ -210,7 +219,7 @@ const actions = (dispatch, props) => {
         })
       }
       dispatch(sendShareEvent(episodeId, type))
-    },
+    }
   }
 }
 

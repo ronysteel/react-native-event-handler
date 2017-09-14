@@ -2,16 +2,16 @@
 import type { Action } from '../actions/types'
 
 export type StoryPageState = {
-  isOpenPromotion: boolean;
+  isOpenPromotion: boolean
 }
 
 export type StoryPageStates = {
-  [episodeId: number]: StoryPageState;
+  [episodeId: number]: StoryPageState
 }
 
 const initialState: StoryPageState = {
   isOpenPromotion: false,
-  isOpenEpisodeList: false,
+  isOpenEpisodeList: false
 }
 
 const initialStates: StoryPageStates = {}
@@ -22,32 +22,32 @@ const update = (state, action, props) => {
   return Object.assign({}, state, { [episodeId]: s })
 }
 
-function storyPageStates(
+function storyPageStates (
   state: StoryPageStates = initialStates,
-  action: Action,
+  action: Action
 ): StoryPageStates {
   switch (action.type) {
     case 'OPEN_STORY_PAGE_PROMOTION_MODAL_SUCCESS': {
       return update(state, action, {
-        isOpenPromotion: true,
+        isOpenPromotion: true
       })
     }
 
     case 'CLOSE_STORY_PAGE_PROMOTION_MODAL_SUCCESS': {
       return update(state, action, {
-        isOpenPromotion: false,
+        isOpenPromotion: false
       })
     }
 
     case 'OPEN_STORY_PAGE_EPISODE_LIST_MODAL_SUCCESS': {
       return update(state, action, {
-        isOpenEpisodeList: true,
+        isOpenEpisodeList: true
       })
     }
 
     case 'CLOSE_STORY_PAGE_EPISODE_LIST_MODAL_SUCCESS': {
       return update(state, action, {
-        isOpenEpisodeList: false,
+        isOpenEpisodeList: false
       })
     }
 

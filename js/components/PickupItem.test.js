@@ -10,9 +10,9 @@ describe('renders without crashing', () => {
         title: '',
         description: '',
         thumbnailUrl: '',
-        tags: [],
+        tags: []
       },
-      index: 0,
+      index: 0
     })
     const rendered = renderer.create(<Component />).toJSON()
     expect(rendered).toBeTruthy()

@@ -4,23 +4,25 @@ import type { Script } from './scripts'
 import type { Energy } from './reducers/energy'
 
 export type ReadState = {
-  episodeId: number;
-  readIndex: number;
-  backgroundImageIndex: number;
-  displayPromotion: boolean;
-  reachEndOfContent: boolean;
+  episodeId: number,
+  readIndex: number,
+  backgroundImageIndex: number,
+  displayPromotion: boolean,
+  reachEndOfContent: boolean
 }
 
 export type ReadStates = {
-  [episodeId: number]: ReadState;
+  [episodeId: number]: ReadState
 }
 
 const initialStates: ReadStates = {}
 
-function isSkippable(script: Script): boolean {
-  if (script.type != 'TEXT' &&
-      script.type != 'DESCRIPTION' &&
-      script.type != 'IMAGE') {
+function isSkippable (script: Script): boolean {
+  if (
+    script.type != 'TEXT' &&
+    script.type != 'DESCRIPTION' &&
+    script.type != 'IMAGE'
+  ) {
     return true
   }
   return false
@@ -29,7 +31,12 @@ function isSkippable(script: Script): boolean {
 const maxReadNum = 100
 // const maxReadNum = 10
 
-function isRead(readIndex: number, paid: boolean, energy: number, tutorialEnded: boolean) {
+function isRead (
+  readIndex: number,
+  paid: boolean,
+  energy: number,
+  tutorialEnded: boolean
+) {
   if (!tutorialEnded) {
     return true
   }
@@ -49,16 +56,26 @@ function isRead(readIndex: number, paid: boolean, energy: number, tutorialEnded:
   return false
 }
 
-function readStates(state: ReadStates = initialStates, action: Action): ReadStates {
+function readStates (
+  state: ReadStates = initialStates,
+  action: Action
+): ReadStates {
   switch (action.type) {
     case 'UPDATE_READ_STATE': {
-      const { episodeId, scripts, readIndex, paid, energy, tutorialEnded } = action
+      const {
+        episodeId,
+        scripts,
+        readIndex,
+        paid,
+        energy,
+        tutorialEnded
+      } = action
       const init = {
         episodeId: episodeId,
         readIndex: 0,
         backgroundImageIndex: 0,
         displayPromotion: false,
-        reachEndOfContent: false,
+        reachEndOfContent: false
       }
       const s = Object.assign({}, init, state[episodeId] || {})
 
@@ -72,7 +89,10 @@ function readStates(state: ReadStates = initialStates, action: Action): ReadStat
       if (scripts && isRead(s.readIndex, paid, energy, tutorialEnded)) {
         do {
           s.readIndex = s.readIndex + 1
-          if (scripts[s.readIndex] && scripts[s.readIndex].type == 'BACKGROUND_IMAGE') {
+          if (
+            scripts[s.readIndex] &&
+            scripts[s.readIndex].type == 'BACKGROUND_IMAGE'
+          ) {
             s.backgroundImageIndex = s.readIndex
           }
         } while (scripts[s.readIndex] && isSkippable(scripts[s.readIndex]))

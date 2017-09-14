@@ -2,27 +2,27 @@
 import type { Action } from '../actions/types'
 
 export type HomePageState = {
-  isOpenSetting: boolean;
+  isOpenSetting: boolean
 }
 
 const initialState: HomePageState = {
-  isOpenSetting: false,
+  isOpenSetting: false
 }
 
-function homePageState(
+function homePageState (
   state: HomePageState = initialState,
-  action: Action,
+  action: Action
 ): HomePageState {
   switch (action.type) {
     case 'OPEN_HOME_PAGE_SETTING_MODAL_SUCCESS': {
       return Object.assign({}, state, {
-        isOpenSetting: true,
+        isOpenSetting: true
       })
     }
 
     case 'CLOSE_HOME_PAGE_SETTING_MODAL_SUCCESS': {
       return Object.assign({}, state, {
-        isOpenSetting: false,
+        isOpenSetting: false
       })
     }
 
