@@ -66,7 +66,6 @@ class ScriptList extends React.PureComponent {
         keyExtractor={item => `${item.id}`}
         ListFooterComponent={ListFooterComponent}
         onLayout={() => {
-          console.warn("onLayout called")
           this.props.onLayout(this.list._listRef.state)
         }}
         style={style}
