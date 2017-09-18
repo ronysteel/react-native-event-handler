@@ -1,4 +1,4 @@
-import { Linking, Alert } from 'react-native'
+import { Platform, Linking, Alert } from 'react-native'
 import Share from 'react-native-share'
 import { selectContent } from '../actions/app'
 import { navigateNovel } from '../actions/navigator'
@@ -41,9 +41,8 @@ export const onPressShare = (type: string, options) => {
       }).catch(() => {})
     }
     case 'line': {
-      const makeUri = options =>
-        `line://msg/text/${options.title}\n${options.url}`
-      const url = makeUri(options)
+      const path = encodeURIComponent(`${options.title}\n${options.url}`)
+      const url = `line://msg/text/${path}`
       return Linking.canOpenURL(url)
         .then(supported => {
           if (!supported) {
