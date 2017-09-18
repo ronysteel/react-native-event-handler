@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View, Text, AlertIOS, Linking } from 'react-native'
+import { Platform, View, Text, AlertIOS, Linking } from 'react-native'
 import { connect } from 'react-redux'
 
 import Config from 'react-native-config'
@@ -66,13 +66,19 @@ class PromotionContainer extends React.Component {
   }
 
   componentDidMount () {
-    Share.isAvailable('twitter')
-      .then(() => {
-        this.setState({ isAvailableTwitter: true })
-      })
-      .catch(() => {
-        this.setState({ isAvailableTwitter: false })
-      })
+    // Share#isAvailable is not supporeted on android.
+    // And android can handle URL whether twitter app is installed or not
+    if (Platform.OS === 'android') {
+      this.setState({ isAvailableTwitter: true })
+    } else {
+      Share.isAvailable('twitter')
+        .then(() => {
+          this.setState({ isAvailableTwitter: true })
+        })
+        .catch(() => {
+          this.setState({ isAvailableTwitter: false })
+        })
+    }
   }
 
   componentDidUpdate (prevProps, prevState) {
