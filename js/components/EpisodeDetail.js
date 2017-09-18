@@ -173,6 +173,9 @@ class EpisodeDetail extends React.PureComponent {
   }
 
   onLayoutFooter () {
+    // Footerコンポーネントのレンダリングがされたタイミングを
+    // 全体のレンダリングが完了した判定をするのに使う
+    // 内部の実装に依存しているので、もっといい方法があれば変更したい
     const ref = this.scriptList.listRef()
     if (
       !this.state.renderCompleted &&
