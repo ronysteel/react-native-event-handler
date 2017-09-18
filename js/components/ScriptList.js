@@ -45,6 +45,12 @@ const renderItem = (lastItemId, readState, characters, { item, index }) => {
 }
 
 class ScriptList extends React.PureComponent {
+  _list = null
+
+  listRef = () => {
+    return this._list._listRef
+  }
+
   render () {
     const {
       data,
@@ -53,16 +59,15 @@ class ScriptList extends React.PureComponent {
       characters,
       isTutorial,
       ListFooterComponent,
-      onRenderComplete,
       style
     } = this.props
     return (
       <FlatList
+        ref={r => (this._list = r)}
         data={data}
         renderItem={renderItem.bind(null, lastItemId, readState, characters)}
         keyExtractor={item => `${item.id}`}
         ListFooterComponent={ListFooterComponent}
-        onViewableItemsChanged={onRenderComplete}
         style={style}
       />
     )

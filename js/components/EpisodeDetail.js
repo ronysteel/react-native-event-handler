@@ -115,7 +115,7 @@ class EpisodeDetail extends React.PureComponent {
       height = 30
     }
 
-    return <View style={{ height }} />
+    return <View style={{ height }} onLayout={this.onLayoutFooter.bind(this)} />
   }
 
   scrollToEnd (params: Object = {}) {
@@ -172,17 +172,17 @@ class EpisodeDetail extends React.PureComponent {
     }
   }
 
-  onRenderComplate ({ viewableItems }) {
+  onLayoutFooter () {
+    // Footerコンポーネントのレンダリングがされたタイミングを
+    // 全体のレンダリングが完了した判定をするのに使う
+    // 内部の実装に依存しているので、もっといい方法があれば変更したい
+    const ref = this.scriptList.listRef()
     if (
       !this.state.renderCompleted &&
-      viewableItems.length > 0 &&
-      _.last(viewableItems).item.id === _.last(this.props.scriptValues).id
+      ref &&
+      ref.state &&
+      ref.state.last === this.props.scriptValues.length - 1
     ) {
-      // unmount 後に呼ばれることがある
-      if (!this) {
-        return
-      }
-
       this.scrollToEnd({
         animated: false
       })
@@ -227,6 +227,7 @@ class EpisodeDetail extends React.PureComponent {
           onMomentumScrollEnd={this.onMomentumScrollEnd}
         >
           <ScriptList
+            ref={r => (this.scriptList = r)}
             data={scriptValues}
             lastItemId={lastItemId}
             readState={readState}
@@ -236,7 +237,6 @@ class EpisodeDetail extends React.PureComponent {
               readState,
               isTutorial
             )}
-            onRenderComplete={this.onRenderComplate.bind(this)}
             style={{
               opacity: this.state.renderCompleted ? 1 : 0
             }}
