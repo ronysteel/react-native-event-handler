@@ -1475,7 +1475,7 @@
 				BUNDLE_ID_SUFFIX = .dev;
 				CODE_SIGN_ENTITLEMENTS = chatnovel/chatnovel.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 105;
+				CURRENT_PROJECT_VERSION = 106;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 5ZFQE66DKU;
 				DOT_ENV_FILE = ".env.${ENV}";
@@ -1519,7 +1519,7 @@
 				BUNDLE_ID_SUFFIX = "";
 				CODE_SIGN_ENTITLEMENTS = chatnovel/chatnovel.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 105;
+				CURRENT_PROJECT_VERSION = 106;
 				DEVELOPMENT_TEAM = 5ZFQE66DKU;
 				DOT_ENV_FILE = ".env.${ENV}";
 				ENV = production;
@@ -1752,7 +1752,7 @@
 				BUNDLE_ID_SUFFIX = .dev;
 				CODE_SIGN_ENTITLEMENTS = chatnovel/chatnovel.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 105;
+				CURRENT_PROJECT_VERSION = 106;
 				DEVELOPMENT_TEAM = 5ZFQE66DKU;
 				DOT_ENV_FILE = ".env.${ENV}";
 				ENV = development;
