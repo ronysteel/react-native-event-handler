@@ -39,6 +39,7 @@ export function signInAnonymously (): ThunkAction {
       .auth()
       .signInAnonymously()
       .then(user => {
+        firebase.analytics().setUserId(user.uid)
         userObj.uid = user.uid
         return user
       })
