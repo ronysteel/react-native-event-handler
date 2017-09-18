@@ -61,6 +61,13 @@
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
+  FIRDynamicLink *dynamicLink =
+  [[FIRDynamicLinks dynamicLinks] dynamicLinkFromCustomSchemeURL:url];
+  
+  if (dynamicLink) {
+    return YES;
+  }
+  
   return [RCTLinkingManager application:application
                                 openURL:url
                       sourceApplication:sourceApplication
@@ -71,6 +78,11 @@
 continueUserActivity:(NSUserActivity *)userActivity
   restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler
 {
+  [[FIRDynamicLinks dynamicLinks] handleUniversalLink:userActivity.webpageURL
+                                           completion:^(FIRDynamicLink * _Nullable dynamicLink, NSError * _Nullable error) {
+                                             // Nothing
+                                           }];
+  
   return [RCTLinkingManager application:application
                    continueUserActivity:userActivity
                      restorationHandler:restorationHandler];
