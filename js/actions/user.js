@@ -192,10 +192,7 @@ export function syncUserEnergy (
     const { energy } = getState()
 
     if (energy.isLoading) {
-      return new Promise((resolve, reject) => {
-        dispatch({ type: 'SYNC_USER_ENERGY_FAILED' })
-        return reject()
-      })
+      return Promise.reject()
     }
 
     if (
@@ -218,6 +215,7 @@ export function syncUserEnergy (
     return fetchUserEnergy()
       .then(v => {
         if (!v) {
+          dispatch({ type: 'SYNC_USER_ENERGY_FAILED' })
           return Promise.reject()
         }
 
