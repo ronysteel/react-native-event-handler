@@ -172,17 +172,11 @@ class EpisodeDetail extends React.PureComponent {
     }
   }
 
-  onRenderComplate ({ viewableItems }) {
+  onLayoutScriptList ({ last }) {
     if (
       !this.state.renderCompleted &&
-      viewableItems.length > 0 &&
-      _.last(viewableItems).item.id === _.last(this.props.scriptValues).id
+      last === this.props.scriptValues.length - 1
     ) {
-      // unmount 後に呼ばれることがある
-      if (!this) {
-        return
-      }
-
       this.scrollToEnd({
         animated: false
       })
@@ -236,7 +230,7 @@ class EpisodeDetail extends React.PureComponent {
               readState,
               isTutorial
             )}
-            onRenderComplete={this.onRenderComplate.bind(this)}
+            onLayout={this.onLayoutScriptList.bind(this)}
             style={{
               opacity: this.state.renderCompleted ? 1 : 0
             }}
