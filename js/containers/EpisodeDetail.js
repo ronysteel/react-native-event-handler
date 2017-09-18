@@ -43,11 +43,14 @@ class EpisodeDetail extends React.PureComponent {
     }
   }
 
+  mounted = false
+
   static navigationOptions = ({ navigation }) => ({
     header: null
   })
 
   componentDidMount () {
+    this.mounted = true
     const { novelId, episodeId, navigation, uid } = this.props
 
     let categoryId
@@ -65,15 +68,19 @@ class EpisodeDetail extends React.PureComponent {
       this.props.loadEpisodeList(novelId)
     ])
       .then(() => {
-        this.setState({ isLoading: false })
-      })
-      .then(() => {
-        this.props.loadRecommends(this.props.novel.categoryId)
-        this.props.onStartReading(novelId, episodeId)
+        if (this.mounted) {
+          this.setState({ isLoading: false })
+          this.props.loadRecommends(this.props.novel.categoryId)
+          this.props.onStartReading(novelId, episodeId)
+        }
       })
       .catch(err => {
         console.error(err)
       })
+  }
+
+  componentWillUnmount () {
+    this.mounted = false
   }
 
   showHeader = () => {
