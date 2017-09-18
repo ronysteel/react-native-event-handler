@@ -206,11 +206,11 @@ export function syncUserEnergy (
     }
 
     if (!force && energy.energy === energy.latestSyncedEnergy) {
-      return new Promise(resolve => resolve())
+      return Promise.resolve()
     }
 
     if (!force && energy.energy > 0) {
-      return new Promise(resolve => resolve())
+      return Promise.resolve()
     }
 
     dispatch({ type: 'SYNC_USER_ENERGY_REQUEST' })
