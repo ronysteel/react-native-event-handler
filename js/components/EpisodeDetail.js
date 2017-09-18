@@ -115,7 +115,7 @@ class EpisodeDetail extends React.PureComponent {
       height = 30
     }
 
-    return <View style={{ height }} />
+    return <View style={{ height }} onLayout={this.onLayoutFooter.bind(this)} />
   }
 
   scrollToEnd (params: Object = {}) {
@@ -172,10 +172,13 @@ class EpisodeDetail extends React.PureComponent {
     }
   }
 
-  onLayoutScriptList ({ last }) {
+  onLayoutFooter () {
+    const ref = this.scriptList.listRef()
     if (
       !this.state.renderCompleted &&
-      last === this.props.scriptValues.length - 1
+      ref &&
+      ref.state &&
+      ref.state.last === this.props.scriptValues.length - 1
     ) {
       this.scrollToEnd({
         animated: false
@@ -221,6 +224,7 @@ class EpisodeDetail extends React.PureComponent {
           onMomentumScrollEnd={this.onMomentumScrollEnd}
         >
           <ScriptList
+            ref={r => (this.scriptList = r)}
             data={scriptValues}
             lastItemId={lastItemId}
             readState={readState}
@@ -230,7 +234,6 @@ class EpisodeDetail extends React.PureComponent {
               readState,
               isTutorial
             )}
-            onLayout={this.onLayoutScriptList.bind(this)}
             style={{
               opacity: this.state.renderCompleted ? 1 : 0
             }}
