@@ -110,7 +110,8 @@ export function sendLeaveContentEvent (episodeId: number): ThunkAction {
       )
       .then(() => {
         // Cancel all local notifications
-        firebase.messaging().cancelLocalNotification('*')
+        firebase.messaging().cancelLocalNotification('LEAVE_CONTENT_1')
+        firebase.messaging().cancelLocalNotification('LEAVE_CONTENT_2')
 
         const { characters, episodes, scripts } = getState()
         const episodeCharacters = characters[episodeId]

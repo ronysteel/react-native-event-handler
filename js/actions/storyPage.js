@@ -8,6 +8,7 @@ export function closePromotionModal (episodeId: number): ThunkAction {
       .then(() => {
         StatusBar.setBarStyle('dark-content')
         StatusBar.setHidden(true)
+        firebase.messaging().cancelLocalNotification(`USER_ENERGY_RECHARGE_${episodeId}`)
       })
       .then(() =>
         dispatch({
@@ -34,6 +35,11 @@ export function openPromotionModal (episodeId: number): ThunkAction {
       .then(() => {
         StatusBar.setBarStyle('dark-content')
         StatusBar.setHidden(false, true)
+        firebase.messaging().scheduleLocalNotification({
+          id: `USER_ENERGY_RECHARGE_${episodeId}`,
+          body: 'ノベルの続きが読めるようになったよ！',
+          fire_date: getState().energy.nextRechargeDate
+        })
       })
       .then(() =>
         dispatch({
