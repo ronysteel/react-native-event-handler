@@ -1,6 +1,7 @@
 // @flow
 import type { Action, ThunkAction } from './types'
 import { StatusBar } from 'react-native'
+import firebase from '../firebase'
 
 export function closePromotionModal (episodeId: number): ThunkAction {
   return (dispatch, getState) => {
