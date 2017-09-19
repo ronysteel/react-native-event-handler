@@ -32,6 +32,7 @@ import {
 import {
   sendLeaveContentEvent,
   sendTutorialLeaveEvent,
+  sendNotificationOpenEvent,
   sendLocalNotificationOpenEvent
 } from './actions/event'
 
@@ -118,6 +119,8 @@ class Root extends React.PureComponent {
           sendLocalNotificationOpenEvent(event.episodeId)
         )
       }
+    } else {
+      this.state.store.dispatch(sendNotificationOpenEvent())
     }
 
     if (event.episodeUri) {
