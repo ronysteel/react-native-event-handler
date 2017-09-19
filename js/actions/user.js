@@ -189,15 +189,14 @@ export function syncUserEnergy (
   force: boolean = false
 ): ThunkAction {
   return (dispatch, getState) => {
-    const { energy } = getState()
-
     return new Promise(resolve =>
       // https://stackoverflow.com/questions/30505960/use-promise-to-wait-until-polled-condition-is-satisfied
       (function waitForEnergy () {
-        if (!energy.isLoading) return resolve()
+        if (!getState().energy.isLoading) return resolve()
         setTimeout(waitForEnergy, 1)
       })()
     ).then(() => {
+      const { energy } = getState()
       if (
         energy.nextRechargeDate &&
         energy.nextRechargeDate - moment().valueOf() < 0
