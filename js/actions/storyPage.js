@@ -9,7 +9,6 @@ export function closePromotionModal (episodeId: number): ThunkAction {
       .then(() => {
         StatusBar.setBarStyle('dark-content')
         StatusBar.setHidden(true)
-        firebase.messaging().cancelLocalNotification('USER_ENERGY_RECHARGE') // ここじゃない
       })
       .then(() =>
         dispatch({
