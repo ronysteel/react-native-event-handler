@@ -51,7 +51,11 @@ class EpisodeDetail extends React.PureComponent {
 
   componentDidMount () {
     this.mounted = true
-    const { novelId, episodeId, navigation, uid } = this.props
+    const { novelId, episodeId, episode, navigation, uid } = this.props
+
+    if (episode && episode.isLoaded) {
+      this.setState({ isLoading: false })
+    }
 
     let categoryId
     Promise.all([
