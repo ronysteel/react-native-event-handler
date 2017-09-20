@@ -190,62 +190,68 @@ export function syncUserEnergy (
   force: boolean = false
 ): ThunkAction {
   return (dispatch, getState) => {
-    const { energy } = getState()
-
-    if (energy.isLoading) {
-      return new Promise((resolve, reject) => {
-        dispatch({ type: 'SYNC_USER_ENERGY_FAILED' })
-        return reject()
-      })
-    }
-
-    if (
-      energy.nextRechargeDate &&
-      energy.nextRechargeDate - moment().valueOf() < 0
-    ) {
-      force = true
-    }
-
-    if (!force && energy.energy === energy.latestSyncedEnergy) {
-      return new Promise(resolve => resolve())
-    }
-
-    if (!force && energy.energy > 0) {
-      return new Promise(resolve => resolve())
-    }
-
-    dispatch({ type: 'SYNC_USER_ENERGY_REQUEST' })
-
-    return fetchUserEnergy()
-      .then(v => {
-        if (!v) {
-          return Promise.reject()
+    return Promise.race([
+      new Promise(resolve =>
+        // https://stackoverflow.com/questions/30505960/use-promise-to-wait-until-polled-condition-is-satisfied
+        (function waitForEnergy () {
+          if (!getState().energy.isLoading) return resolve()
+          setTimeout(waitForEnergy, 1)
+        })()
+      ),
+      new Promise((resolve, reject) => setTimeout(reject, 1000))
+    ])
+      .then(() => {
+        const { energy } = getState()
+        if (
+          energy.nextRechargeDate &&
+          energy.nextRechargeDate - moment().valueOf() < 0
+        ) {
+          force = true
         }
 
-        if (!energy.latestSyncedAt || v.updatedAt > v.latestSyncedAt) {
-          return v
-        }
-      })
-      .then(loadedEnergy => {
-        const ext = loadedEnergy ? {} : { energy: energy.energy }
-        const base = {
-          latest_synced_at: firebase.database.ServerValue.TIMESTAMP,
-          updated_at: firebase.database.ServerValue.TIMESTAMP
+        if (!force && energy.energy === energy.latestSyncedEnergy) {
+          return Promise.resolve()
         }
 
-        return updateUserEnergy(Object.assign({}, ext))
-          .then(() => fetchUserEnergy())
-          .then(v =>
-            dispatch({
-              type: 'SYNC_USER_ENERGY_SUCCESS',
-              energy: v.energy,
-              latestSyncedAt: v.latestSyncedAt,
-              nextRechargeDate: v.nextRechargeDate,
-              ticketCount: v.ticketCount,
-              remainingTweetCount: v.remainingTweetCount
-            })
-          )
+        if (!force && energy.energy > 0) {
+          return Promise.resolve()
+        }
+
+        dispatch({ type: 'SYNC_USER_ENERGY_REQUEST' })
+
+        return fetchUserEnergy()
+          .then(v => {
+            if (!v) {
+              dispatch({ type: 'SYNC_USER_ENERGY_FAILED' })
+              return Promise.reject()
+            }
+
+            if (!energy.latestSyncedAt || v.updatedAt > v.latestSyncedAt) {
+              return v
+            }
+          })
+          .then(loadedEnergy => {
+            const ext = loadedEnergy ? {} : { energy: energy.energy }
+            const base = {
+              latest_synced_at: firebase.database.ServerValue.TIMESTAMP,
+              updated_at: firebase.database.ServerValue.TIMESTAMP
+            }
+
+            return updateUserEnergy(Object.assign({}, ext))
+              .then(() => fetchUserEnergy())
+              .then(v =>
+                dispatch({
+                  type: 'SYNC_USER_ENERGY_SUCCESS',
+                  energy: v.energy,
+                  latestSyncedAt: v.latestSyncedAt,
+                  nextRechargeDate: v.nextRechargeDate,
+                  ticketCount: v.ticketCount,
+                  remainingTweetCount: v.remainingTweetCount
+                })
+              )
+          })
       })
+      .catch(() => Promise.reject())
   }
 }
 
