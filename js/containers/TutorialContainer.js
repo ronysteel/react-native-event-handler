@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Animated, StyleSheet, View, StatusBar } from 'react-native'
+import { Platform, Animated, StyleSheet, View, StatusBar } from 'react-native'
 import { connect } from 'react-redux'
 
 import Detail from '../components/EpisodeDetail'
@@ -171,7 +171,7 @@ const actions = (dispatch, props) => {
     onTutorialEnd: (episodeId: string) =>
       dispatch(tutorialEnd()).then(() => {
         props.navigation.setParams({
-          pushPopup: true,
+          pushPopup: Platform.OS === 'ios' ? true : false,
           tutorial: false
         })
         dispatch(sendTutorialCompleteEvent(episodeId))
