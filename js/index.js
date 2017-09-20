@@ -2,9 +2,6 @@
 
 import React from 'react'
 import { View, StatusBar, AsyncStorage, AppState, Linking } from 'react-native'
-import { compose, applyMiddleware, createStore, combineReducers } from 'redux'
-import thunk from 'redux-thunk'
-import { persistStore, autoRehydrate } from 'redux-persist'
 import { Provider } from 'react-redux'
 import {
   StackNavigator,
@@ -18,6 +15,7 @@ import { parseNovelUri } from './utils'
 
 import firebase from './firebase'
 import reducers from './reducers'
+import configureStore from './middlewares'
 
 import Router, { onNavigationStateChange } from './containers/Router'
 import { signInAnonymously, saveDeviceToken } from './actions/user'
@@ -38,21 +36,6 @@ import {
 
 const URL_SCHEME = Config.URL_SCHEME
 
-function setupStore (onComplete: () => void) {
-  const middlewares = []
-  if (__DEV__) {
-    const { logger } = require(`redux-logger`)
-    middlewares.push(logger)
-  }
-  middlewares.push(thunk)
-
-  const _createStore = compose(applyMiddleware(...middlewares))(createStore)
-  const store = autoRehydrate()(_createStore)(reducers)
-  persistStore(store, { storage: AsyncStorage }, onComplete)
-
-  return store
-}
-
 const episodeDetailPath = 'novels/:novelId/episodes/:episodeId'
 
 class Root extends React.PureComponent {
@@ -70,7 +53,7 @@ class Root extends React.PureComponent {
       appState: AppState.currentState
     }
 
-    this.state.store = setupStore((err, state) => {
+    this.state.store = configureStore((err, state) => {
       const dispatch = this.state.store.dispatch
 
       Promise.all([
