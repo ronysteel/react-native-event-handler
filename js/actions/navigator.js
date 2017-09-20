@@ -15,3 +15,40 @@ export function navigateNovel (novelId: string, episodeId: string): Action {
     params: { novelId, episodeId }
   })
 }
+
+export function navigateNovelFromNotification (
+  novelId: string,
+  episodeId: string
+): Action {
+  return NavigationActions.reset({
+    index: 1,
+    actions: [
+      NavigationActions.navigate({ routeName: 'Home' }),
+      NavigationActions.navigate({
+        routeName: 'EpisodeDetail',
+        params: {
+          novelId,
+          episodeId
+        }
+      })
+    ]
+  })
+}
+
+export function navigateAboutTerms (): Action {
+  return NavigationActions.navigate({
+    routeName: 'Terms'
+  })
+}
+
+export function navigateAboutPrivacy (): Action {
+  return NavigationActions.navigate({
+    routeName: 'PrivacyPolicy'
+  })
+}
+
+export function navigateAboutSubscription (): Action {
+  return NavigationActions.navigate({
+    routeName: 'AboutSubscription'
+  })
+}

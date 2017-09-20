@@ -293,9 +293,7 @@ export function sendLocalNotificationOpenEvent (episodeId: string): ThunkAction 
 export function sendNotificationOpenEvent (): ThunkAction {
   return (dispatch, getState) => {
     return new Promise(resolve => resolve())
-      .then(() =>
-        firebase.analytics().logEvent('global_notification_open', {})
-      )
+      .then(() => firebase.analytics().logEvent('global_notification_open', {}))
       .catch(() => {})
   }
 }
