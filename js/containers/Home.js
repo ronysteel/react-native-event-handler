@@ -51,6 +51,8 @@ class Home extends React.Component {
     return Object.assign({}, headerInit, header)
   }
 
+  mounted = false
+
   state = {
     isLoaded: false
   }
@@ -63,12 +65,19 @@ class Home extends React.Component {
   }
 
   componentDidMount () {
+    this.mounted = true
     Promise.all([
       this.props.loadHomeTab(),
       this.props.loadTutorial(this.props.tutorialEnded)
     ]).then(() => {
-      this.setState({ isLoaded: true })
+      if (this.mounted) {
+        this.setState({ isLoaded: true })
+      }
     })
+  }
+
+  componentWillUnmount () {
+    this.mounted = false
   }
 
   render () {
@@ -77,7 +86,9 @@ class Home extends React.Component {
       return <View style={styles.container} />
     }
 
-    if (this.props.navigation.state.params.tutorial) {
+    const navigationParams = this.props.navigation.state.params
+
+    if (navigationParams && navigationParams.tutorial) {
       const { novelId, episodeId } = this.props.tutorial
       return (
         <TutorialContainer
@@ -95,13 +106,12 @@ class Home extends React.Component {
           onSelectContent={this.props.onSelectContent}
         />
         <HomeSettingContainer />
-        {this.props.navigation.state.params.pushPopup ? (
+        {navigationParams && navigationParams.pushPopup ? (
           <PushPermissionPopup onPress={this.props.requestPushPermission} />
         ) : null}
-        {!this.props.review.reviewRequestEnded &&
-        this.props.review.finishReadingCount >= 5 ? (
+        {this.props.isDisplayReviewAlert && (
           <View onLayout={this.props.requestReview} />
-        ) : null}
+        )}
       </View>
     )
   }
@@ -120,7 +130,11 @@ const select = store => {
     homeTab: store.tabs['home'],
     tutorialEnded: store.session.tutorialEnded || false,
     tutorial: store.tutorial,
-    review: store.review
+    review: store.review,
+    isDisplayReviewAlert:
+      !store.review.reviewRequestEnded &&
+      store.review.finishReadingCount >= 5 &&
+      store.actionLog.currentScreen.type === 'HOME'
   }
 }
 

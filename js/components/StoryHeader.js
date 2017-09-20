@@ -46,7 +46,7 @@ class StoryHeader extends React.PureComponent {
   }
 
   render () {
-    const { visible, openModal } = this.props
+    const { visible, openModal, hasMultipleEpisodes } = this.props
     if (!visible) {
       return null
     }
@@ -64,6 +64,7 @@ class StoryHeader extends React.PureComponent {
               <ArrowIcon />
             </View>
           </TouchableOpacity>
+          { hasMultipleEpisodes ?
           <TouchableOpacity
             style={styles.episodeListButtonWrapper}
             onPress={openModal}
@@ -71,7 +72,7 @@ class StoryHeader extends React.PureComponent {
             <View style={styles.backButton}>
               <EpisodeListIcon />
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> : null }
         </LinearGradient>
       </View>
     )

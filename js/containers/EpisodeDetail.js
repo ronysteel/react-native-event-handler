@@ -22,7 +22,7 @@ import {
 } from '../actions/event'
 
 import { getAllScript } from '../reducers/scripts'
-import { getNextEpisode } from '../reducers/episodes'
+import { getNextEpisode, getAllEpisode } from '../reducers/episodes'
 import StoryHeader from '../components/StoryHeader'
 import EpisodeList from './EpisodeList'
 import PromotionContainer from './PromotionContainer'
@@ -136,6 +136,7 @@ class EpisodeDetail extends React.PureComponent {
         <StoryHeader
           visible={this.state.headerVisible}
           navigation={navigation}
+          hasMultipleEpisodes={this.props.hasMultipleEpisodes}
           openModal={this.props.openEpisodeListModal.bind(null, episode.id)}
         />
         <PromotionContainer novelId={novel.novelId} episodeId={episode.id} />
@@ -169,12 +170,14 @@ const select = (store, props) => {
     store.episodes[episodeId],
     store.scripts
   )
+  const episodes = getAllEpisode(novel, store.episodes)
   return {
     uid: store.session.uid,
     novelId,
     episodeId,
     episode,
     nextEpisode: getNextEpisode(novel, episode, store.episodes),
+    hasMultipleEpisodes: episodes.length > 1,
     readState,
     allScript,
     novel,

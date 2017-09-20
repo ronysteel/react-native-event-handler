@@ -9,6 +9,7 @@ import {
   Dimensions,
   StyleSheet
 } from 'react-native'
+import FadeIn from 'react-native-fade-in-image'
 
 import colors from './colors'
 
@@ -20,7 +21,12 @@ const PickupItem = (onPress, { item, index }) => {
       onPress={onPress.bind(null, index, item)}
     >
       <View style={styles.container}>
-        <Image style={styles.image} source={{ uri: item.thumbnailUrl }} />
+        <FadeIn
+          duration={200}
+          placeholderStyle={styles.placeholderStyle}
+        >
+          <Image style={styles.image} source={{ uri: item.thumbnailUrl }} />
+        </FadeIn>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.description}>{item.description}</Text>
       </View>
@@ -36,7 +42,6 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    resizeMode: 'cover',
     height: Dimensions.get('window').width * (9 / 16),
     marginBottom: 18
   },
@@ -55,6 +60,9 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     paddingLeft: 15,
     paddingRight: 15
+  },
+  placeholderStyle: {
+    backgroundColor: '#f0f0f0'
   }
 })
 

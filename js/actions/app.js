@@ -8,6 +8,7 @@ import {
   fetchTab,
   fetchTutorial
 } from '../api'
+import DeviceInfo from 'react-native-device-info'
 
 import { sendLeaveContentEvent } from './event'
 
@@ -127,7 +128,8 @@ export function setupReviewStatus (): ThunkAction {
   return (dispatch, getState) => {
     return new Promise(resolve => resolve()).then(() => {
       return dispatch({
-        type: 'SETUP_REVIEW_STATUS'
+        type: 'SETUP_REVIEW_STATUS',
+        currentVersion: DeviceInfo.getVersion()
       })
     })
   }

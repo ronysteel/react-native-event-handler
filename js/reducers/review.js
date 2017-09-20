@@ -1,7 +1,6 @@
 // @flow
 import type { Action } from '../actions/types'
-import DeviceInfo from 'react-native-device-info'
-import { getMajorMinorVersion, compareAppVersion } from '../containers/utils'
+import { getMajorMinorVersion, compareAppVersion } from '../utils'
 
 export type Review = {
   version: ?string,
@@ -19,12 +18,13 @@ function review (state: Review = initialState, action: Action): Review {
   switch (action.type) {
     case 'SETUP_REVIEW_STATUS': {
       const { version } = state
+      const { currentVersion } = action
 
-      let appVersion = DeviceInfo.getVersion()
-      if (compareAppVersion(appVersion, version)) {
-        let state = initialState
-        state.version = getMajorMinorVersion(appVersion)
-        return state
+      if (compareAppVersion(currentVersion, version)) {
+        return {
+          ...initialState,
+          version: currentVersion
+        }
       }
 
       return state
@@ -34,7 +34,6 @@ function review (state: Review = initialState, action: Action): Review {
       return { ...state, finishReadingCount: finishReadingCount + 1 }
     }
     case 'FINISH_REQUEST_REVIEW': {
-      const { reviewRequestEnded } = state
       return { ...state, reviewRequestEnded: true }
     }
     default:
