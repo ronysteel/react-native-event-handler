@@ -1,6 +1,7 @@
 // @flow
 import type { Action, ThunkAction } from './types'
 import { StatusBar } from 'react-native'
+import firebase from '../firebase'
 
 export function closePromotionModal (episodeId: number): ThunkAction {
   return (dispatch, getState) => {
@@ -34,6 +35,12 @@ export function openPromotionModal (episodeId: number): ThunkAction {
       .then(() => {
         StatusBar.setBarStyle('dark-content')
         StatusBar.setHidden(false, true)
+        firebase.messaging().cancelLocalNotification('USER_ENERGY_RECHARGE')
+        firebase.messaging().scheduleLocalNotification({
+          id: 'USER_ENERGY_RECHARGE',
+          body: 'ノベルの続きが読めるようになったよ！',
+          fire_date: getState().energy.nextRechargeDate
+        })
       })
       .then(() =>
         dispatch({
