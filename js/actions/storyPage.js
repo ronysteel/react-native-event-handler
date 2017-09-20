@@ -35,6 +35,7 @@ export function openPromotionModal (episodeId: number): ThunkAction {
       .then(() => {
         StatusBar.setBarStyle('dark-content')
         StatusBar.setHidden(false, true)
+        firebase.messaging().cancelLocalNotification('USER_ENERGY_RECHARGE')
         firebase.messaging().scheduleLocalNotification({
           id: 'USER_ENERGY_RECHARGE',
           body: 'ノベルの続きが読めるようになったよ！',
