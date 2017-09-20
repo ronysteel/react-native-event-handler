@@ -9,6 +9,7 @@ import {
   Linking,
   StyleSheet
 } from 'react-native'
+import FadeIn from 'react-native-fade-in-image'
 
 import colors from './colors'
 
@@ -55,7 +56,12 @@ const GridItem = (onPress, { item, index }) => {
           marginBottom: 18
         }}
       >
-        <Image style={styles.image} source={{ uri: item.thumbnailUrl }} />
+        <FadeIn
+          duration={200}
+          placeholderStyle={styles.placeholderStyle}
+        >
+          <Image style={styles.image} source={{ uri: item.thumbnailUrl }} />
+        </FadeIn>
         <View>
           <Text style={styles.title}>{item.title}</Text>
           <Text
@@ -76,7 +82,6 @@ const imageWidth = (windowWidth - 15 * 3) / 2
 
 const styles = StyleSheet.create({
   image: {
-    resizeMode: 'cover',
     height: imageWidth * (3 / 4),
     borderRadius: 4,
     marginBottom: 15
@@ -113,6 +118,9 @@ const styles = StyleSheet.create({
     fontSize: 10,
     lineHeight: 10,
     textAlign: 'center'
+  },
+  placeholderStyle: {
+    backgroundColor: '#f0f0f0'
   }
 })
 
