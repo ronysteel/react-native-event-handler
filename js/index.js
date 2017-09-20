@@ -8,13 +8,11 @@ import {
   NavigationActions,
   addNavigationHelpers
 } from 'react-navigation'
-import pathToRegexp from 'path-to-regexp'
 import moment from 'moment'
 import Config from 'react-native-config'
 import { parseNovelUri } from './utils'
 
 import firebase from './firebase'
-import reducers from './reducers'
 import configureStore from './middlewares'
 
 import Router, { onNavigationStateChange } from './containers/Router'
@@ -49,8 +47,7 @@ class Root extends React.PureComponent {
 
     this.state = {
       isLoading: true,
-      store: undefined,
-      appState: AppState.currentState
+      store: undefined
     }
 
     this.state.store = configureStore((err, state) => {
@@ -72,139 +69,6 @@ class Root extends React.PureComponent {
           dispatch(saveDeviceToken())
         })
     })
-
-    this.isDeeplink = undefined
-  }
-
-  componentDidMount () {
-    Linking.getInitialURL()
-      .then(this._handleInitialURL.bind(this))
-      .catch(() => {})
-
-    Linking.addEventListener('url', this._handleOpenURL.bind(this))
-    AppState.addEventListener('change', this._handleAppStateChange.bind(this))
-
-    firebase.messaging().onMessage(this._handleOnMessage.bind(this))
-  }
-
-  componentWillUnmount () {
-    Linking.removeEventListener('url', this._handleOpenURL.bind(this))
-    AppState.removeEventListener(
-      'change',
-      this._handleAppStateChange.bind(this)
-    )
-  }
-
-  _handleOnMessage (event) {
-    if (event.local_notification) {
-      if (event.episodeId) {
-        this.state.store.dispatch(
-          sendLocalNotificationOpenEvent(event.episodeId)
-        )
-      }
-    } else {
-      this.state.store.dispatch(sendNotificationOpenEvent())
-    }
-
-    if (event.episodeUri) {
-      const params = parseNovelUri(event.episodeUri)
-      if (!params) {
-        return
-      }
-
-      this.navigator.dispatch(
-        NavigationActions.reset({
-          index: 1,
-          actions: [
-            NavigationActions.navigate({ routeName: 'Home' }),
-            NavigationActions.navigate({ routeName: 'EpisodeDetail', params })
-          ]
-        })
-      )
-    }
-  }
-
-  _handleInitialURL (url: string) {
-    if (url) {
-      this.state.store.dispatch(moveScreen('DEEPLINK'))
-      this.isDeeplink = 'DEEPLINK'
-    }
-  }
-
-  _handleOpenURL (event) {
-    const re = new RegExp(
-      `${URL_SCHEME}:\\/\\/novels\\/[^/]+\\/episodes\\/[^/]+`
-    )
-    if (re.test(event.url)) {
-      if (this.state.appState !== 'active') {
-        this.state.store.dispatch(moveScreen('DEEPLINK'))
-        this.isDeeplink = 'DEEPLINK'
-      }
-
-      return
-    }
-
-    if (
-      /https:\/\/chatnovel\.jp\/novels\/[^/]+\/episodes\/[^/]+/.test(event.url)
-    ) {
-      if (this.state.appState !== 'active') {
-        this.state.store.dispatch(moveScreen('DEEPLINK'))
-        this.isDeeplink = 'DEEPLINK'
-      }
-
-      const url = event.url.replace('https://chatnovel.jp/', '')
-      const params = parseNovelUri(url)
-      if (params) {
-        Linking.openURL(
-          `${URL_SCHEME}://novels/${params.novelId}/episodes/${params.episodeId}`
-        )
-      }
-    }
-  }
-
-  _handleAppStateChange (nextAppState) {
-    const dispatch = this.state.store.dispatch
-    const { actionLog } = this.state.store.getState()
-    const screen = actionLog.currentScreen
-
-    if (
-      this.state.appState.match(/inactive|active/) &&
-      nextAppState === 'background'
-    ) {
-      if (screen.type == 'NOVEL') {
-        //
-        // ノベルを読んでいる途中でアプリを閉じたときに
-        // 離脱イベントを送信する
-        //
-        dispatch(sendLeaveContentEvent(screen.novel.episodeId))
-      } else if (screen.type == 'HOME') {
-        //
-        // チュートリアルのノベルを読んでいる途中でアプリを閉じたときに
-        // 離脱イベントを送信する
-        //
-        const { session, tutorial } = this.state.store.getState()
-        if (!session.tutorialEnded) {
-          dispatch(sendTutorialLeaveEvent(tutorial.episodeId))
-        }
-      }
-    }
-
-    if (
-      this.state.appState.match(/inactive|background/) &&
-      nextAppState === 'active'
-    ) {
-      const { session } = this.state.store.getState()
-      if (
-        session.paid === true &&
-        Number(session.paidAccountExpiresDate) <= moment().valueOf()
-      ) {
-        dispatch(signInAnonymously())
-      }
-
-      dispatch(loadTab('home'))
-    }
-
-    this.setState({ appState: nextAppState })
   }
 
   render () {
@@ -213,15 +77,7 @@ class Root extends React.PureComponent {
     }
     return (
       <Provider store={this.state.store}>
-        <Router
-          ref={r => (this.navigator = r)}
-          uriPrefix={`${URL_SCHEME}://`}
-          onNavigationStateChange={onNavigationStateChange.bind(
-            null,
-            this.state.store,
-            this.isDeeplink
-          )}
-        />
+        <Router />
       </Provider>
     )
   }
