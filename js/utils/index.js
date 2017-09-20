@@ -38,3 +38,22 @@ export const parseNovelUri = (uri: string): ?novelUriParams => {
 
   return params
 }
+
+/**
+ * バージョンアップがないかMajor,Minorを比較
+ * バージョンアップがあった場合は true を返す
+ * a, b: "major.minor.fix"
+ */
+export function compareAppVersion (a: string, b: string): boolean {
+  const aVersionArray = a.split('.')
+  const bVersionArray = b.split('.')
+  if (aVersionArray.length > 1 && bVersionArray.length > 1) {
+    if (
+      aVersionArray[0] != bVersionArray[0] ||
+      aVersionArray[1] != bVersionArray[1]
+    ) {
+      return true
+    }
+  }
+  return false
+}

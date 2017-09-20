@@ -87,28 +87,3 @@ export const requestReviewPopup = () => {
     ]
   )
 }
-
-export function getMajorMinorVersion (version: string): string {
-  let versionArray = version.split('.')
-  if (versionArray.length > 1) {
-    return [versionArray[0], versionArray[1]].join('.')
-  }
-
-  return version
-}
-
-export function compareAppVersion (a: string, b: string): boolean {
-  // a,b : "major.minor.fix"
-  let aVersionArray = a.split('.')
-  let bVersionArray = b.split('.')
-  if (aVersionArray.length > 1 && bVersionArray.length > 1) {
-    // バージョンアップがないかMajor,Minorを比較
-    if (
-      aVersionArray[0] != bVersionArray[0] ||
-      aVersionArray[1] != bVersionArray[1]
-    ) {
-      return true
-    }
-  }
-  return false
-}

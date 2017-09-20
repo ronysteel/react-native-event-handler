@@ -109,10 +109,9 @@ class Home extends React.Component {
         {navigationParams && navigationParams.pushPopup ? (
           <PushPermissionPopup onPress={this.props.requestPushPermission} />
         ) : null}
-        {!this.props.review.reviewRequestEnded &&
-        this.props.review.finishReadingCount >= 5 ? (
+        {this.props.isDisplayReviewAlert && (
           <View onLayout={this.props.requestReview} />
-        ) : null}
+        )}
       </View>
     )
   }
@@ -131,7 +130,11 @@ const select = store => {
     homeTab: store.tabs['home'],
     tutorialEnded: store.session.tutorialEnded || false,
     tutorial: store.tutorial,
-    review: store.review
+    review: store.review,
+    isDisplayReviewAlert:
+      !store.review.reviewRequestEnded &&
+      store.review.finishReadingCount >= 5 &&
+      store.actionLog.currentScreen.type === 'HOME'
   }
 }
 
