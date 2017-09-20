@@ -36,7 +36,7 @@ function episodes (state: Episodes = initialStates, action: Action): Episodes {
       const episodeId = action.episodeId
       const episode = {
         ...(state[episodeId] || initialState),
-        isLoading: true,
+        isLoading: true
       }
       return { ...state, [episodeId]: episode }
     }
@@ -45,7 +45,7 @@ function episodes (state: Episodes = initialStates, action: Action): Episodes {
       const episodeId = action.episodeId
       const episode = {
         ...(state[episodeId] || initialState),
-        isLoading: false,
+        isLoading: false
       }
       return { ...state, [episodeId]: episode }
     }
@@ -65,7 +65,7 @@ function episodes (state: Episodes = initialStates, action: Action): Episodes {
         id: episodeId,
         scriptIds,
         isLoading: false,
-        isLoaded: true,
+        isLoaded: true
       }
       return { ...state, [episodeId]: episode }
     }

@@ -118,10 +118,14 @@ class App extends React.PureComponent {
     }
   }
 
-  _episodeRegex = new RegExp(`${URL_SCHEME}:\\/\\/novels\\/[^/]+\\/episodes\\/[^/]+`)
+  _episodeRegex = new RegExp(
+    `${URL_SCHEME}:\\/\\/novels\\/[^/]+\\/episodes\\/[^/]+`
+  )
   _aboutTermsRegex = new RegExp(`${URL_SCHEME}:\\/\\/about\\/terms`)
   _aboutPrivacyRegex = new RegExp(`${URL_SCHEME}:\\/\\/about\\/privacy`)
-  _aboutSubscriptionRegex = new RegExp(`${URL_SCHEME}:\\/\\/about\\/subscription`)
+  _aboutSubscriptionRegex = new RegExp(
+    `${URL_SCHEME}:\\/\\/about\\/subscription`
+  )
 
   /**
    * ディープリンクを開いた時のルーティングをする
