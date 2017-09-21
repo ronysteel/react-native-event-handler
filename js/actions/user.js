@@ -5,7 +5,11 @@ import moment from 'moment'
 import { getAllScript } from '../reducers/scripts'
 import firebase from '../firebase'
 import { loadPurcasingProducts } from './app'
-import { sendSpendVirtualCurrencyEvnet } from './event'
+import {
+  sendSpendVirtualCurrencyEvnet,
+  sendInAppPurchaseSuccessEvent,
+  sendInAppPurchaseFailureEvent
+} from './event'
 import {
   fetchUser,
   verifyReceipt,
@@ -110,11 +114,16 @@ export function purchase (productId: string): ThunkAction {
               if (!res.expiresDate) {
                 return Promise.reject({})
               }
+              dispatch(sendInAppPurchaseSuccessEvent())
               return dispatch(purchaseSuccess(res))
             })
-            .catch(err => dispatch(purchaseFailed()))
+            .catch(err => {
+              dispatch(sendInAppPurchaseFailureEvent())
+              dispatch(purchaseFailed())
+            })
         } else {
           console.log('Purchase Failed', res, err)
+          dispatch(sendInAppPurchaseFailureEvent())
           return dispatch(purchaseFailed())
         }
       })

@@ -314,3 +314,19 @@ export function sendPushDenyEvent (): ThunkAction {
       .catch(() => {})
   }
 }
+
+export function sendInAppPurchaseSuccessEvent (): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => firebase.analytics().logEvent('in_app_purchase_success'))
+      .catch(() => {})
+  }
+}
+
+export function sendInAppPurchaseFailureEvent (): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() => firebase.analytics().logEvent('in_app_purchase_failure'))
+      .catch(() => {})
+  }
+}
