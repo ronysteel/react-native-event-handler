@@ -10,30 +10,6 @@ describe('renders without crashing', () => {
 
     let Component = (
       <Promotion
-        products={{
-          products: {
-            'co.newn.chatnovel.oneweek': {
-              identifier: '',
-              currencyCode: '',
-              currencySymbol: '',
-              description: '',
-              downloadable: false,
-              price: 900,
-              priceString: '¥900',
-              title: '1ヶ月'
-            },
-            'co.newn.chatnovel.onemonth': {
-              identifier: '',
-              currencyCode: '',
-              currencySymbol: '',
-              description: '',
-              downloadable: false,
-              price: 900,
-              priceString: '¥900',
-              title: '1ヶ月'
-            }
-          }
-        }}
         ticketCount={1}
         remainingTweetCount={1}
         isAvailableTwitter={false}

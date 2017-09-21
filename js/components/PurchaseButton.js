@@ -4,21 +4,24 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 
 import RecommendRibbon from './RecommendRibbon'
 
-export const PurchaseButtonOneMonth = ({ product, onTapPurchase }) => (
-  <TouchableOpacity onPress={onTapPurchase.bind(null, product.identifier)}>
+const PRODUCT_ID_ONE_MONTH = `co.newn.chatnovel.onemonth`
+const PRODUCT_ID_ONE_WEEK = `co.newn.chatnovel.oneweek`
+
+export const PurchaseButtonOneMonth = ({ onTapPurchase }) => (
+  <TouchableOpacity onPress={onTapPurchase.bind(null, PRODUCT_ID_ONE_MONTH)}>
     <View style={styles.promotionButton}>
-      <Text style={styles.promotionButtonText}>{product.priceString}</Text>
+      <Text style={styles.promotionButtonText}>{'¥900'}</Text>
       <Text style={styles.promotionButtonTitleText}>{`/ 1か月`}</Text>
     </View>
   </TouchableOpacity>
 )
 
-export const PurchaseButtonOneWeek = ({ product, onTapPurchase }) => (
-  <TouchableOpacity onPress={onTapPurchase.bind(null, product.identifier)}>
+export const PurchaseButtonOneWeek = ({ onTapPurchase }) => (
+  <TouchableOpacity onPress={onTapPurchase.bind(null, PRODUCT_ID_ONE_WEEK)}>
     <View style={styles.weekWrapper}>
       <Text style={styles.weekFreeText}>{'7日間無料'}</Text>
       <Text style={styles.weekPriceText}>
-        {`その後 ${product.priceString} / 1週間`}
+        {`その後 ¥350 / 1週間`}
       </Text>
       <View style={styles.ribbon}>
         <RecommendRibbon />
