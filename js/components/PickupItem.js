@@ -21,10 +21,7 @@ const PickupItem = (onPress, { item, index }) => {
       onPress={onPress.bind(null, index, item)}
     >
       <View style={styles.container}>
-        <FadeIn
-          duration={200}
-          placeholderStyle={styles.placeholderStyle}
-        >
+        <FadeIn duration={200} placeholderStyle={styles.placeholderStyle}>
           <Image style={styles.image} source={{ uri: item.thumbnailUrl }} />
         </FadeIn>
         <Text style={styles.title}>{item.title}</Text>

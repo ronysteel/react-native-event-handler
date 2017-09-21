@@ -64,15 +64,16 @@ class StoryHeader extends React.PureComponent {
               <ArrowIcon />
             </View>
           </TouchableOpacity>
-          { hasMultipleEpisodes ?
-          <TouchableOpacity
-            style={styles.episodeListButtonWrapper}
-            onPress={openModal}
-          >
-            <View style={styles.backButton}>
-              <EpisodeListIcon />
-            </View>
-          </TouchableOpacity> : null }
+          {hasMultipleEpisodes ? (
+            <TouchableOpacity
+              style={styles.episodeListButtonWrapper}
+              onPress={openModal}
+            >
+              <View style={styles.backButton}>
+                <EpisodeListIcon />
+              </View>
+            </TouchableOpacity>
+          ) : null}
         </LinearGradient>
       </View>
     )

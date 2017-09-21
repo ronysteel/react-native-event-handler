@@ -106,7 +106,6 @@ class PromotionContainer extends React.Component {
         isOpen={isOpen}
       >
         <Promotion
-          products={this.props.purchasingProducts}
           ticketCount={this.props.ticketCount}
           remainingTweetCount={this.props.remainingTweetCount}
           isAvailableTwitter={this.state.isAvailableTwitter}
@@ -140,7 +139,6 @@ const select = (store, props) => {
   const readState: ReadState = store.readStates[episodeId]
   const nextRechargeDate = store.energy.nextRechargeDate
   const pageState = store.pages.storyPageStates[episodeId]
-  const purchasingProducts = store.purchasingProducts
   const modalVisible = pageState && pageState.isOpenPromotion
   const ticketCount = store.tickets.ticketCount
   const remainingTweetCount = store.tweets.remainingTweetCount
@@ -149,7 +147,6 @@ const select = (store, props) => {
     userId: store.session.uid,
     readState,
     novel,
-    purchasingProducts,
     nextRechargeDate,
     paid: store.session.paid,
     modalVisible,

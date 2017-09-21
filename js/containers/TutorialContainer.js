@@ -171,7 +171,7 @@ const actions = (dispatch, props) => {
     onTutorialEnd: (episodeId: string) =>
       dispatch(tutorialEnd()).then(() => {
         props.navigation.setParams({
-          pushPopup: Platform.OS === 'ios' ? true : false,
+          pushPopup: Platform.OS === 'ios',
           tutorial: false
         })
         dispatch(sendTutorialCompleteEvent(episodeId))

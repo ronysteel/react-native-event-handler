@@ -18,9 +18,6 @@ import { PurchaseButtonOneMonth, PurchaseButtonOneWeek } from './PurchaseButton'
 
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0
 
-const PRODUCT_ID_ONE_MONTH = `co.newn.chatnovel.onemonth`
-const PRODUCT_ID_ONE_WEEK = `co.newn.chatnovel.oneweek`
-
 const Separator = () => (
   <View style={styles.sectionTitleWrapper}>
     <View style={styles.sectionTitleBorder} />
@@ -31,7 +28,6 @@ const Separator = () => (
 )
 
 const Promotion = ({
-  products,
   nextRechargeDate,
   closeModal,
   ticketCount,
@@ -62,14 +58,8 @@ const Promotion = ({
         <View>
           <Text style={styles.promotionTitle}>{'まずは7日間無料\nすべてのノベルが読み放題！'}</Text>
           <View style={styles.promotionButtons}>
-            <PurchaseButtonOneWeek
-              product={products.products[PRODUCT_ID_ONE_WEEK]}
-              onTapPurchase={onTapPurchase}
-            />
-            <PurchaseButtonOneMonth
-              product={products.products[PRODUCT_ID_ONE_MONTH]}
-              onTapPurchase={onTapPurchase}
-            />
+            <PurchaseButtonOneWeek onTapPurchase={onTapPurchase} />
+            <PurchaseButtonOneMonth onTapPurchase={onTapPurchase} />
             <GetTicketButton
               ticketCount={ticketCount}
               remainingTweetCount={remainingTweetCount}
