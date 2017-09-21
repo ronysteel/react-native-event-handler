@@ -19,9 +19,9 @@ const SCREEN_WIDTH = Dimensions.get('window').width
 const PushPermissionPopup = ({ onPress }) => {
   return (
     <Modal transparent>
-      <View style={styles.container}>
+      <FadeinView style={styles.container}>
         <View style={styles.wrapper}>
-          <FadeinView style={styles.popupInner}>
+          <View style={styles.popupInner}>
             <VibrancyView
               blurType='xlight'
               blurAmount={10}
@@ -37,9 +37,9 @@ const PushPermissionPopup = ({ onPress }) => {
             <TouchableOpacity style={styles.startButton} onPress={onPress}>
               <Text style={styles.startButtonText}>{'はじめる'}</Text>
             </TouchableOpacity>
-          </FadeinView>
+          </View>
         </View>
-      </View>
+      </FadeinView>
     </Modal>
   )
 }
