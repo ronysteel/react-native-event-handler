@@ -58,12 +58,8 @@ const Promotion = ({
         <View>
           <Text style={styles.promotionTitle}>{'まずは7日間無料\nすべてのノベルが読み放題！'}</Text>
           <View style={styles.promotionButtons}>
-            <PurchaseButtonOneWeek
-              onTapPurchase={onTapPurchase}
-            />
-            <PurchaseButtonOneMonth
-              onTapPurchase={onTapPurchase}
-            />
+            <PurchaseButtonOneWeek onTapPurchase={onTapPurchase} />
+            <PurchaseButtonOneMonth onTapPurchase={onTapPurchase} />
             <GetTicketButton
               ticketCount={ticketCount}
               remainingTweetCount={remainingTweetCount}

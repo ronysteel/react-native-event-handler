@@ -56,10 +56,7 @@ const GridItem = (onPress, { item, index }) => {
           marginBottom: 18
         }}
       >
-        <FadeIn
-          duration={200}
-          placeholderStyle={styles.placeholderStyle}
-        >
+        <FadeIn duration={200} placeholderStyle={styles.placeholderStyle}>
           <Image style={styles.image} source={{ uri: item.thumbnailUrl }} />
         </FadeIn>
         <View>

@@ -20,9 +20,7 @@ export const PurchaseButtonOneWeek = ({ onTapPurchase }) => (
   <TouchableOpacity onPress={onTapPurchase.bind(null, PRODUCT_ID_ONE_WEEK)}>
     <View style={styles.weekWrapper}>
       <Text style={styles.weekFreeText}>{'7日間無料'}</Text>
-      <Text style={styles.weekPriceText}>
-        {`その後 ¥350 / 1週間`}
-      </Text>
+      <Text style={styles.weekPriceText}>{`その後 ¥350 / 1週間`}</Text>
       <View style={styles.ribbon}>
         <RecommendRibbon />
         <Text style={styles.ribbonText}>{'おすすめ'}</Text>

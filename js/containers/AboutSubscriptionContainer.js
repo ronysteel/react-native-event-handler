@@ -19,9 +19,7 @@ class AboutSubscriptionContainer extends React.PureComponent {
     return (
       <ScrollView style={styles.container}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.body}>
-          {body()}
-        </Text>
+        <Text style={styles.body}>{body()}</Text>
       </ScrollView>
     )
   }
