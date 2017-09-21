@@ -2,26 +2,26 @@
 import type { Action } from '../actions/types'
 
 export type Tickets = {
-  ticketCount: number;
+  ticketCount: number
 }
 
 const initialStates: Tickets = {
-  ticketCount: 0,
+  ticketCount: 0
 }
 
-function tickets(state: Tickets = initialStates, action: Action): Tickets {
+function tickets (state: Tickets = initialStates, action: Action): Tickets {
   switch (action.type) {
     case 'SYNC_USER_ENERGY_SUCCESS': {
       return {
         ...state,
-        ...({ ticketCount: action.ticketCount })
+        ...{ ticketCount: action.ticketCount }
       }
     }
 
     case 'LOAD_TICKET_COUNT_SUCCESS': {
       return {
         ...state,
-        ...({ ticketCount: action.ticketCount })
+        ...{ ticketCount: action.ticketCount }
       }
     }
 

@@ -2,42 +2,42 @@
 import type { Action } from '../actions/types'
 
 export type PurchasingProduct = {
-  identifier: string;
-  currencyCode: string;
-  currencySymbol: string;
-  description: string;
-  downloadable: boolean;
-  price: number;
-  priceString: string;
-  title: string;
+  identifier: string,
+  currencyCode: string,
+  currencySymbol: string,
+  description: string,
+  downloadable: boolean,
+  price: number,
+  priceString: string,
+  title: string
 }
 
 export type PurchasingProducts = {
-  isLoaded: boolean;
-  isLoading: boolean;
-  products: { [id: string]: PurchasingProduct };
+  isLoaded: boolean,
+  isLoading: boolean,
+  products: { [id: string]: PurchasingProduct }
 }
 
 const initialStates: PurchasingProducts = {
   isLoaded: false,
   isLoading: false,
-  products: {},
+  products: {}
 }
 
-function purchasingProducts(
+function purchasingProducts (
   state: PurchasingProducts = initialStates,
   action: Action
 ): PurchasingProducts {
   switch (action.type) {
     case 'LOAD_PURCHASING_PRODUCT_REQUEST': {
       return Object.assign({}, state, {
-        isLoading: true,
+        isLoading: true
       })
     }
 
     case 'LOAD_PURCHASING_PRODUCT_FAILED': {
       return Object.assign({}, state, {
-        isLoading: false,
+        isLoading: false
       })
     }
 
@@ -50,7 +50,7 @@ function purchasingProducts(
       return Object.assign({}, state, {
         isLoading: false,
         isLoaded: true,
-        products: re,
+        products: re
       })
     }
 

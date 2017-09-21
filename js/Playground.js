@@ -9,29 +9,30 @@ StatusBar.setHidden(false)
 StatusBar.setBarStyle('dark-content')
 
 class Playground extends React.PureComponent {
-  render() {
+  render () {
     return (
       <ScrollView style={{ flex: 1 }}>
         <Share
           novel={{}}
-          shareText={ 'Foo' }
+          shareText={'Foo'}
           readState={{
-            reachEndOfContent: true,
+            reachEndOfContent: true
           }}
           shareOptions={{}}
           recommends={[]}
-          onSelectContent={ () => {} }
-          onPressShare={ () => {} }
+          onSelectContent={() => {}}
+          onPressShare={() => {}}
         />
 
         <NextEpisode
           novel={{
-            thumbnailUrl: 'https://s3-ap-northeast-1.amazonaws.com/chatnovel/thumbnails/16x9/couples_cake.jpg',
+            thumbnailUrl:
+              'https://s3-ap-northeast-1.amazonaws.com/chatnovel/thumbnails/16x9/couples_cake.jpg'
           }}
           episode={{
-            title: 'エピソード2「夏の終わり」',
+            title: 'エピソード2「夏の終わり」'
           }}
-          onSelectContent={ () => {} }
+          onSelectContent={() => {}}
         />
       </ScrollView>
     )

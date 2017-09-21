@@ -11,38 +11,40 @@ import { getAllEpisode } from '../reducers/episodes'
 import { onSelectContent } from './utils'
 
 class EpisodeList extends React.PureComponent {
-  constructor() {
+  constructor () {
     super()
 
     this.state = {
-      isLoading: true,
+      isLoading: true
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const { novel } = this.props
     this.props.loadEpisodeList(novel.novelId).then(() => {
       this.setState({ isLoading: false })
     })
   }
 
-  render() {
+  render () {
     const { closeModal, novel, episodes } = this.props
     return (
       <Modal
-        swipeToClose={ false }
-        onClosed={ closeModal }
-        isOpen={ this.props.isOpen }
+        swipeToClose={false}
+        onClosed={closeModal}
+        isOpen={this.props.isOpen}
       >
-        { this.state.isLoading
-          ? null
-          : <EpisodeListComponent
-              novel={ novel }
-              episodes={ episodes }
-              closeModal={ closeModal }
-              onSelectContent={ this.props.onSelectContent.bind(null, 'episode_list') }
-            />
-        }
+        {this.state.isLoading ? null : (
+          <EpisodeListComponent
+            novel={novel}
+            episodes={episodes}
+            closeModal={closeModal}
+            onSelectContent={this.props.onSelectContent.bind(
+              null,
+              'episode_list'
+            )}
+          />
+        )}
       </Modal>
     )
   }
@@ -56,7 +58,7 @@ const select = (store, props) => {
     novelId,
     novel,
     episodes: getAllEpisode(novel, store.episodes),
-    isOpen: state && state.isOpenEpisodeList,
+    isOpen: state && state.isOpenEpisodeList
   }
 }
 
@@ -64,7 +66,7 @@ const actions = (dispatch, props) => {
   return {
     loadEpisodeList: (novelId: number) => dispatch(loadEpisodeList(novelId)),
     closeModal: () => dispatch(closeEpisodeListModal(props.episodeId)),
-    onSelectContent: onSelectContent.bind(null, dispatch),
+    onSelectContent: onSelectContent.bind(null, dispatch)
   }
 }
 

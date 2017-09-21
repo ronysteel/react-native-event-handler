@@ -9,6 +9,7 @@ import readStates from './readStates'
 import shareLinks from './shareLinks'
 import recommends from './recommends'
 import session from './session'
+import review from './review'
 import energy from './energy'
 import tickets from './tickets'
 import tweets from './tweets'
@@ -20,6 +21,7 @@ import purchasingProducts from './purchasingProducts'
 import actionLog from './actionLog'
 import homePageState from './homePageState'
 import storyPageStates from './storyPageStates'
+import navigator from './navigator'
 
 export default combineReducers({
   novels,
@@ -29,6 +31,7 @@ export default combineReducers({
   shareLinks,
   recommends,
   session,
+  review,
   energy,
   tickets,
   tweets,
@@ -38,9 +41,10 @@ export default combineReducers({
   purchasingProducts,
   actionLog,
   tutorial,
+  navigator,
 
   pages: combineReducers({
     homePageState,
-    storyPageStates,
-  }),
+    storyPageStates
+  })
 })

@@ -8,53 +8,39 @@ const convertEnum = ary =>
   }, {})
 
 type TextCharacter = {
-  name: string;
+  name: string
 }
-const textTypes = [
-  'UNKNOWN',
-  'NORMAL',
-  'CHAT_LEFT',
-  'CHAT_RIGHT',
-]
+const textTypes = ['UNKNOWN', 'NORMAL', 'CHAT_LEFT', 'CHAT_RIGHT']
 const textTypeNumber = convertEnum(textTypes)
-type TextType = $Keys<typeof textTypeNumber>;
+type TextType = $Keys<typeof textTypeNumber>
 
 type Text = {
-  body: string;
-  type: TextType;
-  character: ?TextCharacter;
+  body: string,
+  type: TextType,
+  character: ?TextCharacter
 }
 
 type BackgroundImage = {
-  imageUrl: string;
+  imageUrl: string
 }
 
-const descriptionTypes = [
-  'UNKNOWN',
-  'NORMAL',
-  'CHAT',
-]
+const descriptionTypes = ['UNKNOWN', 'NORMAL', 'CHAT']
 const descriptionTypeNumber = convertEnum(descriptionTypes)
-type DescriptionType = $Keys<typeof descriptionTypeNumber>;
+type DescriptionType = $Keys<typeof descriptionTypeNumber>
 type Description = {
-  type: DescriptionType;
-  body: string;
+  type: DescriptionType,
+  body: string
 }
 
-const imageTypes = [
-  'UNKNOWN',
-  'NORMAL',
-  'CHAT_LEFT',
-  'CHAT_RIGHT',
-]
+const imageTypes = ['UNKNOWN', 'NORMAL', 'CHAT_LEFT', 'CHAT_RIGHT']
 const imageTypeNumber = convertEnum(imageTypes)
-type ImageType = $Keys<typeof imageTypeNumber>;
+type ImageType = $Keys<typeof imageTypeNumber>
 type Image = {
-  type: ImageType;
-  imageUrl: string;
-  imageWidth: number;
-  imageHeight: number;
-  characterId: ?number;
+  type: ImageType,
+  imageUrl: string,
+  imageWidth: number,
+  imageHeight: number,
+  characterId: ?number
 }
 
 const scriptTypes = [
@@ -62,20 +48,20 @@ const scriptTypes = [
   'TEXT',
   'BACKGROUND_IMAGE',
   'DESCRIPTION',
-  'IMAGE',
+  'IMAGE'
 ]
 const scriptTypeNumber = convertEnum(scriptTypes)
-type ScriptType = $Keys<typeof scriptTypeNumber>;
+type ScriptType = $Keys<typeof scriptTypeNumber>
 
 export type Script = {
-  id: number;
-  scriptOrder: number;
-  type: ScriptType;
+  id: number,
+  scriptOrder: number,
+  type: ScriptType,
 
-  text: ?Text;
-  backgroundImage: ?BackgroundImage;
-  description: ?Description;
-  image: ?Image;
+  text: ?Text,
+  backgroundImage: ?BackgroundImage,
+  description: ?Description,
+  image: ?Image
 }
 
 export type Scripts = {
@@ -88,19 +74,24 @@ export type Scripts = {
 // key == scriptOrderな構造の型
 //
 export type IndexedScripts = {
-  [id: number]: Script;
+  [id: number]: Script
 }
 
 const initialStates: Scripts = {}
 
-export default function scripts(state: Scripts = initialStates, action: Action): Scripts {
+export default function scripts (
+  state: Scripts = initialStates,
+  action: Action
+): Scripts {
   switch (action.type) {
     case 'LOAD_EPISODE_SUCCESS': {
       if (!action.episode.scripts) {
         return state
       }
 
-      const scripts = Object.values(action.episode.scripts).reduce((memo, v) => {
+      const scripts = Object.values(
+        action.episode.scripts
+      ).reduce((memo, v) => {
         const s = v.script
         s.type = scriptTypes[s.type]
 
@@ -131,7 +122,10 @@ export default function scripts(state: Scripts = initialStates, action: Action):
   }
 }
 
-export const getAllScript = (episode: Episode, scripts: Scripts): IndexedScripts => {
+export const getAllScript = (
+  episode: Episode,
+  scripts: Scripts
+): IndexedScripts => {
   if (!episode || !episode.scriptIds || !scripts[episode.id]) {
     return {}
   }
@@ -142,7 +136,11 @@ export const getAllScript = (episode: Episode, scripts: Scripts): IndexedScripts
   }, {})
 }
 
-export const getText = (episode: Episode, scripts: Scripts, readIndex: number) => {
+export const getText = (
+  episode: Episode,
+  scripts: Scripts,
+  readIndex: number
+) => {
   if (!episode || !episode.scriptIds || !scripts[episode.id]) {
     return
   }
@@ -154,6 +152,4 @@ export const getText = (episode: Episode, scripts: Scripts, readIndex: number) =
       return s
     }
   }
-
-  return
 }

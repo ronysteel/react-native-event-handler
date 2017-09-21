@@ -10,7 +10,7 @@ import {
   Text,
   View,
   TouchableOpacity,
-  TouchableWithoutFeedback,
+  TouchableWithoutFeedback
 } from 'react-native'
 import _ from 'lodash'
 import TimerMixin from 'react-timer-mixin'
@@ -27,9 +27,9 @@ import type { Episode } from '../reducers/episodes'
 import type { Scripts } from '../reducers/scripts'
 
 type Props = {
-  episode: Episode;
-  scripts: IndexedScripts;
-  onTapScreen: Function;
+  episode: Episode,
+  scripts: IndexedScripts,
+  onTapScreen: Function
 }
 
 const headerHeight = 64
@@ -50,7 +50,7 @@ const getBackgroundImage = (scripts, readState) => {
 }
 
 class EpisodeDetail extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       resumed: false,
@@ -60,22 +60,22 @@ class EpisodeDetail extends React.PureComponent {
       scrollAnim: new Animated.Value(0),
       isLocked: false,
       offsetFromEnd: new Animated.Value(0),
-      renderCompleted: false,
+      renderCompleted: false
     }
     this.isTappable = false
   }
 
-  componentDidMount() {
-    this.state.scrollAnim.addListener(this.handleScroll);
+  componentDidMount () {
+    this.state.scrollAnim.addListener(this.handleScroll)
   }
 
-  componentWillUnmount() {
-    this.state.scrollAnim.removeListener(this.handleScroll);
+  componentWillUnmount () {
+    this.state.scrollAnim.removeListener(this.handleScroll)
   }
 
   handleScroll = ({ value }) => {
-    this.previousScrollvalue = this.currentScrollValue;
-    this.currentScrollValue = value;
+    this.previousScrollvalue = this.currentScrollValue
+    this.currentScrollValue = value
 
     const delta = this.currentScrollValue - this.previousScrollvalue
     if (delta < -10) {
@@ -85,14 +85,17 @@ class EpisodeDetail extends React.PureComponent {
     }
   }
 
-  _handleScroll = (e) => {
-    Animated.event([{
-      nativeEvent: { contentOffset: { y: this.state.scrollAnim } }
-    }])(e)
+  _handleScroll = e => {
+    Animated.event([
+      {
+        nativeEvent: { contentOffset: { y: this.state.scrollAnim } }
+      }
+    ])(e)
 
     const { nativeEvent } = e
     const { contentOffset, contentSize, layoutMeasurement } = nativeEvent
-    const offsetFromEnd = (layoutMeasurement.height - (contentSize.height - contentOffset.y))
+    const offsetFromEnd =
+      layoutMeasurement.height - (contentSize.height - contentOffset.y)
 
     this.requestAnimationFrame(() => {
       if (this.state.isLocked && Math.abs(offsetFromEnd) < 10) {
@@ -106,18 +109,16 @@ class EpisodeDetail extends React.PureComponent {
     })
   }
 
-  renderFooter(readState, isTutorial) {
+  renderFooter (readState, isTutorial) {
     let height = tapAreaHeight
     if (readState.reachEndOfContent && !isTutorial) {
       height = 30
     }
 
-    return (
-      <View style={{ height }} />
-    )
+    return <View style={{ height }} onLayout={this.onLayoutFooter.bind(this)} />
   }
 
-  scrollToEnd(params: Object = {}) {
+  scrollToEnd (params: Object = {}) {
     // unmount 後に呼ばれることがある
     if (!this.storyWrapper) {
       return
@@ -125,13 +126,14 @@ class EpisodeDetail extends React.PureComponent {
     this.storyWrapper.scrollToEnd(params)
   }
 
-  onTap = (e) => {
+  onTap = e => {
     this.isTappable = e.nativeEvent
   }
 
-  onTapMove = (e) => {
+  onTapMove = e => {
     if (this.isTappable !== null) {
-      if (Math.abs(this.isTappable.locationX - e.nativeEvent.locationX) > 5 ||
+      if (
+        Math.abs(this.isTappable.locationX - e.nativeEvent.locationX) > 5 ||
         Math.abs(this.isTappable.locationY - e.nativeEvent.locationY) > 5
       ) {
         this.isTappable = null
@@ -154,7 +156,7 @@ class EpisodeDetail extends React.PureComponent {
     this.unlockTapGuard()
   }
 
-  unlockTapGuard() {
+  unlockTapGuard () {
     if (this.state.isLocked) {
       this.state.isLocked = false
     }
@@ -166,20 +168,21 @@ class EpisodeDetail extends React.PureComponent {
     }
     return {
       title: novel.title,
-      url: shareLinks.default,
+      url: shareLinks.default
     }
   }
 
-  onRenderComplate({ viewableItems }) {
-    if (!this.state.renderCompleted &&
-      viewableItems.length > 0 &&
-      _.last(viewableItems).item.id === _.last(this.props.scriptValues).id
+  onLayoutFooter () {
+    // Footerコンポーネントのレンダリングがされたタイミングを
+    // 全体のレンダリングが完了した判定をするのに使う
+    // 内部の実装に依存しているので、もっといい方法があれば変更したい
+    const ref = this.scriptList.listRef()
+    if (
+      !this.state.renderCompleted &&
+      ref &&
+      ref.state &&
+      ref.state.last === this.props.scriptValues.length - 1
     ) {
-      // unmount 後に呼ばれることがある
-      if (!this) {
-        return
-      }
-
       this.scrollToEnd({
         animated: false
       })
@@ -187,70 +190,79 @@ class EpisodeDetail extends React.PureComponent {
     }
   }
 
-  render() {
+  render () {
     const {
-      novel, episode, scripts, scriptValues, readState, shareLinks,
-      isTutorial, characters, onTapScreen, onTapPurchase,
+      novel,
+      episode,
+      scripts,
+      scriptValues,
+      readState,
+      shareLinks,
+      isTutorial,
+      characters,
+      onTapScreen,
+      onTapPurchase
     } = this.props
 
-    const lastItemId = scriptValues.length == 0 ? 0 : scriptValues[scriptValues.length - 1].id
+    const lastItemId =
+      scriptValues.length == 0 ? 0 : scriptValues[scriptValues.length - 1].id
     const bgImageUrl = getBackgroundImage(scripts, readState)
     const shareOptions = this.getShareOptions(novel, shareLinks)
 
     return (
-      <View style={ styles.container }>
-        <BackgroundImage imageUrl={ bgImageUrl } />
+      <View style={styles.container}>
+        <BackgroundImage imageUrl={bgImageUrl} />
         <TapArea
-          offset={ this.state.offsetFromEnd }
-          theme={ episode.theme || 'dark' }
-          readState={ readState }
+          offset={this.state.offsetFromEnd}
+          theme={episode.theme || 'dark'}
+          readState={readState}
         />
         <ScrollView
-          scrollEventThrottle={ 16 }
-          onScroll={ this._handleScroll }
-          ref={r => this.storyWrapper = r}
-          onTouchStart={ this.onTap }
-          onTouchMove={ this.onTapMove }
-          onTouchEnd={ this.onTapEnd.bind(this, readState, onTapScreen) }
-          onMomentumScrollEnd={ this.onMomentumScrollEnd }
+          scrollEventThrottle={16}
+          onScroll={this._handleScroll}
+          ref={r => (this.storyWrapper = r)}
+          onTouchStart={this.onTap}
+          onTouchMove={this.onTapMove}
+          onTouchEnd={this.onTapEnd.bind(this, readState, onTapScreen)}
+          onMomentumScrollEnd={this.onMomentumScrollEnd}
         >
           <ScriptList
-            data={ scriptValues }
-            lastItemId={ lastItemId }
-            readState={ readState }
-            characters={ characters }
-            ListFooterComponent={ this.renderFooter.bind(this, readState, isTutorial) }
-            onRenderComplete={ this.onRenderComplate.bind(this) }
+            ref={r => (this.scriptList = r)}
+            data={scriptValues}
+            lastItemId={lastItemId}
+            readState={readState}
+            characters={characters}
+            ListFooterComponent={this.renderFooter.bind(
+              this,
+              readState,
+              isTutorial
+            )}
             style={{
               opacity: this.state.renderCompleted ? 1 : 0
             }}
           />
-          { readState.reachEndOfContent && (
+          {readState.reachEndOfContent && (
             <View>
               <Share
-                shareText={ (this.props.category || {}).shareTitle }
-                shareOptions={ shareOptions }
-                onSelectContent={ this.props.onSelectContent }
-                onPressShare={ this.props.onPressShare }
+                shareText={(this.props.category || {}).shareTitle}
+                shareOptions={shareOptions}
+                onSelectContent={this.props.onSelectContent}
+                onPressShare={this.props.onPressShare}
               />
-              <View style={ styles.separator } />
-              {
-                this.props.nextEpisode
-                  ? (
-                    <NextEpisode
-                      novel={ novel }
-                      episode={ this.props.nextEpisode }
-                      onSelectContent={ this.props.onSelectContent }
-                    />
-                  )
-                  : (
-                    <Recommends
-                      novel={ novel }
-                      recommends={ this.props.recommends }
-                      onSelectContent={ this.props.onSelectContent }
-                    />
-                  )
-              }
+              <View style={styles.separator} />
+              {this.props.nextEpisode ? (
+                <NextEpisode
+                  novel={novel}
+                  episode={this.props.nextEpisode}
+                  onSelectContent={this.props.onSelectContent}
+                />
+              ) : (
+                <Recommends
+                  novel={novel}
+                  recommends={this.props.recommends}
+                  onSelectContent={this.props.onSelectContent}
+                />
+              )}
             </View>
           )}
         </ScrollView>
@@ -261,14 +273,14 @@ class EpisodeDetail extends React.PureComponent {
 
 const styles: StyleSheet = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   containerBackground: {
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   },
   separator: {
     height: 14,
-    backgroundColor: '#f3f3f3',
+    backgroundColor: '#f3f3f3'
   },
   tapGuard: {
     position: 'absolute',
@@ -276,8 +288,8 @@ const styles: StyleSheet = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: '#fff',
-    opacity: 0,
-  },
+    opacity: 0
+  }
 })
 
 reactMixin(EpisodeDetail.prototype, TimerMixin)

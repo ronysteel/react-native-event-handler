@@ -2,33 +2,32 @@
 import type { Action, ThunkAction } from './types'
 import { StatusBar } from 'react-native'
 
-export function closeSettingModal(): ThunkAction {
+export function closeSettingModal (): ThunkAction {
   return (dispatch, getState) => {
-    return (new Promise(resolve => resolve()))
+    return new Promise(resolve => resolve())
       .then(() => {
         StatusBar.setBarStyle('dark-content')
         StatusBar.setHidden(false)
       })
-      .then(() => (
+      .then(() =>
         dispatch({
-          type: 'CLOSE_HOME_PAGE_SETTING_MODAL_SUCCESS',
+          type: 'CLOSE_HOME_PAGE_SETTING_MODAL_SUCCESS'
         })
-      ))
+      )
   }
 }
 
-export function openSettingModal(): ThunkAction {
+export function openSettingModal (): ThunkAction {
   return (dispatch, getState) => {
-    return (new Promise(resolve => resolve()))
+    return new Promise(resolve => resolve())
       .then(() => {
         StatusBar.setBarStyle('dark-content')
         StatusBar.setHidden(false)
       })
-      .then(() => (
+      .then(() =>
         dispatch({
-          type: 'OPEN_HOME_PAGE_SETTING_MODAL_SUCCESS',
+          type: 'OPEN_HOME_PAGE_SETTING_MODAL_SUCCESS'
         })
-      ))
+      )
   }
 }
-

@@ -96,7 +96,7 @@ PODS:
     - React/Core (= 0.46.1)
   - react-native-blur (0.8.0):
     - React
-  - react-native-config (0.6.0):
+  - react-native-config (0.6.1):
     - React
   - react-native-in-app-utils (5.5.0):
     - React
@@ -111,6 +111,8 @@ PODS:
   - ReactNativeFabric (0.5.0):
     - Crashlytics
     - Fabric
+    - React
+  - RNDeviceInfo (0.9.3):
     - React
   - RNFirebase (2.1.0):
     - React
@@ -140,6 +142,7 @@ DEPENDENCIES:
   - React/BatchedBridge (from `../node_modules/react-native`)
   - React/Core (from `../node_modules/react-native`)
   - ReactNativeFabric (from `../node_modules/react-native-fabric`)
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNFirebase (from `../node_modules/react-native-firebase`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -159,6 +162,8 @@ EXTERNAL SOURCES:
     :path: ../node_modules/react-native-in-app-utils
   ReactNativeFabric:
     :path: ../node_modules/react-native-fabric
+  RNDeviceInfo:
+    :path: ../node_modules/react-native-device-info
   RNFirebase:
     :path: ../node_modules/react-native-firebase
   RNShare:
@@ -192,15 +197,16 @@ SPEC CHECKSUMS:
   Protobuf: 03eef2ee0b674770735cf79d9c4d3659cf6908e8
   React: 0c6f45ca8c39fe48ed4e3a5583861a8e1bc0959e
   react-native-blur: c4b80329b7ef2a8b9c574f73b798b3178c69ff48
-  react-native-config: 0350d9b476efe2c949ae48a55943d7679b911cb0
+  react-native-config: 15dad433f67438902854707535161413c07ec9bb
   react-native-in-app-utils: 2ef766bea71e31c0bf4a6800f7bb20a8706c579d
   ReactNativeFabric: 788d50490295586f843b8655285f9ed600e85054
+  RNDeviceInfo: dc3cbee96cd2392cf03d6ff6191dc15f1606a166
   RNFirebase: dcdb1be13628827647bba47592d4d19fba5ba84d
   RNShare: f58d823417bcdf71859c9afd7bb0cbcbb2b98e90
   RNSVG: 7548d93456b77f92a73cb77bca5b4b9ef85c90bf
   RNVectorIcons: 6d98d83e944d15014d8071dd9819beb094c61133
   Yoga: 9148a870ff3adaba107edb8ef48ab189c9d9a3d1
 
-PODFILE CHECKSUM: f1548f2123303cd7fb5ae0c579fedbb8736e6038
+PODFILE CHECKSUM: ea11861786f6c02770e611cf50758cea86622d7d
 
 COCOAPODS: 1.3.1

@@ -3,24 +3,24 @@ import type { Action } from '../actions/types'
 import type { Script } from './scripts'
 
 export type Character = {
-  name: string;
-  color: string;
-  avatarUrl: string;
+  name: string,
+  color: string,
+  avatarUrl: string
 }
 
 export type Characters = {
-  [characterId: number]: Character;
+  [characterId: number]: Character
 }
 
 export type EpisodeCharacters = {
-  [episodeId: number]: Characters;
+  [episodeId: number]: Characters
 }
 
 const initialStates: EpisodeCharacters = {}
 
-function characters(
+function characters (
   state: EpisodeCharacters = initialStates,
-  action: Action,
+  action: Action
 ): EpisodeCharacters {
   switch (action.type) {
     case 'LOAD_EPISODE_SUCCESS': {

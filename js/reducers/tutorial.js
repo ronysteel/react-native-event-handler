@@ -2,19 +2,16 @@
 import type { Action } from '../actions/types'
 
 export type Tutorial = {
-  novelId: string;
-  episodeId: string;
+  novelId: string,
+  episodeId: string
 }
 
 const initialState: Tutorial = {
   novelId: '',
-  episodeId: '',
+  episodeId: ''
 }
 
-function tutorial(
-  state: Tutorial = initialState,
-  action: Action,
-): Tutorial {
+function tutorial (state: Tutorial = initialState, action: Action): Tutorial {
   switch (action.type) {
     case 'LOAD_TUTORIAL_SUCCESS': {
       const { novelId, episodeId } = action

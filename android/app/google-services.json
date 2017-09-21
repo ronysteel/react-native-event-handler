@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "193190610691",
+    "firebase_url": "https://dev-chatnovel.firebaseio.com",
+    "project_id": "dev-chatnovel",
+    "storage_bucket": "dev-chatnovel.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193190610691:android:256ec0882c01bdea",
+        "android_client_info": {
+          "package_name": "com.chatnovel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "193190610691-25fkpppr180etk1s5o2r34g7s468gmv0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8LUsrFDMu0Gzkpx0rDCZ8w_EJ9J6sUB0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

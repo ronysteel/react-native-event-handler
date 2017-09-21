@@ -41,17 +41,17 @@ platform :ios do
     update_info_plist(
       plist_path: info_plist_pah,
       display_name: "[dev] CHAT NOVEL",
+      app_identifier: 'co.newn.chatnovel.dev',
+    )
+    update_url_schemes(
+      path: info_plist_pah,
+      url_schemes: ["dev-chatnovel"],
     )
 
-    gym(
-      scheme: "dev chatnovel",
-      export_method: "development",
-    )
-
-    crashlytics(
-      groups: ['chatnovel'],
-      api_token: "7a2539d11b88cfa8b5ba03a4b9e744c29623d98d",
-      build_secret: "84141d6ce9f9015aad09e937a47312f6a3d5f175f9c4d2d3256d4c8ecee197f0",
+    gym(scheme: "dev chatnovel")
+    testflight(
+      app_identifier: 'co.newn.chatnovel.dev',
+      skip_waiting_for_build_processing: true,
     )
 
     reset_git_repo(force: true)
@@ -75,10 +75,8 @@ platform :ios do
     increment_build_number
 
     # match(type: "appstore") # more information: https://codesigning.guide
-    gym(scheme: "chatnovel") # Build your app - more options available
-    pilot(
-      skip_waiting_for_build_processing: true
-    )
+    gym(scheme: "chatnovel")
+    testflight(skip_waiting_for_build_processing: true)
 
     reset_git_repo(force: true)
     ensure_git_status_clean
@@ -90,7 +88,7 @@ platform :ios do
     push_to_git_remote(
       remote: "origin",
       local_branch: "HEAD",
-      remote_branch: "master",
+      remote_branch: "release",
       tags: true,
     )
   end

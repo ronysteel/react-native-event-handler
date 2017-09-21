@@ -5,8 +5,13 @@ import { StyleSheet, Text, View, TouchableOpacity, Linking } from 'react-native'
 import { connect } from 'react-redux'
 
 import firebase from '../firebase'
-import { loadTab, loadTutorial } from '../actions/app'
-import { sentSlectContentEvent, sendPushAllowEvent, sendPushDenyEvent } from '../actions/event'
+import { loadTab, loadTutorial, finishRequestReview } from '../actions/app'
+import {
+  sentSlectContentEvent,
+  sendPushAllowEvent,
+  sendPushDenyEvent
+} from '../actions/event'
+import { openHomePage } from '../actions/homePage'
 import { onSelectContent } from './utils'
 import Stories from '../components/Stories'
 import HeaderTitle from '../components/HeaderTitle'
@@ -14,6 +19,7 @@ import HomeHeaderLeft from '../containers/HomeHeaderLeft'
 import HomeSettingContainer from '../containers/HomeSettingContainer'
 import TutorialContainer from '../containers/TutorialContainer'
 import PushPermissionPopup from '../components/PushPermissionPopup'
+import { requestReviewPopup } from './utils'
 
 import type { Story } from '../reducers/stories'
 
@@ -24,18 +30,19 @@ const headerInit = {
   headerStyle: {
     backgroundColor: '#f5f5f5',
     borderColor: '#999',
-    borderBottomWidth: 0.5,
+    borderBottomWidth: 0.5
   },
   headerTitleStyle: {
     color: '#000',
     fontSize: 18,
-    fontWeight: 'bold',
-  },
+    fontWeight: 'bold'
+  }
 }
 
 class Home extends React.Component {
   static navigationOptions = ({ navigation }) => {
-    const isTutorial = (navigation.state.params && navigation.state.params.tutorial)
+    const isTutorial =
+      navigation.state.params && navigation.state.params.tutorial
 
     let header = {}
     if (isTutorial) {
@@ -44,52 +51,67 @@ class Home extends React.Component {
     return Object.assign({}, headerInit, header)
   }
 
+  mounted = false
+
   state = {
     isLoaded: false
   }
 
-  componentWillMount() {
+  componentWillMount () {
     this.props.navigation.setParams({
       tutorial: !this.props.tutorialEnded,
-      pushPopup: false,
+      pushPopup: false
     })
   }
 
-  componentDidMount() {
+  componentDidMount () {
+    this.mounted = true
     Promise.all([
       this.props.loadHomeTab(),
-      this.props.loadTutorial(this.props.tutorialEnded),
-    ])
-      .then(() => {
+      this.props.loadTutorial(this.props.tutorialEnded)
+    ]).then(() => {
+      if (this.mounted) {
         this.setState({ isLoaded: true })
-      })
+      }
+    })
   }
 
-  render() {
+  componentWillUnmount () {
+    this.mounted = false
+  }
+
+  render () {
     const { stories, navigation, homeTab } = this.props
     if (!this.state.isLoaded) {
-      return <View style={ styles.container } />
+      return <View style={styles.container} />
     }
 
-    if (this.props.navigation.state.params.tutorial) {
+    const navigationParams = this.props.navigation.state.params
+
+    if (navigationParams && navigationParams.tutorial) {
       const { novelId, episodeId } = this.props.tutorial
       return (
         <TutorialContainer
-          novelId={ novelId }
-          episodeId={ episodeId }
-          navigation={ this.props.navigation }
+          novelId={novelId}
+          episodeId={episodeId}
+          navigation={this.props.navigation}
         />
       )
     }
 
     return (
-      <View style={ styles.container }>
-        <Stories sections={ homeTab.sections } onSelectContent={ this.props.onSelectContent } />
+      <View style={styles.container}>
+        <Stories
+          sections={homeTab.sections}
+          onSelectContent={this.props.onSelectContent}
+        />
         <HomeSettingContainer />
-        { this.props.navigation.state.params.pushPopup
-          ?  <PushPermissionPopup onPress={ this.props.requestPushPermission } />
-          : null
-        }
+        {navigationParams && navigationParams.pushPopup ? (
+          <PushPermissionPopup onPress={this.props.requestPushPermission} />
+        ) : null}
+        {this.props.isDisplayReviewAlert && (
+          <View onLayout={this.props.requestReview} />
+        )}
       </View>
     )
   }
@@ -98,22 +120,29 @@ class Home extends React.Component {
 const styles: StyleSheet = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f3f3f3',
-  },
+    backgroundColor: '#f3f3f3'
+  }
 })
 
-const select = (store) => {
+const select = store => {
   return {
     stories: store.stories,
     homeTab: store.tabs['home'],
     tutorialEnded: store.session.tutorialEnded || false,
     tutorial: store.tutorial,
+    review: store.review,
+    isDisplayReviewAlert:
+      !store.review.reviewRequestEnded &&
+      store.review.finishReadingCount >= 5 &&
+      store.actionLog.currentScreen.type === 'HOME'
   }
 }
 
 const actions = (dispatch, props) => {
   return {
-    loadHomeTab: () => dispatch(loadTab('home')),
+    loadHomeTab: () => {
+      dispatch(loadTab('home'))
+    },
     loadTutorial: (tutorialEnded: boolean) => {
       if (tutorialEnded) {
         return new Promise(resolve => resolve())
@@ -121,7 +150,9 @@ const actions = (dispatch, props) => {
       return dispatch(loadTutorial())
     },
     requestPushPermission: () => {
-      firebase.messaging().requestPermissions()
+      firebase
+        .messaging()
+        .requestPermissions()
         .then(res => {
           if (res.granted === undefined) {
             return
@@ -136,7 +167,11 @@ const actions = (dispatch, props) => {
 
       props.navigation.setParams({ pushPopup: false })
     },
-    onSelectContent: onSelectContent.bind(null, dispatch),
+    requestReview: () => {
+      requestReviewPopup()
+      dispatch(finishRequestReview())
+    },
+    onSelectContent: onSelectContent.bind(null, dispatch)
   }
 }
 

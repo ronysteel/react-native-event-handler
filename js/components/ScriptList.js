@@ -7,31 +7,37 @@ import ScriptDescription from './scripts/ScriptDescription'
 import ScriptImage from './scripts/ScriptImage'
 
 const renderItem = (lastItemId, readState, characters, { item, index }) => {
-  const isLatestItem = index === (readState.readIndex - 1)
+  const isLatestItem = index === readState.readIndex - 1
   if (index >= readState.readIndex) {
     return null
   }
 
   switch (item.type) {
     case 'TEXT': {
-      return <ScriptText
-        text={ item.text }
-        isLatestItem={ isLatestItem }
-        characters={ characters }
-      />
+      return (
+        <ScriptText
+          text={item.text}
+          isLatestItem={isLatestItem}
+          characters={characters}
+        />
+      )
     }
     case 'DESCRIPTION': {
-      return <ScriptDescription
-        description={ item.description }
-        isLatestItem={ isLatestItem }
-      />
+      return (
+        <ScriptDescription
+          description={item.description}
+          isLatestItem={isLatestItem}
+        />
+      )
     }
     case 'IMAGE': {
-      return <ScriptImage
-        image={ item.image }
-        isLatestItem={ isLatestItem }
-        characters={ characters }
-      />
+      return (
+        <ScriptImage
+          image={item.image}
+          isLatestItem={isLatestItem}
+          characters={characters}
+        />
+      )
     }
   }
 
@@ -39,25 +45,30 @@ const renderItem = (lastItemId, readState, characters, { item, index }) => {
 }
 
 class ScriptList extends React.PureComponent {
-  render() {
-    const  {
+  _list = null
+
+  listRef = () => {
+    return this._list._listRef
+  }
+
+  render () {
+    const {
       data,
       lastItemId,
       readState,
       characters,
       isTutorial,
       ListFooterComponent,
-      onRenderComplete,
-      style,
+      style
     } = this.props
     return (
       <FlatList
-        data={ data }
-        renderItem={ renderItem.bind(null, lastItemId, readState, characters) }
-        keyExtractor={ item => `${item.id}` }
-        ListFooterComponent={ ListFooterComponent }
-        onViewableItemsChanged={ onRenderComplete }
-        style={ style }
+        ref={r => (this._list = r)}
+        data={data}
+        renderItem={renderItem.bind(null, lastItemId, readState, characters)}
+        keyExtractor={item => `${item.id}`}
+        ListFooterComponent={ListFooterComponent}
+        style={style}
       />
     )
   }

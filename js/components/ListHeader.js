@@ -1,6 +1,12 @@
 // @flow
 import React from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native'
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Platform
+} from 'react-native'
 
 import CloseIcon from './CloseIcon'
 
@@ -10,17 +16,17 @@ const TITLE_OFFSET = Platform.OS === 'ios' ? 70 : 56
 
 const ListHeader = ({ title, closeModal }) => {
   return (
-    <View style={ styles.container }>
-      <View style={ styles.header}>
-        <View style={ styles.left }>
-          <TouchableOpacity onPress={ closeModal }>
-            <View style={ styles.close }>
-              <CloseIcon color={ '#000' } />
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <View style={styles.left}>
+          <TouchableOpacity onPress={closeModal}>
+            <View style={styles.close}>
+              <CloseIcon color={'#000'} />
             </View>
           </TouchableOpacity>
         </View>
-        <View style={ styles.title }>
-          <Text style={ styles.titleText }>{ title }</Text>
+        <View style={styles.title}>
+          <Text style={styles.titleText}>{title}</Text>
         </View>
       </View>
     </View>
@@ -33,16 +39,16 @@ const styles = StyleSheet.create({
     height: APPBAR_HEIGHT + STATUSBAR_HEIGHT,
     backgroundColor: '#F5F5F5',
     borderBottomWidth: 0.5,
-    borderColor: '#999',
+    borderColor: '#999'
   },
   header: {
-    flex: 1,
+    flex: 1
   },
   left: {
     position: 'absolute',
     top: 0,
     bottom: 0,
-    left: 0,
+    left: 0
   },
   title: {
     position: 'absolute',
@@ -51,7 +57,7 @@ const styles = StyleSheet.create({
     left: 64,
     right: 64,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   titleText: {
     color: '#000',
@@ -59,11 +65,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
     alignSelf: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   close: {
-    padding: 15,
-  },
+    padding: 15
+  }
 })
 
 export default ListHeader

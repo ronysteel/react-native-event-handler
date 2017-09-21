@@ -5,7 +5,11 @@ import moment from 'moment'
 import { getAllScript } from '../reducers/scripts'
 import firebase from '../firebase'
 import { loadPurcasingProducts } from './app'
-import { sendSpendVirtualCurrencyEvnet } from './event'
+import {
+  sendSpendVirtualCurrencyEvnet,
+  sendInAppPurchaseSuccessEvent,
+  sendInAppPurchaseFailureEvent
+} from './event'
 import {
   fetchUser,
   verifyReceipt,
@@ -13,7 +17,7 @@ import {
   fetchUserEnergy,
   updateUserEnergy,
   updateReceipt,
-  fetchUseTicket,
+  fetchUseTicket
 } from '../api'
 const { InAppUtils } = NativeModules
 
@@ -24,50 +28,58 @@ const requestSignInAnonymously = () => {
 const successSignInAnonymously = user => {
   return {
     type: 'SIGN_IN_ANONYMOUSLY_SUCCESS',
-    user,
+    user
   }
 }
 
-export function signInAnonymously(): ThunkAction {
+export function signInAnonymously (): ThunkAction {
   return (dispatch, getState) => {
     let userObj = {}
     const { session } = getState()
 
     dispatch(requestSignInAnonymously())
 
-    return firebase.auth().signInAnonymously()
+    return firebase
+      .auth()
+      .signInAnonymously()
       .then(user => {
+        firebase.analytics().setUserId(user.uid)
         userObj.uid = user.uid
         return user
       })
       .then(() => updateReceipt().catch(() => {}))
       .then(() => {
-        return fetchUser()
-          .then(json => {
-            if (!json.paidAccountExpiresDate) {
-              userObj.paid = false
-              return
-            }
+        return (
+          fetchUser()
+            .then(json => {
+              if (!json.paidAccountExpiresDate) {
+                userObj.paid = false
+                return
+              }
 
-            userObj.paid = Number(json.paidAccountExpiresDate) > (moment().valueOf())
-          })
-          // 初回起動時にまだusers DBにデータがない時がある
-          .catch(err => {})
+              userObj.paid =
+                Number(json.paidAccountExpiresDate) > moment().valueOf()
+            })
+            // 初回起動時にまだusers DBにデータがない時がある
+            .catch(err => {})
+        )
       })
       .then(() => {
         dispatch(successSignInAnonymously(userObj))
       })
-      // TODO: catchしないでerror handlingしたい
+    // TODO: catchしないでerror handlingしたい
   }
 }
 
-export function saveDeviceToken(): ThunkAction {
+export function saveDeviceToken (): ThunkAction {
   return (dispatch, getState) => {
     const { session } = getState()
-    return firebase.messaging()
+    return firebase
+      .messaging()
       .getToken()
       .then(token => {
-        return firebase.database()
+        return firebase
+          .database()
           .ref(`/users/${session.uid}`)
           .update({ device_token: token })
       })
@@ -77,46 +89,49 @@ export function saveDeviceToken(): ThunkAction {
 const purchaseSuccess = ({ expiresDate }) => {
   return {
     type: 'PURCHASE_SUCCESS',
-    expiresDate,
+    expiresDate
   }
 }
 
 const purchaseFailed = () => {
   return {
-    type: 'PURCHASE_FAILED',
+    type: 'PURCHASE_FAILED'
   }
 }
 
-export function purchase(productId: string): ThunkAction {
+export function purchase (productId: string): ThunkAction {
   return (dispatch, getState) => {
+    return dispatch(loadPurcasingProducts()).then(() => {
+      InAppUtils.purchaseProduct(productId, (err, res) => {
+        if (res && res.productIdentifier) {
+          console.log('Purchase Successful', res)
+          const r = JSON.stringify({
+            receipt: res.transactionReceipt
+          })
 
-    return dispatch(loadPurcasingProducts())
-      .then(() => {
-        InAppUtils.purchaseProduct(productId, (err, res) => {
-          if (res && res.productIdentifier) {
-            console.log('Purchase Successful', res)
-            const r = JSON.stringify({
-              receipt: res.transactionReceipt,
+          return verifyReceipt({ body: r })
+            .then(res => {
+              if (!res.expiresDate) {
+                return Promise.reject({})
+              }
+              dispatch(sendInAppPurchaseSuccessEvent())
+              return dispatch(purchaseSuccess(res))
             })
-
-            return verifyReceipt({ body: r })
-              .then(res => {
-                if (!res.expiresDate) {
-                  return Promise.reject({})
-                }
-                return dispatch(purchaseSuccess(res))
-              })
-              .catch(err => dispatch(purchaseFailed()))
-          } else {
-            console.log('Purchase Failed', res, err)
-            return dispatch(purchaseFailed())
-          }
-        })
+            .catch(err => {
+              dispatch(sendInAppPurchaseFailureEvent())
+              dispatch(purchaseFailed())
+            })
+        } else {
+          console.log('Purchase Failed', res, err)
+          dispatch(sendInAppPurchaseFailureEvent())
+          return dispatch(purchaseFailed())
+        }
       })
+    })
   }
 }
 
-export function restorePurchases(): ThunkAction {
+export function restorePurchases (): ThunkAction {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       InAppUtils.restorePurchases((err, res) => {
@@ -124,18 +139,19 @@ export function restorePurchases(): ThunkAction {
           return reject({ err })
         }
         if (res.length === 0) {
-          return reject({ err: "did not found any purchases", res })
+          return reject({ err: 'did not found any purchases', res })
         }
         return resolve({ res })
       })
     })
       .then(res => {
         for (const purchase of response) {
-          if (purchase.productIdentifier === 'co.newn.chatnovel.onemonth' ||
-              purchase.productIdentifier === 'co.newn.chatnovel.oneweek'
+          if (
+            purchase.productIdentifier === 'co.newn.chatnovel.onemonth' ||
+            purchase.productIdentifier === 'co.newn.chatnovel.oneweek'
           ) {
             const r = JSON.stringify({
-              receipt: purchase.transactionReceipt,
+              receipt: purchase.transactionReceipt
             })
 
             return verifyReceipt({ body: r })
@@ -151,7 +167,7 @@ export function restorePurchases(): ThunkAction {
 
         return dispatch({
           type: 'RESTORE_PURCHASE_SUCCESS',
-          expiresDate: res.expiresDate,
+          expiresDate: res.expiresDate
         })
       })
       .catch(() => {
@@ -163,78 +179,92 @@ export function restorePurchases(): ThunkAction {
   }
 }
 
-export function decreaseUserEnergy(userId: number, amount: ?number): ThunkAction {
+export function decreaseUserEnergy (
+  userId: number,
+  amount: ?number
+): ThunkAction {
   return (dispatch, getState) => {
-    return (new Promise(resolve => resolve()))
-      .then(() => (
-        dispatch({
-          type: 'DECREASE_USER_ENERGY_SUCCESS',
-          userId,
-          amount,
-        })
-      ))
+    return new Promise(resolve => resolve()).then(() =>
+      dispatch({
+        type: 'DECREASE_USER_ENERGY_SUCCESS',
+        userId,
+        amount
+      })
+    )
   }
 }
 
-export function syncUserEnergy(userId: number, force: boolean = false): ThunkAction {
+export function syncUserEnergy (
+  userId: number,
+  force: boolean = false
+): ThunkAction {
   return (dispatch, getState) => {
-    const { energy } = getState()
-
-    if (energy.isLoading) {
-      return (new Promise((resolve, reject) => {
-        dispatch({ type: 'SYNC_USER_ENERGY_FAILED' })
-        return reject()
-      }))
-    }
-
-    if (energy.nextRechargeDate && (energy.nextRechargeDate - moment().valueOf()) < 0) {
-      force = true
-    }
-
-    if (!force && energy.energy === energy.latestSyncedEnergy) {
-      return (new Promise(resolve => resolve()))
-    }
-
-    if (!force && energy.energy > 0) {
-      return (new Promise(resolve => resolve()))
-    }
-
-    dispatch({ type: 'SYNC_USER_ENERGY_REQUEST' })
-
-    return fetchUserEnergy()
-      .then(v => {
-        if (!v) {
-          return Promise.reject()
+    return Promise.race([
+      new Promise(resolve =>
+        // https://stackoverflow.com/questions/30505960/use-promise-to-wait-until-polled-condition-is-satisfied
+        (function waitForEnergy () {
+          if (!getState().energy.isLoading) return resolve()
+          setTimeout(waitForEnergy, 1)
+        })()
+      ),
+      new Promise((resolve, reject) => setTimeout(reject, 1000))
+    ])
+      .then(() => {
+        const { energy } = getState()
+        if (
+          energy.nextRechargeDate &&
+          energy.nextRechargeDate - moment().valueOf() < 0
+        ) {
+          force = true
         }
 
-        if (!energy.latestSyncedAt || v.updatedAt > v.latestSyncedAt) {
-          return v
+        if (!force && energy.energy === energy.latestSyncedEnergy) {
+          return Promise.resolve()
         }
+
+        if (!force && energy.energy > 0) {
+          return Promise.resolve()
+        }
+
+        dispatch({ type: 'SYNC_USER_ENERGY_REQUEST' })
+
+        return fetchUserEnergy()
+          .then(v => {
+            if (!v) {
+              dispatch({ type: 'SYNC_USER_ENERGY_FAILED' })
+              return Promise.reject()
+            }
+
+            if (!energy.latestSyncedAt || v.updatedAt > v.latestSyncedAt) {
+              return v
+            }
+          })
+          .then(loadedEnergy => {
+            const ext = loadedEnergy ? {} : { energy: energy.energy }
+            const base = {
+              latest_synced_at: firebase.database.ServerValue.TIMESTAMP,
+              updated_at: firebase.database.ServerValue.TIMESTAMP
+            }
+
+            return updateUserEnergy(Object.assign({}, ext))
+              .then(() => fetchUserEnergy())
+              .then(v =>
+                dispatch({
+                  type: 'SYNC_USER_ENERGY_SUCCESS',
+                  energy: v.energy,
+                  latestSyncedAt: v.latestSyncedAt,
+                  nextRechargeDate: v.nextRechargeDate,
+                  ticketCount: v.ticketCount,
+                  remainingTweetCount: v.remainingTweetCount
+                })
+              )
+          })
       })
-      .then(loadedEnergy => {
-        const ext = loadedEnergy ? {} : { energy: energy.energy }
-        const base = {
-          latest_synced_at: firebase.database.ServerValue.TIMESTAMP,
-          updated_at: firebase.database.ServerValue.TIMESTAMP,
-        }
-
-        return updateUserEnergy(Object.assign({}, ext))
-          .then(() => fetchUserEnergy())
-          .then(v => (
-            dispatch({
-              type: 'SYNC_USER_ENERGY_SUCCESS',
-              energy: v.energy,
-              latestSyncedAt: v.latestSyncedAt,
-              nextRechargeDate: v.nextRechargeDate,
-              ticketCount: v.ticketCount,
-              remainingTweetCount: v.remainingTweetCount,
-            })
-          ))
-      })
+      .catch(() => Promise.reject())
   }
 }
 
-export function useTicket(): ThunkAction {
+export function useTicket (): ThunkAction {
   return (dispatch, getState) => {
     dispatch({ type: 'USE_TICKET_REQUEST' })
 
@@ -242,39 +272,39 @@ export function useTicket(): ThunkAction {
       .then(v => {
         dispatch(sendSpendVirtualCurrencyEvnet())
         return dispatch({
-          type: 'USE_TICKET_SUCCESS',
+          type: 'USE_TICKET_SUCCESS'
         })
       })
-      .catch(err => (
+      .catch(err =>
         dispatch({
-          type: 'USE_TICKET_FAILED',
+          type: 'USE_TICKET_FAILED'
         })
-      ))
+      )
   }
 }
 
-export function getTicket(): ThunkAction {
+export function getTicket (): ThunkAction {
   return (dispatch, getState) => {
     dispatch({ type: 'GET_TICKET_REQUEST' })
 
     return requestGetTicket()
       .then(v => {
         return dispatch({
-          type: 'GET_TICKET_SUCCESS',
+          type: 'GET_TICKET_SUCCESS'
         })
       })
-      .catch(err => (
+      .catch(err =>
         dispatch({
-          type: 'GET_TICKET_FAILED',
+          type: 'GET_TICKET_FAILED'
         })
-      ))
+      )
   }
 }
 
-export function tutorialEnd(): ThunkAction {
+export function tutorialEnd (): ThunkAction {
   return (dispatch, getState) => {
-
-    return new Promise(resolve => resolve())
-      .then(() => dispatch({ type: 'TUTORIAL_END_SUCCESS' }))
+    return new Promise(resolve => resolve()).then(() =>
+      dispatch({ type: 'TUTORIAL_END_SUCCESS' })
+    )
   }
 }

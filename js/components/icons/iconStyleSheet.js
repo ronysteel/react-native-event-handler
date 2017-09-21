@@ -4,10 +4,10 @@ const styles = {
     height: 44,
     backgroundColor: '#55acee',
     borderRadius: 2,
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   wrapper: {
-    alignSelf: 'center',
-  },
+    alignSelf: 'center'
+  }
 }
 export default styles

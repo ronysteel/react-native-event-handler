@@ -1,8 +1,9 @@
 // @flow
 import React from 'react'
-import { View, Text, AlertIOS, Linking } from 'react-native'
+import { Platform, View, Text, AlertIOS, Linking } from 'react-native'
 import { connect } from 'react-redux'
 
+import Config from 'react-native-config'
 import Share from 'react-native-share'
 import Modal from 'react-native-modalbox'
 import moment from 'moment'
@@ -12,19 +13,21 @@ import {
   restorePurchases,
   syncUserEnergy,
   useTicket,
-  getTicket,
+  getTicket
 } from '../actions/user'
 import {
   sendPromotionEvent,
   sendPresentOfferEvnet,
   sendPromotionShareBeginEvnet,
-  sendPromotionShareCompleteEvnet,
+  sendPromotionShareCompleteEvnet
 } from '../actions/event'
 import { closePromotionModal } from '../actions/storyPage'
 import Promotion from '../components/Promotion'
 
+const URL_SCHEME = Config.URL_SCHEME
+
 class PromotionContainer extends React.Component {
-  isOpen = (props) => {
+  isOpen = props => {
     const { modalVisible, paid, readState, nextRechargeDate } = props
     let isOpen = modalVisible
 
@@ -47,7 +50,11 @@ class PromotionContainer extends React.Component {
     isAvailableTwitter: false
   }
 
-  tweetButtonAvailable = (ticketCount, remainingTweetCount, isAvailableTwitter) => {
+  tweetButtonAvailable = (
+    ticketCount,
+    remainingTweetCount,
+    isAvailableTwitter
+  ) => {
     if (ticketCount > 0) {
       return false
     }
@@ -58,56 +65,68 @@ class PromotionContainer extends React.Component {
     return isAvailableTwitter
   }
 
-  componentDidMount() {
-    Share.isAvailable('twitter')
-      .then(() => {
-        this.setState({ isAvailableTwitter: true })
-      })
-      .catch(() => {
-        this.setState({ isAvailableTwitter: false })
-      })
+  componentDidMount () {
+    // Share#isAvailable is not supporeted on android.
+    // And android can handle URL whether twitter app is installed or not
+    if (Platform.OS === 'android') {
+      this.setState({ isAvailableTwitter: true })
+    } else {
+      Share.isAvailable('twitter')
+        .then(() => {
+          this.setState({ isAvailableTwitter: true })
+        })
+        .catch(() => {
+          this.setState({ isAvailableTwitter: false })
+        })
+    }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate (prevProps, prevState) {
     const prevIsOpen = this.isOpen(prevProps)
     const isOpen = this.isOpen(this.props)
 
     if (prevIsOpen !== isOpen && isOpen === true) {
-      this.props.sendPromotionEvent(this.tweetButtonAvailable(
-        this.props.ticketCount,
-        this.props.remainingTweetCount,
-        this.state.isAvailableTwitter
-      ))
+      this.props.sendPromotionEvent(
+        this.tweetButtonAvailable(
+          this.props.ticketCount,
+          this.props.remainingTweetCount,
+          this.state.isAvailableTwitter
+        )
+      )
     }
   }
 
-  render() {
+  render () {
     const isOpen = this.isOpen(this.props)
 
     return (
       <Modal
-        swipeToClose={ false }
-        onClosed={ this.props.closeModal }
-        isOpen={ isOpen }
+        swipeToClose={false}
+        onClosed={this.props.closeModal}
+        isOpen={isOpen}
       >
         <Promotion
-          products={ this.props.purchasingProducts }
-          ticketCount={ this.props.ticketCount }
-          remainingTweetCount={ this.props.remainingTweetCount }
-          isAvailableTwitter={ this.state.isAvailableTwitter }
-          onTapPurchase={ this.props.onTapPurchase }
-          onTapUseTicket={ this.props.onTapUseTicket.bind(null, this.props.userId) }
-          onTapGetTicket={
-            this.props.onTapGetTicket.bind(null,
-              this.props.userId, this.props.novel, this.props.shareLinks)
-          }
-          onTapRestore={ this.props.onTapRestore }
-          nextRechargeDate={ this.props.nextRechargeDate }
-          onEndRecharge={ this.props.onEndRecharge.bind(null, this.props.userId) }
-          closeModal={ this.props.closeModal }
-          onTapPrivacyPolicy={ this.props.onTapPrivacyPolicy }
-          onTapTermOfUse={ this.props.onTapTermOfUse }
-          onTapHelpPurchase={ this.props.onTapHelpPurchase }
+          ticketCount={this.props.ticketCount}
+          remainingTweetCount={this.props.remainingTweetCount}
+          isAvailableTwitter={this.state.isAvailableTwitter}
+          onTapPurchase={this.props.onTapPurchase}
+          onTapUseTicket={this.props.onTapUseTicket.bind(
+            null,
+            this.props.userId
+          )}
+          onTapGetTicket={this.props.onTapGetTicket.bind(
+            null,
+            this.props.userId,
+            this.props.novel,
+            this.props.shareLinks
+          )}
+          onTapRestore={this.props.onTapRestore}
+          nextRechargeDate={this.props.nextRechargeDate}
+          onEndRecharge={this.props.onEndRecharge.bind(null, this.props.userId)}
+          closeModal={this.props.closeModal}
+          onTapPrivacyPolicy={this.props.onTapPrivacyPolicy}
+          onTapTermOfUse={this.props.onTapTermOfUse}
+          onTapHelpPurchase={this.props.onTapHelpPurchase}
         />
       </Modal>
     )
@@ -120,7 +139,6 @@ const select = (store, props) => {
   const readState: ReadState = store.readStates[episodeId]
   const nextRechargeDate = store.energy.nextRechargeDate
   const pageState = store.pages.storyPageStates[episodeId]
-  const purchasingProducts = store.purchasingProducts
   const modalVisible = pageState && pageState.isOpenPromotion
   const ticketCount = store.tickets.ticketCount
   const remainingTweetCount = store.tweets.remainingTweetCount
@@ -129,13 +147,12 @@ const select = (store, props) => {
     userId: store.session.uid,
     readState,
     novel,
-    purchasingProducts,
     nextRechargeDate,
     paid: store.session.paid,
     modalVisible,
     ticketCount,
     remainingTweetCount,
-    shareLinks: store.shareLinks[episodeId],
+    shareLinks: store.shareLinks[episodeId]
   }
 }
 
@@ -144,22 +161,20 @@ const actions = (dispatch, props) => {
   return {
     closeModal: () => dispatch(closePromotionModal(episodeId)),
     onTapPurchase: (productId: string) => dispatch(purchase(productId)),
-    onEndRecharge: (userId: number) => (
-      dispatch(closePromotionModal(episodeId))
-        .then(() => dispatch(syncUserEnergy(userId, true)))
-    ),
-    onTapUseTicket: (userId: number) => (
+    onEndRecharge: (userId: number) =>
+      dispatch(closePromotionModal(episodeId)).then(() =>
+        dispatch(syncUserEnergy(userId, true))
+      ),
+    onTapUseTicket: (userId: number) =>
       dispatch(closePromotionModal(episodeId))
         .then(() => dispatch(useTicket()))
-        .then(() => dispatch(syncUserEnergy(userId, true)))
-    ),
-    onTapGetTicket: (userId: number, novel, shareLinks) => (
-      Share
-        .shareSingle({
-          social: 'twitter',
-          message: `無料で読める新感覚ノベルアプリCHAT NOVELで「${novel.title}」を読もう！ @CHATNOVEL`,
-          url: shareLinks.default,
-        })
+        .then(() => dispatch(syncUserEnergy(userId, true))),
+    onTapGetTicket: (userId: number, novel, shareLinks) =>
+      Share.shareSingle({
+        social: 'twitter',
+        message: `無料で読める新感覚ノベルアプリCHAT NOVELで「${novel.title}」を読もう！ @CHATNOVEL`,
+        url: shareLinks.default
+      })
         .then(({ shared }) => {
           dispatch(sendPromotionShareBeginEvnet(episodeId))
 
@@ -173,30 +188,19 @@ const actions = (dispatch, props) => {
             .then(() => dispatch(syncUserEnergy(userId, true)))
             .then(() => dispatch(sendPresentOfferEvnet()))
         })
-        .catch(() => {})
-    ),
-    onTapRestore: () => (
+        .catch(() => {}),
+    onTapRestore: () =>
       dispatch(restorePurchases())
         .then(() => dispatch(closePromotionModal(episodeId)))
         .catch(() => {
-          AlertIOS.alert(
-            'ストアエラー',
-            '復元可能な購入が見つかりませんでした'
-          )
-        })
-    ),
-    sendPromotionEvent: (hasTweetButton: boolean) => (
-      dispatch(sendPromotionEvent(episodeId, hasTweetButton))
-    ),
-    onTapPrivacyPolicy: () => (
-      Linking.openURL('chatnovel://about/privacy')
-    ),
-    onTapTermOfUse: () => (
-      Linking.openURL('chatnovel://about/terms')
-    ),
-    onTapHelpPurchase: () => (
-      Linking.openURL('chatnovel://about/subscription')
-    ),
+          AlertIOS.alert('ストアエラー', '復元可能な購入が見つかりませんでした')
+        }),
+    sendPromotionEvent: (hasTweetButton: boolean) =>
+      dispatch(sendPromotionEvent(episodeId, hasTweetButton)),
+    onTapPrivacyPolicy: () => Linking.openURL(`${URL_SCHEME}://about/privacy`),
+    onTapTermOfUse: () => Linking.openURL(`${URL_SCHEME}://about/terms`),
+    onTapHelpPurchase: () =>
+      Linking.openURL(`${URL_SCHEME}://about/subscription`)
   }
 }
 

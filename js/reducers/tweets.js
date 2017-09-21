@@ -2,19 +2,19 @@
 import type { Action } from '../actions/types'
 
 export type Tweets = {
-  remainingTweetCount: number;
+  remainingTweetCount: number
 }
 
 const initialStates: Tweets = {
-  remainingTweetCount: 0,
+  remainingTweetCount: 0
 }
 
-function tweets(state: Tweets = initialStates, action: Action): Tweets {
+function tweets (state: Tweets = initialStates, action: Action): Tweets {
   switch (action.type) {
     case 'SYNC_USER_ENERGY_SUCCESS': {
       return {
         ...state,
-        ...({ remainingTweetCount: action.remainingTweetCount }),
+        ...{ remainingTweetCount: action.remainingTweetCount }
       }
     }
 

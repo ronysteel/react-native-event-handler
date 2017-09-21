@@ -1,39 +1,31 @@
 // @flow
 import React from 'react'
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native'
+import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
 
 import TicketIcon from './TicketIcon'
 
-const UseTicketButton = ({ ticketCount, onTapUseTicket }) => (
-  ( ticketCount <= 0 ? null : (
+const UseTicketButton = ({ ticketCount, onTapUseTicket }) =>
+  ticketCount <= 0 ? null : (
     <View>
-      <TouchableOpacity onPress={ onTapUseTicket }>
-        <View style={ styles.buttonWrapper }>
-          <View style={{
-            flex: 1,
-            backgroundColor: 'transparent',
-          }}>
-            <Text style={ styles.buttonText}>
-              { 'チケットをつかう' }
-            </Text>
+      <TouchableOpacity onPress={onTapUseTicket}>
+        <View style={styles.buttonWrapper}>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: 'transparent'
+            }}
+          >
+            <Text style={styles.buttonText}>{'チケットをつかう'}</Text>
           </View>
-          <View style={ styles.ticketIconWrapper }>
+          <View style={styles.ticketIconWrapper}>
             <TicketIcon />
-            <Text style={ styles.ticketIconText }>{ '1' }</Text>
+            <Text style={styles.ticketIconText}>{'1'}</Text>
           </View>
         </View>
       </TouchableOpacity>
-      <Text style={ styles.ticketCountText }>
-        { `持っているチケット：${ticketCount}枚` }
-      </Text>
+      <Text style={styles.ticketCountText}>{`持っているチケット：${ticketCount}枚`}</Text>
     </View>
-  ) )
-)
+  )
 
 const styles: StyleSheet = StyleSheet.create({
   buttonWrapper: {
@@ -41,7 +33,7 @@ const styles: StyleSheet = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: '#ff395d',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   buttonText: {
     padding: 15,
@@ -49,13 +41,13 @@ const styles: StyleSheet = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     lineHeight: 16,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   ticketCountText: {
     color: '#575757',
     fontSize: 12,
     marginTop: 10,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   ticketIconWrapper: {
     flexDirection: 'row',
@@ -64,13 +56,13 @@ const styles: StyleSheet = StyleSheet.create({
     borderColor: '#ff618b',
     backgroundColor: 'transparent',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   ticketIconText: {
     color: '#fff',
     fontSize: 20,
-    marginLeft: 8,
-  },
+    marginLeft: 8
+  }
 })
 
 export default UseTicketButton

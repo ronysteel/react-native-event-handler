@@ -4,20 +4,20 @@
 import React, { Component } from 'react'
 const ReactNativeSvg = jest.genMockFromModule('react-native-svg')
 
-function generateSvgMocks(names) {
+function generateSvgMocks (names) {
   return names.reduce((memo, name) => {
     memo[name] = generateSvgMock(name)
     return memo
   }, generateSvgMock('Svg'))
 }
 
-function generateSvgMock(name) {
+function generateSvgMock (name) {
   return class SvgMock extends Component {
     static displayName = name
     static propTypes = ReactNativeSvg[name].propType
 
-    render() {
-      return React.createElement(name, this.props, this.props.children);
+    render () {
+      return React.createElement(name, this.props, this.props.children)
     }
   }
 }
