@@ -71,7 +71,7 @@ export const requestReviewPopup = () => {
         text: '☆5をつける',
         onPress: () => {
           Linking.openURL(
-            'itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=1263726333&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software'
+            'itms-apps://itunes.apple.com/jp/app/id1263726333?action=write-review'
           )
         }
       },
