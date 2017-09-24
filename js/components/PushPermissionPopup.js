@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import FadeinView from './FadeinView'
 import {
   Animated,
   Dimensions,
@@ -15,32 +16,48 @@ import { BlurView, VibrancyView } from 'react-native-blur'
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
 
-const PushPermissionPopup = ({ onPress }) => {
-  return (
-    <Modal transparent>
-      <View style={styles.container}>
-        <View style={styles.wrapper}>
-          <View style={styles.popupInner}>
-            <VibrancyView
-              blurType='xlight'
-              blurAmount={10}
-              style={styles.blur}
-            />
-            <Image
-              source={require('./img/permission.png')}
-              style={styles.image}
-            />
-            <Text style={styles.text}>
-              {'通知をオンにすると、編集部おすすめノベルやチケットプレゼントなどのお得な情報をお届けします！'}
-            </Text>
-            <TouchableOpacity style={styles.startButton} onPress={onPress}>
-              <Text style={styles.startButtonText}>{'はじめる'}</Text>
-            </TouchableOpacity>
+class PushPermissionPopup extends React.Component {
+  state = {
+    isVisible: true
+  }
+
+  render () {
+    const { onPress } = this.props
+
+    dismiss = () => {
+      this.setState({ isVisible: false })
+    }
+
+    return (
+      <Modal transparent>
+        <FadeinView
+          style={styles.container}
+          isVisible={this.state.isVisible}
+          dismissed={onPress}
+        >
+          <View style={styles.wrapper}>
+            <View style={styles.popupInner}>
+              <VibrancyView
+                blurType='xlight'
+                blurAmount={10}
+                style={styles.blur}
+              />
+              <Image
+                source={require('./img/permission.png')}
+                style={styles.image}
+              />
+              <Text style={styles.text}>
+                {'通知をオンにすると、編集部おすすめノベルやチケットプレゼントなどのお得な情報をお届けします！'}
+              </Text>
+              <TouchableOpacity style={styles.startButton} onPress={dismiss}>
+                <Text style={styles.startButtonText}>{'はじめる'}</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </View>
-    </Modal>
-  )
+        </FadeinView>
+      </Modal>
+    )
+  }
 }
 
 const BASE_WIDTH = 375
