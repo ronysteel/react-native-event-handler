@@ -30,7 +30,11 @@ class PushPermissionPopup extends React.Component {
 
     return (
       <Modal transparent>
-        <FadeinView style={styles.container} isVisible={this.state.isVisible} dismissed={onPress}>
+        <FadeinView
+          style={styles.container}
+          isVisible={this.state.isVisible}
+          dismissed={onPress}
+        >
           <View style={styles.wrapper}>
             <View style={styles.popupInner}>
               <VibrancyView
