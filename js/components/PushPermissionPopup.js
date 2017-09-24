@@ -17,9 +17,13 @@ const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
 
 const PushPermissionPopup = ({ onPress }) => {
+  dismiss = () => {
+    this._fadeInView.dismiss(onPress)
+  }
+
   return (
     <Modal transparent>
-      <FadeinView style={styles.container}>
+      <FadeinView style={styles.container} ref={component => this._fadeInView = component}>
         <View style={styles.wrapper}>
           <View style={styles.popupInner}>
             <VibrancyView
@@ -34,7 +38,7 @@ const PushPermissionPopup = ({ onPress }) => {
             <Text style={styles.text}>
               {'通知をオンにすると、編集部おすすめノベルやチケットプレゼントなどのお得な情報をお届けします！'}
             </Text>
-            <TouchableOpacity style={styles.startButton} onPress={onPress}>
+            <TouchableOpacity style={styles.startButton} onPress={dismiss}>
               <Text style={styles.startButtonText}>{'はじめる'}</Text>
             </TouchableOpacity>
           </View>

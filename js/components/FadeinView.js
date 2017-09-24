@@ -15,6 +15,15 @@ export default class FadeinView extends React.Component {
     }).start()
   }
 
+  dismiss (completion) {
+    Animated.timing(this.state.fadeAnim, {
+      toValue: 0,
+      duration: 300,
+    }).start(
+      completion()
+    )
+  }
+
   render () {
     let { fadeAnim } = this.state
     const { style } = this.props;
