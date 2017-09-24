@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Animated } from 'react-native'
+import { Animated, View } from 'react-native'
 
 export default class FadeinView extends React.Component {
   state = {
@@ -10,21 +10,34 @@ export default class FadeinView extends React.Component {
   componentDidMount () {
     Animated.timing(this.state.fadeAnim, {
       toValue: 1,
-      duration: 500
+      duration: 300,
+      delay: 1000
     }).start()
   }
 
+  componentWillUpdate (nextProps) {
+    if (
+      this.props.isVisible !== nextProps.isVisible &&
+      nextProps.isVisible === false
+    ) {
+      this.fadeout()
+    }
+  }
+
+  fadeout () {
+    Animated.timing(this.state.fadeAnim, {
+      toValue: 0,
+      duration: 300
+    }).start(this.props.dismissed())
+  }
+
   render () {
-    const { fadeAnim } = this.state
+    let { fadeAnim } = this.state
+    const { style } = this.props
 
     return (
-      <Animated.View
-        style={{
-          ...this.props.style,
-          opacity: fadeAnim
-        }}
-      >
-        {this.props.children}
+      <Animated.View style={[{ opacity: fadeAnim }].concat(style || [])}>
+        {this.props.isVisible && this.props.children}
       </Animated.View>
     )
   }

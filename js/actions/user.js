@@ -199,68 +199,65 @@ export function syncUserEnergy (
   force: boolean = false
 ): ThunkAction {
   return (dispatch, getState) => {
-    return Promise.race([
-      new Promise(resolve =>
-        // https://stackoverflow.com/questions/30505960/use-promise-to-wait-until-polled-condition-is-satisfied
-        (function waitForEnergy () {
-          if (!getState().energy.isLoading) return resolve()
-          setTimeout(waitForEnergy, 1)
-        })()
-      ),
-      new Promise((resolve, reject) => setTimeout(reject, 1000))
-    ])
-      .then(() => {
-        const { energy } = getState()
-        if (
-          energy.nextRechargeDate &&
-          energy.nextRechargeDate - moment().valueOf() < 0
-        ) {
-          force = true
-        }
+    return new Promise((resolve, reject) => {
+      let limit = 100
+      // https://stackoverflow.com/questions/30505960/use-promise-to-wait-until-polled-condition-is-satisfied
+      ;(function waitForEnergy () {
+        if (!getState().energy.isLoading) return resolve()
+        if (limit-- == 0) return reject()
+        setTimeout(waitForEnergy, 10)
+      })()
+    }).then(() => {
+      const { energy } = getState()
+      if (
+        energy.nextRechargeDate &&
+        energy.nextRechargeDate - moment().valueOf() < 0
+      ) {
+        force = true
+      }
 
-        if (!force && energy.energy === energy.latestSyncedEnergy) {
-          return Promise.resolve()
-        }
+      if (!force && energy.energy === energy.latestSyncedEnergy) {
+        return Promise.resolve()
+      }
 
-        if (!force && energy.energy > 0) {
-          return Promise.resolve()
-        }
+      if (!force && energy.energy > 0) {
+        return Promise.resolve()
+      }
 
-        dispatch({ type: 'SYNC_USER_ENERGY_REQUEST' })
+      dispatch({ type: 'SYNC_USER_ENERGY_REQUEST' })
 
-        return fetchUserEnergy()
-          .then(v => {
-            if (!v) {
-              dispatch({ type: 'SYNC_USER_ENERGY_FAILED' })
-              return Promise.reject()
-            }
+      return fetchUserEnergy()
+        .then(v => {
+          if (!v) {
+            dispatch({ type: 'SYNC_USER_ENERGY_FAILED' })
+            return Promise.reject()
+          }
 
-            if (!energy.latestSyncedAt || v.updatedAt > v.latestSyncedAt) {
-              return v
-            }
-          })
-          .then(loadedEnergy => {
-            const ext = loadedEnergy ? {} : { energy: energy.energy }
-            const base = {
-              latest_synced_at: firebase.database.ServerValue.TIMESTAMP,
-              updated_at: firebase.database.ServerValue.TIMESTAMP
-            }
+          if (!energy.latestSyncedAt || v.updatedAt > v.latestSyncedAt) {
+            return v
+          }
+        })
+        .then(loadedEnergy => {
+          const ext = loadedEnergy ? {} : { energy: energy.energy }
+          const base = {
+            latest_synced_at: firebase.database.ServerValue.TIMESTAMP,
+            updated_at: firebase.database.ServerValue.TIMESTAMP
+          }
 
-            return updateUserEnergy(Object.assign({}, ext))
-              .then(() => fetchUserEnergy())
-              .then(v =>
-                dispatch({
-                  type: 'SYNC_USER_ENERGY_SUCCESS',
-                  energy: v.energy,
-                  latestSyncedAt: v.latestSyncedAt,
-                  nextRechargeDate: v.nextRechargeDate,
-                  ticketCount: v.ticketCount,
-                  remainingTweetCount: v.remainingTweetCount
-                })
-              )
-          })
-      })
-      .catch(() => Promise.reject())
+          return updateUserEnergy(Object.assign({}, ext))
+            .then(() => fetchUserEnergy())
+            .then(v =>
+              dispatch({
+                type: 'SYNC_USER_ENERGY_SUCCESS',
+                energy: v.energy,
+                latestSyncedAt: v.latestSyncedAt,
+                nextRechargeDate: v.nextRechargeDate,
+                ticketCount: v.ticketCount,
+                remainingTweetCount: v.remainingTweetCount
+              })
+            )
+        })
+    })
   }
 }
 

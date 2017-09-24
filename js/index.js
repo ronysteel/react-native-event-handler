@@ -19,6 +19,7 @@ import Router, { onNavigationStateChange } from './containers/Router'
 import { signInAnonymously, saveDeviceToken } from './actions/user'
 import { resetNavigator } from './actions/navigator'
 import {
+  applicationStartup,
   loadTab,
   loadPurcasingProducts,
   moveScreen,
@@ -57,6 +58,7 @@ class Root extends React.PureComponent {
         dispatch(resetNavigator()),
         dispatch(signInAnonymously()),
         dispatch(loadPurcasingProducts()),
+        dispatch(applicationStartup()),
         dispatch(setupReviewStatus())
       ])
         .then(() => {

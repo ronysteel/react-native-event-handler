@@ -64,6 +64,7 @@ class ScriptList extends React.PureComponent {
     return (
       <FlatList
         ref={r => (this._list = r)}
+        initialNumToRender={data.length}
         data={data}
         renderItem={renderItem.bind(null, lastItemId, readState, characters)}
         keyExtractor={item => `${item.id}`}

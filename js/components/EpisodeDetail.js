@@ -174,18 +174,9 @@ class EpisodeDetail extends React.PureComponent {
 
   onLayoutFooter () {
     // Footerコンポーネントのレンダリングがされたタイミングを
-    // 全体のレンダリングが完了した判定をするのに使う
-    // 内部の実装に依存しているので、もっといい方法があれば変更したい
-    const ref = this.scriptList.listRef()
-    if (
-      !this.state.renderCompleted &&
-      ref &&
-      ref.state &&
-      ref.state.last === this.props.scriptValues.length - 1
-    ) {
-      this.scrollToEnd({
-        animated: false
-      })
+    // 全体のレンダリングが完了した判定をするのに使う #235
+    if (!this.state.renderCompleted) {
+      this.scrollToEnd({ animated: false })
       this.setState({ renderCompleted: true })
     }
   }
@@ -227,7 +218,6 @@ class EpisodeDetail extends React.PureComponent {
           onMomentumScrollEnd={this.onMomentumScrollEnd}
         >
           <ScriptList
-            ref={r => (this.scriptList = r)}
             data={scriptValues}
             lastItemId={lastItemId}
             readState={readState}
