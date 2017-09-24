@@ -12,6 +12,14 @@ import DeviceInfo from 'react-native-device-info'
 
 import { sendLeaveContentEvent } from './event'
 
+export function applicationStartup (): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve()).then(() =>
+      dispatch({ type: 'APPLICATION_STARTUP' })
+    )
+  }
+}
+
 export function loadPurcasingProducts (): ThunkAction {
   const products = ['co.newn.chatnovel.oneweek', 'co.newn.chatnovel.onemonth']
 

@@ -19,6 +19,13 @@ const initialStates: Energy = {
 
 function energy (state: Energy = initialStates, action: Action): Energy {
   switch (action.type) {
+    case 'APPLICATION_STARTUP': {
+      return {
+        ...state,
+        isLoading: false // #340
+      }
+    }
+
     case 'SYNC_USER_ENERGY_REQUEST': {
       return {
         ...state,
