@@ -16,8 +16,8 @@ export default class FadeinView extends React.Component {
   }
 
   componentWillUpdate(nextProps) {
-    if (this.props.isVisible !== nextProps.isVisible) {
-      this.fadeout();
+    if (this.props.isVisible !== nextProps.isVisible && nextProps.isVisible === false) {
+      this.fadeout()
     }
   }
 
@@ -29,7 +29,7 @@ export default class FadeinView extends React.Component {
       this.props.dismissed()
     )
   }
-  
+
   render () {
     let { fadeAnim } = this.state
     const { style } = this.props;
