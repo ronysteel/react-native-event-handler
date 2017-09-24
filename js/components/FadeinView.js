@@ -4,7 +4,7 @@ import { Animated, View } from 'react-native'
 
 export default class FadeinView extends React.Component {
   state = {
-    fadeAnim: new Animated.Value(0)
+    fadeAnim: new Animated.Value(0),
   }
 
   componentDidMount () {
@@ -15,15 +15,21 @@ export default class FadeinView extends React.Component {
     }).start()
   }
 
-  dismiss (completion) {
+  componentWillUpdate(nextProps) {
+    if (this.props.isVisible !== nextProps.isVisible) {
+      this.fadeout();
+    }
+  }
+
+  fadeout () {
     Animated.timing(this.state.fadeAnim, {
       toValue: 0,
       duration: 300,
     }).start(
-      completion()
+      this.props.dismissed()
     )
   }
-
+  
   render () {
     let { fadeAnim } = this.state
     const { style } = this.props;
@@ -34,7 +40,7 @@ export default class FadeinView extends React.Component {
           { opacity: fadeAnim }
         ].concat(style || [])}
       >
-        {this.props.children}
+        {this.props.isVisible && this.props.children}
       </Animated.View>
     )
   }
