@@ -3,6 +3,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Linking } from 'react-native'
 import { connect } from 'react-redux'
+import ScrollableTabView from 'react-native-scrollable-tab-view'
 
 import firebase from '../firebase'
 import { loadTab, loadTutorial, finishRequestReview } from '../actions/app'
@@ -19,6 +20,7 @@ import HomeHeaderLeft from '../containers/HomeHeaderLeft'
 import HomeSettingContainer from '../containers/HomeSettingContainer'
 import TutorialContainer from '../containers/TutorialContainer'
 import PushPermissionPopup from '../components/PushPermissionPopup'
+import CategoryTabBar from '../components/CategoryTabBar'
 import { requestReviewPopup } from './utils'
 
 import type { Story } from '../reducers/stories'
@@ -28,9 +30,9 @@ const headerInit = {
   headerTitle: <HeaderTitle />,
   headerLeft: <HomeHeaderLeft />,
   headerStyle: {
-    backgroundColor: '#f5f5f5',
-    borderColor: '#999',
-    borderBottomWidth: 0.5
+    backgroundColor: '#fff',
+    borderWidth: 0,
+    shadowColor: 'transparent'
   },
   headerTitleStyle: {
     color: '#000',
@@ -101,10 +103,15 @@ class Home extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Stories
-          sections={homeTab.sections}
-          onSelectContent={this.props.onSelectContent}
-        />
+        <ScrollableTabView
+          renderTabBar={() => <CategoryTabBar />}
+        >
+          <Stories
+            tabLabel="おすすめ"
+            sections={homeTab.sections}
+            onSelectContent={this.props.onSelectContent}
+          />
+        </ScrollableTabView>
         <HomeSettingContainer />
         {navigationParams && navigationParams.pushPopup ? (
           <PushPermissionPopup onPress={this.props.requestPushPermission} />
