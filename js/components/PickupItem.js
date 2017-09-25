@@ -40,16 +40,19 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     height: Dimensions.get('window').width * (9 / 16),
-    marginBottom: 18
+    borderRadius: 10,
+    marginHorizontal: 15,
+    marginTop: 10,
+    marginBottom: 19
   },
   title: {
     color: colors.title,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '600',
-    lineHeight: 23,
+    lineHeight: 20,
     paddingLeft: 15,
     paddingRight: 15,
-    marginBottom: 4
+    marginBottom: -4
   },
   description: {
     color: colors.description,
