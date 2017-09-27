@@ -100,6 +100,8 @@ class TutorialContainer extends React.Component {
           isTutorial={true}
           showHeader={() => {}}
           hideHeader={() => {}}
+          onAutoScrollStart={() => {}}
+          onAutoScrollEnd={() => {}}
         />
         {this.state.tutorialEnded ? (
           <Animated.View

@@ -135,6 +135,7 @@ class EpisodeDetail extends React.PureComponent {
         !this.props.readState.displayPromotion
       ) {
         this.setState({ autoScrolling: true })
+        this.props.onAutoScrollStart()
         this.autoScroll()
       } else {
         this.forwardToNextScript()
@@ -146,6 +147,7 @@ class EpisodeDetail extends React.PureComponent {
   autoScrollEnd = () => {
     this.setState({ autoScrolling: false })
     this.clearTimeout(this._autoScrollTimer)
+    this.props.onAutoScrollEnd()
   }
 
   autoScroll = () => {
