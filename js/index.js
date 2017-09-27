@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { View, StatusBar, AsyncStorage, AppState, Linking } from 'react-native'
+import { View, AsyncStorage, AppState, Linking } from 'react-native'
 import { Provider } from 'react-redux'
 import {
   StackNavigator,

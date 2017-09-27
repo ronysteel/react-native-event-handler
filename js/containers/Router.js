@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { AppState, Linking } from 'react-native'
+import { View, StatusBar, AppState, Linking } from 'react-native'
 import { connect } from 'react-redux'
 import Config from 'react-native-config'
 import {
