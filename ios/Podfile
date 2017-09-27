@@ -9,6 +9,7 @@ target 'chatnovel' do
   pod 'React', :path => '../node_modules/react-native', :subspecs => [
     'BatchedBridge', # Required For React Native 0.45.0+
     'Core',
+    'DevSupport',
   ]
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
