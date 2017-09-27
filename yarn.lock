@@ -4234,9 +4234,9 @@ react-native-fabric@^0.5.0:
     react-mixin "^3.0.5"
     react-timer-mixin "^0.13.3"
 
-react-native-firebase@^2.0.5:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-firebase/-/react-native-firebase-2.1.0.tgz#43abf62c0c53ebb918c75f39e2ca99f30b4154ba"
+react-native-firebase@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-firebase/-/react-native-firebase-2.2.2.tgz#9a21129601950dfcd5b90650011a5add8a54b958"
   dependencies:
     bows "^1.6.0"
     prop-types "^15.5.10"
