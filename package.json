@@ -22,7 +22,7 @@
     "moment": "^2.18.1",
     "path-to-regexp": "^1.7.0",
     "react": "16.0.0-alpha.12",
-    "react-native": "0.46.1",
+    "react-native": "0.48.4",
     "react-native-blur": "^3.1.2",
     "react-native-config": "git://github.com/SKAhack/react-native-config.git#dev",
     "react-native-device-info": "^0.11.0",
