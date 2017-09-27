@@ -60,7 +60,8 @@ class EpisodeDetail extends React.PureComponent {
       scrollAnim: new Animated.Value(0),
       isLocked: false,
       offsetFromEnd: new Animated.Value(0),
-      renderCompleted: false
+      renderCompleted: false,
+      autoScrolling: false
     }
     this.isTappable = false
   }
@@ -126,30 +127,87 @@ class EpisodeDetail extends React.PureComponent {
     this.storyWrapper.scrollToEnd(params)
   }
 
+  autoScrollStart = () => {
+    if (this.isTappable !== null) {
+      if (
+        this.props.readState.readIndex < this.props.scriptValues.length &&
+        !this.props.readState.displayPromotion
+      ) {
+        this.setState({ autoScrolling: true })
+        this.autoScroll()
+      } else {
+        this.forwardToNextScript()
+      }
+      this.isTappable = null
+    }
+  }
+
+  autoScrollEnd = () => {
+    this.setState({ autoScrolling: false })
+    this.clearTimeout(this._autoScrollTimer)
+  }
+
+  autoScroll = () => {
+    if (
+      this.props.readState.readIndex < this.props.scriptValues.length &&
+      !this.props.readState.displayPromotion
+    ) {
+      this.forwardToNextScript()
+      let script = this.props.scriptValues[this.props.readState.readIndex - 1]
+      let scriptLength = 0
+      switch (script.type) {
+        case 'TEXT':
+          scriptLength = script.text.body.length
+          break
+        case 'DESCRIPTION':
+          scriptLength = script.description.body.length
+          break
+        case 'IMAGE':
+          scriptLength = 30
+          break
+      }
+      this._autoScrollTimer = this.setTimeout(
+        this.autoScroll,
+        950 + 30 * scriptLength
+      )
+    } else {
+      this.autoScrollEnd()
+    }
+  }
+
   onTap = e => {
-    this.isTappable = e.nativeEvent
+    if (this.state.autoScrolling) {
+      this.autoScrollEnd()
+    } else {
+      this.clearTimeout(this._autoScrollTimer)
+      this._autoScrollTimer = this.setTimeout(this.autoScrollStart, 1000)
+      this.isTappable = e.nativeEvent
+    }
   }
 
   onTapMove = e => {
     if (this.isTappable !== null) {
       if (
-        Math.abs(this.isTappable.locationX - e.nativeEvent.locationX) > 5 ||
-        Math.abs(this.isTappable.locationY - e.nativeEvent.locationY) > 5
+        Math.abs(this.isTappable.locationX - e.nativeEvent.locationX) > 10 ||
+        Math.abs(this.isTappable.locationY - e.nativeEvent.locationY) > 10
       ) {
         this.isTappable = null
       }
     }
   }
 
-  onTapEnd = (readState, onTapScreen) => {
+  onTapEnd = () => {
     if (this.isTappable !== null) {
-      onTapScreen()
-      this.state.isLocked = true
-      const self = this
-      this.setTimeout(() => self.scrollToEnd(), 0)
-      this.setTimeout(() => self.unlockTapGuard(), 500)
+      this.forwardToNextScript()
+      this.isTappable = null
     }
-    this.isTappable = null
+  }
+
+  forwardToNextScript = () => {
+    this.props.onTapScreen()
+    this.state.isLocked = true
+    this.setTimeout(this.scrollToEnd, 0)
+    this.setTimeout(this.unlockTapGuard, 500)
   }
 
   onMomentumScrollEnd = () => {
@@ -219,11 +277,12 @@ class EpisodeDetail extends React.PureComponent {
         />
         <ScrollView
           scrollEventThrottle={16}
+          scrollEnabled={!this.state.autoScrolling}
           onScroll={this._handleScroll}
           ref={r => (this.storyWrapper = r)}
           onTouchStart={this.onTap}
           onTouchMove={this.onTapMove}
-          onTouchEnd={this.onTapEnd.bind(this, readState, onTapScreen)}
+          onTouchEnd={this.onTapEnd.bind(this)}
           onMomentumScrollEnd={this.onMomentumScrollEnd}
         >
           <ScriptList
@@ -232,6 +291,7 @@ class EpisodeDetail extends React.PureComponent {
             lastItemId={lastItemId}
             readState={readState}
             characters={characters}
+            scrollEnabled={!this.state.autoScrolling}
             ListFooterComponent={this.renderFooter.bind(
               this,
               readState,
