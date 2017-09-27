@@ -34,7 +34,7 @@
     "react-native-linear-gradient": "^2.1.0",
     "react-native-modalbox": "^1.4.1",
     "react-native-share": "git://github.com/SKAhack/react-native-share.git#dev",
-    "react-native-svg": "^5.3.0",
+    "react-native-svg": "^5.4.1",
     "react-native-vector-icons": "^4.1.1",
     "react-navigation": "^1.0.0-beta.11",
     "react-redux": "^5.0.5",
