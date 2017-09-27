@@ -16,6 +16,7 @@ import _ from 'lodash'
 import TimerMixin from 'react-timer-mixin'
 import reactMixin from 'react-mixin'
 
+import AutoScrollArea from './AutoScrollArea'
 import BackgroundImage from './BackgroundImage'
 import Share from './Share'
 import TapArea from './TapArea'
@@ -275,6 +276,7 @@ class EpisodeDetail extends React.PureComponent {
           theme={episode.theme || 'dark'}
           readState={readState}
         />
+        <AutoScrollArea autoScrolling={this.state.autoScrolling} />
         <ScrollView
           scrollEventThrottle={16}
           scrollEnabled={!this.state.autoScrolling}
