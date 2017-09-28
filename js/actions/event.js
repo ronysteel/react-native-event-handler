@@ -330,3 +330,41 @@ export function sendInAppPurchaseFailureEvent (): ThunkAction {
       .catch(() => {})
   }
 }
+
+export function sendStartAutoScrollEvent (episodeId: string): ThunkAction {
+  return (dispatch, getState) => {
+    const { readStates } = getState()
+    if (!readStates[episodeId]) {
+      return new Promise(resolve => resolve())
+    }
+    const readIndex = readStates[episodeId].readIndex
+    return new Promise(resolve => resolve())
+      .then(() =>
+        firebase.analytics().logEvent('start_auto_scroll', {
+          content_type: 'novel',
+          item_id: episodeId,
+          script_id: readIndex
+        })
+      )
+      .catch(() => {})
+  }
+}
+
+export function sendStopAutoScrollEvent (episodeId: string): ThunkAction {
+  return (dispatch, getState) => {
+    const { readStates } = getState()
+    if (!readStates[episodeId]) {
+      return new Promise(resolve => resolve())
+    }
+    const readIndex = readStates[episodeId].readIndex
+    return new Promise(resolve => resolve())
+      .then(() =>
+        firebase.analytics().logEvent('stop_auto_scroll', {
+          content_type: 'novel',
+          item_id: episodeId,
+          script_id: readIndex
+        })
+      )
+      .catch(() => {})
+  }
+}

@@ -18,7 +18,9 @@ import { openPromotionModal, openEpisodeListModal } from '../actions/storyPage'
 import {
   sendSelectContentEvent,
   sendShareEvent,
-  sendShareCompleteEvent
+  sendShareCompleteEvent,
+  sendStartAutoScrollEvent,
+  sendStopAutoScrollEvent
 } from '../actions/event'
 
 import { getAllScript } from '../reducers/scripts'
@@ -132,6 +134,11 @@ class EpisodeDetail extends React.PureComponent {
           onTapScreen={onTapScreen.bind(null, this, uid, episode.id)}
           onSelectContent={this.props.onSelectContent}
           onPressShare={this.props.onPressShare.bind(null, episode.id)}
+          onAutoScrollStart={this.props.onAutoScrollStart.bind(
+            null,
+            episode.id
+          )}
+          onAutoScrollEnd={this.props.onAutoScrollEnd.bind(null, episode.id)}
         />
         <StoryHeader
           visible={this.state.headerVisible}
@@ -233,7 +240,11 @@ const actions = (dispatch, props) => {
         })
       }
       dispatch(sendShareEvent(episodeId, type))
-    }
+    },
+    onAutoScrollStart: (episodeId: number) =>
+      dispatch(sendStartAutoScrollEvent(episodeId)),
+    onAutoScrollEnd: (episodeId: number) =>
+      dispatch(sendStopAutoScrollEvent(episodeId))
   }
 }
 

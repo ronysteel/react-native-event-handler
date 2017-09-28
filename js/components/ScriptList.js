@@ -66,6 +66,7 @@ class ScriptList extends React.PureComponent {
         ref={r => (this._list = r)}
         initialNumToRender={data.length}
         data={data}
+        scrollEnabled={this.props.scrollEnabled}
         renderItem={renderItem.bind(null, lastItemId, readState, characters)}
         keyExtractor={item => `${item.id}`}
         ListFooterComponent={ListFooterComponent}
