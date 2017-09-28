@@ -3,11 +3,7 @@
 import React from 'react'
 import {
   StyleSheet,
-  Text,
   View,
-  TouchableOpacity,
-  Linking,
-  StatusBar,
   Animated
 } from 'react-native'
 import { connect } from 'react-redux'
@@ -129,10 +125,17 @@ class Home extends React.Component {
     return <CategoryTabBar translateY={translateY} />
   }
 
+  /**
+   * カテゴリータブ内のコンテンツをスクロールしたときに発火する
+   */
   onScrollTabView = (delta, value) => {
     if (value === 0) {
       return
     }
+
+    // スクロールポジションが一番上の時に
+    // 下に引くとヘッダーを表示するようにする
+    // 下に引いた時バウンドするので、そのときは何もせずreturnする
     if (value < 0) {
       delta = delta * 3
       if (this._scrollValue._value < this._scrollValue._value + delta) {

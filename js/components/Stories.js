@@ -17,8 +17,6 @@ import colors from './colors'
 
 import type { Novel } from '../reducers/Novels'
 
-const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
-
 const renderGridWrapper = (onPress, { item }) => {
   return (
     <FlatList
@@ -102,6 +100,10 @@ class Stories extends React.PureComponent<Props> {
     ])(e)
   }
 
+  /**
+   * Home画面のヘッダーの高さがスクロールによって変わるので
+   * ここで高さを調節できるようにする
+   */
   renderHeader (style): ReactElement {
     return <Animated.View style={[styles.header, style]} />
   }
