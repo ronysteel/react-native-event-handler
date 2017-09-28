@@ -1,8 +1,13 @@
 // @flow
 
 import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Linking } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  Animated
+} from 'react-native'
 import { connect } from 'react-redux'
+import ScrollableTabView from 'react-native-scrollable-tab-view'
 
 import firebase from '../firebase'
 import { loadTab, loadTutorial, finishRequestReview } from '../actions/app'
@@ -19,6 +24,12 @@ import HomeHeaderLeft from '../containers/HomeHeaderLeft'
 import HomeSettingContainer from '../containers/HomeSettingContainer'
 import TutorialContainer from '../containers/TutorialContainer'
 import PushPermissionPopup from '../components/PushPermissionPopup'
+import CategoryTabBar from '../components/CategoryTabBar'
+import {
+  STATUSBAR_HEIGHT,
+  HEADER_HEIGHT,
+  CATEGORY_TABBAR_HEIGHT
+} from '../components/constants'
 import { requestReviewPopup } from './utils'
 
 import type { Story } from '../reducers/stories'
@@ -27,15 +38,18 @@ const headerInit = {
   title: 'Home',
   headerTitle: <HeaderTitle />,
   headerLeft: <HomeHeaderLeft />,
+  headerTintColor: '#fff',
   headerStyle: {
-    backgroundColor: '#f5f5f5',
-    borderColor: '#999',
-    borderBottomWidth: 0.5
-  },
-  headerTitleStyle: {
-    color: '#000',
-    fontSize: 18,
-    fontWeight: 'bold'
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: HEADER_HEIGHT + STATUSBAR_HEIGHT,
+    overflow: 'hidden',
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    opacity: 1,
+    shadowColor: 'transparent'
   }
 }
 
@@ -45,13 +59,30 @@ class Home extends React.Component {
       navigation.state.params && navigation.state.params.tutorial
 
     let header = {}
-    if (isTutorial) {
-      header = { header: null }
+    if (navigation.state.params) {
+      header.headerStyle = {
+        ...headerInit.headerStyle,
+        transform: [{ translateY: navigation.state.params.scrollValue }],
+        opacity: navigation.state.params.opacityValue
+      }
     }
-    return Object.assign({}, headerInit, header)
+    if (isTutorial) {
+      header.header = null
+    }
+    return { ...headerInit, ...header }
   }
 
   mounted = false
+  _scrollValue = new Animated.Value(0)
+  _clampedScrollValue = Animated.diffClamp(
+    this._scrollValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1],
+      extrapolateLeft: 'clamp'
+    }),
+    0,
+    CATEGORY_TABBAR_HEIGHT + STATUSBAR_HEIGHT
+  )
 
   state = {
     isLoaded: false
@@ -60,7 +91,17 @@ class Home extends React.Component {
   componentWillMount () {
     this.props.navigation.setParams({
       tutorial: !this.props.tutorialEnded,
-      pushPopup: false
+      pushPopup: false,
+      scrollValue: this._clampedScrollValue.interpolate({
+        inputRange: [0, HEADER_HEIGHT],
+        outputRange: [0, -HEADER_HEIGHT],
+        extrapolate: 'clamp'
+      }),
+      opacityValue: this._clampedScrollValue.interpolate({
+        inputRange: [0, HEADER_HEIGHT],
+        outputRange: [1, 0],
+        extrapolate: 'clamp'
+      })
     })
   }
 
@@ -78,6 +119,30 @@ class Home extends React.Component {
 
   componentWillUnmount () {
     this.mounted = false
+  }
+
+  renderTabBar = translateY => {
+    return <CategoryTabBar translateY={translateY} />
+  }
+
+  /**
+   * カテゴリータブ内のコンテンツをスクロールしたときに発火する
+   */
+  onScrollTabView = (delta, value) => {
+    if (value === 0) {
+      return
+    }
+
+    // スクロールポジションが一番上の時に
+    // 下に引くとヘッダーを表示するようにする
+    // 下に引いた時バウンドするので、そのときは何もせずreturnする
+    if (value < 0) {
+      delta = delta * 3
+      if (this._scrollValue._value < this._scrollValue._value + delta) {
+        return
+      }
+    }
+    this._scrollValue.setValue(this._scrollValue._value + delta)
   }
 
   render () {
@@ -99,12 +164,70 @@ class Home extends React.Component {
       )
     }
 
+    const translateY = this._clampedScrollValue.interpolate({
+      inputRange: [0, HEADER_HEIGHT],
+      outputRange: [0, -HEADER_HEIGHT],
+      extrapolate: 'clamp'
+    })
+
+    const headerOffset = this._clampedScrollValue.interpolate({
+      inputRange: [0, HEADER_HEIGHT],
+      outputRange: [
+        HEADER_HEIGHT + CATEGORY_TABBAR_HEIGHT + STATUSBAR_HEIGHT,
+        CATEGORY_TABBAR_HEIGHT + STATUSBAR_HEIGHT
+      ],
+      extrapolate: 'clamp'
+    })
+
     return (
-      <View style={styles.container}>
-        <Stories
-          sections={homeTab.sections}
-          onSelectContent={this.props.onSelectContent}
-        />
+      <Animated.View style={[styles.container]}>
+        <ScrollableTabView
+          renderTabBar={this.renderTabBar.bind(this, translateY)}
+          prerenderingSiblingsNumber={1}
+        >
+          <Stories
+            tabLabel='おすすめ'
+            style={{ paddingTop: headerOffset }}
+            sections={homeTab.sections}
+            onSelectContent={this.props.onSelectContent}
+            onScroll={this.onScrollTabView}
+          />
+          <Stories
+            tabLabel='恋愛'
+            style={{ paddingTop: headerOffset }}
+            sections={homeTab.sections}
+            onSelectContent={this.props.onSelectContent}
+            onScroll={this.onScrollTabView}
+          />
+          <Stories
+            tabLabel='SF'
+            style={{ paddingTop: headerOffset }}
+            sections={homeTab.sections}
+            onSelectContent={this.props.onSelectContent}
+            onScroll={this.onScrollTabView}
+          />
+          <Stories
+            tabLabel='ホラー'
+            style={{ paddingTop: headerOffset }}
+            sections={homeTab.sections}
+            onSelectContent={this.props.onSelectContent}
+            onScroll={this.onScrollTabView}
+          />
+          <Stories
+            tabLabel='ミステリー'
+            style={{ paddingTop: headerOffset }}
+            sections={homeTab.sections}
+            onSelectContent={this.props.onSelectContent}
+            onScroll={this.onScrollTabView}
+          />
+          <Stories
+            tabLabel='ファンタジー'
+            style={{ paddingTop: headerOffset }}
+            sections={homeTab.sections}
+            onSelectContent={this.props.onSelectContent}
+            onScroll={this.onScrollTabView}
+          />
+        </ScrollableTabView>
         <HomeSettingContainer />
         {navigationParams && navigationParams.pushPopup ? (
           <PushPermissionPopup onPress={this.props.requestPushPermission} />
@@ -112,7 +235,13 @@ class Home extends React.Component {
         {this.props.isDisplayReviewAlert && (
           <View onLayout={this.props.requestReview} />
         )}
-      </View>
+        <Animated.View
+          style={[
+            styles.dummyHeader,
+            { transform: [{ translateY: translateY }] }
+          ]}
+        />
+      </Animated.View>
     )
   }
 }
@@ -120,7 +249,16 @@ class Home extends React.Component {
 const styles: StyleSheet = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f3f3f3'
+    backgroundColor: 'transparent'
+  },
+  dummyHeader: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: HEADER_HEIGHT + STATUSBAR_HEIGHT,
+    backgroundColor: 'rgba(255,255,255,0.96)',
+    zIndex: 0
   }
 })
 

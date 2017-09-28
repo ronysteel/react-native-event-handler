@@ -4447,6 +4447,12 @@ react-native-schemes-manager@^1.0.0:
     xcode "^0.9.1"
     yargs "^6.6.0"
 
+react-native-scrollable-tab-view@^0.6.7:
+  version "0.6.7"
+  resolved "https://registry.yarnpkg.com/react-native-scrollable-tab-view/-/react-native-scrollable-tab-view-0.6.7.tgz#3a5fe8a4bd5bc7eb023f306099323bbd9cc284a2"
+  dependencies:
+    react-timer-mixin "^0.13.3"
+
 "react-native-share@git://github.com/SKAhack/react-native-share.git#dev":
   version "1.0.20"
   resolved "git://github.com/SKAhack/react-native-share.git#a3caa373d7ee6429ec80280927c85bdfc74be741"

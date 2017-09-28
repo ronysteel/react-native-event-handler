@@ -1,23 +1,21 @@
 // @flow
-import React, { Component } from 'react'
+import React from 'react'
 import {
   View,
   Text,
   Image,
   FlatList,
   SectionList,
+  Animated,
   StyleSheet
 } from 'react-native'
 
-import type { Stories as StoriesStore } from '../reducers/stories'
 import PickupItem from './PickupItem'
 import ListItem from './ListItem'
 import GridItem from './GridItem'
 import colors from './colors'
 
-type Props = {
-  stories: StoriesStore
-}
+import type { Novel } from '../reducers/Novels'
 
 const renderGridWrapper = (onPress, { item }) => {
   return (
@@ -31,46 +29,109 @@ const renderGridWrapper = (onPress, { item }) => {
   )
 }
 
-const Stories = ({ sections, onSelectContent }: Props) => {
-  const s = sections.map((v, i) => {
-    v.data = v.novels
-    if (v.type == 'pickup') {
-      v.renderItem = PickupItem.bind(
-        null,
-        onSelectContent.bind(null, `${v.id}`)
-      )
-    } else if (v.type == 'list') {
-      v.renderItem = ListItem.bind(null, onSelectContent.bind(null, `${v.id}`))
-    } else if (v.type == 'grid') {
-      v.renderItem = renderGridWrapper.bind(
-        null,
-        onSelectContent.bind(null, `${v.id}`)
-      )
-      v.data = [{ items: v.novels, key: 1 }]
-    }
-    return v
-  })
+type Props = {
+  sections: any,
+  onSelectContent: (
+    sectionIndex: string,
+    positionIndex: number,
+    item: Novel
+  ) => void,
+  onScroll: (number, any) => void
+}
 
-  return (
-    <View style={styles.container}>
-      <SectionList
-        renderSectionHeader={({ section }) => {
-          if (!section.title) return null
-          return (
-            <View style={styles.sectionHeader}>
-              <View style={styles.sectionSeparator} />
-              <Text style={styles.sectionTitle}>{section.title}</Text>
-            </View>
-          )
-        }}
-        renderItem={() => null}
-        stickySectionHeadersEnabled={false}
-        sections={s}
-        style={styles.sectionContainer}
-        keyExtractor={item => `${item.id}`}
-      />
-    </View>
-  )
+type SectionType = 'pickup' | 'grid' | 'list'
+
+class Stories extends React.PureComponent<Props> {
+  previousScrollvalue = 0
+  currentScrollValue = 0
+  state = {
+    scrollValue: new Animated.Value(0)
+  }
+
+  componentDidMount () {
+    this.state.scrollValue.addListener(this.onScroll)
+  }
+
+  componentWillUnmount () {
+    this.state.scrollValue.removeListener(this.onScroll)
+  }
+
+  sections (): { type: SectionType, data: any, renderItem: Function } {
+    const { sections, onSelectContent } = this.props
+
+    return sections.map((v, i) => {
+      v.data = v.novels
+      if (v.type == 'pickup') {
+        v.renderItem = PickupItem.bind(
+          null,
+          onSelectContent.bind(null, `${v.id}`)
+        )
+      } else if (v.type == 'list') {
+        v.renderItem = ListItem.bind(
+          null,
+          onSelectContent.bind(null, `${v.id}`)
+        )
+      } else if (v.type == 'grid') {
+        v.renderItem = renderGridWrapper.bind(
+          null,
+          onSelectContent.bind(null, `${v.id}`)
+        )
+        v.data = [{ items: v.novels, key: 1 }]
+      }
+      return v
+    })
+  }
+
+  onScroll = ({ value }) => {
+    this.previousScrollvalue = this.currentScrollValue
+    this.currentScrollValue = value
+    const delta = this.currentScrollValue - this.previousScrollvalue
+
+    if (this.props.onScroll) {
+      this.props.onScroll(delta, value)
+    }
+  }
+
+  _onScroll = e => {
+    Animated.event([
+      {
+        nativeEvent: { contentOffset: { y: this.state.scrollValue } }
+      }
+    ])(e)
+  }
+
+  /**
+   * Home画面のヘッダーの高さがスクロールによって変わるので
+   * ここで高さを調節できるようにする
+   */
+  renderHeader (style): ReactElement {
+    return <Animated.View style={[styles.header, style]} />
+  }
+
+  render () {
+    return (
+      <View style={styles.container}>
+        <SectionList
+          ListHeaderComponent={this.renderHeader(this.props.style)}
+          renderSectionHeader={({ section }) => {
+            if (!section.title) return null
+            return (
+              <View style={styles.sectionHeader}>
+                <View style={styles.sectionSeparator} />
+                <Text style={styles.sectionTitle}>{section.title}</Text>
+              </View>
+            )
+          }}
+          renderItem={() => null}
+          stickySectionHeadersEnabled={false}
+          sections={this.sections()}
+          style={[styles.sectionContainer]}
+          keyExtractor={item => `${item.id}`}
+          onScroll={this._onScroll}
+        />
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -98,6 +159,9 @@ const styles = StyleSheet.create({
   item: {
     padding: 10,
     fontSize: 18
+  },
+  header: {
+    flex: 1
   }
 })
 
