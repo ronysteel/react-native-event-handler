@@ -269,7 +269,7 @@ class EpisodeDetail extends React.PureComponent {
           offset={this.state.offsetFromEnd}
           theme={episode.theme || 'dark'}
           readState={readState}
-          autoScrolled={this.state.autoScrolled}
+          forceHide={this.state.autoScrolled}
         />
         <AutoScrollArea autoScrolling={this.state.autoScrolling} />
         <ScrollView
