@@ -368,3 +368,27 @@ export function sendStopAutoScrollEvent (episodeId: string): ThunkAction {
       .catch(() => {})
   }
 }
+
+export function sendInitialURLEvent (url: string): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() =>
+        firebase.analytics().logEvent('initial_url', {
+          url: url
+        })
+      )
+      .catch(() => {})
+  }
+}
+
+export function sendOpenURLEvent (url: string): ThunkAction {
+  return (dispatch, getState) => {
+    return new Promise(resolve => resolve())
+      .then(() =>
+        firebase.analytics().logEvent('open_url', {
+          url: url
+        })
+      )
+      .catch(() => {})
+  }
+}

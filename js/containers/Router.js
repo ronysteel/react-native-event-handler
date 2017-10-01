@@ -31,7 +31,9 @@ import {
   sendLeaveContentEvent,
   sendTutorialLeaveEvent,
   sendNotificationOpenEvent,
-  sendLocalNotificationOpenEvent
+  sendLocalNotificationOpenEvent,
+  sendInitialURLEvent,
+  sendOpenURLEvent
 } from '../actions/event'
 
 const URL_SCHEME = Config.URL_SCHEME
@@ -113,6 +115,7 @@ class App extends React.PureComponent {
   }
 
   _handleInitialURL (url: string) {
+    this.props.dispatch(sendInitialURLEvent(url))
     if (url) {
       this.props.dispatch(moveScreen('DEEPLINK'))
     }
@@ -131,6 +134,7 @@ class App extends React.PureComponent {
    * ディープリンクを開いた時のルーティングをする
    */
   _handleOpenURL (event) {
+    this.props.dispatch(sendOpenURLEvent(event.url))
     if (this._aboutTermsRegex.test(event.url)) {
       this.props.dispatch(navigateAboutTerms())
       return
