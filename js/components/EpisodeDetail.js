@@ -172,7 +172,7 @@ class EpisodeDetail extends React.PureComponent {
       }
       this._autoScrollTimer = this.setTimeout(
         this.autoScroll,
-        950 + 30 * scriptLength
+        910 + 30 * scriptLength
       )
     } else {
       this.autoScrollEnd()
