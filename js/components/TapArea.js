@@ -14,7 +14,8 @@ import TapIcon from './TapIcon'
 
 const tapAreaHeight = 250
 
-const isFadeout = ({ readState }) => readState.readIndex > 3
+const isFadeout = ({ readState, forceHide }) =>
+  readState.readIndex > 3 || forceHide
 
 class TapArea extends React.PureComponent {
   state = {
