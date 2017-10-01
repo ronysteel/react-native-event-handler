@@ -40,40 +40,52 @@ const Tag = ({ index, item }) => {
   )
 }
 
-const GridItem = (onPress, { item, index }) => {
-  return (
-    <TouchableOpacity
-      focusedOpacity={1}
-      activeOpacity={1}
-      onPress={onPress.bind(null, index, item)}
-    >
-      <View
-        style={{
-          position: 'relative',
-          width: windowWidth / 2,
-          paddingLeft: index % 2 ? 15 / 2 : 15,
-          paddingRight: index % 2 ? 15 : 15 / 2,
-          marginBottom: 18
-        }}
+class RenderGridItem extends React.PureComponent {
+  render () {
+    const { item, index, onPress } = this.props
+
+    return (
+      <TouchableOpacity
+        focusedOpacity={1}
+        activeOpacity={1}
+        onPress={onPress.bind(null, index, item)}
       >
-        <FadeIn duration={200} placeholderStyle={styles.placeholderStyle}>
-          <Image style={styles.image} source={{ uri: item.thumbnailUrl }} />
-        </FadeIn>
-        <View>
-          <Text style={styles.title}>{item.title}</Text>
-          <Text
-            style={styles.description}
-            numberOfLines={2}
-            ellipsizeMode={'tail'}
-          >
-            {item.description}
-          </Text>
+        <View
+          style={{
+            position: 'relative',
+            width: windowWidth / 2,
+            paddingLeft: index % 2 ? 15 / 2 : 15,
+            paddingRight: index % 2 ? 15 : 15 / 2,
+            marginBottom: 18
+          }}
+        >
+          <FadeIn duration={200} placeholderStyle={styles.placeholderStyle}>
+            <Image style={styles.image} source={{ uri: item.thumbnailUrl }} />
+          </FadeIn>
+          <View>
+            <Text style={styles.title}>{item.title}</Text>
+            <Text
+              style={styles.description}
+              numberOfLines={2}
+              ellipsizeMode={'tail'}
+            >
+              {item.description}
+            </Text>
+          </View>
         </View>
-      </View>
-      <Tag index={index} item={item} />
-    </TouchableOpacity>
-  )
+        <Tag index={index} item={item} />
+      </TouchableOpacity>
+    )
+  }
 }
+
+const GridItem = (onPress, { item, index }) => (
+  <RenderGridItem
+    onPress={onPress}
+    item={item}
+    index={index}
+  />
+)
 
 const imageWidth = (windowWidth - 15 * 3) / 2
 

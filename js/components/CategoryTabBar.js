@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { View, Animated, StyleSheet } from 'react-native'
-import ScrollableTabBar from './ScrollableTabBar'
+import { ScrollableTabBar } from 'react-native-scrollable-tab-view'
 
 import {
   STATUSBAR_HEIGHT,
@@ -17,12 +17,10 @@ class CategoryTabBar extends React.PureComponent {
         backgroundColor={'rgba(255,255,255,0.96)'}
         activeTextColor={'#000'}
         inactiveTextColor={'#b3b3b3'}
-        style={[
-          styles.container,
-          { transform: [{ translateY: this.props.translateY }] }
-        ]}
+        style={styles.container}
         textStyle={styles.text}
         tabStyle={styles.tab}
+        underlineStyle={{ height: 0 }}
       />
     )
   }
@@ -31,7 +29,7 @@ class CategoryTabBar extends React.PureComponent {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: HEADER_HEIGHT + STATUSBAR_HEIGHT,
+    top: -CATEGORY_TABBAR_HEIGHT,
     left: 0,
     right: 0,
     height: CATEGORY_TABBAR_HEIGHT,

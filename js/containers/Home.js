@@ -84,24 +84,37 @@ class Home extends React.Component {
     CATEGORY_TABBAR_HEIGHT + STATUSBAR_HEIGHT
   )
 
+  _translateY = this._clampedScrollValue.interpolate({
+    inputRange: [0, HEADER_HEIGHT],
+    outputRange: [0, -HEADER_HEIGHT],
+    extrapolate: 'clamp'
+  })
+
+  _headerOffset = this._clampedScrollValue.interpolate({
+    inputRange: [0, HEADER_HEIGHT],
+    outputRange: [
+      HEADER_HEIGHT + CATEGORY_TABBAR_HEIGHT + STATUSBAR_HEIGHT,
+      CATEGORY_TABBAR_HEIGHT + STATUSBAR_HEIGHT
+    ],
+    extrapolate: 'clamp'
+  })
+
+  _opacityValue = this._clampedScrollValue.interpolate({
+    inputRange: [0, HEADER_HEIGHT],
+    outputRange: [1, 0],
+    extrapolate: 'clamp'
+  })
+
   state = {
-    isLoaded: false
+    isLoaded: false,
   }
 
   componentWillMount () {
     this.props.navigation.setParams({
       tutorial: !this.props.tutorialEnded,
       pushPopup: false,
-      scrollValue: this._clampedScrollValue.interpolate({
-        inputRange: [0, HEADER_HEIGHT],
-        outputRange: [0, -HEADER_HEIGHT],
-        extrapolate: 'clamp'
-      }),
-      opacityValue: this._clampedScrollValue.interpolate({
-        inputRange: [0, HEADER_HEIGHT],
-        outputRange: [1, 0],
-        extrapolate: 'clamp'
-      })
+      scrollValue: this._translateY,
+      opacityValue: this._opacityValue
     })
   }
 
@@ -121,8 +134,8 @@ class Home extends React.Component {
     this.mounted = false
   }
 
-  renderTabBar = translateY => {
-    return <CategoryTabBar translateY={translateY} />
+  renderTabBar = () => {
+    return <CategoryTabBar />
   }
 
   /**
@@ -137,7 +150,7 @@ class Home extends React.Component {
     // 下に引くとヘッダーを表示するようにする
     // 下に引いた時バウンドするので、そのときは何もせずreturnする
     if (value < 0) {
-      delta = delta * 3
+      delta = delta * 2
       if (this._scrollValue._value < this._scrollValue._value + delta) {
         return
       }
@@ -164,65 +177,50 @@ class Home extends React.Component {
       )
     }
 
-    const translateY = this._clampedScrollValue.interpolate({
-      inputRange: [0, HEADER_HEIGHT],
-      outputRange: [0, -HEADER_HEIGHT],
-      extrapolate: 'clamp'
-    })
-
-    const headerOffset = this._clampedScrollValue.interpolate({
-      inputRange: [0, HEADER_HEIGHT],
-      outputRange: [
-        HEADER_HEIGHT + CATEGORY_TABBAR_HEIGHT + STATUSBAR_HEIGHT,
-        CATEGORY_TABBAR_HEIGHT + STATUSBAR_HEIGHT
-      ],
-      extrapolate: 'clamp'
-    })
-
     return (
       <Animated.View style={[styles.container]}>
+        <Animated.View
+          style={[
+            styles.dummyHeader2,
+            { height: this._headerOffset }
+          ]}
+        />
         <ScrollableTabView
-          renderTabBar={this.renderTabBar.bind(this, translateY)}
+          renderTabBar={this.renderTabBar.bind(this)}
           prerenderingSiblingsNumber={1}
         >
           <Stories
             tabLabel='おすすめ'
-            style={{ paddingTop: headerOffset }}
             sections={homeTab.sections}
             onSelectContent={this.props.onSelectContent}
             onScroll={this.onScrollTabView}
           />
           <Stories
             tabLabel='恋愛'
-            style={{ paddingTop: headerOffset }}
             sections={homeTab.sections}
             onSelectContent={this.props.onSelectContent}
             onScroll={this.onScrollTabView}
           />
           <Stories
             tabLabel='SF'
-            style={{ paddingTop: headerOffset }}
             sections={homeTab.sections}
             onSelectContent={this.props.onSelectContent}
             onScroll={this.onScrollTabView}
           />
           <Stories
             tabLabel='ホラー'
-            style={{ paddingTop: headerOffset }}
             sections={homeTab.sections}
             onSelectContent={this.props.onSelectContent}
             onScroll={this.onScrollTabView}
           />
           <Stories
             tabLabel='ミステリー'
-            style={{ paddingTop: headerOffset }}
             sections={homeTab.sections}
             onSelectContent={this.props.onSelectContent}
             onScroll={this.onScrollTabView}
           />
           <Stories
             tabLabel='ファンタジー'
-            style={{ paddingTop: headerOffset }}
             sections={homeTab.sections}
             onSelectContent={this.props.onSelectContent}
             onScroll={this.onScrollTabView}
@@ -238,7 +236,7 @@ class Home extends React.Component {
         <Animated.View
           style={[
             styles.dummyHeader,
-            { transform: [{ translateY: translateY }] }
+            { transform: [{ translateY: this._translateY }] }
           ]}
         />
       </Animated.View>
@@ -258,6 +256,11 @@ const styles: StyleSheet = StyleSheet.create({
     right: 0,
     height: HEADER_HEIGHT + STATUSBAR_HEIGHT,
     backgroundColor: 'rgba(255,255,255,0.96)',
+    zIndex: 0
+  },
+  dummyHeader2: {
+    height: HEADER_HEIGHT + STATUSBAR_HEIGHT,
+    backgroundColor: 'transparent',
     zIndex: 0
   }
 })

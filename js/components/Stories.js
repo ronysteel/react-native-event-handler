@@ -15,6 +15,8 @@ import ListItem from './ListItem'
 import GridItem from './GridItem'
 import colors from './colors'
 
+const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
+
 import type { Novel } from '../reducers/Novels'
 
 const renderGridWrapper = (onPress, { item }) => {
@@ -92,27 +94,10 @@ class Stories extends React.PureComponent<Props> {
     }
   }
 
-  _onScroll = e => {
-    Animated.event([
-      {
-        nativeEvent: { contentOffset: { y: this.state.scrollValue } }
-      }
-    ])(e)
-  }
-
-  /**
-   * Home画面のヘッダーの高さがスクロールによって変わるので
-   * ここで高さを調節できるようにする
-   */
-  renderHeader (style): ReactElement {
-    return <Animated.View style={[styles.header, style]} />
-  }
-
   render () {
     return (
       <View style={styles.container}>
-        <SectionList
-          ListHeaderComponent={this.renderHeader(this.props.style)}
+        <AnimatedSectionList
           renderSectionHeader={({ section }) => {
             if (!section.title) return null
             return (
@@ -127,7 +112,11 @@ class Stories extends React.PureComponent<Props> {
           sections={this.sections()}
           style={[styles.sectionContainer]}
           keyExtractor={item => `${item.id}`}
-          onScroll={this._onScroll}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: this.state.scrollValue } } }],
+            { useNativeDriver: true }
+          )}
+          scrollEventThrottle={1}
         />
       </View>
     )
@@ -159,9 +148,6 @@ const styles = StyleSheet.create({
   item: {
     padding: 10,
     fontSize: 18
-  },
-  header: {
-    flex: 1
   }
 })
 
