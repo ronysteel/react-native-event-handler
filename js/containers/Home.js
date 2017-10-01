@@ -1,11 +1,7 @@
 // @flow
 
 import React from 'react'
-import {
-  StyleSheet,
-  View,
-  Animated
-} from 'react-native'
+import { StyleSheet, View, Animated } from 'react-native'
 import { connect } from 'react-redux'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 
