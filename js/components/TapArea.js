@@ -14,7 +14,8 @@ import TapIcon from './TapIcon'
 
 const tapAreaHeight = 250
 
-const isFadeout = ({ readState }) => readState.readIndex > 3
+const isFadeout = ({ readState, autoScrolled }) =>
+  readState.readIndex > 3 || autoScrolled
 
 class TapArea extends React.PureComponent {
   state = {

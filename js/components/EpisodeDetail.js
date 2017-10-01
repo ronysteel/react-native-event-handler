@@ -62,7 +62,8 @@ class EpisodeDetail extends React.PureComponent {
       isLocked: false,
       offsetFromEnd: new Animated.Value(0),
       renderCompleted: false,
-      autoScrolling: false
+      autoScrolling: false,
+      autoScrolled: false
     }
     this.isTappable = false
   }
@@ -134,7 +135,7 @@ class EpisodeDetail extends React.PureComponent {
         this.props.readState.readIndex < this.props.scriptValues.length &&
         !this.props.readState.displayPromotion
       ) {
-        this.setState({ autoScrolling: true })
+        this.setState({ autoScrolling: true, autoScrolled: true })
         this.props.onAutoScrollStart()
         this.autoScroll()
       } else {
@@ -268,6 +269,7 @@ class EpisodeDetail extends React.PureComponent {
           offset={this.state.offsetFromEnd}
           theme={episode.theme || 'dark'}
           readState={readState}
+          autoScrolled={this.state.autoScrolled}
         />
         <AutoScrollArea autoScrolling={this.state.autoScrolling} />
         <ScrollView
