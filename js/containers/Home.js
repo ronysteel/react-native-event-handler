@@ -6,7 +6,11 @@ import { connect } from 'react-redux'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 
 import firebase from '../firebase'
-import { loadTab, loadTutorial, finishRequestReview } from '../actions/app'
+import {
+  loadAvailableTabs,
+  loadTutorial,
+  finishRequestReview
+} from '../actions/app'
 import {
   sentSlectContentEvent,
   sendPushAllowEvent,
@@ -27,6 +31,7 @@ import {
   CATEGORY_TABBAR_HEIGHT
 } from '../components/constants'
 import { requestReviewPopup } from './utils'
+import { getAvailableTabs } from '../reducers/tabs'
 
 import type { Story } from '../reducers/stories'
 
@@ -102,7 +107,7 @@ class Home extends React.Component {
   })
 
   state = {
-    isLoaded: false,
+    isLoaded: false
   }
 
   componentWillMount () {
@@ -117,7 +122,7 @@ class Home extends React.Component {
   componentDidMount () {
     this.mounted = true
     Promise.all([
-      this.props.loadHomeTab(),
+      this.props.loadAvailableTabs(),
       this.props.loadTutorial(this.props.tutorialEnded)
     ]).then(() => {
       if (this.mounted) {
@@ -155,7 +160,7 @@ class Home extends React.Component {
   }
 
   render () {
-    const { stories, navigation, homeTab } = this.props
+    const { stories, navigation } = this.props
     if (!this.state.isLoaded) {
       return <View style={styles.container} />
     }
@@ -176,51 +181,21 @@ class Home extends React.Component {
     return (
       <Animated.View style={[styles.container]}>
         <Animated.View
-          style={[
-            styles.dummyHeader2,
-            { height: this._headerOffset }
-          ]}
+          style={[styles.dummyHeader2, { height: this._headerOffset }]}
         />
         <ScrollableTabView
           renderTabBar={this.renderTabBar.bind(this)}
           prerenderingSiblingsNumber={1}
         >
-          <Stories
-            tabLabel='おすすめ'
-            sections={homeTab.sections}
-            onSelectContent={this.props.onSelectContent}
-            onScroll={this.onScrollTabView}
-          />
-          <Stories
-            tabLabel='恋愛'
-            sections={homeTab.sections}
-            onSelectContent={this.props.onSelectContent}
-            onScroll={this.onScrollTabView}
-          />
-          <Stories
-            tabLabel='SF'
-            sections={homeTab.sections}
-            onSelectContent={this.props.onSelectContent}
-            onScroll={this.onScrollTabView}
-          />
-          <Stories
-            tabLabel='ホラー'
-            sections={homeTab.sections}
-            onSelectContent={this.props.onSelectContent}
-            onScroll={this.onScrollTabView}
-          />
-          <Stories
-            tabLabel='ミステリー'
-            sections={homeTab.sections}
-            onSelectContent={this.props.onSelectContent}
-            onScroll={this.onScrollTabView}
-          />
-          <Stories
-            tabLabel='ファンタジー'
-            sections={homeTab.sections}
-            onSelectContent={this.props.onSelectContent}
-            onScroll={this.onScrollTabView}
-          />
+          {this.props.tabs.map(tab => (
+            <Stories
+              key={tab.name}
+              tabLabel={tab.name}
+              sections={tab.sections}
+              onSelectContent={this.props.onSelectContent}
+              onScroll={this.onScrollTabView}
+            />
+          ))}
         </ScrollableTabView>
         <HomeSettingContainer />
         {navigationParams && navigationParams.pushPopup ? (
@@ -264,7 +239,7 @@ const styles: StyleSheet = StyleSheet.create({
 const select = store => {
   return {
     stories: store.stories,
-    homeTab: store.tabs['home'],
+    tabs: getAvailableTabs(store.tabs),
     tutorialEnded: store.session.tutorialEnded || false,
     tutorial: store.tutorial,
     review: store.review,
@@ -277,8 +252,8 @@ const select = store => {
 
 const actions = (dispatch, props) => {
   return {
-    loadHomeTab: () => {
-      dispatch(loadTab('home'))
+    loadAvailableTabs: () => {
+      dispatch(loadAvailableTabs())
     },
     loadTutorial: (tutorialEnded: boolean) => {
       if (tutorialEnded) {

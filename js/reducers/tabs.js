@@ -15,27 +15,39 @@ export type Tab = {
   name: string,
   sections: Array<Section>,
   isLoading: boolean,
-  isLoaded: boolean
+  isLoaded: boolean,
+  tabOrder: number,
+  isAvailable: boolean
 }
 
 const initialStates: Tabs = {}
 
 function tabs (state: Tabs = initialStates, action: Action): Tabs {
   switch (action.type) {
+    case 'LOAD_AVAILABLE_TABS_SUCCESS': {
+      const { tabNames } = action
+      const mergedTabNames = [...new Set([...tabNames, ...Object.keys(state)])]
+      const nextState = mergedTabNames.reduce((memo, tabName) => {
+        memo[tabName] = {
+          ...(state[tabName] || {}),
+          tabOrder: tabNames.indexOf(tabName),
+          isAvailable: tabNames.includes(tabName)
+        }
+        return memo
+      }, {})
+      return nextState
+    }
+
     case 'LOAD_TAB_REQUEST': {
       const { tabName } = action
-      const v = Object.assign({}, state[tabName], {
-        isLoading: true
-      })
-      return Object.assign({}, state, { [tabName]: v })
+      const v = { ...state[tabName], isLoading: true }
+      return { ...state, [tabName]: v }
     }
 
     case 'LOAD_TAB_FAILED': {
       const { tabName } = action
-      const v = Object.assign({}, state[tabName], {
-        isLoading: false
-      })
-      return Object.assign({}, state, { [tabName]: v })
+      const v = { ...state[tabName], isLoading: false }
+      return { ...state, [tabName]: v }
     }
 
     case 'LOAD_TAB_SUCCESS': {
@@ -44,15 +56,29 @@ function tabs (state: Tabs = initialStates, action: Action): Tabs {
         v.id = i
         return v
       })
-      const v = Object.assign({}, state[tabName], tab, {
+      const v = {
+        ...state[tabName],
+        ...tab,
         isLoading: false,
         isLoaded: true
-      })
-      return Object.assign({}, state, { [tabName]: v })
+      }
+      return { ...state, [tabName]: v }
     }
 
     default:
       return state
   }
 }
+
+export function getAvailableTabs (tabs: Tabs): Array<Tab> {
+  return Object.keys(tabs)
+    .reduce((memo, tabName) => {
+      if (tabs[tabName].isAvailable && tabs[tabName].isLoaded) {
+        memo.push(tabs[tabName])
+      }
+      return memo
+    }, [])
+    .sort((a: Tab, b: Tab) => a.tabOrder - b.tabOrder)
+}
+
 export default tabs
