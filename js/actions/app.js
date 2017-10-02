@@ -6,6 +6,7 @@ import {
   fetchCategories,
   fetchTicketCount,
   fetchTab,
+  fetchAvailableTabs,
   fetchTutorial
 } from '../api'
 import DeviceInfo from 'react-native-device-info'
@@ -46,16 +47,36 @@ export function loadPurcasingProducts (): ThunkAction {
 }
 
 export function loadTab (tabName: string = 'home'): ThunkAction {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     dispatch({ type: 'LOAD_TAB_REQUEST', tabName })
 
-    return fetchTab({ tabName: tabName }).then(v =>
+    try {
+      const tab = await fetchTab({ tabName: tabName })
       dispatch({
         type: 'LOAD_TAB_SUCCESS',
         tabName,
-        tab: v
+        tab
       })
-    )
+    } catch (err) {
+      dispatch({ type: 'LOAD_TAB_FAILED', tabName })
+    }
+  }
+}
+
+export function loadAvailableTabs (): ThunkAction {
+  return async (dispatch, getState) => {
+    dispatch({ type: 'LOAD_AVAILABLE_TABS_REQUEST' })
+    try {
+      const v = await fetchAvailableTabs()
+      dispatch({
+        type: 'LOAD_AVAILABLE_TABS_SUCCESS',
+        tabNames: v.availableList
+      })
+
+      await Promise.all(v.availableList.map(v => dispatch(loadTab(v))))
+    } catch (err) {
+      dispatch({ type: 'LOAD_AVAILABLE_TABS_FAILED' })
+    }
   }
 }
 

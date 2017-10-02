@@ -80,11 +80,7 @@ class RenderGridItem extends React.PureComponent {
 }
 
 const GridItem = (onPress, { item, index }) => (
-  <RenderGridItem
-    onPress={onPress}
-    item={item}
-    index={index}
-  />
+  <RenderGridItem onPress={onPress} item={item} index={index} />
 )
 
 const imageWidth = (windowWidth - 15 * 3) / 2

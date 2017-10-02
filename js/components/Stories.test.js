@@ -7,7 +7,7 @@ jest.mock('SectionList', () => {
   const RealComponent = require.requireActual('SectionList')
   const React = require('React')
   class SectionList extends React.Component {
-    render() {
+    render () {
       delete this.props.getScrollableNode
       return React.createElement('SectionList', this.props, this.props.children)
     }
@@ -15,7 +15,6 @@ jest.mock('SectionList', () => {
   SectionList.propTypes = RealComponent.propTypes
   return SectionList
 })
-
 
 it('renders without crashing', () => {
   const component = <Stories sections={[]} onSelectContent={() => {}} />

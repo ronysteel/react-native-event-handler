@@ -106,6 +106,33 @@ export const fetchTicketCount = () =>
     .then(r => r.json())
     .then(r => r.response)
 
+export const fetchAvailableTabs = () =>
+  firebase
+    .auth()
+    .currentUser.getIdToken()
+    .then(token =>
+      fetch(`${API_HOST}/tabs/available_list`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Cache-Control': 'no-cache'
+        }
+      })
+    )
+    .then(r => {
+      if (!r.ok) {
+        return Promise.reject({
+          err: 'failed to fetchAvailableTabs request',
+          status: r.status
+        })
+      }
+      return r
+    })
+    .then(r => r.json())
+    .then(r => r.response)
+
 export const fetchTab = ({ tabName }) =>
   firebase
     .auth()
