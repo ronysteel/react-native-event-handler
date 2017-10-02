@@ -36,11 +36,7 @@ class RenderPickupItem extends React.PureComponent {
 }
 
 const PickupItem = (onPress, { item, index }) => (
-  <RenderPickupItem
-    onPress={onPress}
-    item={item}
-    index={index}
-  />
+  <RenderPickupItem onPress={onPress} item={item} index={index} />
 )
 
 const styles = StyleSheet.create({
