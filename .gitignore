@@ -1,11 +1,6 @@
 # OSX
 #
 .DS_Store
-
-# vim
-#
-.local.vimrc
-
 # Xcode
 #
 build/
