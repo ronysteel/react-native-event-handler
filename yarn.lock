@@ -4388,8 +4388,8 @@ react-mixin@^4.0.0:
     smart-mixin "^2.0.0"
 
 react-native-blur@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/react-native-blur/-/react-native-blur-3.1.2.tgz#82492a4db1d99aaa61956bbabc50a98930974e6d"
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-blur/-/react-native-blur-3.2.0.tgz#7a27d66c995e994611041a191b94ec290a7d99fb"
   dependencies:
     prop-types "^15.5.10"
 
@@ -4452,8 +4452,8 @@ react-native-in-app-utils@^5.5.0:
   resolved "https://registry.yarnpkg.com/react-native-in-app-utils/-/react-native-in-app-utils-5.5.0.tgz#4575414da8311103a1f33fbaf3f0a0a605eba4d9"
 
 react-native-linear-gradient@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.1.0.tgz#2cbf4a061fef5c74d1256da425caf9fe893c94e2"
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.3.0.tgz#757997197e35edf52e290891a11566e462845da1"
   dependencies:
     prop-types "^15.5.10"
 
@@ -4482,9 +4482,9 @@ react-native-schemes-manager@^1.0.0:
     react-mixin "^4.0.0"
     react-timer-mixin "^0.13.3"
 
-"react-native-share@git://github.com/SKAhack/react-native-share.git#dev":
-  version "1.0.20"
-  resolved "git://github.com/SKAhack/react-native-share.git#a3caa373d7ee6429ec80280927c85bdfc74be741"
+react-native-share@1.0.21:
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-1.0.21.tgz#45cc1c7bae5af8e6e88b77c3bfa23fb88521a354"
 
 react-native-side-menu@^0.20.1:
   version "0.20.3"
@@ -4510,12 +4510,12 @@ react-native-tab-view@^0.0.65:
     prop-types "^15.5.8"
 
 react-native-vector-icons@^4.1.1:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.2.0.tgz#0594b68debdd758dce4c565bf02e2d64d7004d82"
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.4.0.tgz#cdfc1cd86ab495b2a4926bcec8f08c155475cbf1"
   dependencies:
     lodash "^4.0.0"
-    prop-types "^15.5.8"
-    yargs "^6.3.0"
+    prop-types "^15.5.10"
+    yargs "^8.0.2"
 
 react-native@0.48.4:
   version "0.48.4"
@@ -5839,7 +5839,7 @@ yargs-parser@^7.0.0:
   dependencies:
     camelcase "^4.1.0"
 
-yargs@^6.3.0, yargs@^6.4.0, yargs@^6.6.0:
+yargs@^6.4.0, yargs@^6.6.0:
   version "6.6.0"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-6.6.0.tgz#782ec21ef403345f830a808ca3d513af56065208"
   dependencies:
@@ -5856,6 +5856,24 @@ yargs@^6.3.0, yargs@^6.4.0, yargs@^6.6.0:
     which-module "^1.0.0"
     y18n "^3.2.1"
     yargs-parser "^4.2.0"
+
+yargs@^8.0.2:
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-8.0.2.tgz#6299a9055b1cefc969ff7e79c1d918dceb22c360"
+  dependencies:
+    camelcase "^4.1.0"
+    cliui "^3.2.0"
+    decamelize "^1.1.1"
+    get-caller-file "^1.0.1"
+    os-locale "^2.0.0"
+    read-pkg-up "^2.0.0"
+    require-directory "^2.1.1"
+    require-main-filename "^1.0.1"
+    set-blocking "^2.0.0"
+    string-width "^2.0.0"
+    which-module "^2.0.0"
+    y18n "^3.2.1"
+    yargs-parser "^7.0.0"
 
 yargs@^9.0.0:
   version "9.0.1"

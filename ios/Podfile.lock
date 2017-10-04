@@ -1,5 +1,5 @@
 PODS:
-  - BVLinearGradient (2.1.0):
+  - BVLinearGradient (2.3.0):
     - React
   - Crashlytics (3.8.5):
     - Fabric (~> 1.6.3)
@@ -124,11 +124,11 @@ PODS:
     - React
   - RNFirebase (2.2.2):
     - React
-  - RNShare (1.0.20):
+  - RNShare (1.0.21):
     - React
   - RNSVG (5.4.1):
     - React
-  - RNVectorIcons (4.2.0):
+  - RNVectorIcons (4.4.0):
     - React
   - Yoga (0.48.4.React)
 
@@ -185,7 +185,7 @@ EXTERNAL SOURCES:
     :path: ../node_modules/react-native/ReactCommon/yoga
 
 SPEC CHECKSUMS:
-  BVLinearGradient: 0ac0c153d5562d46cc4c8ad8b2dc4e8b0598f5b4
+  BVLinearGradient: e5b57d7ae2011487190ad11ed2e73edccdfc25fa
   Crashlytics: dfbae35ef22ca189240d230ad501feea4ee85d2d
   Fabric: f050464eac45a2ce5a8e6e6a07e977c0df32fe28
   Firebase: 052c0de688fc87b414996eea13e223dd9fee3fa2
@@ -205,15 +205,15 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 03eef2ee0b674770735cf79d9c4d3659cf6908e8
   React: 6d68659481a8a56e0f6b3dbecd984d5b9bb2d6c5
-  react-native-blur: c4b80329b7ef2a8b9c574f73b798b3178c69ff48
+  react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-config: 15dad433f67438902854707535161413c07ec9bb
   react-native-in-app-utils: 2ef766bea71e31c0bf4a6800f7bb20a8706c579d
   ReactNativeFabric: 788d50490295586f843b8655285f9ed600e85054
   RNDeviceInfo: dc3cbee96cd2392cf03d6ff6191dc15f1606a166
   RNFirebase: 318ed9a0dc200803f8bbc8b19d2b28e8c518aac6
-  RNShare: f58d823417bcdf71859c9afd7bb0cbcbb2b98e90
+  RNShare: a4237637759d44ba8826a15b33e17e4013786c2e
   RNSVG: 9350bab6cf5e9f3073c65ce9802f1ee093726651
-  RNVectorIcons: 6d98d83e944d15014d8071dd9819beb094c61133
+  RNVectorIcons: 208e7e1507e3bc800619caf1c2748ad6b6b68188
   Yoga: ccefa1454b2e9825dce3b2df98088b7f0e3c2675
 
 PODFILE CHECKSUM: fb8498fbd41d14772372988c1db35edc16682985
