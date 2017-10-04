@@ -133,7 +133,7 @@ export const fetchAvailableTabs = () =>
     .then(r => r.json())
     .then(r => r.response)
 
-export const fetchTab = ({ tabName }) =>
+export const fetchTab = ({ tabName, etag }: { tabName: string, etag: string }) =>
   firebase
     .auth()
     .currentUser.getIdToken()
@@ -144,12 +144,32 @@ export const fetchTab = ({ tabName }) =>
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
-          'Cache-Control': 'no-cache'
+          'Cache-Control': 'no-cache',
+          'If-None-Match': etag
         }
       })
     )
-    .then(r => r.json())
-    .then(r => r.response)
+    .then(r => {
+      if (!r.ok) {
+        if (r.status === 304) {
+          return Promise.reject({
+            err: 'not modified',
+            status: r.status
+          })
+        }
+        return Promise.reject({
+          err: 'failed to fetchTab request',
+          status: r.status
+        })
+      }
+      return r
+    })
+    .then(r =>
+      r.json().then(json => ({
+        ...json.response,
+        etag: r.headers.get('etag')
+      }))
+    )
 
 export const verifyReceipt = ({ body }) =>
   firebase
