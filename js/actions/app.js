@@ -49,9 +49,16 @@ export function loadPurcasingProducts (): ThunkAction {
 export function loadTab (tabName: string = 'home'): ThunkAction {
   return async (dispatch, getState) => {
     dispatch({ type: 'LOAD_TAB_REQUEST', tabName })
+    const { tabs } = getState()
+    const current = tabs[tabName]
+
+    let etag = ''
+    if (current) {
+      etag = current.etag
+    }
 
     try {
-      const tab = await fetchTab({ tabName: tabName })
+      const tab = await fetchTab({ tabName: tabName, etag })
       dispatch({
         type: 'LOAD_TAB_SUCCESS',
         tabName,
