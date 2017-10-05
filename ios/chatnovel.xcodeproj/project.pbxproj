@@ -13,14 +13,14 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* chatnovelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* chatnovelTests.m */; };
-		0D5D863A40DE48DB81C1E0DC /* (null) in Resources */ = {isa = PBXBuildFile; };
+		0D5D863A40DE48DB81C1E0DC /* BuildFile in Resources */ = {isa = PBXBuildFile; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		13E8F542518F487496B1E3E6 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		13E8F542518F487496B1E3E6 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		15D5C7C8419E405DB5F72ACB /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69AD7644EFE343ED9B57DE3A /* FontAwesome.ttf */; };
@@ -1092,9 +1092,9 @@
 				4A2A39335B094107A47BC379 /* Ionicons.ttf in Resources */,
 				569276CC1F2DE93F004E0E0A /* LaunchScreen.xib in Resources */,
 				5615071E1F5FFBDF0003E257 /* GoogleService-Info.development.plist in Resources */,
-				0D5D863A40DE48DB81C1E0DC /* (null) in Resources */,
+				0D5D863A40DE48DB81C1E0DC /* BuildFile in Resources */,
 				528FCFE1E4234CA0A84C577D /* SimpleLineIcons.ttf in Resources */,
-				13E8F542518F487496B1E3E6 /* (null) in Resources */,
+				13E8F542518F487496B1E3E6 /* BuildFile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1212,6 +1212,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-chatnovel/Pods-chatnovel-resources.sh",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
