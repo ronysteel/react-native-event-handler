@@ -4,24 +4,22 @@ import type { Action } from '../actions/types'
 type Novel = {
   id: string,
   episodeId: string,
-  title: string,
-  categoryId: number
 }
 
 type Screen = {
   type: 'UNKNOWN' | 'HOME' | 'NOVEL' | 'DEEPLINK',
-  novel: ?Novel
+  novel?: Novel
 }
 
 type Position = {
-  sectionIndex: number,
+  sectionIndex: string,
   positionIndex: number
 }
 
 export type ActionLog = {
   currentScreen: Screen,
   prevScreen: Screen,
-  position: ?Position
+  position?: Position
 }
 
 const initialState: ActionLog = {
@@ -33,7 +31,7 @@ function actionLog (state: ActionLog = initialState, action: Action): ActionLog 
   switch (action.type) {
     case 'MOVE_SCREEN_SUCCESS': {
       const { screenType, params } = action
-      const currentScreen = { type: screenType }
+      const currentScreen: Screen = { type: screenType }
       if (screenType == 'NOVEL') {
         currentScreen.novel = {
           id: params.novelId,

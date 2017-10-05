@@ -12,7 +12,7 @@ export type Action =
   | { type: 'LOAD_AVAILABLE_TABS_REQUEST' }
   | { type: 'LOAD_AVAILABLE_TABS_SUCCESS', tabNames: string }
   | { type: 'LOAD_AVAILABLE_TABS_FAILED' }
-  | { type: 'MOVE_SCREEN_SUCCESS', screenType: string, params: any }
+  | { type: 'MOVE_SCREEN_SUCCESS', screenType: any, params: any }
   | {
     type: 'SELECT_CONTENT_SUCCESS',
     sectionIndex: string,
