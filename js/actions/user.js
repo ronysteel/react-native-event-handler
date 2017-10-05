@@ -195,7 +195,7 @@ export function decreaseUserEnergy (
 }
 
 export function syncUserEnergy (
-  userId: number,
+  userId: string,
   force: boolean = false
 ): ThunkAction {
   return (dispatch, getState) => {

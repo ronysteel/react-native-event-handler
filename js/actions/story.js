@@ -17,7 +17,7 @@ const successLoadEpisode = (episodeId: string, json): Action => {
   }
 }
 
-export function loadEpisode (novelId: number, episodeId: string): ThunkAction {
+export function loadEpisode (novelId: string, episodeId: string): ThunkAction {
   return async (dispatch, getState) => {
     dispatch({ type: 'LOAD_EPISODE_REQUEST', episodeId })
 
@@ -122,7 +122,7 @@ const successPageView = () => ({
   type: 'UPDATE_PAGE_VIEW'
 })
 
-export function pageView (novelId: number, episodeId: number): ThunkAction {
+export function pageView (novelId: string, episodeId: string): ThunkAction {
   return (dispatch, getState) => {
     const { session } = getState()
 
