@@ -4451,7 +4451,7 @@ react-native-in-app-utils@^5.5.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/react-native-in-app-utils/-/react-native-in-app-utils-5.5.0.tgz#4575414da8311103a1f33fbaf3f0a0a605eba4d9"
 
-react-native-linear-gradient@^2.1.0:
+react-native-linear-gradient@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.3.0.tgz#757997197e35edf52e290891a11566e462845da1"
   dependencies:
@@ -4482,9 +4482,9 @@ react-native-schemes-manager@^1.0.0:
     react-mixin "^4.0.0"
     react-timer-mixin "^0.13.3"
 
-react-native-share@1.0.21:
+"react-native-share@git://github.com/SKAhack/react-native-share.git#dev":
   version "1.0.21"
-  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-1.0.21.tgz#45cc1c7bae5af8e6e88b77c3bfa23fb88521a354"
+  resolved "git://github.com/SKAhack/react-native-share.git#74193756d070111884bf5fc45301f85903a5fe10"
 
 react-native-side-menu@^0.20.1:
   version "0.20.3"
@@ -4509,7 +4509,7 @@ react-native-tab-view@^0.0.65:
   dependencies:
     prop-types "^15.5.8"
 
-react-native-vector-icons@^4.1.1:
+react-native-vector-icons@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.4.0.tgz#cdfc1cd86ab495b2a4926bcec8f08c155475cbf1"
   dependencies:
