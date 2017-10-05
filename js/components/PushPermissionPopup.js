@@ -24,7 +24,7 @@ class PushPermissionPopup extends React.Component {
   render () {
     const { onPress } = this.props
 
-    dismiss = () => {
+    const dismiss = () => {
       this.setState({ isVisible: false })
     }
 
