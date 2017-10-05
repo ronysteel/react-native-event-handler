@@ -2,7 +2,18 @@
 import React from 'react'
 import { Animated, View } from 'react-native'
 
-export default class FadeinView extends React.Component {
+type Props = {
+  isVisible: boolean,
+  dismissed: Function,
+  style: any,
+  children: any
+}
+
+type State = {
+  fadeAnim: Object
+}
+
+export default class FadeinView extends React.Component<void, Props, State> {
   state = {
     fadeAnim: new Animated.Value(0)
   }
@@ -15,7 +26,7 @@ export default class FadeinView extends React.Component {
     }).start()
   }
 
-  componentWillUpdate (nextProps) {
+  componentWillUpdate (nextProps: Props) {
     if (
       this.props.isVisible !== nextProps.isVisible &&
       nextProps.isVisible === false

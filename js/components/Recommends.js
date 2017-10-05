@@ -20,7 +20,7 @@ type Props = {
   onSelectContent: Function
 }
 
-class Recommends extends React.PureComponent<Props> {
+class Recommends extends React.PureComponent<void, Props, void> {
   render () {
     const { novel, recommends, onSelectContent } = this.props
 

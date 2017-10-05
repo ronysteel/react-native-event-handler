@@ -12,6 +12,7 @@ import {
 import FadeIn from 'react-native-fade-in-image'
 
 import colors from './colors'
+import { Novel } from '../reducers/types'
 
 class RenderPickupItem extends React.PureComponent {
   render () {
@@ -35,9 +36,10 @@ class RenderPickupItem extends React.PureComponent {
   }
 }
 
-const PickupItem = (onPress, { item, index }) => (
-  <RenderPickupItem onPress={onPress} item={item} index={index} />
-)
+const PickupItem = (
+  onPress: Function,
+  { item, index }: { item: Novel, index: number }
+) => <RenderPickupItem onPress={onPress} item={item} index={index} />
 
 const styles = StyleSheet.create({
   container: {

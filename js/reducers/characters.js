@@ -13,7 +13,7 @@ export type Characters = {
 }
 
 export type EpisodeCharacters = {
-  [episodeId: number]: Characters
+  [episodeId: string]: Characters
 }
 
 const initialStates: EpisodeCharacters = {}

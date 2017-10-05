@@ -10,8 +10,12 @@ import {
 } from 'react-native'
 
 import colors from './colors'
+import { Novel } from '../reducers/types'
 
-const ListItem = (onPress, { item, index }) => {
+const ListItem = (
+  onPress: Function,
+  { item, index }: { item: Novel, index: number }
+) => {
   return (
     <TouchableOpacity
       focusedOpacity={1}

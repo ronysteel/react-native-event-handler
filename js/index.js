@@ -15,7 +15,7 @@ import { parseNovelUri } from './utils'
 import firebase from './firebase'
 import configureStore from './middlewares'
 
-import Router, { onNavigationStateChange } from './containers/Router'
+import Router from './containers/Router'
 import { signInAnonymously, saveDeviceToken } from './actions/user'
 import { resetNavigator } from './actions/navigator'
 import {

@@ -14,7 +14,12 @@ const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0
 const TITLE_OFFSET = Platform.OS === 'ios' ? 70 : 56
 
-const ListHeader = ({ title, closeModal }) => {
+type Props = {
+  title: string,
+  closeModal: Function
+}
+
+const ListHeader = ({ title, closeModal }: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>

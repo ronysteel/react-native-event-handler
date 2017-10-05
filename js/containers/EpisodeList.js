@@ -10,13 +10,20 @@ import { closeEpisodeListModal } from '../actions/storyPage'
 import { getAllEpisode } from '../reducers/episodes'
 import { onSelectContent } from './utils'
 
-class EpisodeList extends React.PureComponent {
-  constructor () {
-    super()
+import type { Novel, Episode } from '../reducers/types'
 
-    this.state = {
-      isLoading: true
-    }
+type Props = {
+  ...$Exact<Selects>,
+  ...$Exact<Actions>
+}
+
+type State = {
+  isLoading: boolean
+}
+
+class EpisodeList extends React.PureComponent<void, Props, State> {
+  state = {
+    isLoading: true
   }
 
   componentDidMount () {
@@ -50,7 +57,14 @@ class EpisodeList extends React.PureComponent {
   }
 }
 
-const select = (store, props) => {
+type Selects = {
+  novelId: string,
+  novel: Novel,
+  episodes: Array<Episode>,
+  isOpen: boolean
+}
+
+const select = (store, props): Selects => {
   const { novelId, episodeId } = props
   const novel = store.novels[novelId]
   const state = store.pages.storyPageStates[episodeId]
@@ -62,9 +76,15 @@ const select = (store, props) => {
   }
 }
 
-const actions = (dispatch, props) => {
+type Actions = {
+  loadEpisodeList: Function,
+  closeModal: Function,
+  onSelectContent: Function
+}
+
+const actions = (dispatch, props): Actions => {
   return {
-    loadEpisodeList: (novelId: number) => dispatch(loadEpisodeList(novelId)),
+    loadEpisodeList: (novelId: string) => dispatch(loadEpisodeList(novelId)),
     closeModal: () => dispatch(closeEpisodeListModal(props.episodeId)),
     onSelectContent: onSelectContent.bind(null, dispatch)
   }

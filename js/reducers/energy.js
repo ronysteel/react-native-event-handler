@@ -14,7 +14,9 @@ const initialStates: Energy = {
   energy: 0,
   latestSyncedEnergy: 0,
   latestSyncedAt: undefined,
-  nextRechargeDate: undefined
+  nextRechargeDate: undefined,
+  isLoading: false,
+  isLoaded: false
 }
 
 function energy (state: Energy = initialStates, action: Action): Energy {

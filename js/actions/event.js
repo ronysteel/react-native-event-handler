@@ -56,8 +56,8 @@ export function sendTutorialLeaveEvent (episodeId: string): ThunkAction {
 }
 
 export function sendSelectContentEvent (
-  novelId: number,
-  episodeId: number
+  novelId: string,
+  episodeId: string
 ): ThunkAction {
   return (dispatch, getState) => {
     const { novels, episodes, actionLog } = getState()
@@ -86,7 +86,7 @@ export function sendSelectContentEvent (
   }
 }
 
-export function sendLeaveContentEvent (episodeId: number): ThunkAction {
+export function sendLeaveContentEvent (episodeId: string): ThunkAction {
   return (dispatch, getState) => {
     const { readStates } = getState()
 
@@ -165,7 +165,7 @@ export function sendCompleteContentEvent (episodeId: string): ThunkAction {
 }
 
 export function sendPromotionEvent (
-  episodeId: number,
+  episodeId: string,
   hasTweetButton: boolean = false
 ): ThunkAction {
   let withPromotion = {}
@@ -189,7 +189,7 @@ export function sendPromotionEvent (
 }
 
 export function sendShareEvent (
-  episodeId: number,
+  episodeId: string,
   shareType: string
 ): ThunkAction {
   return (dispatch, getState) => {
@@ -206,7 +206,7 @@ export function sendShareEvent (
 }
 
 export function sendShareCompleteEvent (
-  episodeId: number,
+  episodeId: string,
   shareType: string
 ): ThunkAction {
   return (dispatch, getState) => {
@@ -250,7 +250,7 @@ export function sendPresentOfferEvnet (): ThunkAction {
   }
 }
 
-export function sendPromotionShareBeginEvnet (episodeId: number): ThunkAction {
+export function sendPromotionShareBeginEvnet (episodeId: string): ThunkAction {
   return (dispatch, getState) => {
     return new Promise(resolve => resolve())
       .then(() =>
@@ -264,7 +264,7 @@ export function sendPromotionShareBeginEvnet (episodeId: number): ThunkAction {
 }
 
 export function sendPromotionShareCompleteEvnet (
-  episodeId: number
+  episodeId: string
 ): ThunkAction {
   return (dispatch, getState) => {
     return new Promise(resolve => resolve())

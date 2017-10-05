@@ -15,6 +15,11 @@ const body = () => `
 `
 
 class AboutSubscriptionContainer extends React.PureComponent {
+  static navigationOptions = () => ({
+    title: '定期購読について',
+    headerTintColor: '#000'
+  })
+
   render () {
     return (
       <ScrollView style={styles.container}>
@@ -24,10 +29,6 @@ class AboutSubscriptionContainer extends React.PureComponent {
     )
   }
 }
-AboutSubscriptionContainer.navigationOptions = () => ({
-  title: '定期購読について',
-  headerTintColor: '#000'
-})
 
 const styles: StyleSheet = StyleSheet.create({
   container: {

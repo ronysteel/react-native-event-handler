@@ -3,7 +3,7 @@ import type { Action, ThunkAction } from './types'
 import { StatusBar } from 'react-native'
 import firebase from '../firebase'
 
-export function closePromotionModal (episodeId: number): ThunkAction {
+export function closePromotionModal (episodeId: string): ThunkAction {
   return (dispatch, getState) => {
     return new Promise(resolve => resolve())
       .then(() => {
@@ -19,7 +19,7 @@ export function closePromotionModal (episodeId: number): ThunkAction {
   }
 }
 
-export function openPromotionModal (episodeId: number): ThunkAction {
+export function openPromotionModal (episodeId: string): ThunkAction {
   return (dispatch, getState) => {
     const { session, readStates } = getState()
 
@@ -51,7 +51,7 @@ export function openPromotionModal (episodeId: number): ThunkAction {
   }
 }
 
-export function closeEpisodeListModal (episodeId: number): ThunkAction {
+export function closeEpisodeListModal (episodeId: string): ThunkAction {
   return (dispatch, getState) => {
     return new Promise(resolve => resolve())
       .then(() => {
@@ -67,7 +67,7 @@ export function closeEpisodeListModal (episodeId: number): ThunkAction {
   }
 }
 
-export function openEpisodeListModal (episodeId: number): ThunkAction {
+export function openEpisodeListModal (episodeId: string): ThunkAction {
   return (dispatch, getState) => {
     return new Promise(resolve => resolve())
       .then(() => {

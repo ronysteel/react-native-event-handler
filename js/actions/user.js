@@ -180,7 +180,7 @@ export function restorePurchases (): ThunkAction {
 }
 
 export function decreaseUserEnergy (
-  userId: number,
+  userId: string,
   amount: ?number
 ): ThunkAction {
   return (dispatch, getState) => {
@@ -195,7 +195,7 @@ export function decreaseUserEnergy (
 }
 
 export function syncUserEnergy (
-  userId: number,
+  userId: string,
   force: boolean = false
 ): ThunkAction {
   return (dispatch, getState) => {
