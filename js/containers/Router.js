@@ -156,17 +156,24 @@ class App extends React.PureComponent {
       if (this.state.appState !== 'active') {
         Promise.resolve()
           .then(() => this.props.dispatch(moveScreen('DEEPLINK')))
-          .then(() =>
-            this.props.navigateNovelFromNotification(
+          .then(() => {
+            if (!params) {
+              return
+            }
+
+            return this.props.navigateNovelFromNotification(
               params.novelId,
               params.episodeId
             )
-          )
+          })
 
         return
       }
 
-      this.props.navigateNovelFromNotification(params.novelId, params.episodeId)
+      if (params) {
+        this.props.navigateNovelFromNotification(params.novelId, params.episodeId)
+      }
+
       return
     }
 
