@@ -13,12 +13,19 @@ const isDisplay = (ticketCount, remainingTweetCount, isAvailableTwitter) => {
   return isAvailableTwitter
 }
 
+type Props = {
+  isAvailableTwitter: boolean,
+  ticketCount: number,
+  remainingTweetCount: number,
+  onTapGetTicket: Function,
+}
+
 const GetTicketButton = ({
   isAvailableTwitter,
   ticketCount,
   remainingTweetCount,
   onTapGetTicket
-}) =>
+}: Props) =>
   !isDisplay(ticketCount, remainingTweetCount, isAvailableTwitter) ? null : (
     <View>
       <TouchableOpacity onPress={onTapGetTicket}>
