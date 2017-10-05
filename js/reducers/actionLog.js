@@ -3,7 +3,7 @@ import type { Action } from '../actions/types'
 
 type Novel = {
   id: string,
-  episodeId: string,
+  episodeId: string
 }
 
 type Screen = {

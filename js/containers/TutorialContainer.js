@@ -159,7 +159,7 @@ type Selects = {
   uid: string,
   scripts: Scripts,
   readState: ReadState,
-  characters: Array<Character>,
+  characters: Array<Character>
 }
 
 const select = (store, props): Selects => {
@@ -191,7 +191,7 @@ type Actions = {
   resetReadIndex: Function,
   onTapScreen: Function,
   onTutorialStart: Function,
-  onTutorialEnd: Function,
+  onTutorialEnd: Function
 }
 
 const actions = (dispatch, props): Actions => {

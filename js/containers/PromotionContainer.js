@@ -24,7 +24,7 @@ import {
 import { closePromotionModal } from '../actions/storyPage'
 import Promotion from '../components/Promotion'
 
-import type { Novel, ReadState, ShareLink} from '../reducers/types'
+import type { Novel, ReadState, ShareLink } from '../reducers/types'
 
 const URL_SCHEME = Config.URL_SCHEME
 

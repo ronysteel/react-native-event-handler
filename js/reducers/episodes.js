@@ -92,7 +92,10 @@ function episodes (state: Episodes = initialStates, action: Action): Episodes {
   }
 }
 
-export const getAllEpisode = (novel: Novel, episodes: Array<Episode>): Array<Episode> => {
+export const getAllEpisode = (
+  novel: Novel,
+  episodes: Array<Episode>
+): Array<Episode> => {
   if (!novel || !novel.episodeIds) {
     return []
   }

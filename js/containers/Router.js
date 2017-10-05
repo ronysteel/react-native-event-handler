@@ -171,7 +171,10 @@ class App extends React.PureComponent {
       }
 
       if (params) {
-        this.props.navigateNovelFromNotification(params.novelId, params.episodeId)
+        this.props.navigateNovelFromNotification(
+          params.novelId,
+          params.episodeId
+        )
       }
 
       return

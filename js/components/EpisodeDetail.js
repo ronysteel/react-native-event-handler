@@ -294,7 +294,7 @@ class EpisodeDetail extends React.PureComponent<void, Props, State> {
       shareLinks,
       isTutorial,
       characters,
-      onTapScreen,
+      onTapScreen
     } = this.props
 
     const lastItemId =

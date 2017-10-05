@@ -11,10 +11,7 @@ import {
   loadTutorial,
   finishRequestReview
 } from '../actions/app'
-import {
-  sendPushAllowEvent,
-  sendPushDenyEvent
-} from '../actions/event'
+import { sendPushAllowEvent, sendPushDenyEvent } from '../actions/event'
 import { onSelectContent } from './utils'
 import Stories from '../components/Stories'
 import HeaderTitle from '../components/HeaderTitle'
