@@ -1,7 +1,7 @@
 // @flow
 import type { Action } from '../actions/types'
 import type { Script } from './scripts'
-import type { Energy } from './reducers/energy'
+import type { Energy } from './energy'
 
 export type ReadState = {
   episodeId: number,

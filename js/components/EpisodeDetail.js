@@ -24,14 +24,16 @@ import ScriptList from './ScriptList'
 import Recommends from './Recommends'
 import NextEpisode from './NextEpisode'
 
-import type { Episode } from '../reducers/episodes'
-import type { Scripts } from '../reducers/scripts'
-
-type Props = {
-  episode: Episode,
-  scripts: IndexedScripts,
-  onTapScreen: Function
-}
+import type {
+  Novel,
+  Category,
+  Characters,
+  Episode,
+  Scripts,
+  ShareLink,
+  Recommend,
+  ReadState
+} from '../reducers/types'
 
 const headerHeight = 64
 const windowHeight = Dimensions.get('window').height - headerHeight
@@ -50,23 +52,63 @@ const getBackgroundImage = (scripts, readState) => {
   return scripts[readState.backgroundImageIndex].backgroundImage.imageUrl
 }
 
-class EpisodeDetail extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = {
-      resumed: false,
-      height: windowHeight,
-      contentHeight: 0,
-      completed: false,
-      scrollAnim: new Animated.Value(0),
-      isLocked: false,
-      offsetFromEnd: new Animated.Value(0),
-      renderCompleted: false,
-      autoScrolling: false,
-      autoScrolled: false
-    }
-    this.isTappable = false
+type Props = {
+  novel: Novel,
+  episode: Episode,
+  scripts: any,
+  scriptValues: any,
+  shareLinks: ShareLink,
+  isTutorial: boolean,
+  characters: Characters,
+  readState: ReadState,
+  recommends: Array<Recommend>,
+  category: Category,
+  onTapScreen: Function,
+  showHeader: Function,
+  hideHeader: Function,
+  onAutoScrollStart: Function,
+  onAutoScrollEnd: Function,
+  onTapPurchase: Function,
+  onSelectContent: Function,
+  onPressShare: Function
+}
+
+type State = {
+  resumed: boolean,
+  height: number,
+  contentHeight: number,
+  completed: boolean,
+  scrollAnim: Object,
+  isLocked: boolean,
+  offsetFromEnd: Object,
+  renderCompleted: boolean,
+  autoScrolling: boolean,
+  autoScrolled: boolean
+}
+
+class EpisodeDetail extends React.PureComponent<void, Props, State> {
+  state = {
+    resumed: false,
+    height: windowHeight,
+    contentHeight: 0,
+    completed: false,
+    scrollAnim: new Animated.Value(0),
+    isLocked: false,
+    offsetFromEnd: new Animated.Value(0),
+    renderCompleted: false,
+    autoScrolling: false,
+    autoScrolled: false
   }
+  isTappable: any = false
+  previousScrollvalue = 0
+  currentScrollValue = 0
+  storyWrapper = null
+  _autoScrollTimer = null
+
+  // TimerMixin
+  requestAnimationFrame: Function
+  setTimeout: Function
+  clearTimeout: Function
 
   componentDidMount () {
     this.state.scrollAnim.addListener(this.handleScroll)
@@ -76,7 +118,7 @@ class EpisodeDetail extends React.PureComponent {
     this.state.scrollAnim.removeListener(this.handleScroll)
   }
 
-  handleScroll = ({ value }) => {
+  handleScroll = ({ value }: { value: number }) => {
     this.previousScrollvalue = this.currentScrollValue
     this.currentScrollValue = value
 
@@ -112,7 +154,7 @@ class EpisodeDetail extends React.PureComponent {
     })
   }
 
-  renderFooter (readState, isTutorial) {
+  renderFooter (readState: ReadState, isTutorial: boolean) {
     let height = tapAreaHeight
     if (readState.reachEndOfContent && !isTutorial) {
       height = 30
@@ -179,7 +221,7 @@ class EpisodeDetail extends React.PureComponent {
     }
   }
 
-  onTap = e => {
+  onTap = (e: any) => {
     if (this.state.autoScrolling) {
       this.autoScrollEnd()
     } else {
@@ -189,7 +231,7 @@ class EpisodeDetail extends React.PureComponent {
     }
   }
 
-  onTapMove = e => {
+  onTapMove = (e: any) => {
     if (this.isTappable !== null) {
       if (
         Math.abs(this.isTappable.locationX - e.nativeEvent.locationX) > 10 ||
@@ -224,7 +266,7 @@ class EpisodeDetail extends React.PureComponent {
     }
   }
 
-  getShareOptions = (novel, shareLinks) => {
+  getShareOptions = (novel: Novel, shareLinks: ShareLink) => {
     if (!novel || !shareLinks) {
       return null
     }
