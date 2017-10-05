@@ -24,9 +24,20 @@ import {
 import { closePromotionModal } from '../actions/storyPage'
 import Promotion from '../components/Promotion'
 
+import type { Novel, ReadState, ShareLink} from '../reducers/types'
+
 const URL_SCHEME = Config.URL_SCHEME
 
-class PromotionContainer extends React.Component {
+type Props = {
+  ...$Exact<Selects>,
+  ...$Exact<Actions>
+}
+
+type State = {
+  isAvailableTwitter: boolean
+}
+
+class PromotionContainer extends React.Component<void, Props, State> {
   isOpen = props => {
     const { modalVisible, paid, readState, nextRechargeDate } = props
     let isOpen = modalVisible
@@ -133,7 +144,19 @@ class PromotionContainer extends React.Component {
   }
 }
 
-const select = (store, props) => {
+type Selects = {
+  userId: string,
+  readState: ReadState,
+  novel: Novel,
+  nextRechargeDate: number,
+  paid: boolean,
+  modalVisible: boolean,
+  ticketCount: number,
+  remainingTweetCount: number,
+  shareLinks: ShareLink
+}
+
+const select = (store, props): Selects => {
   const { novelId, episodeId } = props
   const novel = store.novels[novelId]
   const readState: ReadState = store.readStates[episodeId]
@@ -156,20 +179,33 @@ const select = (store, props) => {
   }
 }
 
-const actions = (dispatch, props) => {
+type Actions = {
+  closeModal: Function,
+  onTapPurchase: Function,
+  onEndRecharge: Function,
+  onTapUseTicket: Function,
+  onTapGetTicket: Function,
+  onTapRestore: Function,
+  sendPromotionEvent: Function,
+  onTapPrivacyPolicy: Function,
+  onTapTermOfUse: Function,
+  onTapHelpPurchase: Function
+}
+
+const actions = (dispatch, props): Actions => {
   const { episodeId } = props
   return {
     closeModal: () => dispatch(closePromotionModal(episodeId)),
     onTapPurchase: (productId: string) => dispatch(purchase(productId)),
-    onEndRecharge: (userId: number) =>
+    onEndRecharge: (userId: string) =>
       dispatch(closePromotionModal(episodeId)).then(() =>
         dispatch(syncUserEnergy(userId, true))
       ),
-    onTapUseTicket: (userId: number) =>
+    onTapUseTicket: (userId: string) =>
       dispatch(closePromotionModal(episodeId))
         .then(() => dispatch(useTicket()))
         .then(() => dispatch(syncUserEnergy(userId, true))),
-    onTapGetTicket: (userId: number, novel, shareLinks) =>
+    onTapGetTicket: (userId: string, novel, shareLinks) =>
       Share.shareSingle({
         social: 'twitter',
         message: `無料で読める新感覚ノベルアプリCHAT NOVELで「${novel.title}」を読もう！ @CHATNOVEL`,
