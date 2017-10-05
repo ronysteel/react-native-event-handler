@@ -57,20 +57,19 @@ type Props = {
   episode: Episode,
   scripts: any,
   scriptValues: any,
-  shareLinks: ShareLink,
-  isTutorial: boolean,
+  shareLinks?: ShareLink,
+  isTutorial?: boolean,
   characters: Characters,
   readState: ReadState,
-  recommends: Array<Recommend>,
-  category: Category,
+  recommends?: Array<Recommend>,
+  category?: Category,
   onTapScreen: Function,
   showHeader: Function,
   hideHeader: Function,
   onAutoScrollStart: Function,
   onAutoScrollEnd: Function,
-  onTapPurchase: Function,
-  onSelectContent: Function,
-  onPressShare: Function
+  onSelectContent?: Function,
+  onPressShare?: Function
 }
 
 type State = {
@@ -154,7 +153,7 @@ class EpisodeDetail extends React.PureComponent<void, Props, State> {
     })
   }
 
-  renderFooter (readState: ReadState, isTutorial: boolean) {
+  renderFooter (readState: ReadState, isTutorial?: boolean) {
     let height = tapAreaHeight
     if (readState.reachEndOfContent && !isTutorial) {
       height = 30
@@ -296,7 +295,6 @@ class EpisodeDetail extends React.PureComponent<void, Props, State> {
       isTutorial,
       characters,
       onTapScreen,
-      onTapPurchase
     } = this.props
 
     const lastItemId =
