@@ -11,6 +11,7 @@ import {
 import Svg, { Path } from 'react-native-svg'
 
 import Header from './ListHeader'
+import type { Novel, Episode } from '../reducers/types'
 
 const ChatBubbleIcon = () => (
   <View>
@@ -59,10 +60,17 @@ const renderItem = (novel, closeModal, onSelectContent, { item, index }) => (
   </TouchableOpacity>
 )
 
+type Props = {
+  novel: Novel,
+  episodes: Array<Episode>,
+  closeModal: Function,
+  onSelectContent: Function
+}
+
 /**
  * @param onSelectContent (positionIndex, item) => void
  */
-const EpisodeList = ({ novel, episodes, closeModal, onSelectContent }) => {
+const EpisodeList = ({ novel, episodes, closeModal, onSelectContent }: Props) => {
   return (
     <View style={{ flex: 1, backgroundColor: '#f3f3f3' }}>
       <Header title={'エピソード一覧'} closeModal={closeModal} />
