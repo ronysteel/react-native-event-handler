@@ -144,8 +144,8 @@ export function restorePurchases (): ThunkAction {
         return resolve({ res })
       })
     })
-      .then(res => {
-        for (const purchase of response) {
+      .then((res: any) => {
+        for (const purchase of res) {
           if (
             purchase.productIdentifier === 'co.newn.chatnovel.onemonth' ||
             purchase.productIdentifier === 'co.newn.chatnovel.oneweek'
@@ -158,7 +158,7 @@ export function restorePurchases (): ThunkAction {
           }
         }
 
-        return reject({ err: 'did not found any purchases' })
+        return Promise.reject({ err: 'did not found any purchases' })
       })
       .then(res => {
         if (!res.expiresDate) {
