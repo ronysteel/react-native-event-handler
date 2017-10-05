@@ -45,7 +45,7 @@ const renderItem = (lastItemId, readState, characters, { item, index }) => {
 }
 
 class ScriptList extends React.PureComponent {
-  _list = null
+  _list: any = null
 
   listRef = () => {
     return this._list._listRef
