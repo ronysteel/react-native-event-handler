@@ -9,8 +9,7 @@ import {
   StyleSheet
 } from 'react-native'
 
-import type { Novel } from '../reducers/novels'
-import type { Episode } from '../reducers/episodes'
+import type { Novel, Episode } from '../reducers/types'
 
 const SCREEN_WIDTH = Dimensions.get('window').width
 
@@ -20,7 +19,7 @@ type Props = {
   onSelectContent: Function
 }
 
-class NextEpisode extends React.PureComponent<Props> {
+class NextEpisode extends React.PureComponent<void, Props, void> {
   render () {
     return (
       <View style={styles.container}>

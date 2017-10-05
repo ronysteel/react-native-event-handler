@@ -41,9 +41,13 @@ type Props = {
   onScroll: (number, any) => void
 }
 
+type State = {
+  scrollValue: Object
+}
+
 type SectionType = 'pickup' | 'grid' | 'list'
 
-class Stories extends React.PureComponent<Props> {
+class Stories extends React.PureComponent<void, Props, State> {
   previousScrollvalue = 0
   currentScrollValue = 0
   state = {
@@ -84,7 +88,7 @@ class Stories extends React.PureComponent<Props> {
     })
   }
 
-  onScroll = ({ value }) => {
+  onScroll = ({ value }: { value: number }) => {
     this.previousScrollvalue = this.currentScrollValue
     this.currentScrollValue = value
     const delta = this.currentScrollValue - this.previousScrollvalue
