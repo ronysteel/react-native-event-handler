@@ -12,19 +12,36 @@ import {
 } from '../actions/event'
 import { getAllScript } from '../reducers/scripts'
 
-import type { Episode } from '../reducers/episodes'
-import type { Script, Scripts, IndexedScripts } from '../reducers/scripts'
-import type { ReadState } from '../reducers/readStates'
+import type {
+  Novel,
+  Episode,
+  Script,
+  Scripts,
+  IndexedScripts,
+  ReadState,
+  ShareLink,
+  Character,
+  Recommend,
+  Category
+} from '../reducers/types'
 
-class TutorialContainer extends React.Component {
-  constructor () {
-    super()
+type Props = {
+  navigation: any,
+  ...$Exact<Selects>,
+  ...$Exact<Actions>
+}
 
-    this.state = {
-      isLoading: true,
-      fadeAnim: new Animated.Value(0),
-      tutorialEnded: false
-    }
+type State = {
+  isLoading: boolean,
+  fadeAnim: Object,
+  tutorialEnded: boolean
+}
+
+class TutorialContainer extends React.Component<void, Props, State> {
+  state = {
+    isLoading: true,
+    fadeAnim: new Animated.Value(0),
+    tutorialEnded: false
   }
 
   componentDidMount () {
@@ -134,7 +151,18 @@ const getScripts = (
 
 const getParams = props => props.navigation.state.params
 
-const select = (store, props) => {
+type Selects = {
+  novelId: string,
+  episodeId: string,
+  novel: Novel,
+  episode: Episode,
+  uid: string,
+  scripts: Scripts,
+  readState: ReadState,
+  characters: Array<Character>,
+}
+
+const select = (store, props): Selects => {
   const { episodeId, novelId } = props
 
   const novel = store.novels[novelId]
@@ -157,15 +185,24 @@ const select = (store, props) => {
   }
 }
 
-const actions = (dispatch, props) => {
+type Actions = {
+  loadEpisode: Function,
+  pageView: Function,
+  resetReadIndex: Function,
+  onTapScreen: Function,
+  onTutorialStart: Function,
+  onTutorialEnd: Function,
+}
+
+const actions = (dispatch, props): Actions => {
   return {
-    loadEpisode: (novelId: number, episodeId: number) =>
+    loadEpisode: (novelId: string, episodeId: string) =>
       dispatch(loadEpisode(novelId, episodeId)),
-    onTapScreen: (userId: number, episodeId: number) =>
+    onTapScreen: (userId: string, episodeId: string) =>
       dispatch(updateReadState(episodeId)),
-    resetReadIndex: (episodeId: number) =>
+    resetReadIndex: (episodeId: string) =>
       dispatch(updateReadState(episodeId, 0)),
-    pageView: (novelId: number, episodeId: number) =>
+    pageView: (novelId: string, episodeId: string) =>
       dispatch(pageView(novelId, episodeId)),
     onTutorialStart: (episodeId: string) => {
       dispatch(sendTutorialBeginEvent(episodeId))
