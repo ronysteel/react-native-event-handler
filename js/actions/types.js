@@ -39,6 +39,8 @@ export type Action =
     episodeId: string,
     episode: {
       id: string,
+      novelId: string,
+      metadata: any,
       scripts: Array<any>,
       characters: Array<any>,
       episode: any

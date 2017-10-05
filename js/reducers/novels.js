@@ -3,20 +3,20 @@ import type { Action } from '../actions/types'
 import type { Script } from './scripts'
 
 export type Novel = {
-  novelId: number,
+  novelId: string,
   title: string,
   categoryId: number,
-  episodeIds: Array<number>,
+  episodeIds: Array<string>,
   thumbnailUrl: string,
   isLoadingEpisodeList: boolean,
   isLoadedEpisodeList: boolean
 }
 
 export type Novels = {
-  [novelId: number]: Novel
+  [novelId: string]: Novel
 }
 
-const initialStates: Novel = {}
+const initialStates = {}
 
 function novels (state: Novels = initialStates, action: Action): Novels {
   switch (action.type) {

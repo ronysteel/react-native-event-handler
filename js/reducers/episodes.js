@@ -94,7 +94,7 @@ function episodes (state: Episodes = initialStates, action: Action): Episodes {
 
 export const getAllEpisode = (
   novel: Novel,
-  episodes: Array<Episode>
+  episodes: {[string]: Episode}
 ): Array<Episode> => {
   if (!novel || !novel.episodeIds) {
     return []
@@ -109,7 +109,7 @@ export const getAllEpisode = (
 export const getNextEpisode = (
   novel: Novel,
   currentEpisode: Episode,
-  episodes: Array<Episode>
+  episodes: {[string]: Episode}
 ): ?Episode => {
   if (!novel || !novel.episodeIds) {
     return null
