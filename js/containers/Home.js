@@ -12,11 +12,9 @@ import {
   finishRequestReview
 } from '../actions/app'
 import {
-  sentSlectContentEvent,
   sendPushAllowEvent,
   sendPushDenyEvent
 } from '../actions/event'
-import { openHomePage } from '../actions/homePage'
 import { onSelectContent } from './utils'
 import Stories from '../components/Stories'
 import HeaderTitle from '../components/HeaderTitle'
@@ -33,7 +31,7 @@ import {
 import { requestReviewPopup } from './utils'
 import { getAvailableTabs } from '../reducers/tabs'
 
-import type { Story } from '../reducers/stories'
+import type { Novel, Episode, Tab, Tutorial, Review } from '../reducers/types'
 
 const headerInit = {
   title: 'Home',
@@ -54,7 +52,17 @@ const headerInit = {
   }
 }
 
-class Home extends React.Component {
+type Props = {
+  navigation: any,
+  ...$Exact<Selects>,
+  ...$Exact<Actions>
+}
+
+type State = {
+  isLoaded: boolean
+}
+
+class Home extends React.Component<void, Props, State> {
   static navigationOptions = ({ navigation }) => {
     const isTutorial =
       navigation.state.params && navigation.state.params.tutorial
@@ -160,7 +168,7 @@ class Home extends React.Component {
   }
 
   render () {
-    const { stories, navigation } = this.props
+    const { navigation } = this.props
     if (!this.state.isLoaded) {
       return <View style={styles.container} />
     }
@@ -236,9 +244,16 @@ const styles: StyleSheet = StyleSheet.create({
   }
 })
 
-const select = store => {
+type Selects = {
+  tabs: Array<Tab>,
+  tutorialEnded: boolean,
+  tutorial: Tutorial,
+  review: Review,
+  isDisplayReviewAlert: boolean
+}
+
+const select = (store): Selects => {
   return {
-    stories: store.stories,
     tabs: getAvailableTabs(store.tabs),
     tutorialEnded: store.session.tutorialEnded || false,
     tutorial: store.tutorial,
@@ -250,7 +265,15 @@ const select = store => {
   }
 }
 
-const actions = (dispatch, props) => {
+type Actions = {
+  loadAvailableTabs: Function,
+  loadTutorial: Function,
+  requestPushPermission: Function,
+  requestReview: Function,
+  onSelectContent: Function
+}
+
+const actions = (dispatch, props): Actions => {
   return {
     loadAvailableTabs: () => {
       dispatch(loadAvailableTabs())
