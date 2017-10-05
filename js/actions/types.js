@@ -36,7 +36,8 @@ export type Action =
   | { type: 'LOAD_EPISODE_REQUEST', episodeId: string }
   | {
     type: 'LOAD_EPISODE_SUCCESS',
-    episode: { id: string, scripts: Array<Object> }
+    episodeId: string,
+    episode: { id: string, scripts: Array<Object>, characters: Array<Object>}
   }
   | { type: 'LOAD_EPISODE_FAILED', episodeId: string }
   | {
