@@ -17,7 +17,7 @@ type Props = {
   isAvailableTwitter: boolean,
   ticketCount: number,
   remainingTweetCount: number,
-  onTapGetTicket: Function,
+  onTapGetTicket: Function
 }
 
 const GetTicketButton = ({

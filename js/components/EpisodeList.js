@@ -70,7 +70,12 @@ type Props = {
 /**
  * @param onSelectContent (positionIndex, item) => void
  */
-const EpisodeList = ({ novel, episodes, closeModal, onSelectContent }: Props) => {
+const EpisodeList = ({
+  novel,
+  episodes,
+  closeModal,
+  onSelectContent
+}: Props) => {
   return (
     <View style={{ flex: 1, backgroundColor: '#f3f3f3' }}>
       <Header title={'エピソード一覧'} closeModal={closeModal} />

@@ -12,6 +12,7 @@ import {
 import FadeIn from 'react-native-fade-in-image'
 
 import colors from './colors'
+import { Novel } from '../reducers/types'
 
 const windowWidth = Dimensions.get('window').width
 
@@ -79,9 +80,10 @@ class RenderGridItem extends React.PureComponent {
   }
 }
 
-const GridItem = (onPress, { item, index }) => (
-  <RenderGridItem onPress={onPress} item={item} index={index} />
-)
+const GridItem = (
+  onPress: Function,
+  { item, index }: { item: Novel, index: number }
+) => <RenderGridItem onPress={onPress} item={item} index={index} />
 
 const imageWidth = (windowWidth - 15 * 3) / 2
 
