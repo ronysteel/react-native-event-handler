@@ -1,5 +1,6 @@
 // @flow
 import type { Action } from '../actions/types'
+import type { Novel } from './novels'
 
 export type Episode = {
   id: string,
@@ -54,6 +55,7 @@ function episodes (state: Episodes = initialStates, action: Action): Episodes {
       const episodeId = action.episodeId
       const scriptIds = (episode => {
         if (episode.scripts) {
+          // $FlowFixMe
           return Object.values(episode.scripts).map(v => v.script.id)
         }
         return []
@@ -90,7 +92,7 @@ function episodes (state: Episodes = initialStates, action: Action): Episodes {
   }
 }
 
-export const getAllEpisode = (novel, episodes): Array<Episode> => {
+export const getAllEpisode = (novel: Novel, episodes: Array<Episode>): Array<Episode> => {
   if (!novel || !novel.episodeIds) {
     return []
   }
@@ -102,9 +104,9 @@ export const getAllEpisode = (novel, episodes): Array<Episode> => {
 }
 
 export const getNextEpisode = (
-  novel,
+  novel: Novel,
   currentEpisode: Episode,
-  episodes: Episodes
+  episodes: Array<Episode>
 ): ?Episode => {
   if (!novel || !novel.episodeIds) {
     return null

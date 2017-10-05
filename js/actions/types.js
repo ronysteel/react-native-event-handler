@@ -37,7 +37,7 @@ export type Action =
   | {
     type: 'LOAD_EPISODE_SUCCESS',
     episodeId: string,
-    episode: { id: string, scripts: Array<Object>, characters: Array<Object>}
+    episode: { id: string, scripts: Array<any>, characters: Array<any>, episode: any }
   }
   | { type: 'LOAD_EPISODE_FAILED', episodeId: string }
   | {
@@ -48,7 +48,7 @@ export type Action =
   | {
     type: 'LOAD_EPISODE_LIST_SUCCESS',
     novelId: string,
-    episodes: Array<any>
+    episodes: any,
   }
   | { type: 'LOAD_EPISODE_LIST_REQUEST', novelId: string }
   | { type: 'FINISH_READING_NOVEL' }
