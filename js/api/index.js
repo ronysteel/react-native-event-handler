@@ -133,7 +133,13 @@ export const fetchAvailableTabs = () =>
     .then(r => r.json())
     .then(r => r.response)
 
-export const fetchTab = ({ tabName, etag }: { tabName: string, etag: string }) =>
+export const fetchTab = ({
+  tabName,
+  etag
+}: {
+  tabName: string,
+  etag: string
+}) =>
   firebase
     .auth()
     .currentUser.getIdToken()

@@ -9,7 +9,7 @@ import firebase from '../firebase'
 import { sendCompleteContentEvent } from '../actions/event'
 import { fetchEpisode, fetchEpisodeList, fetchRecommends } from '../api'
 
-const successLoadEpisode = (episodeId: number, json) => {
+const successLoadEpisode = (episodeId: string, json): Action => {
   return {
     type: 'LOAD_EPISODE_SUCCESS',
     episodeId,
@@ -17,7 +17,7 @@ const successLoadEpisode = (episodeId: number, json) => {
   }
 }
 
-export function loadEpisode (novelId: number, episodeId: number): ThunkAction {
+export function loadEpisode (novelId: number, episodeId: string): ThunkAction {
   return async (dispatch, getState) => {
     dispatch({ type: 'LOAD_EPISODE_REQUEST', episodeId })
 
@@ -30,7 +30,7 @@ export function loadEpisode (novelId: number, episodeId: number): ThunkAction {
   }
 }
 
-const successLoadRecommends = (categoryId: number, json) => {
+const successLoadRecommends = (categoryId: number, json): Action => {
   return {
     type: 'LOAD_RECOMMENDS_SUCCESS',
     categoryId: categoryId,
@@ -46,7 +46,7 @@ export function loadRecommends (categoryId: number): ThunkAction {
   }
 }
 
-const successLoadEpisodeList = (novelId: number, json) => {
+const successLoadEpisodeList = (novelId: string, json): Action => {
   return {
     type: 'LOAD_EPISODE_LIST_SUCCESS',
     novelId: novelId,
@@ -54,7 +54,7 @@ const successLoadEpisodeList = (novelId: number, json) => {
   }
 }
 
-export function loadEpisodeList (novelId: number): ThunkAction {
+export function loadEpisodeList (novelId: string): ThunkAction {
   return (dispatch, getState) => {
     const { novels } = getState()
     const novel = novels[novelId]
@@ -76,7 +76,7 @@ export function loadEpisodeList (novelId: number): ThunkAction {
 
 const successUpdateReadState = (
   episodes: Episodes,
-  episodeId: number,
+  episodeId: string,
   scripts: Scripts,
   readIndex: ?number,
   paid: boolean,
@@ -95,7 +95,7 @@ const successUpdateReadState = (
 }
 
 export function updateReadState (
-  episodeId: number,
+  episodeId: string,
   readIndex: ?number
 ): ThunkAction {
   return (dispatch, getState) => {
@@ -136,11 +136,11 @@ export function pageView (novelId: number, episodeId: number): ThunkAction {
   }
 }
 
-const completePageView = () => ({
+const completePageView = (): Action => ({
   type: 'FINISH_READING_NOVEL'
 })
 
-export function completeContent (episodeId: number): ThunkAction {
+export function completeContent (episodeId: string): ThunkAction {
   return (dispatch, getState) => {
     const { readStates } = getState()
 
