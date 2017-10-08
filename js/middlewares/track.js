@@ -2,6 +2,7 @@ import { NavigationActions } from 'react-navigation'
 import { StatusBar } from 'react-native'
 
 import { moveScreen } from '../actions/app'
+import RNEventHandler from './rneventhandler'
 
 const getCurrentRouteName = navigationState => {
   if (!navigationState) {
@@ -52,6 +53,18 @@ const handleTracking = (
       }
     }
   }
+
+  //let RNEventHandler2 = require('NativeModules').RNEventHandler2
+  RNEventHandler.callFunc(
+          { foo: 'bar'},
+          (error, ret) => {
+              if (error) {
+                  console.error(error);
+              } else {
+                  console.log(ret);
+              }
+          }
+      );
 
   // 一番最初に開いたとき
   if (
